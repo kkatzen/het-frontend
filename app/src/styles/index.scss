@@ -1,0 +1,25 @@
+@import "~normalize.css";
+@import "variables";
+@import "mixins";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  // makes it so that 1rem == 10px, 1.4rem == 14px, etc.
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  font-family: $font-stack;
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: $font-stack-code;
+}
