@@ -22,10 +22,12 @@ jobs:
     - name: Read node from package.json
       uses: culshaw/read-package-node-version-actions@v1
       id: package-node-version
+      with: 
+        path: "./app/package.json"
     - name: Use Node.js ${{ steps.package-node-version.outputs.version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ steps.package-node-version.outputs.version }}
     - run: npm install
-    - run: npm run build --if-present
+    - run: npm run build
     - run: npm test
