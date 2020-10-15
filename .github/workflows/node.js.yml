@@ -23,7 +23,7 @@ jobs:
       uses: culshaw/read-package-node-version-actions@v1
       id: package-node-version
       with: 
-        path: "./app/package.json"
+        path: "./app/"
     - name: Use Node.js ${{ steps.package-node-version.outputs.version }}
       uses: actions/setup-node@v1
       with:
