@@ -22,6 +22,10 @@ _Note: you will need a compatible verison of Node.JS and NPM installed locally. 
 cd app && npm install
 ```
 
+#### Trouble-shooting
+
+If you encounter errors during install that mention `gyp`, that refers to a Node.js native addon build tool that is required for some modules. Follow the instructions on the [gyp github repo](https://github.com/nodejs/node-gyp#installation) for installation and setting up required dependencies (eg Python and certain build tools like XCode Command Line Tools for OS X).
+
 ### Develop
 
 To run the app in development mode, start a local web server, and watch for changes do:

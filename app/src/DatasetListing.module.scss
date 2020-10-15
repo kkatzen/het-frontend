@@ -1,0 +1,37 @@
+@import "styles/variables";
+
+.DataSourceListing {
+  padding: 3px;
+}
+
+.FlexRow {
+  display: flex;
+  flex-direction: row;
+  padding: 3px;
+}
+
+.FlexCol {
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+}
+
+.DatasetTitle {
+  font-weight: bold;
+  padding: 3px;
+}
+
+.PreviewButton {
+  width: 90px;
+  height: 30px;
+}
+
+.ExpandButton {
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+}
+
+.MoreInfo {
+  text-align: left;
+}

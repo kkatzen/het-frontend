@@ -1,0 +1,24 @@
+.DatasetExplorer {
+  display: flex;
+  flex-direction: row;
+}
+
+.DatasetListItem {
+  width: 500px;
+  padding: 5px;
+}
+
+.DatasetList {
+  width: 530px;
+}
+
+.Dataset {
+  padding-bottom: 3px;
+  padding-top: 3px;
+  display: flex;
+  flex-direction: row;
+}
+
+.Table {
+  padding: 5px;
+}
