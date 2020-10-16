@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DatasetFilter from "./DatasetFilter";
-import DataFetcher from "./DataFetcher";
+import DataFetcher from "../../utils/DataFetcher";
 import DataTable from "./DataTable";
 import DatasetListing from "./DatasetListing";
 import styles from "./DatasetExplorer.module.scss";
