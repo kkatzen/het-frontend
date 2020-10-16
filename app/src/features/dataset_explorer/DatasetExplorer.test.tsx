@@ -79,9 +79,7 @@ describe("DatasetExplorer", () => {
     );
     mockLoadDataset.mockReturnValue(Promise.resolve(STATE_NAMES_DATASET_DATA));
 
-    const { findByTestId, findByText, queryByText } = render(
-      <DatasetExplorer />
-    );
+    const { findByTestId } = render(<DatasetExplorer />);
     fireEvent.click(
       await findByTestId("preview-" + STATE_NAMES_DATASET_METADATA.id)
     );
