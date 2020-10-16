@@ -12,31 +12,31 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
   return (
-    <div className={styles.App}>
+    <>
       <CssBaseline />
-      <Router>
-        <AppBar position="static">
-          <Toolbar>
-            <Button className={styles.NavButton}>
-              <Link to="/">Home</Link>
-            </Button>
-            <Button className={styles.NavButton}>
-              <Link to="/datacatalog">Data Catalog</Link>
-            </Button>
-            <Button className={styles.NavButton}>
-              <Link to="/exploredata">Explore Data</Link>
-            </Button>
-          </Toolbar>
-        </AppBar>
-        {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/datacatalog" component={DataCatalogPage} />
-          <Route path="/exploredata" component={ExploreDataPage} />
-          <Route path="/" component={LandingPage} />
-        </Switch>
-      </Router>
-    </div>
+      <div className={styles.App}>
+        <Router>
+          <AppBar position="static">
+            <Toolbar>
+              <Button className={styles.NavButton}>
+                <Link to="/">Home</Link>
+              </Button>
+              <Button className={styles.NavButton}>
+                <Link to="/datacatalog">Data Catalog</Link>
+              </Button>
+              <Button className={styles.NavButton}>
+                <Link to="/exploredata">Explore the Data</Link>
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <Switch>
+            <Route path="/datacatalog" component={DataCatalogPage} />
+            <Route path="/exploredata" component={ExploreDataPage} />
+            <Route path="/" component={LandingPage} />
+          </Switch>
+        </Router>
+      </div>
+    </>
   );
 }
 
