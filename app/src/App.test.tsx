@@ -1,9 +1,26 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import App from "./App";
 
-test("renders the title text", () => {
+test("renders the landing page", () => {
   const { getByText } = render(<App />);
-  const titleText = getByText(/health equity tracker frontend/i);
+  const titleText = getByText(/placeholder for landing page/i);
   expect(titleText).toBeInTheDocument();
+  expect(getByText(/placeholder for landing page/i)).toBeInTheDocument();
+});
+
+test("renders the data catalog page", async () => {
+  const { getByText, findByText } = render(<App />);
+  fireEvent.click(getByText(/Data Catalog/i));
+  expect(
+    await findByText(/data downloads and methodology/i)
+  ).toBeInTheDocument();
+});
+
+test("renders the data explore page", async () => {
+  const { getByText, findByText } = render(<App />);
+  fireEvent.click(getByText(/Explore Data/i));
+  expect(
+    await findByText(/explore key relationships across datasets/i)
+  ).toBeInTheDocument();
 });
