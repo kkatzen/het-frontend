@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -31,7 +32,8 @@ function App() {
           <Switch>
             <Route path="/datacatalog" component={DataCatalogPage} />
             <Route path="/exploredata" component={ExploreDataPage} />
-            <Route path="/" component={LandingPage} />
+            <Route exact path="/" component={LandingPage} />
+            <Route component={NotFoundPage} />
           </Switch>
         </Router>
       </div>
