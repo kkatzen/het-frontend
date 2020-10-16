@@ -47,6 +47,7 @@ function DatasetListing(props: {
         <IconButton
           aria-label="expand dataset"
           onClick={() => setExpanded(!expanded)}
+          data-testid={"expand-" + props.dataset.id}
           className={styles.ExpandButton}
         >
           {expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -61,6 +62,7 @@ function DatasetListing(props: {
                 setExpanded(true);
                 props.onPreview();
               }}
+              data-testid={"preview-" + props.dataset.id}
               className={styles.PreviewButton}
             >
               Preview
@@ -70,7 +72,7 @@ function DatasetListing(props: {
         </div>
       </div>
       <Collapse in={expanded} timeout="auto" className={styles.MoreInfo}>
-        <FieldsTable fields={props.dataset.fields} />
+        <FieldsTable fields={props.dataset.fields} key={props.dataset.id} />
       </Collapse>
     </Paper>
   );
