@@ -1,28 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatasetFilter from "./DatasetFilter";
 import DataFetcher from "../../utils/DataFetcher";
 import DataTable from "./DataTable";
 import DatasetListing from "./DatasetListing";
 import styles from "./DatasetExplorer.module.scss";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-
-const sources = [
-  {
-    id: "state_names",
-    displayName: "State Names",
-    description: "List of states and their FIPS codes.",
-  },
-  {
-    id: "county_names",
-    displayName: "County Names",
-    description: "List of counties and their FIPS codes.",
-  },
-  {
-    id: "pop_by_race",
-    displayName: "County Population by Race",
-    description: "The population of each county broken down by race.",
-  },
-];
+import { DatasetMetadata } from "../../utils/DatasetMetadata";
 
 type LoadStatus = "unloaded" | "loading" | "loaded";
 
@@ -45,8 +28,24 @@ function DatasetExplorer() {
   const [loadStatus, setLoadStatus] = useState<LoadStatus>("unloaded");
   const [previewedSourceId, setPreviewedSourceId] = useState("");
   const [data, setData] = useState([]);
+  const [datasets, setDatasets] = useState<DatasetMetadata[]>([]);
   const [columns, setColumns] = useState([]);
   const [activeFilter, setActiveFilter] = useState<Array<string>>([]);
+
+  /* This is called whenever the component is rendered */
+  useEffect(() => {
+    async function updateDatasets() {
+      const fetcher = new DataFetcher();
+      const datasets = await fetcher.getDatasets();
+      setDatasets([...datasets]);
+    }
+    /* Only need to fetch datasets if they have not yet been fetched */
+    if (datasets.length === 0) {
+      updateDatasets();
+    }
+    // ignore warning about datasets.length dependency
+    // eslint-disable-next-line
+  }, []);
 
   const loadPreview = async (sourceId: string) => {
     setLoadStatus("loading");
@@ -66,22 +65,25 @@ function DatasetExplorer() {
     <div className={styles.DatasetExplorer}>
       <div className={styles.DatasetList}>
         <div className={styles.DatasetListItem}>
-          <DatasetFilter sources={sources} onSelectionChange={filterSources} />
+          <DatasetFilter
+            datasets={datasets}
+            onSelectionChange={filterSources}
+          />
         </div>
-        {sources
+        {datasets
           .filter(
-            (source) =>
-              activeFilter.length === 0 || activeFilter.includes(source.id)
+            (dataset) =>
+              activeFilter.length === 0 || activeFilter.includes(dataset.id)
           )
-          .map((source, index) => (
+          .map((dataset, index) => (
             <div className={styles.Dataset} key={index}>
               <div className={styles.DatasetListItem}>
                 <DatasetListing
-                  source={source}
-                  onPreview={() => loadPreview(source.id)}
+                  dataset={dataset}
+                  onPreview={() => loadPreview(dataset.id)}
                 />
               </div>
-              {previewedSourceId === source.id ? <ChevronRightIcon /> : null}
+              {previewedSourceId === dataset.id ? <ChevronRightIcon /> : null}
             </div>
           ))}
       </div>

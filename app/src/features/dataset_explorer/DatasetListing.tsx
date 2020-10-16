@@ -1,14 +1,43 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
+import { DatasetMetadata, Field } from "../../utils/DatasetMetadata";
 import styles from "./DatasetListing.module.scss";
+import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+
+function FieldsTable(props: { fields: Array<Field> }) {
+  return (
+    <Table size="small" aria-label="dataset field descriptions">
+      <TableHead>
+        <TableRow>
+          <TableCell>Description</TableCell>
+          <TableCell>Data Type</TableCell>
+          <TableCell>Data Source ID</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {props.fields.map((field, index) => (
+          <TableRow key={index}>
+            <TableCell>{field.description}</TableCell>
+            <TableCell>{field.data_type}</TableCell>
+            <TableCell>{field.data_source_id}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
 
 function DatasetListing(props: {
-  source: { id: string; displayName: string; description: string };
+  dataset: DatasetMetadata;
   onPreview: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -24,9 +53,7 @@ function DatasetListing(props: {
         </IconButton>
         <div className={styles.FlexCol}>
           <div className={styles.FlexRow}>
-            <div className={styles.DatasetTitle}>
-              {props.source.displayName}
-            </div>
+            <div className={styles.DatasetTitle}>{props.dataset.name}</div>
             <Button
               variant="contained"
               color="primary"
@@ -39,13 +66,11 @@ function DatasetListing(props: {
               Preview
             </Button>
           </div>
-          <div>{props.source.description}</div>
+          <div>{props.dataset.description}</div>
         </div>
       </div>
       <Collapse in={expanded} timeout="auto" className={styles.MoreInfo}>
-        <p>
-          More details... this should probably contain schema, publisher, etc.
-        </p>
+        <FieldsTable fields={props.dataset.fields} />
       </Collapse>
     </Paper>
   );

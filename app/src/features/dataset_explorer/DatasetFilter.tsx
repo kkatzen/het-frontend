@@ -1,5 +1,6 @@
 import React from "react";
 import Select, { ActionTypes } from "react-select";
+import { DatasetMetadata } from "../../utils/DatasetMetadata";
 
 const changeActions: Array<ActionTypes> = [
   "select-option",
@@ -8,12 +9,12 @@ const changeActions: Array<ActionTypes> = [
 ];
 
 function DatasetFilter(props: {
-  sources: Array<{ id: string; displayName: string; description: string }>;
+  datasets: Array<DatasetMetadata>;
   onSelectionChange: (filtered: Array<string>) => void;
 }) {
-  const options = props.sources
+  const options = props.datasets
     .slice()
-    .map((source) => ({ value: source.id, label: source.displayName }));
+    .map((dataset) => ({ value: dataset.id, label: dataset.name }));
   return (
     <Select
       options={options}
