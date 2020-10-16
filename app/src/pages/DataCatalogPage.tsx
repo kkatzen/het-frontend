@@ -3,10 +3,10 @@ import DatasetExplorer from "../features/dataset_explorer/DatasetExplorer";
 
 function DataCatalogPage() {
   return (
-    <div>
+    <React.Fragment>
       <p>Data downloads and methodology/citations page</p>
       <DatasetExplorer />
-    </div>
+    </React.Fragment>
   );
 }
 

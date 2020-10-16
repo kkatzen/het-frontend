@@ -4,8 +4,6 @@ import App from "./App";
 
 test("renders the landing page", () => {
   const { getByText } = render(<App />);
-  const titleText = getByText(/placeholder for landing page/i);
-  expect(titleText).toBeInTheDocument();
   expect(getByText(/placeholder for landing page/i)).toBeInTheDocument();
 });
 
@@ -19,7 +17,7 @@ test("renders the data catalog page", async () => {
 
 test("renders the data explore page", async () => {
   const { getByText, findByText } = render(<App />);
-  fireEvent.click(getByText(/Explore Data/i));
+  fireEvent.click(getByText(/Explore the Data/i));
   expect(
     await findByText(/explore key relationships across datasets/i)
   ).toBeInTheDocument();
