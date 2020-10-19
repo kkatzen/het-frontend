@@ -18,6 +18,7 @@ function FieldsTable(props: { fields: Array<Field> }) {
     <Table size="small" aria-label="dataset field descriptions">
       <TableHead>
         <TableRow>
+          <TableCell>Name</TableCell>
           <TableCell>Description</TableCell>
           <TableCell>Data Type</TableCell>
           <TableCell>Data Source ID</TableCell>
@@ -26,9 +27,10 @@ function FieldsTable(props: { fields: Array<Field> }) {
       <TableBody>
         {props.fields.map((field, index) => (
           <TableRow key={index}>
+            <TableCell>{field.name}</TableCell>
             <TableCell>{field.description}</TableCell>
             <TableCell>{field.data_type}</TableCell>
-            <TableCell>{field.data_source_id}</TableCell>
+            <TableCell>{field.origin_dataset}</TableCell>
           </TableRow>
         ))}
       </TableBody>

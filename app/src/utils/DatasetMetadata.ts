@@ -4,11 +4,12 @@ export interface DatasetMetadata {
   id: string;
   name: string;
   description: string;
-  fields: Array<Field>;
+  fields: Field[];
 }
 
 export interface Field {
   data_type: string;
+  name: string;
   description: string;
-  data_source_id: string;
+  origin_dataset: string;
 }

@@ -49,15 +49,25 @@ class DataFetcher {
     return this.convertJson(data);
   }
 
-  async getDatasets() {
+  async getMetadata(): Promise<Record<string, DatasetMetadata>> {
     /* TODO: populate this with real API call */
     let state_names: DatasetMetadata = {
       id: "state_names",
       name: "State Names",
       description: "List of states and their FIPS codes.",
       fields: [
-        { data_type: "string", description: "NAME", data_source_id: "DS1" },
-        { data_type: "string", description: "state", data_source_id: "DS1" },
+        {
+          data_type: "string",
+          name: "NAME",
+          description: "Name of the state",
+          origin_dataset: "DS1",
+        },
+        {
+          data_type: "string",
+          name: "state",
+          description: "State FIPS code",
+          origin_dataset: "DS1",
+        },
       ],
     };
     let county_names: DatasetMetadata = {
@@ -65,9 +75,24 @@ class DataFetcher {
       name: "County Names",
       description: "List of counties and their FIPS codes.",
       fields: [
-        { data_type: "string", description: "NAME", data_source_id: "DS1" },
-        { data_type: "string", description: "state", data_source_id: "DS1" },
-        { data_type: "string", description: "county", data_source_id: "DS1" },
+        {
+          data_type: "string",
+          name: "NAME",
+          description: "Name of the state",
+          origin_dataset: "DS1",
+        },
+        {
+          data_type: "string",
+          name: "state",
+          description: "State FIPS code",
+          origin_dataset: "DS1",
+        },
+        {
+          data_type: "string",
+          name: "county",
+          description: "FIPS code of the county",
+          origin_dataset: "DS1",
+        },
       ],
     };
     let pop_by_race: DatasetMetadata = {
@@ -75,37 +100,62 @@ class DataFetcher {
       name: "County Population by Race",
       description: "The population of each county broken down by race.",
       fields: [
-        { data_type: "string", description: "NAME", data_source_id: "DS2" },
         {
-          data_type: "integer",
-          description: "DP05_0070E",
-          data_source_id: "DS2",
+          data_type: "string",
+          name: "NAME",
+          description: "name of the county",
+          origin_dataset: "DS1",
         },
         {
           data_type: "integer",
-          description: "DP05_0071E",
-          data_source_id: "DS2",
+          name: "DP05_0070E",
+          description: "???",
+          origin_dataset: "DS2",
         },
         {
           data_type: "integer",
-          description: "DP05_0077E",
-          data_source_id: "DS2",
+          name: "DP05_0071E",
+          description: "???",
+          origin_dataset: "DS2",
         },
         {
           data_type: "integer",
-          description: "DP05_0078E",
-          data_source_id: "DS2",
+          name: "DP05_0077E",
+          description: "???",
+          origin_dataset: "DS2",
         },
         {
           data_type: "integer",
-          description: "DP05_0080E",
-          data_source_id: "DS2",
+          name: "DP05_0078E",
+          description: "???",
+          origin_dataset: "DS2",
         },
-        { data_type: "string", description: "state", data_source_id: "DS2" },
-        { data_type: "string", description: "county", data_source_id: "DS2" },
+        {
+          data_type: "integer",
+          name: "DP05_0080E",
+          description: "???",
+          origin_dataset: "DS2",
+        },
+        {
+          data_type: "string",
+          name: "state",
+          description: "State FIPS code",
+          origin_dataset: "DS1",
+        },
+        {
+          data_type: "string",
+          name: "county",
+          description: "FIPS code of the county",
+          origin_dataset: "DS1",
+        },
       ],
     };
-    return [state_names, county_names, pop_by_race];
+
+    return {
+      state_names: state_names,
+      county_names: county_names,
+      pop_by_race: pop_by_race,
+    };
   }
 }
 
