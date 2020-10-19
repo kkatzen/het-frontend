@@ -27,8 +27,8 @@ function TableHeader({ column }: { column: HeaderGroup<any> }) {
 function TableHeaderGroup({ group }: { group: HeaderGroup<any> }) {
   return (
     <TableRow {...group.getHeaderGroupProps()}>
-      {group.headers.map((col) => (
-        <TableHeader column={col} />
+      {group.headers.map((col, index) => (
+        <TableHeader column={col} key={index} />
       ))}
     </TableRow>
   );
@@ -66,8 +66,8 @@ function DataTable(props: { columns: any[]; data: any[] }) {
     prepareRow(row);
     return (
       <TableRow {...row.getRowProps()}>
-        {row.cells.map((cell) => (
-          <CustomTableCell cell={cell} />
+        {row.cells.map((cell, index) => (
+          <CustomTableCell cell={cell} key={index} />
         ))}
       </TableRow>
     );
@@ -77,13 +77,13 @@ function DataTable(props: { columns: any[]; data: any[] }) {
     <Paper className={styles.DataTable}>
       <MaUTable {...getTableProps()}>
         <TableHead>
-          {headerGroups.map((group) => (
-            <TableHeaderGroup group={group} />
+          {headerGroups.map((group, index) => (
+            <TableHeaderGroup group={group} key={index} />
           ))}
         </TableHead>
         <TableBody {...getTableBodyProps()}>
-          {page.map((row: Row<any>) => (
-            <CustomTableRow row={row} />
+          {page.map((row: Row<any>, index) => (
+            <CustomTableRow row={row} key={index} />
           ))}
         </TableBody>
         <TableFooter>
