@@ -9,12 +9,15 @@ const changeActions: Array<ActionTypes> = [
 ];
 
 function DatasetFilter(props: {
-  datasets: Array<DatasetMetadata>;
+  datasets: Record<string, DatasetMetadata>;
   onSelectionChange: (filtered: Array<string>) => void;
 }) {
-  const options = props.datasets
+  const options = Object.keys(props.datasets)
     .slice()
-    .map((dataset) => ({ value: dataset.id, label: dataset.name }));
+    .map((dataset_id) => ({
+      value: dataset_id,
+      label: props.datasets[dataset_id].name,
+    }));
   return (
     <Select
       options={options}

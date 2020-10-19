@@ -28,7 +28,7 @@ function DatasetExplorer() {
   const [loadStatus, setLoadStatus] = useState<LoadStatus>("unloaded");
   const [previewedSourceId, setPreviewedSourceId] = useState("");
   const [data, setData] = useState([]);
-  const [datasets, setDatasets] = useState<DatasetMetadata[]>([]);
+  const [datasets, setDatasets] = useState<Record<string, DatasetMetadata>>({});
   const [columns, setColumns] = useState([]);
   const [activeFilter, setActiveFilter] = useState<Array<string>>([]);
 
@@ -36,11 +36,11 @@ function DatasetExplorer() {
   useEffect(() => {
     async function updateDatasets() {
       const fetcher = new DataFetcher();
-      const datasets = await fetcher.getDatasets();
-      setDatasets([...datasets]);
+      const datasets = await fetcher.getMetadata();
+      setDatasets(Object.assign(datasets));
     }
     /* Only need to fetch datasets if they have not yet been fetched */
-    if (datasets.length === 0) {
+    if (Object.keys(datasets).length === 0) {
       updateDatasets();
     }
     // ignore warning about datasets.length dependency
@@ -70,20 +70,20 @@ function DatasetExplorer() {
             onSelectionChange={filterSources}
           />
         </div>
-        {datasets
+        {Object.keys(datasets)
           .filter(
-            (dataset) =>
-              activeFilter.length === 0 || activeFilter.includes(dataset.id)
+            (dataset_id) =>
+              activeFilter.length === 0 || activeFilter.includes(dataset_id)
           )
-          .map((dataset, index) => (
+          .map((dataset_id, index) => (
             <div className={styles.Dataset} key={index}>
               <div className={styles.DatasetListItem}>
                 <DatasetListing
-                  dataset={dataset}
-                  onPreview={() => loadPreview(dataset.id)}
+                  dataset={datasets[dataset_id]}
+                  onPreview={() => loadPreview(dataset_id)}
                 />
               </div>
-              {previewedSourceId === dataset.id ? <ChevronRightIcon /> : null}
+              {previewedSourceId === dataset_id ? <ChevronRightIcon /> : null}
             </div>
           ))}
       </div>
