@@ -2,15 +2,15 @@
 // untyped for now, but we should define types for the API calls once we
 // establish the API types.
 
-import { DatasetMetadata } from "./DatasetMetadata";
+import { MetadataMap, DatasetMetadata, Row } from "./DatasetTypes";
 
 class DataFetcher {
-  private async loadData(url: string) {
+  private async loadData(url: string): Promise<Response> {
     const r = await fetch(url);
     return await r.json();
   }
 
-  private getUrl(datasetId: string) {
+  private getUrl(datasetId: string): string {
     if (datasetId === "state_names") {
       return "https://api.census.gov/data/2010/dec/sf1?get=NAME&for=state:*";
     } else if (datasetId === "county_names") {
@@ -25,7 +25,7 @@ class DataFetcher {
     throw new Error("Unknown dataset");
   }
 
-  private convertJson(data: any) {
+  private convertJson(data: any): Row[] {
     let realData = data;
     const headers = realData[0];
     realData = realData.slice(1);
@@ -36,20 +36,20 @@ class DataFetcher {
       }
       return newRow;
     });
-    const realHeaders = headers.map((col: string) => ({
-      Header: col,
-      accessor: col,
-    }));
-    return { columns: realHeaders, data: realData };
+    return realData;
   }
 
-  async loadDataset(datasetId: string) {
+  async loadDataset(datasetId: string): Promise<Row[]> {
     const url = this.getUrl(datasetId);
     const data = await this.loadData(url);
     return this.convertJson(data);
   }
 
-  async getMetadata(): Promise<Record<string, DatasetMetadata>> {
+  async getMetadata(): Promise<MetadataMap> {
+    // Simulate load time
+    await new Promise((res) => {
+      setTimeout(res, 1000);
+    });
     /* TODO: populate this with real API call */
     let state_names: DatasetMetadata = {
       id: "state_names",

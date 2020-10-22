@@ -3,6 +3,9 @@ import { render, fireEvent } from "@testing-library/react";
 import DatasetExplorer from "./DatasetExplorer";
 import DataFetcher from "../../utils/DataFetcher";
 import { DatasetMetadata } from "../../utils/DatasetMetadata";
+import { startMetadataLoad } from "../../utils/useDatasetStore";
+import { act } from "react-dom/test-utils";
+import AppContext from "../../testing/AppContext";
 
 const STATE_NAMES_DATASET_METADATA: DatasetMetadata = {
   id: "state_names",
@@ -24,13 +27,9 @@ const STATE_NAMES_DATASET_METADATA: DatasetMetadata = {
   ],
 };
 
-const STATE_NAMES_DATASET_DATA = {
-  columns: [
-    { Header: "FIELD_NAME1", " accessor": "FIELD_NAME1" },
-    { Header: "FIELD_NAME2", " accessor": "FIELD_NAME2" },
-  ],
-  data: [{ FIELD_NAME1: "Alabama", FIELD_NAME2: "01" }],
-};
+const STATE_NAMES_DATASET_DATA = [
+  { FIELD_NAME1: "Alabama", FIELD_NAME2: "01" },
+];
 
 describe("DatasetExplorer", () => {
   const mockGetMetadata = jest.fn();
@@ -51,8 +50,13 @@ describe("DatasetExplorer", () => {
     mockGetMetadata.mockReturnValue(
       Promise.resolve({ state_names: STATE_NAMES_DATASET_METADATA })
     );
+    startMetadataLoad();
 
-    const { findByText } = render(<DatasetExplorer />);
+    const { findByText } = render(
+      <AppContext>
+        <DatasetExplorer />
+      </AppContext>
+    );
 
     expect(mockGetMetadata).toHaveBeenCalledTimes(1);
     expect(mockLoadDataset).toHaveBeenCalledTimes(0);
@@ -65,9 +69,12 @@ describe("DatasetExplorer", () => {
     mockGetMetadata.mockReturnValue(
       Promise.resolve({ state_names: STATE_NAMES_DATASET_METADATA })
     );
+    startMetadataLoad();
 
     const { findByTestId, findByText, queryByText } = render(
-      <DatasetExplorer />
+      <AppContext>
+        <DatasetExplorer />
+      </AppContext>
     );
     expect(
       queryByText(STATE_NAMES_DATASET_METADATA.fields[0].description)
@@ -79,7 +86,7 @@ describe("DatasetExplorer", () => {
     expect(mockGetMetadata).toHaveBeenCalledTimes(1);
     expect(mockLoadDataset).toHaveBeenCalledTimes(0);
     expect(
-      await findByText(STATE_NAMES_DATASET_METADATA.fields[0].description)
+      await findByText(STATE_NAMES_DATASET_METADATA.fields[0].name)
     ).toBeInTheDocument();
   });
 
@@ -88,11 +95,18 @@ describe("DatasetExplorer", () => {
       Promise.resolve({ state_names: STATE_NAMES_DATASET_METADATA })
     );
     mockLoadDataset.mockReturnValue(Promise.resolve(STATE_NAMES_DATASET_DATA));
+    startMetadataLoad();
 
-    const { findByTestId } = render(<DatasetExplorer />);
-    fireEvent.click(
-      await findByTestId("preview-" + STATE_NAMES_DATASET_METADATA.id)
+    const { findByTestId } = render(
+      <AppContext>
+        <DatasetExplorer />
+      </AppContext>
     );
+    await act(async () => {
+      fireEvent.click(
+        await findByTestId("preview-" + STATE_NAMES_DATASET_METADATA.id)
+      );
+    });
 
     expect(mockGetMetadata).toHaveBeenCalledTimes(1);
     expect(mockLoadDataset).toHaveBeenCalledTimes(1);
