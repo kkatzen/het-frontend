@@ -54,20 +54,12 @@ function DatasetListing(props: { dataset: DatasetMetadata }) {
       </Collapse>
       <div className={styles.FirstCardFooter}>
         <div className={styles.CardFooterRight}>
-          Download:
           <Button
             aria-label="expand dataset"
             onClick={() => alert("unimplemented")}
             size="small"
           >
-            CSV
-          </Button>
-          <Button
-            aria-label="expand dataset"
-            onClick={() => alert("unimplemented")}
-            size="small"
-          >
-            JSON
+            Download CSV
           </Button>
         </div>
         <div className={styles.CardFooterLeft}>
