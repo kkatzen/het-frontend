@@ -1,15 +1,19 @@
 .DatasetExplorer {
   display: flex;
   flex-direction: row;
+  margin: auto;
+  width: 85%;
+  max-width: 1000px;
+  text-align: center;
 }
 
 .DatasetListItem {
-  width: 500px;
   padding: 5px;
+  width: 100%;
 }
 
 .DatasetList {
-  width: 530px;
+  width: 100%;
 }
 
 .Dataset {

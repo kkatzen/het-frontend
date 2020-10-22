@@ -3,8 +3,13 @@
 export interface DatasetMetadata {
   readonly id: string;
   readonly name: string;
+  readonly data_source: string;
+  readonly geographic_level: string;
+  readonly demographic_granularity: string;
   readonly description: string;
   readonly fields: Field[];
+  readonly category: string;
+  readonly update_time: string;
 }
 
 export interface Field {
