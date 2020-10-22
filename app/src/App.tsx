@@ -26,6 +26,7 @@ function App() {
         <Router>
           <AppBar position="static">
             <Toolbar>
+              <h2>Health Equity Tracker</h2>
               <Button className={styles.NavButton}>
                 <Link to="/">Home</Link>
               </Button>
