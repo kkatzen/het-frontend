@@ -69,13 +69,6 @@ function DatasetListing(props: { dataset: DatasetMetadata }) {
           >
             JSON
           </Button>
-          <Button
-            aria-label="expand dataset"
-            onClick={() => alert("unimplemented")}
-            size="small"
-          >
-            Excel
-          </Button>
         </div>
         <div className={styles.CardFooterLeft}>
           <Button
