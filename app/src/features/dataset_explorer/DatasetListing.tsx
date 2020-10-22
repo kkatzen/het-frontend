@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DatasetMetadata, Field } from "../../utils/DatasetMetadata";
+import { DatasetMetadata, Field } from "../../utils/DatasetTypes";
 import styles from "./DatasetListing.module.scss";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";

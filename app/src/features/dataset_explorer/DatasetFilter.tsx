@@ -1,6 +1,6 @@
 import React from "react";
 import Select, { ActionTypes } from "react-select";
-import { DatasetMetadata } from "../../utils/DatasetMetadata";
+import { DatasetMetadata } from "../../utils/DatasetTypes";
 
 const changeActions: Array<ActionTypes> = [
   "select-option",
