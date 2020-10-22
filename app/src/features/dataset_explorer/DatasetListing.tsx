@@ -1,82 +1,112 @@
 import React, { useState } from "react";
-import { DatasetMetadata, Field } from "../../utils/DatasetTypes";
+import { DatasetMetadata } from "../../utils/DatasetTypes";
 import styles from "./DatasetListing.module.scss";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
 import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import CardHeader from "@material-ui/core/CardHeader";
 
-function FieldsTable(props: { fields: Array<Field> }) {
-  return (
-    <Table size="small" aria-label="dataset field descriptions">
-      <TableHead>
-        <TableRow>
-          <TableCell>Name</TableCell>
-          <TableCell>Description</TableCell>
-          <TableCell>Data Type</TableCell>
-          <TableCell>Data Source ID</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {props.fields.map((field, index) => (
-          <TableRow key={index}>
-            <TableCell>{field.name}</TableCell>
-            <TableCell>{field.description}</TableCell>
-            <TableCell>{field.data_type}</TableCell>
-            <TableCell>{field.origin_dataset}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
-
-function DatasetListing(props: {
-  dataset: DatasetMetadata;
-  onPreview: () => void;
-}) {
+function DatasetListing(props: { dataset: DatasetMetadata }) {
   const [expanded, setExpanded] = useState(false);
+
   return (
-    <Paper className={styles.DataSourceListing}>
-      <div className={styles.FlexRow}>
-        <IconButton
-          aria-label="expand dataset"
-          onClick={() => setExpanded(!expanded)}
-          data-testid={"expand-" + props.dataset.id}
-          className={styles.ExpandButton}
-        >
-          {expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </IconButton>
-        <div className={styles.FlexCol}>
-          <div className={styles.FlexRow}>
-            <div className={styles.DatasetTitle}>{props.dataset.name}</div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setExpanded(true);
-                props.onPreview();
-              }}
-              data-testid={"preview-" + props.dataset.id}
-              className={styles.PreviewButton}
-            >
-              Preview
-            </Button>
-          </div>
-          <div>{props.dataset.description}</div>
+    <Card elevation={3}>
+      <CardHeader
+        title={props.dataset.name}
+        subheader={props.dataset.description}
+      />
+      <Collapse in={expanded} timeout="auto" className={styles.MoreInfo}>
+        <Table size="small" aria-label="dataset field descriptions">
+          <TableBody>
+            <TableRow>
+              <TableCell width="21%">
+                <b>Data Source</b>
+              </TableCell>
+              <TableCell>{props.dataset.data_source}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <b>Geographic Level</b>
+              </TableCell>
+              <TableCell>{props.dataset.geographic_level}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <b>Demographic Granularity</b>
+              </TableCell>
+              <TableCell>{props.dataset.demographic_granularity}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <b>Category</b>
+              </TableCell>
+              <TableCell>{props.dataset.category}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Collapse>
+      <div className={styles.FirstCardFooter}>
+        <div className={styles.CardFooterRight}>
+          Download:
+          <Button
+            aria-label="expand dataset"
+            onClick={() => alert("unimplemented")}
+            size="small"
+          >
+            CSV
+          </Button>
+          <Button
+            aria-label="expand dataset"
+            onClick={() => alert("unimplemented")}
+            size="small"
+          >
+            JSON
+          </Button>
+          <Button
+            aria-label="expand dataset"
+            onClick={() => alert("unimplemented")}
+            size="small"
+          >
+            Excel
+          </Button>
+        </div>
+        <div className={styles.CardFooterLeft}>
+          <Button
+            aria-label="expand dataset"
+            onClick={() => setExpanded(!expanded)}
+            data-testid={"expand-" + props.dataset.id}
+            className={styles.ExpandButton}
+            size="small"
+          >
+            {expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {expanded ? "Less" : "More"}
+          </Button>
         </div>
       </div>
-      <Collapse in={expanded} timeout="auto" className={styles.MoreInfo}>
-        <FieldsTable fields={props.dataset.fields} key={props.dataset.id} />
-      </Collapse>
-    </Paper>
+      <div className={styles.SecondCardFooter}>
+        <Typography
+          variant="body2"
+          component="p"
+          className={styles.CardFooterRight}
+        >
+          Updated: {props.dataset.update_time}
+        </Typography>
+        <Typography
+          variant="body2"
+          component="p"
+          className={styles.CardFooterLeft}
+        >
+          Data source: {props.dataset.data_source}
+        </Typography>
+      </div>
+    </Card>
   );
 }
 
