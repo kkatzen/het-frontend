@@ -2,10 +2,10 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import DatasetExplorer from "./DatasetExplorer";
 import DataFetcher from "../../utils/DataFetcher";
-import { DatasetMetadata } from "../../utils/DatasetMetadata";
 import { startMetadataLoad } from "../../utils/useDatasetStore";
 import { act } from "react-dom/test-utils";
 import AppContext from "../../testing/AppContext";
+import { DatasetMetadata } from "../../utils/DatasetTypes";
 
 const STATE_NAMES_DATASET_METADATA: DatasetMetadata = {
   id: "state_names",
