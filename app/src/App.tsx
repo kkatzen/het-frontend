@@ -7,13 +7,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage";
 import {
   useDatasetStoreProvider,
   DatasetProvider,
   startMetadataLoad,
 } from "./utils/useDatasetStore";
+import { LinkWithStickyParams } from "./utils/urlutils";
 
 startMetadataLoad();
 
@@ -27,13 +28,17 @@ function App() {
           <AppBar position="static">
             <Toolbar>
               <Button className={styles.NavButton}>
-                <Link to="/">Home</Link>
+                <LinkWithStickyParams to="/">Home</LinkWithStickyParams>
               </Button>
               <Button className={styles.NavButton}>
-                <Link to="/datacatalog">Data Catalog</Link>
+                <LinkWithStickyParams to="/datacatalog">
+                  Data Catalog
+                </LinkWithStickyParams>
               </Button>
               <Button className={styles.NavButton}>
-                <Link to="/exploredata">Explore the Data</Link>
+                <LinkWithStickyParams to="/exploredata">
+                  Explore the Data
+                </LinkWithStickyParams>
               </Button>
             </Toolbar>
           </AppBar>
