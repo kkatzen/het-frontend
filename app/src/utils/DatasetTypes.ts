@@ -25,6 +25,12 @@ export class Dataset {
     this.rows = rows;
     this.metadata = metadata;
   }
+
+  getRowsAsArrays() {
+    return this.rows.map((row) => {
+      return this.metadata.fields.map((field) => row[field.name]);
+    });
+  }
 }
 
 // Map of dataset id to DatasetMetadata
@@ -33,7 +39,7 @@ export type MetadataMap = Readonly<Record<string, DatasetMetadata>>;
 export type LoadStatus = "unloaded" | "loading" | "loaded" | "error";
 
 export interface DatasetStore {
-  readonly loadDataset: (id: string) => void;
+  readonly loadDataset: (id: string) => Promise<Dataset | undefined>;
   readonly getDatasetLoadStatus: (id: string) => LoadStatus;
   readonly metadataLoadStatus: LoadStatus;
   readonly metadata: MetadataMap;

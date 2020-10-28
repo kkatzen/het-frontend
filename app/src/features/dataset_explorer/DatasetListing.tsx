@@ -12,6 +12,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import DownloadButton from "./DownloadButton";
 
 function FieldsTable(props: { fields: Array<Field> }) {
   return (
@@ -69,6 +70,10 @@ function DatasetListing(props: {
             >
               Preview
             </Button>
+            <DownloadButton
+              className={styles.PreviewButton}
+              datasetId={props.dataset.id}
+            ></DownloadButton>
           </div>
           <div>{props.dataset.description}</div>
         </div>

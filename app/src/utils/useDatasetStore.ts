@@ -46,12 +46,13 @@ function shouldLoadResource(loadStatus: LoadStatus) {
  *     id is requested multiple times, it will only be fetched once.
  * @param cacheManager The ResourceCacheManager that tracks that resource.
  * @param loadFunction A function that loads the resource when called.
+ * @return The resource, once loaded, or undefined if the resource fails to load.
  */
 async function loadResource<R>(
   resourceId: string,
   cacheManager: ResourceCacheManager<R>,
   loadFunction: () => Promise<R>
-) {
+): Promise<R | undefined> {
   try {
     const loadStatus = cacheManager.cache.statuses[resourceId];
     if (!shouldLoadResource(loadStatus)) {
@@ -64,6 +65,7 @@ async function loadResource<R>(
     const result = await loadFunction();
     logger.debugLog("Loaded " + resourceId);
     cacheManager.setLoaded(resourceId, result);
+    return result;
   } catch (e) {
     cacheManager.setLoadStatus(resourceId, "error");
     await logger.logError(e, "WARNING", {
@@ -71,6 +73,7 @@ async function loadResource<R>(
       resource_id: resourceId,
     });
   }
+  return undefined;
 }
 
 /**
@@ -129,15 +132,20 @@ export function useDatasetStoreProvider(): DatasetStore {
     // eslint-disable-next-line
   }, []);
 
-  function loadDataset(datasetId: string) {
-    loadResource<Dataset>(datasetId, datasetCacheManager, async () => {
-      const promise = fetcher.loadDataset(datasetId);
-      const [data, metadata] = await Promise.all([
-        promise,
-        metadataLoadPromise,
-      ]);
-      return new Dataset(data, metadata[datasetId]);
-    });
+  async function loadDataset(datasetId: string): Promise<Dataset | undefined> {
+    const result = await loadResource<Dataset>(
+      datasetId,
+      datasetCacheManager,
+      async () => {
+        const promise = fetcher.loadDataset(datasetId);
+        const [data, metadata] = await Promise.all([
+          promise,
+          metadataLoadPromise,
+        ]);
+        return new Dataset(data, metadata[datasetId]);
+      }
+    );
+    return result;
   }
 
   function getDatasetLoadStatus(id: string): LoadStatus {
