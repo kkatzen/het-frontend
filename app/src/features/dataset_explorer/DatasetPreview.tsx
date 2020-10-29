@@ -3,7 +3,11 @@ import DataTable from "./DataTable";
 import useDatasetStore from "../../utils/useDatasetStore";
 import { Dataset } from "../../utils/DatasetTypes";
 
-function getTableViewColumns(dataset: Dataset) {
+/* NOTE: This file is currently unused */
+
+function getTableViewColumns(
+  dataset: Dataset
+): { Header: string; accessor: string }[] {
   return dataset.metadata.fields.map((field) => ({
     Header: field.name,
     accessor: field.name,

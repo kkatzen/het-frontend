@@ -35,8 +35,6 @@ function DownloadButton(props: { datasetId: string; className: string }) {
   const datasetStore = useDatasetStore();
   return (
     <Button
-      variant="contained"
-      color="primary"
       onClick={() => {
         downloadDataset(datasetStore, props.datasetId);
       }}

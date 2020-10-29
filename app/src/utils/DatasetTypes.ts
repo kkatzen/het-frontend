@@ -5,6 +5,12 @@ export interface DatasetMetadata {
   readonly name: string;
   readonly description: string;
   readonly fields: Field[];
+  readonly data_source_name: string;
+  readonly data_source_link: string;
+  readonly geographic_level: string;
+  readonly demographic_granularity: string;
+  readonly update_frequency: string;
+  readonly update_time: string;
 }
 
 export interface Field {

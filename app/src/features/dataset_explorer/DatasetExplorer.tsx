@@ -2,21 +2,14 @@ import React, { useState } from "react";
 import DatasetFilter from "./DatasetFilter";
 import DatasetListing from "./DatasetListing";
 import styles from "./DatasetExplorer.module.scss";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import useDatasetStore from "../../utils/useDatasetStore";
-import DatasetPreview from "./DatasetPreview";
+import { MetadataMap } from "../../utils/DatasetTypes";
 
 function DatasetExplorer() {
-  const [previewedDatasetId, setPreviewedDatasetId] = useState("");
   const [activeFilter, setActiveFilter] = useState<Array<string>>([]);
   const datasetStore = useDatasetStore();
 
-  const loadPreview = (datasetId: string) => {
-    setPreviewedDatasetId(datasetId);
-    datasetStore.loadDataset(datasetId);
-  };
-
-  const metadata = datasetStore.metadata;
+  const metadata: MetadataMap = datasetStore.metadata;
 
   return (
     <div className={styles.DatasetExplorer}>
@@ -37,22 +30,10 @@ function DatasetExplorer() {
           .map((datasetId, index) => (
             <div className={styles.Dataset} key={index}>
               <div className={styles.DatasetListItem}>
-                <DatasetListing
-                  dataset={metadata[datasetId]}
-                  onPreview={() => loadPreview(datasetId)}
-                />
+                <DatasetListing dataset={metadata[datasetId]} />
               </div>
-              {previewedDatasetId === datasetId ? <ChevronRightIcon /> : null}
             </div>
           ))}
-      </div>
-      <div className={styles.Table}>
-        {datasetStore.getDatasetLoadStatus(previewedDatasetId) ===
-        "unloaded" ? (
-          <p>Select a dataset to view.</p>
-        ) : (
-          <DatasetPreview datasetId={previewedDatasetId} />
-        )}
       </div>
     </div>
   );

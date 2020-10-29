@@ -1,9 +1,5 @@
 @import "../../styles/variables";
 
-.DataSourceListing {
-  padding: 3px;
-}
-
 .FlexRow {
   display: flex;
   flex-direction: row;
@@ -16,22 +12,54 @@
   padding: 3px;
 }
 
-.DatasetTitle {
-  font-weight: bold;
-  padding: 3px;
+a:link,
+a:visited {
+  color: blue;
+  text-decoration: none;
 }
 
-.PreviewButton {
-  width: 90px;
-  height: 30px;
-}
-
-.ExpandButton {
-  vertical-align: middle;
-  width: 30px;
-  height: 30px;
-}
-
-.MoreInfo {
+.Description {
   text-align: left;
+  line-height: 20px;
+}
+
+.DatasetListing {
+  padding: 20px;
+  padding-bottom: 10px;
+}
+
+.DatasetTitle {
+  font-size: 20px;
+}
+.Footer {
+  height: 29px;
+  margin-bottom: 0px;
+  margin-top: 10px;
+
+  Button {
+    color: blue;
+    min-width: 10px;
+  }
+}
+
+.CardFooterRight {
+  float: right;
+}
+
+.CardFooterLeft {
+  float: left;
+}
+
+.DataSubtitle {
+  font-size: 15px;
+}
+
+.MetadataTable {
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  td {
+    padding-right: 15px;
+  }
 }
