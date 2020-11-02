@@ -8,6 +8,22 @@
   text-align: center;
 }
 
+.FilterContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.FilterTitle {
+  padding: 5px;
+  font-size: large;
+}
+
+.Filter {
+  flex-grow: 1;
+  padding: 5px;
+}
+
 .DatasetListItem {
   padding: 5px;
   width: 100%;

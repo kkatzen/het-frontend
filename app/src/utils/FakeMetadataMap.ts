@@ -50,7 +50,7 @@ const FakeMetadataMap: MetadataMap = {
     data_source_name: "CDC's Social Vulernability Index",
     data_source_link:
       "https://www.atsdr.cdc.gov/placeandhealth/svi/data_documentation_download.html",
-    geographic_level: "State/County (split?)",
+    geographic_level: "State, County (split)",
     demographic_granularity: "None",
     update_frequency: "Every 2 years",
     update_time: "March 2, 2020",
