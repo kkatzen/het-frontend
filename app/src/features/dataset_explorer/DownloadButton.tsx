@@ -31,14 +31,14 @@ async function downloadDataset(datasetStore: DatasetStore, datasetId: string) {
   download(dataset.metadata.name + ".csv", csvString);
 }
 
-function DownloadButton(props: { datasetId: string; className: string }) {
+function DownloadButton(props: { datasetId: string }) {
   const datasetStore = useDatasetStore();
   return (
     <Button
+      color="primary"
       onClick={() => {
         downloadDataset(datasetStore, props.datasetId);
       }}
-      className={props.className}
     >
       Download
     </Button>

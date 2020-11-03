@@ -7,7 +7,6 @@ import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
@@ -54,7 +53,6 @@ function App() {
   return (
     <ThemeProvider theme={MaterialTheme}>
       <DatasetProvider value={datasetStore}>
-        <CssBaseline />
         <div className={styles.App}>
           <Router>
             <AppBar position="static">
