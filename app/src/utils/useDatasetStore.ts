@@ -172,3 +172,16 @@ export const DatasetProvider = DatasetStoreContext.Provider;
 export default function useDatasetStore(): DatasetStore {
   return useContext(DatasetStoreContext);
 }
+
+/**
+ * @param callback Callback that is executed exactly once, once metadata is
+ *     loaded.
+ */
+export function useOnMetadataLoaded(callback: (metadata: MetadataMap) => void) {
+  useEffect(() => {
+    metadataLoadPromise.then((metadata) => {
+      callback(metadata);
+    });
+    // eslint-disable-next-line
+  }, []);
+}

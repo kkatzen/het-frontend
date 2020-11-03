@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DatasetExplorer from "../features/dataset_explorer/DatasetExplorer";
+import {
+  clearSearchParams,
+  DATASET_PRE_FILTERS,
+  useSearchParams,
+} from "../utils/urlutils";
 
 function DataCatalogPage() {
+  const params = useSearchParams();
+  const datasets = params[DATASET_PRE_FILTERS]
+    ? params[DATASET_PRE_FILTERS].split(",")
+    : [];
+  useEffect(() => {
+    clearSearchParams([DATASET_PRE_FILTERS]);
+  }, []);
   return (
     <React.Fragment>
-      <DatasetExplorer />
+      <DatasetExplorer preFilterDatasetIds={datasets} />
     </React.Fragment>
   );
 }
