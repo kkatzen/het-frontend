@@ -5,9 +5,9 @@ import DataCatalogPage from "./pages/DataCatalogPage";
 import ExploreDataPage from "./pages/ExploreDataPage";
 import LandingPage from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import Footer from "./Footer";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
@@ -54,19 +54,21 @@ function App() {
   return (
     <ThemeProvider theme={MaterialTheme}>
       <DatasetProvider value={datasetStore}>
-        <CssBaseline />
         <div className={styles.App}>
-          <Router>
-            <AppBar position="static">
-              <AppToolbar />
-            </AppBar>
-            <Switch>
-              <Route path="/datacatalog" component={DataCatalogPage} />
-              <Route path="/exploredata" component={ExploreDataPage} />
-              <Route exact path="/" component={LandingPage} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </Router>
+          <div className={styles.Content}>
+            <Router>
+              <AppBar position="static">
+                <AppToolbar />
+              </AppBar>
+              <Switch>
+                <Route path="/datacatalog" component={DataCatalogPage} />
+                <Route path="/exploredata" component={ExploreDataPage} />
+                <Route exact path="/" component={LandingPage} />
+                <Route component={NotFoundPage} />
+              </Switch>
+            </Router>
+          </div>
+          <Footer />
         </div>
       </DatasetProvider>
     </ThemeProvider>

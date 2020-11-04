@@ -2,6 +2,12 @@
 
 .App {
   text-align: center;
+  position: relative;
+  min-height: 100%;
+}
+
+.Content {
+  padding-bottom: $footer-size;
 }
 
 .NavButton {

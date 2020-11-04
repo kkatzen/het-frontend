@@ -1,4 +1,29 @@
+@import "../styles/variables";
+
+.Grid {
+  margin: auto;
+  max-width: $max-width;
+}
+
 .LandingPage {
-  text-align: left;
   padding: 20px;
+}
+
+.LandingSquare {
+  text-align: center;
+  padding: 20px;
+}
+
+.BlueLandingSquare {
+  padding: 20px;
+  background: $blue;
+  color: $white;
+  text-align: left;
+}
+
+.GreenLandingSquare {
+  padding: 20px;
+  background: $green;
+  color: $white;
+  text-align: left;
 }

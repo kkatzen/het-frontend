@@ -12,12 +12,6 @@
   padding: 3px;
 }
 
-a:link,
-a:visited {
-  color: blue;
-  text-decoration: none;
-}
-
 .Description {
   text-align: left;
   line-height: 20px;
@@ -31,13 +25,13 @@ a:visited {
 .DatasetTitle {
   font-size: 20px;
 }
+
 .Footer {
   height: 29px;
   margin-bottom: 0px;
   margin-top: 10px;
 
   Button {
-    color: blue;
     min-width: 10px;
   }
 }

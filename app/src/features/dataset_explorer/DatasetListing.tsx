@@ -3,6 +3,7 @@ import { DatasetMetadata } from "../../utils/DatasetTypes";
 import styles from "./DatasetListing.module.scss";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import AnimateHeight from "react-animate-height";
 import DownloadButton from "./DownloadButton";
@@ -16,13 +17,13 @@ function DatasetListing(props: { dataset: DatasetMetadata }) {
         {props.dataset.name}
       </Typography>
       <Typography className={styles.DataSubtitle} align="left">
-        <a
+        <Link
           href={props.dataset.data_source_link}
           target="_blank"
           rel="noopener noreferrer"
         >
           {props.dataset.data_source_name}
-        </a>
+        </Link>
       </Typography>
       <table className={styles.MetadataTable}>
         <tbody>
@@ -57,17 +58,14 @@ function DatasetListing(props: { dataset: DatasetMetadata }) {
       </AnimateHeight>
       <div className={styles.Footer}>
         <div className={styles.CardFooterRight}>
-          <DownloadButton
-            className={styles.PreviewButton}
-            datasetId={props.dataset.id}
-          ></DownloadButton>
+          <DownloadButton datasetId={props.dataset.id}></DownloadButton>
         </div>
         <div className={styles.CardFooterLeft}>
           <Button
             aria-label="expand description"
             onClick={() => setExpanded(!expanded)}
             data-testid={"expand-" + props.dataset.id}
-            size="small"
+            color="primary"
           >
             {expanded ? "Less" : "More"}
           </Button>
