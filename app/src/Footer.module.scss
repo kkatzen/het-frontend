@@ -9,12 +9,12 @@
 }
 
 .FooterGrid {
-  max-width: 1000px;
+  max-width: $max-width;
   margin: auto;
 }
 
 .FooterColumn {
   text-align: left;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }

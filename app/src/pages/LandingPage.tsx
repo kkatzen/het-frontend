@@ -27,6 +27,7 @@ function LandingPage() {
           <Grid item xs={6} className={styles.LandingSquare}>
             <img
               height="300px"
+              alt="placeholder"
               src="https://upload.wikimedia.org/wikipedia/commons/5/56/David_Satcher_official_photo_portrait.jpg"
             />
           </Grid>
@@ -35,6 +36,7 @@ function LandingPage() {
           <Grid item xs={6} className={styles.LandingSquare}>
             <img
               height="300px"
+              alt="placeholder"
               src="https://images-na.ssl-images-amazon.com/images/I/41dnPeFppOL._SX353_BO1,204,203,200_.jpg"
             />
           </Grid>
@@ -79,6 +81,7 @@ function LandingPage() {
           <Grid item xs={6} className={styles.LandingSquare}>
             <img
               height="300px"
+              alt="placeholder"
               src="https://pbs.twimg.com/profile_images/687736562419904514/NtcJ-n6F.jpg"
             />
           </Grid>
