@@ -10,7 +10,7 @@ function LandingPage() {
         <Grid container justify="space-around">
           <Grid item xs={6} className={styles.BlueLandingSquare}>
             <Typography variant="h6" className={styles.HomeLogo}>
-              OUR INITIATIVE.
+              OUR INITIATIVE
             </Typography>
             <p>
               We aim to create a collaborative, multidisciplinary, multisector,
@@ -42,7 +42,7 @@ function LandingPage() {
           </Grid>
           <Grid item xs={6} className={styles.GreenLandingSquare}>
             <Typography variant="h6" className={styles.HomeLogo}>
-              OUR PROJECT.
+              OUR PROJECT
             </Typography>
             <p>
               Examining the political determinants of health by creating a
@@ -63,7 +63,7 @@ function LandingPage() {
         <Grid container justify="space-around">
           <Grid item xs={6} className={styles.BlueLandingSquare}>
             <Typography variant="h6" className={styles.HomeLogo}>
-              OUR IMPACT.
+              OUR IMPACT
             </Typography>
             <p>
               Benchmarking equity to create actionable evidence-based policy
