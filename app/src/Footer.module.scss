@@ -1,0 +1,20 @@
+@import "styles/variables";
+
+.Footer {
+  width: 100%;
+  background: $footer-color;
+  position: absolute;
+  bottom: 0;
+  height: $footer-size;
+}
+
+.FooterGrid {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.FooterColumn {
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+}
