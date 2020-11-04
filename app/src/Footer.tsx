@@ -1,5 +1,5 @@
 import React from "react";
-import Grid, { GridSpacing } from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid";
 import styles from "./Footer.module.scss";
 
 function Footer() {
