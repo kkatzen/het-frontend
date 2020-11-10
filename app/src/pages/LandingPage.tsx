@@ -35,7 +35,7 @@ function LandingPage() {
           </Typography>
           <p>
             Social determinants of health are conditions which influence
-            individual and population helath. For a health equity analysis, one
+            individual and population health. For a health equity analysis, one
             must describe the connection between SDOH and health using
             well-documented research.
           </p>
@@ -53,7 +53,7 @@ function LandingPage() {
           <p>
             We bring together health equity leaders, organizations and
             institutions from across the states, share best practices and
-            identify com,mon golas to advance health equity.
+            identify common goals to advance health equity.
           </p>
         </Grid>
         <Grid item xs={12}>
@@ -66,7 +66,7 @@ function LandingPage() {
             Covid Data for Virgina
           </Typography>
           <p>
-            As of Friday morning, there have been at elast 178,183 cases and
+            As of Friday morning, there have been at least 178,183 cases and
             3,636 deaths in Virginia since the beginning of the pandemic.
             <br />
             <Button variant="outlined">Explore Data</Button>
