@@ -45,7 +45,7 @@ function AppToolbar() {
       </Button>
       <Button className={styles.NavButton}>
         <a href="https://satcherinstitute.github.io/data-visualization/02_covid19_death_disparities/">
-          Chris
+          Prototypes
         </a>
       </Button>
     </Toolbar>
