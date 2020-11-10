@@ -24,4 +24,10 @@
   text-align: left;
   font-family: "Montserrat" !important;
   text-transform: uppercase;
+  color: $white;
+  a:link,
+  a:visited {
+    color: $white;
+    text-decoration: none;
+  }
 }
