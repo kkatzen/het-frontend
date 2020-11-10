@@ -21,7 +21,7 @@ function AboutUsPage() {
             <li>503c identification (need to confirm)</li>
           </ul>
         </Grid>
-        <Grid container justify="space-around" xs={12} sm={10} md={12}>
+        <Grid item xs={12} sm={10} md={12}>
           <Grid item xs={12} className={styles.BlueLandingSquare}>
             <Typography variant="h6" className={styles.HomeLogo}>
               FAQ
