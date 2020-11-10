@@ -13,6 +13,13 @@ interface SelectOption {
   label: string;
 }
 
+function propertyToSelectOption(property: string): SelectOption {
+  return {
+    value: property,
+    label: property,
+  };
+}
+
 /**
  * @param props
  *     datasets: The metadata for all datasets
@@ -21,12 +28,15 @@ interface SelectOption {
  *         including, or an empty array if this filter is not being used.
  *     propertySelector: function returns the metadata property to filter on.
  *     placeholder: The text to use as a placeholder for this filter.
+ *     defaultValues: The default display options, or null for no default
+ *         values. Must be valid options or the filter won't work properly.
  */
 function DatasetFilter(props: {
   datasets: Record<string, DatasetMetadata>;
   onSelectionChange: (filtered: Array<string>) => void;
   propertySelector: (metadata: DatasetMetadata) => string;
   placeholder: string;
+  defaultValues: string[] | null;
 }) {
   const propertyToDatasetsMap: Record<string, string[]> = {};
   Object.keys(props.datasets).forEach((dataset_id) => {
@@ -36,10 +46,12 @@ function DatasetFilter(props: {
     }
     propertyToDatasetsMap[property].push(dataset_id);
   });
-  const options = Object.keys(propertyToDatasetsMap).map((property) => ({
-    value: property,
-    label: property,
-  }));
+  const options = Object.keys(propertyToDatasetsMap).map(
+    propertyToSelectOption
+  );
+  const defaultValues = props.defaultValues
+    ? props.defaultValues.map(propertyToSelectOption)
+    : null;
   return (
     <Select
       options={options}
@@ -57,6 +69,7 @@ function DatasetFilter(props: {
           props.onSelectionChange(filter);
         }
       }}
+      defaultValue={defaultValues}
     />
   );
 }

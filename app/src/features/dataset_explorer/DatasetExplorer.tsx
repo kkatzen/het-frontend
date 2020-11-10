@@ -2,35 +2,71 @@ import React, { useState } from "react";
 import DatasetFilter from "./DatasetFilter";
 import DatasetListing from "./DatasetListing";
 import styles from "./DatasetExplorer.module.scss";
-import useDatasetStore from "../../utils/useDatasetStore";
+import useDatasetStore, {
+  useOnMetadataLoaded,
+} from "../../utils/useDatasetStore";
 import { DatasetMetadata, MetadataMap } from "../../utils/DatasetTypes";
 
 // Map of filter id to list of datasets selected by that filter, or empty list
 // for filters that don't have anything selected.
 type Filters = Record<string, string[]>;
 
-function DatasetExplorer() {
-  const [activeFilter, setActiveFilter] = useState<Filters>({});
+// The id of the filter by dataset name. This is the only one that supports
+// pre-filtering from url params.
+const NAME_FILTER_ID = "name_filter";
+
+/**
+ * Returns the ids of the datasets to display based on the provided filter. The
+ * displayed datasets are the intersection of each filter.
+ */
+function getFilteredDatasetIds(
+  metadata: MetadataMap,
+  activeFilter: Filters
+): string[] {
+  const filters = Object.values(activeFilter);
+  const reducer = (intersection: string[], nextFilter: string[]) => {
+    if (nextFilter.length === 0) {
+      return intersection;
+    }
+    return intersection.filter((x) => nextFilter.includes(x));
+  };
+  const allIds = Object.keys(metadata);
+  return filters.reduce(reducer, allIds);
+}
+
+function DatasetExplorer(props: { preFilterDatasetIds: string[] }) {
+  const [activeFilter, setActiveFilter] = useState<Filters>({
+    [NAME_FILTER_ID]: props.preFilterDatasetIds,
+  });
   const datasetStore = useDatasetStore();
 
   const metadata: MetadataMap = datasetStore.metadata;
 
-  function getFilteredDatasetIds() {
-    const filters = Object.values(activeFilter);
-    const reducer = (intersection: string[], nextFilter: string[]) => {
-      if (nextFilter.length === 0) {
-        return intersection;
-      }
-      return intersection.filter((x) => nextFilter.includes(x));
-    };
-    const allIds = Object.keys(metadata);
-    return filters.reduce(reducer, allIds);
-  }
+  // Once the metadata is loaded, update the filter to only include valid
+  // dataset ids
+  useOnMetadataLoaded((metadata) => {
+    const validIds = props.preFilterDatasetIds.filter(
+      (datasetId) => !!metadata[datasetId]
+    );
+    setActiveFilter((prevFilter) => {
+      const names = prevFilter[NAME_FILTER_ID];
+      const newNames = names.filter((name) => validIds.includes(name));
+      return {
+        ...prevFilter,
+        [NAME_FILTER_ID]: newNames,
+      };
+    });
+  });
+
+  const defaultDatasetNames = props.preFilterDatasetIds
+    .filter((datasetId) => !!metadata[datasetId])
+    .map((datasetId) => metadata[datasetId].name);
 
   function createFilter(
     id: string,
     placeholder: string,
-    propertySelector: (metadata: DatasetMetadata) => string
+    propertySelector: (metadata: DatasetMetadata) => string,
+    defaultValues: string[] | null
   ) {
     return (
       <div className={styles.Filter}>
@@ -44,6 +80,7 @@ function DatasetExplorer() {
           }}
           propertySelector={propertySelector}
           placeholder={placeholder}
+          defaultValues={defaultValues}
         />
       </div>
     );
@@ -52,26 +89,36 @@ function DatasetExplorer() {
   return (
     <div className={styles.DatasetExplorer}>
       <div className={styles.DatasetList}>
-        <div className={styles.FilterContainer}>
-          <div className={styles.FilterTitle}>Filter by...</div>
-          {createFilter(
-            "name_filter",
-            "Dataset name",
-            (metadata) => metadata.name
-          )}
-          {createFilter(
-            "geographic_filter",
-            "Geographic level",
-            (metadata) => metadata.geographic_level
-          )}
-        </div>
-        {getFilteredDatasetIds().map((datasetId, index) => (
-          <div className={styles.Dataset} key={index}>
-            <div className={styles.DatasetListItem}>
-              <DatasetListing dataset={metadata[datasetId]} />
+        {datasetStore.metadataLoadStatus !== "loaded" ? (
+          "Loading datasets..."
+        ) : (
+          <>
+            <div className={styles.FilterContainer}>
+              <div className={styles.FilterTitle}>Filter by...</div>
+              {createFilter(
+                NAME_FILTER_ID,
+                "Dataset name",
+                (metadata) => metadata.name,
+                defaultDatasetNames
+              )}
+              {createFilter(
+                "geographic_filter",
+                "Geographic level",
+                (metadata) => metadata.geographic_level,
+                null
+              )}
             </div>
-          </div>
-        ))}
+            {getFilteredDatasetIds(metadata, activeFilter).map(
+              (datasetId, index) => (
+                <div className={styles.Dataset} key={index}>
+                  <div className={styles.DatasetListItem}>
+                    <DatasetListing dataset={metadata[datasetId]} />
+                  </div>
+                </div>
+              )
+            )}
+          </>
+        )}
       </div>
     </div>
   );
