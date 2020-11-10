@@ -18,6 +18,7 @@ import {
   startMetadataLoad,
 } from "./utils/useDatasetStore";
 import { LinkWithStickyParams } from "./utils/urlutils";
+import AboutUsPage from "./pages/AboutUsPage";
 
 startMetadataLoad();
 
@@ -25,25 +26,27 @@ function AppToolbar() {
   return (
     <Toolbar>
       <Typography variant="h6" className={styles.HomeLogo}>
-        Health Equity Tracker
+        <LinkWithStickyParams to="/">
+          Health Equity Tracker
+        </LinkWithStickyParams>
       </Typography>
       <Button className={styles.NavButton}>
-        <LinkWithStickyParams to="/">Home</LinkWithStickyParams>
+        <LinkWithStickyParams to="/aboutus">About us</LinkWithStickyParams>
       </Button>
       <Button className={styles.NavButton}>
         <LinkWithStickyParams to="/datacatalog">
-          Data Catalog
+          Data Sources & Methodology
+        </LinkWithStickyParams>
+      </Button>
+      <Button className={styles.NavButton}>
+        <LinkWithStickyParams to="/exploredata">
+          Explore the Data
         </LinkWithStickyParams>
       </Button>
       <Button className={styles.NavButton}>
         <a href="https://satcherinstitute.github.io/data-visualization/02_covid19_death_disparities/">
-          Explore the Data
+          Chris
         </a>
-      </Button>
-      <Button className={styles.NavButton}>
-        <LinkWithStickyParams to="/exploredata">
-          (Ignore me)
-        </LinkWithStickyParams>
       </Button>
     </Toolbar>
   );
@@ -61,6 +64,7 @@ function App() {
                 <AppToolbar />
               </AppBar>
               <Switch>
+                <Route path="/aboutus" component={AboutUsPage} />
                 <Route path="/datacatalog" component={DataCatalogPage} />
                 <Route path="/exploredata" component={ExploreDataPage} />
                 <Route exact path="/" component={LandingPage} />
