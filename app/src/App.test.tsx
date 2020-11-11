@@ -4,5 +4,5 @@ import App from "./App";
 
 test("renders the landing page", () => {
   const { getByText } = render(<App />);
-  expect(getByText(/OUR INITIATIVE./i)).toBeInTheDocument();
+  expect(getByText(/OUR INITIATIVE/i)).toBeInTheDocument();
 });

@@ -42,7 +42,7 @@ describe("DatasetExplorer", () => {
 
     const { findByText } = render(
       <AppContext>
-        <DatasetExplorer />
+        <DatasetExplorer preFilterDatasetIds={[]} />
       </AppContext>
     );
 
