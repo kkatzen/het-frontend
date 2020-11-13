@@ -215,12 +215,14 @@ function ExploreDataPage() {
         </div>
       </div>
       <Grid container spacing={1}>
-        <Grid container item xs={6} spacing={3}>
+        <Grid container item xs={12} sm={12} md={6}>
           {state !== -1 && <VegaStateMap state={state} />}
         </Grid>
         <Grid
           item
-          xs={6}
+          xs={12}
+          sm={12}
+          md={6}
           spacing={3}
           style={{ padding: "50px", textAlign: "left" }}
         >
