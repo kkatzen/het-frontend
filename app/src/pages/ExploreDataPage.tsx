@@ -87,7 +87,7 @@ function Item(props) {
 }
 
 function ExploreDataPage() {
-  const [state, setState] = useState(37);
+  const [state, setState] = useState(0);
   const [a, setA] = useState("the number of covid deaths");
   const [b, setB] = useState("obesity cases");
   const [countyList, setCountyList] = useState([]);
