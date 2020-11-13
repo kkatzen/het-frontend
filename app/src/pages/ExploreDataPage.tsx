@@ -1,12 +1,73 @@
 // @ts-nocheck
 
-import React from "react";
+import React, { useState } from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Paper, Grid } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
+import VegaStateMap from "../features/VegaStateMap";
+import MenuItem from "@material-ui/core/MenuItem";
 
+const STATE_FIPS_MAP = {
+  0: "the USA",
+  1: "Alabama",
+  2: "Alaska",
+  4: "Arizona",
+  5: "Arkansas",
+  6: "California",
+  8: "Colorado",
+  9: "Conneticut",
+  10: "Delware",
+  12: "Florida",
+  13: "Georgia",
+  15: "Hawaii",
+  16: "Idaho",
+  17: "Illinois",
+  18: "Indiana",
+  19: "Iowa",
+  20: "Kansas",
+  21: "Kentucky",
+  22: "Louisiana",
+  23: "Maine",
+  24: "Maryland",
+  25: "Massachusetts",
+  26: "Michigan",
+  27: "Minnesota",
+  28: "Mississippi",
+  29: "Missouri",
+  30: "Montana ??",
+  31: "Nebraksa",
+  32: "Nevada",
+  33: "New Hampshire",
+  34: "New Jersey",
+  35: "New Mexico",
+  36: "New York",
+  37: "North Carolina",
+  38: "North Dakota",
+  39: "Ohio",
+  40: "Oklahoma",
+  41: "Oregon",
+  42: "Pennsylvania",
+  44: "Rhode Island",
+  45: "South Carolina",
+  46: "South Dakota",
+  47: "Tennesse",
+  48: "Texas",
+  49: "Utah",
+  50: "Vermont",
+  51: "Virigina",
+  53: "Washington",
+  54: "West Virginia",
+  55: "Wisconsin",
+  56: "Wyomming",
+};
+/*
+      60: "American Samoa",
+      66: "Guam",
+      69: "Northern Mariana Islands",
+      72: "Puerto Rico",
+      78: "Virgin Islands"
+  */
 function Item(props) {
   return (
     <div style={{ padding: "20px" }}>
@@ -15,7 +76,7 @@ function Item(props) {
         style={{
           width: "80%",
           padding: "50px",
-          margin: "20px",
+          margins: "20px",
           margin: "auto",
         }}
       >
@@ -26,42 +87,80 @@ function Item(props) {
 }
 
 function ExploreDataPage() {
+  const [state, setState] = useState(0);
+  const [a, setA] = useState("the number of covid deaths");
+  const [b, setB] = useState("obesity cases");
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setState(event.target.value as string);
+  };
+
+  const handleA = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setA(event.target.value as string);
+  };
+
+  const handleB = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setB(event.target.value as string);
+  };
+
   var items = [
     <React.Fragment>
       Compare
-      <Select native value="the number of covid deaths">
-        <option value={10}>the number of covid deaths</option>
-        <option value={20}>the number of covid hospitalizations</option>
+      <Select native value="the number of covid deaths" onChange={handleA}>
+        <option value={"the number of covid deaths"}>
+          the number of covid deaths
+        </option>
+        <option value={"the number of covid hospitalizations"}>
+          the number of covid hospitalizations
+        </option>
       </Select>
       to
-      <Select native value="obesity cases">
-        <option value={10}>obesity cases</option>
-        <option value={20}>diabetes cases</option>
+      <Select native value="obesity cases" onChange={handleB}>
+        <option value={"obesity cases"}>obesity cases</option>
+        <option value={"diabetes cases"}>diabetes cases</option>
       </Select>
       in
-      <Select native value="the USA">
-        <option value={10}>the USA</option>
-        <option value={20}>Alabama</option>
-        <option value={20}>Alaska</option>
-      </Select>
+      <FormControl>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={state}
+          onChange={handleChange}
+        >
+          {Object.keys(STATE_FIPS_MAP).map((state) => (
+            <MenuItem key={state} value={state}>
+              {STATE_FIPS_MAP[state]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </React.Fragment>,
     <React.Fragment>
       Where are the
-      <Select native value="highest">
-        <option value={10}>highest</option>
-        <option value={20}>lowest</option>
+      <Select native value="highest" onChange={handleA}>
+        <option value={"highest"}>highest</option>
+        <option value={"lowest"}>lowest</option>
       </Select>
       rates of
-      <Select native value="obesity cases">
-        <option value={10}>obesity cases</option>
-        <option value={20}>diabetes cases</option>
+      <Select native value="obesity cases" onChange={handleB}>
+        <option value={"obesity cases"}>obesity cases</option>
+        <option value={"diabetes cases"}>diabetes cases</option>
       </Select>
       in
-      <Select native value="the USA">
-        <option value={10}>the USA</option>
-        <option value={20}>Alabama</option>
-        <option value={20}>Alaska</option>
-      </Select>
+      <FormControl>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={state}
+          onChange={handleChange}
+        >
+          {Object.keys(STATE_FIPS_MAP).map((state) => (
+            <MenuItem key={state} value={state}>
+              {STATE_FIPS_MAP[state]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </React.Fragment>,
   ];
 
@@ -75,6 +174,17 @@ function ExploreDataPage() {
             indicators={false}
             animation="slide"
             navButtonsAlwaysVisible={true}
+            onChange={(index) => {
+              if (index === 1) {
+                setA("highest");
+                setB("obesity cases");
+                setState(0);
+              } else {
+                setA("the number of covid deaths");
+                setB("obesity cases");
+                setState(0);
+              }
+            }}
           >
             {items.map((item, i) => (
               <Item key={i} item={item} />
@@ -82,8 +192,33 @@ function ExploreDataPage() {
           </Carousel>
         </div>
       </div>
-      Research questions; explore key relationships across datasets, chosen by
-      us; explore the data freely
+      <Grid container spacing={1}>
+        <Grid container item xs={6} spacing={3}>
+          {state !== -1 && <VegaStateMap state={state} />}
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          spacing={3}
+          style={{ padding: "50px", textAlign: "left" }}
+        >
+          <h1>{STATE_FIPS_MAP[state]}</h1>
+          <h1>{a}</h1>
+          <h1>{b}</h1>
+          <br />
+          {state !== -1 && (
+            <p>
+              Vivamus pulvinar est eget molestie ultrices. Maecenas id nisi nec
+              erat dignissim mollis. Ut elementum sed felis nec iaculis. Integer
+              sem felis, malesuada quis tortor at, molestie aliquet risus.
+              Curabitur id porta lorem. Maecenas in quam in urna tincidunt
+              dictum vel eget enim. Duis malesuada tempus enim sed feugiat. Sed
+              sed diam eget leo scelerisque fermentum id vitae augue. Nam
+              aliquam metus vitae ultricies cursus.
+            </p>
+          )}
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }
