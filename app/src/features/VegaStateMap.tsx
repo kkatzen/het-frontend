@@ -5,10 +5,9 @@ import { Vega } from "react-vega";
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
-function VegaStateMap(props: { state: number }) {
+function VegaStateMap(props: { state: number; signalListener }) {
   const [width, setWidth] = useState();
   const [spec, setSpec] = useState({}); // Initial state set in useEffect when default state is set
-  const [countyList, setCountyList] = useState([]);
 
   const myRef = useRef(document.createElement("div"));
 
@@ -48,13 +47,13 @@ function VegaStateMap(props: { state: number }) {
           format: { type: "topojson", feature: "counties" },
           transform: datatransformers,
         },
-        /*        {
+        {
           name: "selected",
           on: [
             { trigger: "click", insert: "click" },
             { trigger: "shiftClick", remove: "true" },
           ],
-        }, */
+        },
       ],
       projections: [
         {
@@ -103,10 +102,10 @@ function VegaStateMap(props: { state: number }) {
             },
             update: {
               fill: [
-                /* {
+                {
                   test: "indata('selected', 'id', datum.id)",
                   value: "red",
-                },*/
+                },
                 { scale: "colorScale", field: "rate" },
               ],
             },
@@ -147,27 +146,6 @@ function VegaStateMap(props: { state: number }) {
     };
   }, [myRef]);
 
-  const signalListeners = {
-    click: (...args) => {
-      let countyIds = countyList.map((datum) => datum.id);
-      const index = countyIds.indexOf(args[1].id);
-      console.log(index);
-      console.log(args[1]);
-      if (index > -1) {
-        return;
-      }
-      let newCountyDatum = {
-        id: args[1].id,
-        name: args[1].properties.name,
-        rate: args[1].rate,
-      };
-      setCountyList([...countyList, newCountyDatum]);
-    },
-    shiftClick: (...args) => {
-      setCountyList([]);
-    },
-  };
-
   // https://vega.github.io/vega-lite/docs/selection.
   // https://vega.github.io/vega/docs/api/view/
 
@@ -189,7 +167,7 @@ function VegaStateMap(props: { state: number }) {
         spec={spec}
         width={width}
         height={width * HEIGHT_WIDTH_RATIO}
-        signalListeners={signalListeners}
+        signalListeners={props.signalListeners}
       />
     </div>
   );

@@ -87,12 +87,35 @@ function Item(props) {
 }
 
 function ExploreDataPage() {
-  const [state, setState] = useState(0);
+  const [state, setState] = useState(37);
   const [a, setA] = useState("the number of covid deaths");
   const [b, setB] = useState("obesity cases");
+  const [countyList, setCountyList] = useState([]);
+
+  const signalListeners = {
+    click: (...args) => {
+      let countyIds = countyList.map((datum) => datum.id);
+      const index = countyIds.indexOf(args[1].id);
+      console.log(index);
+      console.log(args[1]);
+      if (index > -1) {
+        return;
+      }
+      let newCountyDatum = {
+        id: args[1].id,
+        name: args[1].properties.name,
+        rate: args[1].rate,
+      };
+      setCountyList([...countyList, newCountyDatum]);
+    },
+    shiftClick: (...args) => {
+      setCountyList([]);
+    },
+  };
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setState(event.target.value as string);
+    setCountyList([]);
   };
 
   const handleA = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -101,6 +124,7 @@ function ExploreDataPage() {
 
   const handleB = (event: React.ChangeEvent<{ value: unknown }>) => {
     setB(event.target.value as string);
+    setCountyList([]);
   };
 
   var items = [
@@ -214,9 +238,11 @@ function ExploreDataPage() {
           </Carousel>
         </div>
       </div>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} alignItems="flex-start">
         <Grid container item xs={12} sm={12} md={6}>
-          {state !== -1 && <VegaStateMap state={state} />}
+          {state !== -1 && (
+            <VegaStateMap state={state} signalListeners={signalListeners} />
+          )}
         </Grid>
         <Grid
           item
@@ -237,6 +263,26 @@ function ExploreDataPage() {
               of placeholders :)
             </p>
           )}
+
+          <p>
+            Click on some counties to see data in this table, shift click on map
+            to reset.
+          </p>
+          <table>
+            <tr>
+              <th>State ID</th>
+              <th>Name</th>
+              <th>Rate</th>
+            </tr>
+
+            {countyList.map((county) => (
+              <tr>
+                <td>{county.id}</td>
+                <td>{county.name}</td>
+                <td>{county.rate * 100}%</td>
+              </tr>
+            ))}
+          </table>
         </Grid>
       </Grid>
     </React.Fragment>
