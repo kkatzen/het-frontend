@@ -248,7 +248,7 @@ function ExploreDataPage() {
         </div>
       </div>
       <Grid container spacing={1} alignItems="flex-start">
-        <Grid container item xs={12} sm={12} md={6}>
+        <Grid item xs={12} sm={12} md={6}>
           {state !== -1 && (
             <VegaStateMap state={state} signalListeners={signalListeners} />
           )}
@@ -281,7 +281,7 @@ function ExploreDataPage() {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>State ID</TableCell>
+                  <TableCell>County ID</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>Rate</TableCell>
                 </TableRow>
