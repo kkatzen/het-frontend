@@ -7,6 +7,12 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import VegaStateMap from "../features/VegaStateMap";
 import MenuItem from "@material-ui/core/MenuItem";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const STATE_FIPS_MAP = {
   0: "the USA",
@@ -268,21 +274,25 @@ function ExploreDataPage() {
             Click on some counties to see data in this table, shift click on map
             to reset.
           </p>
-          <table>
-            <tr>
-              <th>State ID</th>
-              <th>Name</th>
-              <th>Rate</th>
-            </tr>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>State ID</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Rate</TableCell>
+                </TableRow>
+              </TableHead>
 
-            {countyList.map((county) => (
-              <tr>
-                <td>{county.id}</td>
-                <td>{county.name}</td>
-                <td>{county.rate * 100}%</td>
-              </tr>
-            ))}
-          </table>
+              {countyList.map((county) => (
+                <TableRow>
+                  <TableCell>{county.id}</TableCell>
+                  <TableCell>{county.name}</TableCell>
+                  <TableCell>{county.rate * 100}%</TableCell>
+                </TableRow>
+              ))}
+            </Table>
+          </TableContainer>
         </Grid>
       </Grid>
     </React.Fragment>
