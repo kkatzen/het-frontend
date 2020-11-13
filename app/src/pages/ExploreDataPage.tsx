@@ -208,13 +208,9 @@ function ExploreDataPage() {
           <br />
           {state !== -1 && (
             <p>
-              Vivamus pulvinar est eget molestie ultrices. Maecenas id nisi nec
-              erat dignissim mollis. Ut elementum sed felis nec iaculis. Integer
-              sem felis, malesuada quis tortor at, molestie aliquet risus.
-              Curabitur id porta lorem. Maecenas in quam in urna tincidunt
-              dictum vel eget enim. Duis malesuada tempus enim sed feugiat. Sed
-              sed diam eget leo scelerisque fermentum id vitae augue. Nam
-              aliquam metus vitae ultricies cursus.
+              In case you are curious, the data in the map is unemployment data.
+              Please use your imagination that these are helpful charts instead
+              of placeholders :)
             </p>
           )}
         </Grid>
