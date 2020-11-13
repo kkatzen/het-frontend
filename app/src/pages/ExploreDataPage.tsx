@@ -135,12 +135,7 @@ function ExploreDataPage() {
   var items = [
     <React.Fragment>
       Compare
-      <Select
-        native
-        value="the number of covid deaths"
-        onChange={handleA}
-        style={{ margin: "5px" }}
-      >
+      <Select native value={a} onChange={handleA} style={{ margin: "5px" }}>
         <option value={"the number of covid deaths"}>
           the number of covid deaths
         </option>
@@ -149,12 +144,7 @@ function ExploreDataPage() {
         </option>
       </Select>
       to
-      <Select
-        native
-        value="obesity cases"
-        onChange={handleB}
-        style={{ margin: "5px" }}
-      >
+      <Select native value={b} onChange={handleB} style={{ margin: "5px" }}>
         <option value={"obesity cases"}>obesity cases</option>
         <option value={"diabetes cases"}>diabetes cases</option>
       </Select>
@@ -177,22 +167,12 @@ function ExploreDataPage() {
     </React.Fragment>,
     <React.Fragment>
       Where are the
-      <Select
-        native
-        value="highest"
-        onChange={handleA}
-        style={{ margin: "5px" }}
-      >
+      <Select native value={a} onChange={handleA} style={{ margin: "5px" }}>
         <option value={"highest"}>highest</option>
         <option value={"lowest"}>lowest</option>
       </Select>
       rates of
-      <Select
-        native
-        value="obesity cases"
-        onChange={handleB}
-        style={{ margin: "5px" }}
-      >
+      <Select native value={b} onChange={handleB} style={{ margin: "5px" }}>
         <option value={"obesity cases"}>obesity cases</option>
         <option value={"diabetes cases"}>diabetes cases</option>
       </Select>
