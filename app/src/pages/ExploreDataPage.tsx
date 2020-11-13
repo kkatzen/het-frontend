@@ -283,14 +283,15 @@ function ExploreDataPage() {
                   <TableCell>Rate</TableCell>
                 </TableRow>
               </TableHead>
-
-              {countyList.map((county) => (
-                <TableRow>
-                  <TableCell>{county.id}</TableCell>
-                  <TableCell>{county.name}</TableCell>
-                  <TableCell>{county.rate * 100}%</TableCell>
-                </TableRow>
-              ))}
+              <TableBody>
+                {countyList.map((county) => (
+                  <TableRow>
+                    <TableCell>{county.id}</TableCell>
+                    <TableCell>{county.name}</TableCell>
+                    <TableCell>{county.rate * 100}%</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
           </TableContainer>
         </Grid>
