@@ -291,7 +291,7 @@ function ExploreDataPage() {
                   <TableRow>
                     <TableCell>{county.id}</TableCell>
                     <TableCell>{county.name}</TableCell>
-                    <TableCell>{county.rate * 100}%</TableCell>
+                    <TableCell>{(county.rate * 100).toFixed(2)}%</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
