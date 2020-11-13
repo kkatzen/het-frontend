@@ -96,6 +96,7 @@ function ExploreDataPage() {
   const [state, setState] = useState(0);
   const [a, setA] = useState("the number of covid deaths");
   const [b, setB] = useState("obesity cases");
+  const [phrase, setPhrase] = useState(0);
   const [countyList, setCountyList] = useState([]);
 
   const signalListeners = {
@@ -211,11 +212,13 @@ function ExploreDataPage() {
                 setB("obesity cases");
                 setState(0);
                 setCountyList([]);
+                setPhrase(1);
                 // TODO send signal to vega to clear the counties
               } else {
                 setA("the number of covid deaths");
                 setB("obesity cases");
                 setState(0);
+                setPhrase(0);
                 setCountyList([]);
                 // TODO send signal to vega to clear the counties
               }
@@ -238,13 +241,18 @@ function ExploreDataPage() {
           xs={12}
           sm={12}
           md={6}
-          spacing={3}
-          style={{ padding: "50px", textAlign: "left" }}
+          style={{ padding: "20px", textAlign: "left" }}
         >
-          <h1>{STATE_FIPS_MAP[state]}</h1>
-          <h1>{a}</h1>
-          <h1>{b}</h1>
-          <br />
+          {phrase === 0 && (
+            <h3>
+              Compare {a} to {b} in {STATE_FIPS_MAP[state]}
+            </h3>
+          )}
+          {phrase === 1 && (
+            <h3>
+              Where are the {a} rates of {b} in {STATE_FIPS_MAP[state]}
+            </h3>
+          )}
           {state !== -1 && (
             <p>
               In case you are curious, the data in the map is unemployment data.
