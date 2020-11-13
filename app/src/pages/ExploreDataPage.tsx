@@ -130,7 +130,6 @@ function ExploreDataPage() {
 
   const handleB = (event: React.ChangeEvent<{ value: unknown }>) => {
     setB(event.target.value as string);
-    setCountyList([]);
   };
 
   var items = [
@@ -231,10 +230,14 @@ function ExploreDataPage() {
                 setA("highest");
                 setB("obesity cases");
                 setState(0);
+                setCountyList([]);
+                // TODO send signal to vega to clear the counties
               } else {
                 setA("the number of covid deaths");
                 setB("obesity cases");
                 setState(0);
+                setCountyList([]);
+                // TODO send signal to vega to clear the counties
               }
             }}
           >
