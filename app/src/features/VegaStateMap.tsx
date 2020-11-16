@@ -1,18 +1,17 @@
-// @ts-nocheck
 import React, { useState, useEffect, useRef } from "react";
 import { Vega } from "react-vega";
 
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
-function VegaStateMap(props: { state: number; signalListener }) {
-  const [width, setWidth] = useState();
+function VegaStateMap(props: { state: number; signalListeners: any }) {
+  const [width, setWidth] = useState<number>(0);
   const [spec, setSpec] = useState({}); // Initial state set in useEffect when default state is set
 
   const myRef = useRef(document.createElement("div"));
 
   useEffect(() => {
-    let datatransformers = [
+    let datatransformers: any[] = [
       {
         type: "lookup",
         from: "unemp",
@@ -24,9 +23,10 @@ function VegaStateMap(props: { state: number; signalListener }) {
     ];
 
     if (props.state !== 0) {
+      let stateVar = "floor(datum.id / 1000) == " + props.state;
       datatransformers.push({
         type: "filter",
-        expr: "floor(datum.id / 1000) == " + props.state,
+        expr: stateVar,
       });
     }
 
@@ -63,9 +63,9 @@ function VegaStateMap(props: { state: number; signalListener }) {
           size: {
             signal:
               "[" +
-              (width - LEGEND_WIDTH) +
+              (width! - LEGEND_WIDTH) +
               ", " +
-              width * HEIGHT_WIDTH_RATIO +
+              width! * HEIGHT_WIDTH_RATIO +
               "]",
           },
         },
@@ -128,6 +128,7 @@ function VegaStateMap(props: { state: number; signalListener }) {
     });
   }, [width, props.state]);
 
+  // TODO: useLayoutEffect ?
   useEffect(() => {
     if (myRef && myRef.current) {
       setWidth(myRef.current.offsetWidth);
@@ -145,9 +146,6 @@ function VegaStateMap(props: { state: number; signalListener }) {
       window.removeEventListener("resize", handleResize);
     };
   }, [myRef]);
-
-  // https://vega.github.io/vega-lite/docs/selection.
-  // https://vega.github.io/vega/docs/api/view/
 
   return (
     <div

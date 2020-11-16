@@ -1,7 +1,23 @@
+.CarouselContainer {
+  background: #e4e4e4;
+  padding: 20px;
+}
+
+.Carousel {
+  margin: auto;
+  width: 80%;
+}
+
 .CarouselItem {
   width: 80%;
   padding: 50px;
   margin: 20px auto;
+  font-size: 20pt;
+}
+
+.MadLibSelect {
+  margin: 5px;
+  margin-top: -7px;
   font-size: 20pt;
 }
 

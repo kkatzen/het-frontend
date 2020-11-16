@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
 import VegaStateMap from "../VegaStateMap";
@@ -17,7 +15,13 @@ Corresponds to MADLIB_LIST[0]:
 Where are the {0:"highest", 1:"lowest"} rates of {0:"obesity", 1:"diabetes"} in STATE_FIPS_MAP ?
 */
 
-function CountyLevelTable(countyList) {
+interface County {
+  id: string;
+  name: string;
+  rate: number;
+}
+
+function CountyLevelTable(countyList: County[]) {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -29,7 +33,7 @@ function CountyLevelTable(countyList) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {countyList.map((county) => (
+          {countyList.map((county: County) => (
             <TableRow>
               <TableCell>{county.id}</TableCell>
               <TableCell>{county.name}</TableCell>
@@ -42,16 +46,17 @@ function CountyLevelTable(countyList) {
   );
 }
 
-function DemoReport(props: { phraseValue: number[] }) {
-  const [countyList, setCountyList] = useState([]);
+function DemoReport(props: { phraseValues: number[] }) {
+  const [countyList, setCountyList] = useState<County[]>([]);
 
   useEffect(() => {
     setCountyList([]);
-  }, [props.phraseValue[5]]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.phraseValues[5]]);
 
-  const signalListeners = {
-    click: (...args) => {
-      let countyIds = countyList.map((datum) => datum.id);
+  const signalListeners: any = {
+    click: (...args: any) => {
+      let countyIds = countyList.map((datum: County) => datum.id);
       const index = countyIds.indexOf(args[1].id);
       if (index > -1) {
         return;
@@ -63,7 +68,7 @@ function DemoReport(props: { phraseValue: number[] }) {
       };
       setCountyList([...countyList, newCountyDatum]);
     },
-    shiftClick: (...args) => {
+    shiftClick: (...args: any) => {
       setCountyList([]);
     },
   };
@@ -72,7 +77,7 @@ function DemoReport(props: { phraseValue: number[] }) {
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
         <VegaStateMap
-          state={props.phraseValue[5]}
+          state={props.phraseValues[5]}
           signalListeners={signalListeners}
         />
       </Grid>
@@ -81,7 +86,7 @@ function DemoReport(props: { phraseValue: number[] }) {
           {MADLIB_LIST[0].phrase.map((textOrBlank, index) => (
             <React.Fragment>
               {textOrBlank.constructor === Object ? (
-                <span> {textOrBlank[props.phraseValue[index]]} </span>
+                <span> {textOrBlank[props.phraseValues[index]]} </span>
               ) : (
                 <span>{textOrBlank}</span>
               )}
