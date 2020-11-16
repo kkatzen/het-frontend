@@ -82,7 +82,7 @@ function DemoReport(props: { phraseValues: number[] }) {
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
-        <h3>
+        <h2>
           {MADLIB_LIST[0].phrase.map((textOrBlank, index) => (
             <React.Fragment>
               {textOrBlank.constructor === Object ? (
@@ -92,7 +92,7 @@ function DemoReport(props: { phraseValues: number[] }) {
               )}
             </React.Fragment>
           ))}
-        </h3>
+        </h2>
         <p>
           In case you are curious, the data in the map is unemployment data.
           Please use your imagination that these are helpful charts instead of
