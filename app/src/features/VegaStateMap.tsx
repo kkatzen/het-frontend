@@ -6,7 +6,8 @@ const LEGEND_WIDTH = 100;
 
 function VegaStateMap(props: { state: number; signalListeners: any }) {
   const [width, setWidth] = useState<number>(0);
-  const [spec, setSpec] = useState({}); // Initial state set in useEffect when default state is set
+  // Initial spec state is set in useEffect when default geo is set
+  const [spec, setSpec] = useState({});
 
   const myRef = useRef(document.createElement("div"));
 
@@ -19,7 +20,6 @@ function VegaStateMap(props: { state: number; signalListeners: any }) {
         fields: ["id"],
         values: ["rate"],
       },
-      //{ type: "filter", expr: "datum.rate != null" },
     ];
 
     if (props.state !== 0) {

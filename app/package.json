@@ -28,7 +28,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-select": "^3.1.0",
-    "react-string-replace": "^0.4.4",
     "react-table": "^7.6.0",
     "react-vega": "^7.4.2",
     "typeface-hind": "^1.1.13",
