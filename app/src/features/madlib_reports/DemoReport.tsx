@@ -9,8 +9,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import STATE_FIPS_MAP from "../../utils/Fips";
 import styles from "./Report.module.scss";
+import MADLIB_LIST from "../../utils/MadLibs";
+
+/*
+Corresponds to MADLIB_LIST[0]:
+Where are the {0:"highest", 1:"lowest"} rates of {0:"obesity", 1:"diabetes"} in STATE_FIPS_MAP ?
+*/
 
 function CountyLevelTable(countyList) {
   return (
@@ -37,12 +42,12 @@ function CountyLevelTable(countyList) {
   );
 }
 
-function DemoReport(props: { state: number; attr1: string; attr2: string }) {
+function DemoReport(props: { phraseValue: number[] }) {
   const [countyList, setCountyList] = useState([]);
 
   useEffect(() => {
     setCountyList([]);
-  }, [props.state]);
+  }, [props.phraseValue[5]]);
 
   const signalListeners = {
     click: (...args) => {
@@ -66,12 +71,22 @@ function DemoReport(props: { state: number; attr1: string; attr2: string }) {
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        <VegaStateMap state={props.state} signalListeners={signalListeners} />
+        <VegaStateMap
+          state={props.phraseValue[5]}
+          signalListeners={signalListeners}
+        />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
         <h3>
-          Compare {props.attr1} to {props.attr2} in{" "}
-          {STATE_FIPS_MAP[props.state]}
+          {MADLIB_LIST[0].phrase.map((textOrBlank, index) => (
+            <React.Fragment>
+              {textOrBlank.constructor === Object ? (
+                <span> {textOrBlank[props.phraseValue[index]]} </span>
+              ) : (
+                <span>{textOrBlank}</span>
+              )}
+            </React.Fragment>
+          ))}
         </h3>
         <p>
           In case you are curious, the data in the map is unemployment data.

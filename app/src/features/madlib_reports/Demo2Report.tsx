@@ -9,8 +9,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import STATE_FIPS_MAP from "../../utils/Fips";
 import styles from "./Report.module.scss";
+import MADLIB_LIST from "../../utils/MadLibs";
+
+/*
+Corresponds to MADLIB_LIST[1]:
+Comarep {0:"the number of covid deaths", 1: "the number of covid hospitalizations"} to {0:"obesity", 1:"diabetes"} in STATE_FIPS_MAP.
+*/
 
 function CountyLevelTable(countyList) {
   return (
@@ -37,12 +42,12 @@ function CountyLevelTable(countyList) {
   );
 }
 
-function Demo2Report(props: { state: number; attr1: string; attr2: string }) {
+function Demo2Report(props: { phraseValue: number[] }) {
   const [countyList, setCountyList] = useState([]);
 
   useEffect(() => {
     setCountyList([]);
-  }, [props.state]);
+  }, [props.phraseValue[5]]);
 
   const signalListeners = {
     click: (...args) => {
@@ -65,13 +70,18 @@ function Demo2Report(props: { state: number; attr1: string; attr2: string }) {
 
   return (
     <Grid container spacing={1} alignItems="flex-start">
-      <Grid item xs={12}>
-        <h1>
-          Where are the {props.attr1} rates of {props.attr2} in{" "}
-          {STATE_FIPS_MAP[props.state]}
-        </h1>
-      </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
+        <h3>
+          {MADLIB_LIST[1].phrase.map((textOrBlank, index) => (
+            <React.Fragment>
+              {textOrBlank.constructor === Object ? (
+                <span> {textOrBlank[props.phraseValue[index]]} </span>
+              ) : (
+                <span>{textOrBlank}</span>
+              )}
+            </React.Fragment>
+          ))}
+        </h3>
         <p>
           In case you are curious, the data in the map is unemployment data.
           Please use your imagination that these are helpful charts instead of
@@ -84,7 +94,10 @@ function Demo2Report(props: { state: number; attr1: string; attr2: string }) {
         {CountyLevelTable(countyList)}
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <VegaStateMap state={props.state} signalListeners={signalListeners} />
+        <VegaStateMap
+          state={props.phraseValue[5]}
+          signalListeners={signalListeners}
+        />
       </Grid>
     </Grid>
   );
