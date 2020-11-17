@@ -7,6 +7,7 @@ const LEGEND_WIDTH = 100;
 function StateLevelAmericanMap(props: {
   varField: string;
   legendTitle: string;
+  filter: string;
   signalListeners: any;
 }) {
   const [width, setWidth] = useState<number | undefined>();
@@ -14,6 +15,7 @@ function StateLevelAmericanMap(props: {
   const [spec, setSpec] = useState({});
 
   console.log("props.varField", props.varField);
+  console.log("props.filter", props.filter);
 
   const myRef = useRef(document.createElement("div"));
 
@@ -39,14 +41,20 @@ function StateLevelAmericanMap(props: {
       },
     ];
 
-    let diabetesTransformer: any[] = [
-      {
-        type: "aggregate",
-        groupby: [VAR_FIPS],
-        fields: [VAR_FIELD],
-        ops: ["sum"],
-      },
-    ];
+    let diabetesTransformer: any[] = [];
+    if (props.filter != "All") {
+      diabetesTransformer.push({
+        type: "filter",
+        expr: "datum.BRFSS2019_IMPLIED_RACE === '" + props.filter + "'",
+      });
+    }
+
+    diabetesTransformer.push({
+      type: "aggregate",
+      groupby: [VAR_FIPS],
+      fields: [VAR_FIELD],
+      ops: ["sum"],
+    });
 
     let tooltipValue = 'datum.properties.name + ": " + datum.' + sum(VAR_FIELD);
     //    let filterRace = "datum.properties.BRFSS2019_IMPLIED_RACE == 'Black'";
@@ -153,7 +161,7 @@ function StateLevelAmericanMap(props: {
         },
       ],
     });
-  }, [width, props.varField, props.legendTitle]);
+  }, [width, props.varField, props.legendTitle, props.filter]);
 
   // TODO: useLayoutEffect ?
   useEffect(() => {

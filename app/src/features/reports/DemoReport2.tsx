@@ -11,6 +11,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
 import { MadLib } from "../../utils/MadLibs";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
 
 /*
 Corresponds to:
@@ -48,6 +51,7 @@ function CountyLevelTable(countyList: County[]) {
 
 function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   const [countyList, setCountyList] = useState<County[]>([]);
+  const [race, setRace] = useState<string>("All");
 
   useEffect(() => {
     setCountyList([]);
@@ -79,6 +83,16 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
     1: { field: "DIABETES_YES_YESPREGNANT", legend: "# Diabetes cases" },
   };
 
+  const RACES = [
+    "All",
+    "American Indian/Alaskan Native, Non-Hispanic",
+    "Asian, Non-Hispanic",
+    "Black, Non-Hispanic",
+    "Hispanic",
+    "Other race, Non-Hispanic",
+    "White, Non-Hispanic",
+  ];
+
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12}>
@@ -93,12 +107,29 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             </React.Fragment>
           ))}
         </h2>
+        Filter results by race:
+        <FormControl>
+          <Select
+            name="raceSelect"
+            value={race}
+            onChange={(e) => {
+              setRace(e.target.value);
+            }}
+          >
+            {RACES.map((race) => (
+              <MenuItem key={race} value={race}>
+                {race}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
         <StateLevelAmericanMap
           signalListeners={signalListeners}
           varField={FIELDS[props.phraseSelectionIds[1]].field}
           legendTitle={FIELDS[props.phraseSelectionIds[1]].legend}
+          filter={race}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
