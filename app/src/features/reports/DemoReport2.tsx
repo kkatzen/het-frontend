@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
 import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
 import Table from "@material-ui/core/Table";
