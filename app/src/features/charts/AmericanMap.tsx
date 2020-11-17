@@ -14,16 +14,44 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
   useEffect(() => {
     const countyGranularity = props.state_fips !== 0;
 
+    const GEO_DATASET = "GEO_DATASET";
+    const GEO_ID = "id";
+
+    const VAR_DATASET = "VAR_DATASET";
+    const VAR_FIELD = "COPD_YES"; // BRFSS2019_IMPLIED_RACE
+    const VAR_FIPS = "FIPS";
+
+    const legendName = VAR_FIELD;
+
+    function sum(fieldName: string) {
+      return "sum_" + fieldName;
+    }
+
     let datatransformers: any[] = [
       {
         type: "lookup",
-        from: "unemp",
-        key: "id",
-        fields: ["id"],
-        values: ["rate"],
+        from: VAR_DATASET,
+        key: VAR_FIPS,
+        fields: [GEO_ID],
+        values: [sum(VAR_FIELD)],
       },
     ];
 
+    let diabetesTransformer: any[] = [
+      {
+        type: "aggregate",
+        groupby: [VAR_FIPS],
+        fields: [VAR_FIELD],
+        ops: ["sum"],
+      },
+    ];
+
+    //    let filterRace = "datum.properties.BRFSS2019_IMPLIED_RACE == 'Black'";
+    /*
+    {
+                type: "filter",
+                expr: filterRace,
+            }*/
     if (countyGranularity) {
       // Converts county FIPS (dataum.id) into it's corresponding State FIPS
       let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
@@ -36,16 +64,16 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
     setSpec({
       $schema: "https://vega.github.io/schema/vega/v5.json",
       description:
-        "A choropleth map depicting U.S. unemployment rates by county in 2009.",
+        "A choropleth map depicting U.S. diabetesloyment temp_maxs by county in 2009.",
       data: [
         {
-          name: "unemp",
-          url:
-            "https://vega.github.io/vega-lite/examples/data/unemployment.tsv",
-          format: { type: "tsv", parse: "auto", delimiter: "\t" },
+          name: VAR_DATASET,
+          url: "diabetes.csv",
+          format: { type: "csv" },
+          transform: diabetesTransformer,
         },
         {
-          name: "regionData",
+          name: GEO_DATASET,
           transform: datatransformers,
           url: "counties-10m.json",
           format: {
@@ -65,7 +93,7 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
         {
           name: "usProjection",
           type: "albersUsa",
-          fit: { signal: "data('regionData')" },
+          fit: { signal: "data('" + GEO_DATASET + "')" },
           size: {
             signal:
               "[" +
@@ -80,7 +108,7 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
         {
           name: "colorScale",
           type: "quantize",
-          domain: [0, 0.15],
+          domain: [0, 1250],
           range: { scheme: "blues", count: 7 },
         },
       ],
@@ -88,8 +116,7 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
         {
           fill: "colorScale",
           orient: "top-right",
-          title: "Unemployment",
-          format: "0.1%",
+          title: legendName,
           font: "monospace",
           labelFont: "monospace",
           offset: 10,
@@ -98,12 +125,11 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
       marks: [
         {
           type: "shape",
-          from: { data: "regionData" },
+          from: { data: GEO_DATASET },
           encode: {
             enter: {
               tooltip: {
-                signal:
-                  "datum.properties.name + \": \" + format(datum.rate, '0.1%')",
+                signal: 'datum.properties.name + ": " + datum.id',
               },
             },
             update: {
@@ -112,7 +138,7 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
                   test: "indata('selected', 'id', datum.id)",
                   value: "red",
                 },
-                { scale: "colorScale", field: "rate" },
+                { scale: "colorScale", field: sum(VAR_FIELD) },
               ],
             },
             hover: { fill: { value: "pink" } },
