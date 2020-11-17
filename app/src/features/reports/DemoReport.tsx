@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
-import VegaStateMap from "../charts/VegaStateMap";
+import AmericanMap from "../charts/AmericanMap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -75,7 +75,7 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        <VegaStateMap
+        <AmericanMap
           state_fips={props.phraseSelectionIds[5]}
           signalListeners={signalListeners}
         />
