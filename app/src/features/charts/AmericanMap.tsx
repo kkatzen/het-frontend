@@ -108,7 +108,7 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
         {
           name: "colorScale",
           type: "quantize",
-          domain: [0, 1250],
+          domain: { data: GEO_DATASET, field: sum(VAR_FIELD) },
           range: { scheme: "blues", count: 7 },
         },
       ],
