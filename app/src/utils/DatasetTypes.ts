@@ -1,10 +1,12 @@
+import { DataFrame } from "data-forge";
+
 /* TODO: These are not yet comprehensive, final interfaces */
 
 export interface DatasetMetadata {
   readonly id: string;
   readonly name: string;
   readonly description: string;
-  readonly fields: Field[];
+  readonly fields: readonly Field[];
   readonly data_source_name: string;
   readonly data_source_link: string;
   readonly geographic_level: string;
@@ -32,10 +34,23 @@ export class Dataset {
     this.metadata = metadata;
   }
 
-  getRowsAsArrays() {
-    return this.rows.map((row) => {
-      return this.metadata.fields.map((field) => row[field.name]);
-    });
+  toDataFrame() {
+    return new DataFrame(this.rows);
+  }
+
+  toCsvString() {
+    const headers = this.metadata.fields.map((f) => f.name);
+    const stringFields = this.metadata.fields
+      .filter((f) => f.data_type === "string")
+      .map((f) => f.name);
+    const addQuotes = (val: string) => `"${val}"`;
+    const df = this.toDataFrame().transformSeries(
+      Object.fromEntries(stringFields.map((name) => [name, addQuotes]))
+    );
+    return [headers]
+      .concat(df.toRows())
+      .map((row) => row.join(","))
+      .join("\n");
   }
 }
 
