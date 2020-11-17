@@ -43,7 +43,7 @@ const MADLIB_LIST: MadLib[] = [
     ],
   },
   {
-    phrase: ["Tell me about", STATE_FIPS_MAP],
+    phrase: ["Tell me about", { 0: "COPD", 1: "diabetes" }, "in the USA."],
   },
 ];
 

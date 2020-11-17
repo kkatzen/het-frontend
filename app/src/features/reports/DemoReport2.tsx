@@ -1,6 +1,8 @@
+// @ts-nocheck
+
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
-import VegaStateMap from "../charts/VegaStateMap";
+import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -46,13 +48,8 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
+function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   const [countyList, setCountyList] = useState<County[]>([]);
-
-  useEffect(() => {
-    setCountyList([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseSelectionIds[5]]);
 
   const signalListeners: any = {
     click: (...args: any) => {
@@ -73,12 +70,17 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
     },
   };
 
+  let varField = "COPD_YES";
+  if (props.phraseSelectionIds[1] == 1) {
+    varField = "DIABETES_YES_YESPREGNANT";
+  }
+
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        <VegaStateMap
-          state_fips={props.phraseSelectionIds[5]}
+        <StateLevelAmericanMap
           signalListeners={signalListeners}
+          varField={varField}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
@@ -108,4 +110,4 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   );
 }
 
-export default DemoReport;
+export default DemoReport2;
