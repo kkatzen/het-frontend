@@ -49,6 +49,11 @@ function CountyLevelTable(countyList: County[]) {
 function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   const [countyList, setCountyList] = useState<County[]>([]);
 
+  useEffect(() => {
+    setCountyList([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.phraseSelectionIds[1]]);
+
   const signalListeners: any = {
     click: (...args: any) => {
       const clickedData = args[1];
