@@ -6,6 +6,7 @@ const LEGEND_WIDTH = 100;
 
 function StateLevelAmericanMap(props: {
   varField: string;
+  legendTitle: string;
   signalListeners: any;
 }) {
   const [width, setWidth] = useState<number | undefined>();
@@ -23,8 +24,6 @@ function StateLevelAmericanMap(props: {
     const VAR_DATASET = "VAR_DATASET";
     const VAR_FIELD = props.varField; // BRFSS2019_IMPLIED_RACE
     const VAR_FIPS = "FIPS";
-
-    const legendName = VAR_FIELD;
 
     function sum(fieldName: string) {
       return "sum_" + fieldName;
@@ -49,6 +48,7 @@ function StateLevelAmericanMap(props: {
       },
     ];
 
+    let tooltipValue = 'datum.properties.name + ": " + datum.' + sum(VAR_FIELD);
     //    let filterRace = "datum.properties.BRFSS2019_IMPLIED_RACE == 'Black'";
     /*
     {
@@ -111,7 +111,7 @@ function StateLevelAmericanMap(props: {
         {
           fill: "colorScale",
           orient: "top-right",
-          title: legendName,
+          title: props.legendTitle,
           font: "monospace",
           labelFont: "monospace",
           offset: 10,
@@ -124,7 +124,7 @@ function StateLevelAmericanMap(props: {
           encode: {
             enter: {
               tooltip: {
-                signal: 'datum.properties.name + ": " + datum.id',
+                signal: tooltipValue,
               },
             },
             update: {
@@ -153,7 +153,7 @@ function StateLevelAmericanMap(props: {
         },
       ],
     });
-  }, [width, props.varField]);
+  }, [width, props.varField, props.legendTitle]);
 
   // TODO: useLayoutEffect ?
   useEffect(() => {

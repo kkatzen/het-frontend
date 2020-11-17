@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Paper, Grid } from "@material-ui/core";
 import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
 import Table from "@material-ui/core/Table";
@@ -14,13 +14,13 @@ import { MadLib } from "../../utils/MadLibs";
 
 /*
 Corresponds to:
-Where are the {0:"highest", 1:"lowest"} rates of {0:"obesity", 1:"diabetes"} in STATE_FIPS_MAP ?
+Tell me about {0:"copd", 1:"diabetes"} in USA ?
 */
 
 interface County {
   id: string;
   name: string;
-  rate: number;
+  value: number;
 }
 
 function CountyLevelTable(countyList: County[]) {
@@ -29,17 +29,15 @@ function CountyLevelTable(countyList: County[]) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>County ID</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Rate</TableCell>
+            <TableCell>Cases</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {countyList.map((county: County) => (
             <TableRow>
-              <TableCell>{county.id}</TableCell>
               <TableCell>{county.name}</TableCell>
-              <TableCell>{(county.rate * 100).toFixed(2)}%</TableCell>
+              <TableCell>{county.value}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -60,7 +58,8 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,
-          rate: clickedData.rate,
+          value:
+            clickedData["sum_" + FIELDS[props.phraseSelectionIds[1]].field],
         };
         setCountyList([...countyList, newCountyDatum]);
       }
@@ -70,20 +69,14 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
     },
   };
 
-  let varField = "COPD_YES";
-  if (props.phraseSelectionIds[1] == 1) {
-    varField = "DIABETES_YES_YESPREGNANT";
-  }
+  const FIELDS = {
+    0: { field: "COPD_YES", legend: "# COPD cases" },
+    1: { field: "DIABETES_YES_YESPREGNANT", legend: "# Diabetes cases" },
+  };
 
   return (
     <Grid container spacing={1} alignItems="flex-start">
-      <Grid item xs={12} sm={12} md={6}>
-        <StateLevelAmericanMap
-          signalListeners={signalListeners}
-          varField={varField}
-        />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
+      <Grid item xs={12}>
         <h2>
           {props.madlib.phrase.map((phraseSegment, index) => (
             <React.Fragment>
@@ -95,14 +88,18 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             </React.Fragment>
           ))}
         </h2>
+      </Grid>
+      <Grid item xs={12} sm={12} md={6}>
+        <StateLevelAmericanMap
+          signalListeners={signalListeners}
+          varField={FIELDS[props.phraseSelectionIds[1]].field}
+          legendTitle={FIELDS[props.phraseSelectionIds[1]].legend}
+        />
+      </Grid>
+      <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
         <p>
-          In case you are curious, the data in the map is unemployment data.
-          Please use your imagination that these are helpful charts instead of
-          placeholders :)
-        </p>
-        <p>
-          Click on some counties to see data in this table, shift click on map
-          to reset.
+          Click on some states to see data in this table, shift click on map to
+          reset.
         </p>
         {CountyLevelTable(countyList)}
       </Grid>
