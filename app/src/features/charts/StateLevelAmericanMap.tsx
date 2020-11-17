@@ -5,10 +5,13 @@ const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
 function StateLevelAmericanMap(props: {
+  dataUrl: string;
   varField: string;
   legendTitle: string;
-  filter: string;
+  filter?: string;
   signalListeners: any;
+  op: string;
+  countyLevel?: boolean;
 }) {
   const [width, setWidth] = useState<number | undefined>();
   // Initial spec state is set in useEffect when default geo is set
@@ -28,7 +31,7 @@ function StateLevelAmericanMap(props: {
     const VAR_FIPS = "FIPS";
 
     function sum(fieldName: string) {
-      return "sum_" + fieldName;
+      return props.op + "_" + fieldName;
     }
 
     let datatransformers: any[] = [
@@ -42,7 +45,7 @@ function StateLevelAmericanMap(props: {
     ];
 
     let diabetesTransformer: any[] = [];
-    if (props.filter != "All") {
+    if (props.filter && props.filter !== "All") {
       diabetesTransformer.push({
         type: "filter",
         expr: "datum.BRFSS2019_IMPLIED_RACE === '" + props.filter + "'",
@@ -53,16 +56,22 @@ function StateLevelAmericanMap(props: {
       type: "aggregate",
       groupby: [VAR_FIPS],
       fields: [VAR_FIELD],
-      ops: ["sum"],
+      ops: [props.op],
     });
 
     let tooltipValue = 'datum.properties.name + ": " + datum.' + sum(VAR_FIELD);
     //    let filterRace = "datum.properties.BRFSS2019_IMPLIED_RACE == 'Black'";
     /*
     {
-                type: "filter",
-                expr: filterRace,
-            }*/
+        type: "filter",
+        expr: filterRace,
+    }*/
+
+    var ext = props.dataUrl.substr(props.dataUrl.length - 3);
+    let format =
+      ext === "tsv"
+        ? { type: "tsv", parse: "auto", delimiter: "\t" }
+        : { type: "csv" };
 
     setSpec({
       $schema: "https://vega.github.io/schema/vega/v5.json",
@@ -71,8 +80,8 @@ function StateLevelAmericanMap(props: {
       data: [
         {
           name: VAR_DATASET,
-          url: "diabetes.csv",
-          format: { type: "csv" },
+          url: props.dataUrl,
+          format: format,
           transform: diabetesTransformer,
         },
         {
@@ -161,7 +170,14 @@ function StateLevelAmericanMap(props: {
         },
       ],
     });
-  }, [width, props.varField, props.legendTitle, props.filter]);
+  }, [
+    width,
+    props.varField,
+    props.legendTitle,
+    props.filter,
+    props.dataUrl,
+    props.op,
+  ]);
 
   // TODO: useLayoutEffect ?
   useEffect(() => {

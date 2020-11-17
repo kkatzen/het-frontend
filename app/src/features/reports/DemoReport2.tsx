@@ -55,6 +55,7 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
 
   useEffect(() => {
     setCountyList([]);
+    setRace("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.phraseSelectionIds[1]]);
 
@@ -107,6 +108,8 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             </React.Fragment>
           ))}
         </h2>
+      </Grid>
+      <Grid item xs={12} sm={12} md={6}>
         Filter results by race:
         <FormControl>
           <Select
@@ -123,13 +126,13 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             ))}
           </Select>
         </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={12} md={6}>
         <StateLevelAmericanMap
           signalListeners={signalListeners}
           varField={FIELDS[props.phraseSelectionIds[1]].field}
           legendTitle={FIELDS[props.phraseSelectionIds[1]].legend}
           filter={race}
+          dataUrl="diabetes.csv"
+          op="sum"
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>

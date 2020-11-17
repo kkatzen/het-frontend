@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
-import VegaStateMap from "../charts/VegaStateMap";
+import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,6 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
 import { MadLib } from "../../utils/MadLibs";
+import VegaStateMap from "../charts/VegaStateMap";
 
 /*
 Corresponds to:
@@ -76,10 +77,21 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        <VegaStateMap
-          state_fips={props.phraseSelectionIds[5]}
-          signalListeners={signalListeners}
-        />
+        {props.phraseSelectionIds[5] !== 0 && (
+          <VegaStateMap
+            state_fips={props.phraseSelectionIds[5]}
+            signalListeners={signalListeners}
+          />
+        )}
+        {props.phraseSelectionIds[5] === 0 && (
+          <StateLevelAmericanMap
+            signalListeners={signalListeners}
+            varField="rate"
+            legendTitle="legend"
+            dataUrl="https://vega.github.io/vega-lite/examples/data/unemployment.tsv"
+            op="mean"
+          />
+        )}
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
         <h2>

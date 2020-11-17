@@ -46,6 +46,35 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
       },
     ];
 
+    if (props.state_fips !== 0) {
+      // Converts county FIPS (dataum.id) into it's corresponding State FIPS
+      let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
+      datatransformers.push({
+        type: "filter",
+        expr: stateFipsVar,
+      });
+    }
+    let countyDataTransformers: any[] = [
+      {
+        type: "lookup",
+        from: "unemp",
+        key: "id",
+        fields: ["id"],
+        values: ["rate"],
+      },
+    ];
+
+    if (props.state_fips !== 0) {
+      // Converts county FIPS (dataum.id) into it's corresponding State FIPS
+      let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
+      countyDataTransformers.push({
+        type: "filter",
+        expr: stateFipsVar,
+      });
+    }
+
+    let coloredField = countyGranularity ? "rate" : sum(VAR_FIELD);
+
     //    let filterRace = "datum.properties.BRFSS2019_IMPLIED_RACE == 'Black'";
     /*
     {
@@ -55,40 +84,64 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
     if (countyGranularity) {
       // Converts county FIPS (dataum.id) into it's corresponding State FIPS
       let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
-      datatransformers.push({
+      countyDataTransformers.push({
         type: "filter",
         expr: stateFipsVar,
       });
     }
 
+    let data = countyGranularity
+      ? [
+          {
+            name: "unemp",
+            url:
+              "https://vega.github.io/vega-lite/examples/data/unemployment.tsv",
+            format: { type: "tsv", parse: "auto", delimiter: "\t" },
+          },
+          {
+            name: GEO_DATASET,
+            url: "counties-10m.json",
+            format: { type: "topojson", feature: "counties" },
+            transform: countyDataTransformers,
+          },
+          {
+            name: "selected",
+            on: [
+              { trigger: "click", insert: "click" },
+              { trigger: "shiftClick", remove: "true" },
+            ],
+          },
+        ]
+      : [
+          {
+            name: VAR_DATASET,
+            url: "diabetes.csv",
+            format: { type: "csv" },
+            transform: diabetesTransformer,
+          },
+          {
+            name: GEO_DATASET,
+            transform: datatransformers,
+            url: "counties-10m.json",
+            format: {
+              type: "topojson",
+              feature: countyGranularity ? "counties" : "states",
+            },
+          },
+          {
+            name: "selected",
+            on: [
+              { trigger: "click", insert: "click" },
+              { trigger: "shiftClick", remove: "true" },
+            ],
+          },
+        ];
+
     setSpec({
       $schema: "https://vega.github.io/schema/vega/v5.json",
       description:
         "A choropleth map depicting U.S. diabetesloyment temp_maxs by county in 2009.",
-      data: [
-        {
-          name: VAR_DATASET,
-          url: "diabetes.csv",
-          format: { type: "csv" },
-          transform: diabetesTransformer,
-        },
-        {
-          name: GEO_DATASET,
-          transform: datatransformers,
-          url: "counties-10m.json",
-          format: {
-            type: "topojson",
-            feature: countyGranularity ? "counties" : "states",
-          },
-        },
-        {
-          name: "selected",
-          on: [
-            { trigger: "click", insert: "click" },
-            { trigger: "shiftClick", remove: "true" },
-          ],
-        },
-      ],
+      data: data,
       projections: [
         {
           name: "usProjection",
@@ -108,7 +161,7 @@ function AmericanMap(props: { state_fips: number; signalListeners: any }) {
         {
           name: "colorScale",
           type: "quantize",
-          domain: { data: GEO_DATASET, field: sum(VAR_FIELD) },
+          domain: { data: GEO_DATASET, field: coloredField },
           range: { scheme: "blues", count: 7 },
         },
       ],
