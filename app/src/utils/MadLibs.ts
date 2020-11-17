@@ -1,9 +1,15 @@
 import STATE_FIPS_MAP from "./Fips";
-import { MadLib } from "./DatasetTypes";
+
+// Each phrase segment of the mad lib is either a string of text
+// or a map of IDs to string options that can fill in a blank
+export type PhraseSegment = string | Record<number, string>;
+
+export interface MadLib {
+  readonly phrase: PhraseSegment[];
+}
 
 const MADLIB_LIST: MadLib[] = [
   {
-    id: "1",
     phrase: [
       "Where are the",
       { 0: "highest", 1: "lowest" },
@@ -15,7 +21,6 @@ const MADLIB_LIST: MadLib[] = [
     ],
   },
   {
-    id: "2",
     phrase: [
       "Compare",
       {
@@ -26,11 +31,9 @@ const MADLIB_LIST: MadLib[] = [
       { 0: "obesity", 1: "diabetes" },
       " in ",
       STATE_FIPS_MAP,
-      ".",
     ],
   },
   {
-    id: "3",
     phrase: [
       "Which",
       { 0: "states", 1: "counties" },
@@ -40,9 +43,8 @@ const MADLIB_LIST: MadLib[] = [
     ],
   },
   {
-    id: "4",
-    phrase: ["Tell me about", STATE_FIPS_MAP, "."],
+    phrase: ["Tell me about", STATE_FIPS_MAP],
   },
 ];
 
-export default MADLIB_LIST;
+export { MADLIB_LIST };

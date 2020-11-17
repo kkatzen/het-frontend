@@ -4,8 +4,8 @@ import { Vega } from "react-vega";
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
-function VegaStateMap(props: { state: number; signalListeners: any }) {
-  const [width, setWidth] = useState<number>(0);
+function VegaStateMap(props: { state_fips: number; signalListeners: any }) {
+  const [width, setWidth] = useState<number | undefined>();
   // Initial spec state is set in useEffect when default geo is set
   const [spec, setSpec] = useState({});
 
@@ -22,11 +22,12 @@ function VegaStateMap(props: { state: number; signalListeners: any }) {
       },
     ];
 
-    if (props.state !== 0) {
-      let stateVar = "floor(datum.id / 1000) == " + props.state;
+    if (props.state_fips !== 0) {
+      // Converts county FIPS (dataum.id) into it's corresponding State FIPS
+      let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
       datatransformers.push({
         type: "filter",
-        expr: stateVar,
+        expr: stateFipsVar,
       });
     }
 
@@ -126,7 +127,7 @@ function VegaStateMap(props: { state: number; signalListeners: any }) {
         },
       ],
     });
-  }, [width, props.state]);
+  }, [width, props.state_fips]);
 
   // TODO: useLayoutEffect ?
   useEffect(() => {
@@ -161,12 +162,7 @@ function VegaStateMap(props: { state: number; signalListeners: any }) {
           marginBottom: "40px",
         }}
       ></div>
-      <Vega
-        spec={spec}
-        width={width}
-        height={width * HEIGHT_WIDTH_RATIO}
-        signalListeners={props.signalListeners}
-      />
+      <Vega spec={spec} width={width} signalListeners={props.signalListeners} />
     </div>
   );
 }

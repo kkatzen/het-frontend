@@ -51,10 +51,3 @@ export interface DatasetStore {
   readonly metadata: MetadataMap;
   readonly datasets: Readonly<Record<string, Dataset>>;
 }
-
-export type PhraseSegment = string | Record<number, string>;
-
-export interface MadLib {
-  readonly id: string;
-  readonly phrase: PhraseSegment[];
-}

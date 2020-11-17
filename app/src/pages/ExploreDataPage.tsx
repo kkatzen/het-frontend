@@ -3,20 +3,19 @@ import Carousel from "react-material-ui-carousel";
 import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-import DemoReport from "../features/madlib_reports/DemoReport";
+import DemoReport from "../features/reports/DemoReport";
 import MenuItem from "@material-ui/core/MenuItem";
-import MADLIB_LIST from "../utils/MadLibs";
+import { MADLIB_LIST, MadLib, PhraseSegment } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
-import { MadLib, PhraseSegment } from "../utils/DatasetTypes";
 
 function ExploreDataPage() {
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const [phraseValues, setPhraseValues] = useState(
+  const [phraseSelectionIds, setPhraseValues] = useState(
     MADLIB_LIST[0].phrase.map(() => 0)
   );
 
   function changeMadLib(index: number) {
-    setPhraseValues(MADLIB_LIST[0].phrase.map(() => 0));
+    setPhraseValues(MADLIB_LIST[index].phrase.map(() => 0));
     setPhraseIndex(index);
   }
 
@@ -38,7 +37,7 @@ function ExploreDataPage() {
             <Paper elevation={3} className={styles.CarouselItem} key={i}>
               <CarouselMadLib
                 madlib={madlib}
-                phraseValues={phraseValues}
+                phraseSelectionIds={phraseSelectionIds}
                 setPhraseValues={setPhraseValues}
                 key={i}
               />
@@ -47,7 +46,12 @@ function ExploreDataPage() {
         </Carousel>
       </div>
       <div className={styles.ReportContainer}>
-        {phraseIndex === 0 && <DemoReport phraseValues={phraseValues} />}
+        {phraseIndex === 0 && (
+          <DemoReport
+            madlib={MADLIB_LIST[0]}
+            phraseSelectionIds={phraseSelectionIds}
+          />
+        )}
       </div>
     </React.Fragment>
   );
@@ -55,7 +59,7 @@ function ExploreDataPage() {
 
 function CarouselMadLib(props: {
   madlib: MadLib;
-  phraseValues: number[];
+  phraseSelectionIds: number[];
   setPhraseValues: (newArray: number[]) => void;
 }) {
   return (
@@ -63,17 +67,17 @@ function CarouselMadLib(props: {
       {props.madlib.phrase.map(
         (phraseSegment: PhraseSegment, index: number) => (
           <React.Fragment>
-            {phraseSegment.constructor !== Object ? (
+            {typeof phraseSegment === "string" ? (
               <React.Fragment>{phraseSegment}</React.Fragment>
             ) : (
               <FormControl>
                 <Select
                   className={styles.MadLibSelect}
                   name={index.toString()}
-                  value={props.phraseValues[index]}
+                  value={props.phraseSelectionIds[index]}
                   onChange={(event) => {
                     let phraseIndex: number = Number(event.target.name);
-                    let updatedArray: number[] = [...props.phraseValues];
+                    let updatedArray: number[] = [...props.phraseSelectionIds];
                     updatedArray[phraseIndex] = Number(event.target.value);
                     props.setPhraseValues(updatedArray);
                   }}

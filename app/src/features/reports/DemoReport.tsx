@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
-import VegaStateMap from "../VegaStateMap";
+import VegaStateMap from "../charts/VegaStateMap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -8,10 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import MADLIB_LIST from "../../utils/MadLibs";
+import { MadLib } from "../../utils/MadLibs";
 
 /*
-Corresponds to MADLIB_LIST[0]:
+Corresponds to:
 Where are the {0:"highest", 1:"lowest"} rates of {0:"obesity", 1:"diabetes"} in STATE_FIPS_MAP ?
 */
 
@@ -46,29 +46,28 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function DemoReport(props: { phraseValues: number[] }) {
+function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   const [countyList, setCountyList] = useState<County[]>([]);
 
   useEffect(() => {
     setCountyList([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseValues[5]]);
+  }, [props.phraseSelectionIds[5]]);
 
   const signalListeners: any = {
     click: (...args: any) => {
+      const clickedData = args[1];
       let countyIds = countyList.map((datum: County) => datum.id);
-      const index = countyIds.indexOf(args[1].id);
-      if (index > -1) {
-        return;
+      if (!countyIds.includes(args[1].id)) {
+        let newCountyDatum = {
+          id: clickedData.id,
+          name: clickedData.properties.name,
+          rate: clickedData.rate,
+        };
+        setCountyList([...countyList, newCountyDatum]);
       }
-      let newCountyDatum = {
-        id: args[1].id,
-        name: args[1].properties.name,
-        rate: args[1].rate,
-      };
-      setCountyList([...countyList, newCountyDatum]);
     },
-    shiftClick: (...args: any) => {
+    shiftClick: () => {
       setCountyList([]);
     },
   };
@@ -77,18 +76,18 @@ function DemoReport(props: { phraseValues: number[] }) {
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
         <VegaStateMap
-          state={props.phraseValues[5]}
+          state_fips={props.phraseSelectionIds[5]}
           signalListeners={signalListeners}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
         <h2>
-          {MADLIB_LIST[0].phrase.map((textOrBlank, index) => (
+          {props.madlib.phrase.map((phraseSegment, index) => (
             <React.Fragment>
-              {textOrBlank.constructor === Object ? (
-                <span> {textOrBlank[props.phraseValues[index]]} </span>
+              {phraseSegment.constructor === Object ? (
+                <span> {phraseSegment[props.phraseSelectionIds[index]]} </span>
               ) : (
-                <span>{textOrBlank}</span>
+                <span>{phraseSegment}</span>
               )}
             </React.Fragment>
           ))}
