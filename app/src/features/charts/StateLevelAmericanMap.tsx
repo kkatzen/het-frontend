@@ -3,6 +3,11 @@ import { Vega } from "react-vega";
 
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
+const GEO_DATASET = "GEO_DATASET";
+const GEO_ID = "id";
+
+const VAR_DATASET = "VAR_DATASET";
+const VAR_FIPS = "FIPS";
 
 function StateLevelAmericanMap(props: {
   dataUrl: string;
@@ -23,49 +28,47 @@ function StateLevelAmericanMap(props: {
   const myRef = useRef(document.createElement("div"));
 
   useEffect(() => {
-    const GEO_DATASET = "GEO_DATASET";
-    const GEO_ID = "id";
-
-    const VAR_DATASET = "VAR_DATASET";
-    const VAR_FIELD = props.varField; // BRFSS2019_IMPLIED_RACE
-    const VAR_FIPS = "FIPS";
-
-    function sum(fieldName: string) {
-      return props.op + "_" + fieldName;
-    }
-
-    let datatransformers: any[] = [
+    // Transform geo dataset by adding varField from VAR_DATASET
+    let geoTransformers: any[] = [
       {
         type: "lookup",
         from: VAR_DATASET,
         key: VAR_FIPS,
         fields: [GEO_ID],
-        values: [sum(VAR_FIELD)],
+        values: [props.varField],
       },
     ];
 
-    let diabetesTransformer: any[] = [];
+    let varTransformer: any[] = [];
     if (props.filter && props.filter !== "All") {
-      diabetesTransformer.push({
+      varTransformer.push({
         type: "filter",
         expr: "datum.BRFSS2019_IMPLIED_RACE === '" + props.filter + "'",
       });
     }
 
-    diabetesTransformer.push({
+    varTransformer.push({
       type: "aggregate",
       groupby: [VAR_FIPS],
-      fields: [VAR_FIELD],
+      fields: [props.varField],
       ops: [props.op],
+      as: [props.varField],
     });
 
-    let tooltipValue = 'datum.properties.name + ": " + datum.' + sum(VAR_FIELD);
-    //    let filterRace = "datum.properties.BRFSS2019_IMPLIED_RACE == 'Black'";
-    /*
-    {
-        type: "filter",
-        expr: filterRace,
-    }*/
+    let tooltipValue = 'datum.properties.name + ": " + datum.' + props.varField;
+
+    let legend: any = {
+      fill: "colorScale",
+      orient: "top-right",
+      title: props.legendTitle,
+      font: "monospace",
+      labelFont: "monospace",
+      offset: 10,
+    };
+
+    if (props.op === "mean") {
+      legend["format"] = "0.1%";
+    }
 
     var ext = props.dataUrl.substr(props.dataUrl.length - 3);
     let format =
@@ -82,11 +85,11 @@ function StateLevelAmericanMap(props: {
           name: VAR_DATASET,
           url: props.dataUrl,
           format: format,
-          transform: diabetesTransformer,
+          transform: varTransformer,
         },
         {
           name: GEO_DATASET,
-          transform: datatransformers,
+          transform: geoTransformers,
           url: "counties-10m.json",
           format: {
             type: "topojson",
@@ -120,20 +123,11 @@ function StateLevelAmericanMap(props: {
         {
           name: "colorScale",
           type: "quantize",
-          domain: { data: GEO_DATASET, field: sum(VAR_FIELD) },
-          range: { scheme: "blues", count: 7 },
+          domain: { data: GEO_DATASET, field: props.varField },
+          range: { scheme: "yellowgreenblue", count: 7 },
         },
       ],
-      legends: [
-        {
-          fill: "colorScale",
-          orient: "top-right",
-          title: props.legendTitle,
-          font: "monospace",
-          labelFont: "monospace",
-          offset: 10,
-        },
-      ],
+      legends: [legend],
       marks: [
         {
           type: "shape",
@@ -150,7 +144,7 @@ function StateLevelAmericanMap(props: {
                   test: "indata('selected', 'id', datum.id)",
                   value: "red",
                 },
-                { scale: "colorScale", field: sum(VAR_FIELD) },
+                { scale: "colorScale", field: props.varField },
               ],
             },
             hover: { fill: { value: "pink" } },

@@ -68,8 +68,7 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,
-          value:
-            clickedData["sum_" + FIELDS[props.phraseSelectionIds[1]].field],
+          value: clickedData[FIELDS[props.phraseSelectionIds[1]].field],
         };
         setCountyList([...countyList, newCountyDatum]);
       }
