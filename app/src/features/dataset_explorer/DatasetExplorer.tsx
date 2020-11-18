@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import DatasetFilter from "./DatasetFilter";
+import {
+  MultiSelectDatasetFilter,
+  SingleSelectDatasetFilter,
+} from "./DatasetFilter";
 import DatasetListing from "./DatasetListing";
 import styles from "./DatasetExplorer.module.scss";
 import useDatasetStore, {
@@ -64,13 +67,13 @@ function DatasetExplorer(props: { preFilterDatasetIds: string[] }) {
 
   function createFilter(
     id: string,
-    placeholder: string,
     propertySelector: (metadata: DatasetMetadata) => string,
-    defaultValues: string[] | null
+    placeholder: string,
+    allOption: string
   ) {
     return (
       <div className={styles.Filter}>
-        <DatasetFilter
+        <SingleSelectDatasetFilter
           datasets={metadata}
           onSelectionChange={(filtered) => {
             setActiveFilter({
@@ -80,7 +83,7 @@ function DatasetExplorer(props: { preFilterDatasetIds: string[] }) {
           }}
           propertySelector={propertySelector}
           placeholder={placeholder}
-          defaultValues={defaultValues}
+          allOption={allOption}
         />
       </div>
     );
@@ -94,18 +97,34 @@ function DatasetExplorer(props: { preFilterDatasetIds: string[] }) {
         ) : (
           <>
             <div className={styles.FilterContainer}>
+              <div className={styles.Filter}>
+                <MultiSelectDatasetFilter
+                  datasets={metadata}
+                  onSelectionChange={(filtered) => {
+                    setActiveFilter({
+                      ...activeFilter,
+                      [NAME_FILTER_ID]: filtered,
+                    });
+                  }}
+                  propertySelector={(metadata) => metadata.name}
+                  placeholder={"Search variables..."}
+                  defaultValues={defaultDatasetNames}
+                />
+              </div>
+            </div>
+            <div className={styles.FilterContainer}>
               <div className={styles.FilterTitle}>Filter by...</div>
               {createFilter(
-                NAME_FILTER_ID,
-                "Dataset name",
-                (metadata) => metadata.name,
-                defaultDatasetNames
+                "geographic_filter",
+                (metadata) => metadata.geographic_level,
+                "geographic level...",
+                "All"
               )}
               {createFilter(
-                "geographic_filter",
-                "Geographic level",
-                (metadata) => metadata.geographic_level,
-                null
+                "demographic_filter",
+                (metadata) => metadata.demographic_granularity,
+                "demographic level...",
+                "All"
               )}
             </div>
             {getFilteredDatasetIds(metadata, activeFilter).map(
