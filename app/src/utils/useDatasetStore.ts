@@ -55,9 +55,10 @@ async function loadResource<R>(
 ): Promise<R | undefined> {
   try {
     const loadStatus = cacheManager.cache.statuses[resourceId];
+    // TODO handle re-load periodically so long-lived tabs don't get stale.
     if (!shouldLoadResource(loadStatus)) {
       logger.debugLog("Already loaded or loading " + resourceId);
-      return;
+      return cacheManager.cache.resources[resourceId];
     }
 
     logger.debugLog("Loading " + resourceId);
@@ -142,6 +143,7 @@ export function useDatasetStoreProvider(): DatasetStore {
           promise,
           metadataLoadPromise,
         ]);
+        // TODO throw specific error message if metadata is missing.
         return new Dataset(data, metadata[datasetId]);
       }
     );

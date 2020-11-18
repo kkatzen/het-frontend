@@ -7,9 +7,8 @@ const FakeMetadataMap: MetadataMap = {
     data_source_name: "American Community Survey 5-year estimates (2014-2018)",
     data_source_link:
       "https://www.census.gov/data/developers/data-sets/acs-5year.html",
-    geographic_level: "State, County (split)",
-    demographic_granularity:
-      "Race/ethnicity, age, gender (joint/intersections)",
+    geographic_level: "State, County",
+    demographic_granularity: "Race/ethnicity, age, gender",
     update_frequency: "??",
     update_time: "March 2, 2020",
     description:
@@ -50,8 +49,8 @@ const FakeMetadataMap: MetadataMap = {
     data_source_name: "CDC's Social Vulernability Index",
     data_source_link:
       "https://www.atsdr.cdc.gov/placeandhealth/svi/data_documentation_download.html",
-    geographic_level: "State, County (split)",
-    demographic_granularity: "None",
+    geographic_level: "State, County",
+    demographic_granularity: "No demographic breakdown",
     update_frequency: "Every 2 years",
     update_time: "March 2, 2020",
     description:
@@ -71,8 +70,7 @@ const FakeMetadataMap: MetadataMap = {
     data_source_name: "CDC's BrFSS",
     data_source_link: "https://gis.cdc.gov/grasp/diabetes/DiabetesAtlas.html#",
     geographic_level: "State, County",
-    demographic_granularity:
-      "race/ethnicity, age, gender (no intersections) gender @ county",
+    demographic_granularity: "Race/ethnicity, age, gender at county",
     update_frequency: "?",
     update_time: "?",
     description:
