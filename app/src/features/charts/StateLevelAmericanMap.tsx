@@ -180,7 +180,7 @@ function StateLevelAmericanMap(props: {
     props.operation,
   ]);
 
-  // TODO: useLayoutEffect ?
+  // TODO: useLayoutEffect or other
   useEffect(() => {
     if (myRef && myRef.current) {
       setWidth(myRef.current.offsetWidth);
