@@ -60,7 +60,6 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
       const clickedData = args[1];
       let countyIds = countyList.map((datum: County) => datum.id);
       if (!countyIds.includes(args[1].id)) {
-        console.log(clickedData);
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,

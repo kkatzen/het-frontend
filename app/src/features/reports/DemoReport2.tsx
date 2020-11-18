@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
 import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
@@ -78,7 +76,7 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
     },
   };
 
-  const FIELDS = {
+  const FIELDS: Record<number, any> = {
     0: { field: "COPD_YES", legend: "# COPD cases" },
     1: { field: "DIABETES_YES_YESPREGNANT", legend: "# Diabetes cases" },
   };
@@ -115,7 +113,7 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             name="raceSelect"
             value={race}
             onChange={(e) => {
-              setRace(e.target.value);
+              setRace(e.target.value as string);
               setCountyList([]);
             }}
           >
