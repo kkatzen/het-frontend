@@ -77,7 +77,7 @@ function VegaStateMap(props: { state_fips: number; signalListeners: any }) {
           name: "colorScale",
           type: "quantize",
           domain: [0, 0.15],
-          range: { scheme: "blues", count: 7 },
+          range: { scheme: "yellowgreenblue", count: 7 },
         },
       ],
       legends: [
