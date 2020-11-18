@@ -53,9 +53,9 @@ function ExploreDataPage() {
             phraseSelectionIds={phraseSelectionIds}
           />
         )}
-        {phraseIndex === 3 && (
+        {phraseIndex === 1 && (
           <DemoReport2
-            madlib={MADLIB_LIST[3]}
+            madlib={MADLIB_LIST[1]}
             phraseSelectionIds={phraseSelectionIds}
           />
         )}

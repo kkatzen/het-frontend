@@ -117,6 +117,7 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             value={race}
             onChange={(e) => {
               setRace(e.target.value);
+              setCountyList([]);
             }}
           >
             {RACES.map((race) => (
