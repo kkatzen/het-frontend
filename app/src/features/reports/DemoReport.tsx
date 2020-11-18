@@ -83,7 +83,7 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             varField="rate"
             legendTitle="legend"
             dataUrl="unemp.csv"
-            op="mean"
+            operation="mean"
           />
         )}
         {props.phraseSelectionIds[5] !== 0 && (

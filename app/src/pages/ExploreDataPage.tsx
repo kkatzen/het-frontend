@@ -16,16 +16,11 @@ function ExploreDataPage() {
   );
 
   useEffect(() => {
-    console.log("phraseIndex", phraseIndex);
-    // TODO: this should be dynamic to phraseIndex but isn't updating properly
-    const resetValues = MADLIB_LIST[0].phrase.map(() => 0);
-    console.log("resetValues", resetValues);
-    setPhraseSelectionIds([...resetValues]);
+    // TODO: length of default phrase selection should be
+    // length of madlib (MADLIB_LIST[phraseIndex].phrase.length)
+    // Need to figure out why it won't work when using dynamic length.
+    setPhraseSelectionIds(Array(10).fill(0));
   }, [phraseIndex]);
-
-  useEffect(() => {
-    console.log("phraseSelectionIds", phraseSelectionIds);
-  }, [phraseSelectionIds]);
 
   return (
     <React.Fragment>

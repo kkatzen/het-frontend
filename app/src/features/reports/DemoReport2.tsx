@@ -130,9 +130,10 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
           signalListeners={signalListeners}
           varField={FIELDS[props.phraseSelectionIds[1]].field}
           legendTitle={FIELDS[props.phraseSelectionIds[1]].legend}
-          filter={race}
+          filterVar="BRFSS2019_IMPLIED_RACE"
+          filterValue={race}
           dataUrl="diabetes.csv"
-          op="sum"
+          operation="sum"
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>

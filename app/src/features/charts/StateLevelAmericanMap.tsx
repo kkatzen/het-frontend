@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Vega } from "react-vega";
 
+type AggregationOperation = "sum" | "mean";
+
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
+
 const GEO_DATASET = "GEO_DATASET";
 const GEO_ID = "id";
 
@@ -13,18 +16,41 @@ function StateLevelAmericanMap(props: {
   dataUrl: string;
   varField: string;
   legendTitle: string;
-  filter?: string;
+  filterVar?: string;
+  filterValue?: string;
   signalListeners: any;
-  op: string;
+  operation: AggregationOperation;
   countyLevel?: boolean;
 }) {
   const [width, setWidth] = useState<number | undefined>();
   // Initial spec state is set in useEffect when default geo is set
   const [spec, setSpec] = useState({});
-
   const myRef = useRef(document.createElement("div"));
 
+  // const [ref, width] = useResponsiveChartWidth()
+
   useEffect(() => {
+    /* SET UP VARIABLE DATSET */
+
+    let varTransformer: any[] = [];
+    // If user wants data filtered, we first apply the filter
+    if (props.filterVar && props.filterValue && props.filterValue !== "All") {
+      varTransformer.push({
+        type: "filter",
+        expr: "datum." + props.filterVar + " === '" + props.filterValue + "'",
+      });
+    }
+    // Next we perform the aggregation based on requested operation
+    varTransformer.push({
+      type: "aggregate",
+      groupby: [VAR_FIPS],
+      fields: [props.varField], // field name to aggregate on
+      ops: [props.operation],
+      as: [props.varField], // field name of the aggregation
+    });
+
+    /* SET UP GEO DATSET */
+
     // Transform geo dataset by adding varField from VAR_DATASET
     let geoTransformers: any[] = [
       {
@@ -36,24 +62,9 @@ function StateLevelAmericanMap(props: {
       },
     ];
 
-    let varTransformer: any[] = [];
-    if (props.filter && props.filter !== "All") {
-      varTransformer.push({
-        type: "filter",
-        expr: "datum.BRFSS2019_IMPLIED_RACE === '" + props.filter + "'",
-      });
-    }
-
-    varTransformer.push({
-      type: "aggregate",
-      groupby: [VAR_FIPS],
-      fields: [props.varField],
-      ops: [props.op],
-      as: [props.varField],
-    });
-
+    // TODO - this is hacky based on the datasets we're demoing with
     let tooltipDatum =
-      props.op === "mean"
+      props.operation === "mean"
         ? "format(datum." + props.varField + ", '0.1%')"
         : "datum." + props.varField;
     let tooltipValue = 'datum.properties.name + ": " + ' + tooltipDatum;
@@ -66,16 +77,10 @@ function StateLevelAmericanMap(props: {
       labelFont: "monospace",
       offset: 10,
     };
-
-    if (props.op === "mean") {
+    // TODO - this is hacky based on the datasets we're demoing with
+    if (props.operation === "mean") {
       legend["format"] = "0.1%";
     }
-
-    var ext = props.dataUrl.substr(props.dataUrl.length - 3);
-    let format =
-      ext === "tsv"
-        ? { type: "tsv", parse: "auto", delimiter: "\t" }
-        : { type: "csv" };
 
     setSpec({
       $schema: "https://vega.github.io/schema/vega/v5.json",
@@ -85,7 +90,7 @@ function StateLevelAmericanMap(props: {
         {
           name: VAR_DATASET,
           url: props.dataUrl,
-          format: format,
+          format: { type: "csv" },
           transform: varTransformer,
         },
         {
@@ -169,9 +174,10 @@ function StateLevelAmericanMap(props: {
     width,
     props.varField,
     props.legendTitle,
-    props.filter,
+    props.filterVar,
+    props.filterValue,
     props.dataUrl,
-    props.op,
+    props.operation,
   ]);
 
   // TODO: useLayoutEffect ?
@@ -201,12 +207,6 @@ function StateLevelAmericanMap(props: {
         margin: "auto",
       }}
     >
-      <div
-        style={{
-          margin: "auto",
-          marginBottom: "40px",
-        }}
-      ></div>
       <Vega spec={spec} width={width} signalListeners={props.signalListeners} />
     </div>
   );
