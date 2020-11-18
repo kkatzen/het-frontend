@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
-import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
+import UsaChloroplethMap from "../charts/UsaChloroplethMap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,7 +9,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
 import { MadLib } from "../../utils/MadLibs";
-import CountyLevelAmericanMap from "../charts/CountyLevelAmericanMap";
 
 /*
 Corresponds to:
@@ -77,18 +76,23 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
         {props.phraseSelectionIds[5] === 0 && (
-          <StateLevelAmericanMap
+          <UsaChloroplethMap
             signalListeners={signalListeners}
             varField="rate"
-            legendTitle="legend"
+            legendTitle="% unemployed"
             dataUrl="unemp.csv"
             operation="mean"
+            numberFormat="percentage"
           />
         )}
         {props.phraseSelectionIds[5] !== 0 && (
-          <CountyLevelAmericanMap
+          <UsaChloroplethMap
             state_fips={props.phraseSelectionIds[5]}
             signalListeners={signalListeners}
+            varField="rate"
+            legendTitle="% unemployed"
+            dataUrl="unemp.csv"
+            numberFormat="percentage"
           />
         )}
       </Grid>

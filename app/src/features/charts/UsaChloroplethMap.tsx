@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Vega } from "react-vega";
 
 type AggregationOperation = "sum" | "mean";
+type NumberFormat = "raw" | "percentage";
 
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
@@ -10,17 +11,18 @@ const GEO_DATASET = "GEO_DATASET";
 const GEO_ID = "id";
 
 const VAR_DATASET = "VAR_DATASET";
-const VAR_FIPS = "FIPS";
+const VAR_STATE_FIPS = "FIPS";
 
-function StateLevelAmericanMap(props: {
+function UsaChloroplethMap(props: {
   dataUrl: string;
   varField: string;
   legendTitle: string;
   filterVar?: string;
   filterValue?: string;
   signalListeners: any;
-  operation: AggregationOperation;
-  countyLevel?: boolean;
+  operation?: AggregationOperation;
+  state_fips?: number;
+  numberFormat?: NumberFormat;
 }) {
   const [width, setWidth] = useState<number | undefined>();
   // Initial spec state is set in useEffect when default geo is set
@@ -40,31 +42,42 @@ function StateLevelAmericanMap(props: {
         expr: "datum." + props.filterVar + " === '" + props.filterValue + "'",
       });
     }
+
     // Next we perform the aggregation based on requested operation
-    varTransformer.push({
-      type: "aggregate",
-      groupby: [VAR_FIPS],
-      fields: [props.varField], // field name to aggregate on
-      ops: [props.operation],
-      as: [props.varField], // field name of the aggregation
-    });
+    if (props.operation) {
+      varTransformer.push({
+        type: "aggregate",
+        groupby: [VAR_STATE_FIPS],
+        fields: [props.varField], // field name to aggregate on
+        ops: [props.operation],
+        as: [props.varField], // field name of the aggregation
+      });
+    }
 
     /* SET UP GEO DATSET */
 
     // Transform geo dataset by adding varField from VAR_DATASET
+    const datasetKey = props.state_fips ? "COUNTY_FIPS" : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
         from: VAR_DATASET,
-        key: VAR_FIPS,
+        key: datasetKey,
         fields: [GEO_ID],
         values: [props.varField],
       },
     ];
 
-    // TODO - this is hacky based on the datasets we're demoing with
+    if (props.state_fips) {
+      let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
+      geoTransformers.push({
+        type: "filter",
+        expr: stateFipsVar,
+      });
+    }
+
     let tooltipDatum =
-      props.operation === "mean"
+      props.numberFormat === "percentage"
         ? "format(datum." + props.varField + ", '0.1%')"
         : "datum." + props.varField;
     let tooltipValue = 'datum.properties.name + ": " + ' + tooltipDatum;
@@ -77,8 +90,7 @@ function StateLevelAmericanMap(props: {
       labelFont: "monospace",
       offset: 10,
     };
-    // TODO - this is hacky based on the datasets we're demoing with
-    if (props.operation === "mean") {
+    if (props.numberFormat === "percentage") {
       legend["format"] = "0.1%";
     }
 
@@ -100,7 +112,7 @@ function StateLevelAmericanMap(props: {
           url: "counties-10m.json",
           format: {
             type: "topojson",
-            feature: "states",
+            feature: props.state_fips ? "counties" : "states",
           },
         },
         {
@@ -179,6 +191,8 @@ function StateLevelAmericanMap(props: {
     props.filterValue,
     props.dataUrl,
     props.operation,
+    props.state_fips,
+    props.numberFormat,
   ]);
 
   // TODO: useLayoutEffect or other
@@ -213,4 +227,4 @@ function StateLevelAmericanMap(props: {
   );
 }
 
-export default StateLevelAmericanMap;
+export default UsaChloroplethMap;

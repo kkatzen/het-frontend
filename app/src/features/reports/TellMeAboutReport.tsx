@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Grid } from "@material-ui/core";
-import StateLevelAmericanMap from "../charts/StateLevelAmericanMap";
+import UsaChloroplethMap from "../charts/UsaChloroplethMap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -127,7 +127,7 @@ function TellMeAboutReport(props: {
             ))}
           </Select>
         </FormControl>
-        <StateLevelAmericanMap
+        <UsaChloroplethMap
           signalListeners={signalListeners}
           varField={FIELDS[props.phraseSelectionIds[1]].field}
           legendTitle={FIELDS[props.phraseSelectionIds[1]].legend}
