@@ -24,6 +24,7 @@ function VegaStateMap(props: { state_fips: number; signalListeners: any }) {
 
     if (props.state_fips !== 0) {
       // Converts county FIPS (dataum.id) into it's corresponding State FIPS
+      // This isn't properly mapping if fips < 10 - it wants preceding 0
       let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
       datatransformers.push({
         type: "filter",

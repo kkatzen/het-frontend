@@ -77,19 +77,19 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        {props.phraseSelectionIds[5] !== 0 && (
-          <VegaStateMap
-            state_fips={props.phraseSelectionIds[5]}
-            signalListeners={signalListeners}
-          />
-        )}
         {props.phraseSelectionIds[5] === 0 && (
           <StateLevelAmericanMap
             signalListeners={signalListeners}
             varField="rate"
             legendTitle="legend"
-            dataUrl="https://vega.github.io/vega-lite/examples/data/unemployment.tsv"
+            dataUrl="unemp.csv"
             op="mean"
+          />
+        )}
+        {props.phraseSelectionIds[5] !== 0 && (
+          <VegaStateMap
+            state_fips={props.phraseSelectionIds[5]}
+            signalListeners={signalListeners}
           />
         )}
       </Grid>
@@ -105,11 +105,6 @@ function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
             </React.Fragment>
           ))}
         </h2>
-        <p>
-          In case you are curious, the data in the map is unemployment data.
-          Please use your imagination that these are helpful charts instead of
-          placeholders :)
-        </p>
         <p>
           Click on some counties to see data in this table, shift click on map
           to reset.
