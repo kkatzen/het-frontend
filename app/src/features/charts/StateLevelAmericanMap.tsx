@@ -55,7 +55,11 @@ function StateLevelAmericanMap(props: {
       as: [props.varField],
     });
 
-    let tooltipValue = 'datum.properties.name + ": " + datum.' + props.varField;
+    let tooltipDatum =
+      props.op === "mean"
+        ? "format(datum." + props.varField + ", '0.1%')"
+        : "datum." + props.varField;
+    let tooltipValue = 'datum.properties.name + ": " + ' + tooltipDatum;
 
     let legend: any = {
       fill: "colorScale",
