@@ -4,7 +4,11 @@ import { Vega } from "react-vega";
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
-function VegaStateMap(props: { state_fips: number; signalListeners: any }) {
+// TODO - this isn't reusable right now
+function CountyLevelAmericanMap(props: {
+  state_fips: number;
+  signalListeners: any;
+}) {
   const [width, setWidth] = useState<number | undefined>();
   // Initial spec state is set in useEffect when default geo is set
   const [spec, setSpec] = useState({});
@@ -168,4 +172,4 @@ function VegaStateMap(props: { state_fips: number; signalListeners: any }) {
   );
 }
 
-export default VegaStateMap;
+export default CountyLevelAmericanMap;

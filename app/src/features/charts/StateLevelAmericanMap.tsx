@@ -82,6 +82,7 @@ function StateLevelAmericanMap(props: {
       legend["format"] = "0.1%";
     }
 
+    // TODO - read in JSON instead of CSV
     setSpec({
       $schema: "https://vega.github.io/schema/vega/v5.json",
       description:
