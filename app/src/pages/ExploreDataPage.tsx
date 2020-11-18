@@ -5,7 +5,7 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import DemoReport from "../features/reports/DemoReport";
-import DemoReport2 from "../features/reports/DemoReport2";
+import TellMeAboutReport from "../features/reports/TellMeAboutReport";
 import { MADLIB_LIST, MadLib, PhraseSegment } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
 
@@ -54,7 +54,7 @@ function ExploreDataPage() {
           />
         )}
         {phraseIndex === 1 && (
-          <DemoReport2
+          <TellMeAboutReport
             madlib={MADLIB_LIST[1]}
             phraseSelectionIds={phraseSelectionIds}
           />

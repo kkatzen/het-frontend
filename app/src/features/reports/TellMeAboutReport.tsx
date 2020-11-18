@@ -47,7 +47,10 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
+function TellMeAboutReport(props: {
+  madlib: MadLib;
+  phraseSelectionIds: number[];
+}) {
   const [countyList, setCountyList] = useState<County[]>([]);
   const [race, setRace] = useState<string>("All");
 
@@ -145,4 +148,4 @@ function DemoReport2(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
   );
 }
 
-export default DemoReport2;
+export default TellMeAboutReport;
