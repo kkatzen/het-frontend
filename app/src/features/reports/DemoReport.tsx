@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import { MadLib } from "../../utils/MadLibs";
+import { MadLib, PhraseSelections } from "../../utils/MadLibs";
 
 /*
 Corresponds to:
@@ -46,7 +46,10 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function DemoReport(props: { madlib: MadLib; phraseSelectionIds: number[] }) {
+function DemoReport(props: {
+  madlib: MadLib;
+  phraseSelectionIds: PhraseSelections;
+}) {
   const [countyList, setCountyList] = useState<County[]>([]);
 
   useEffect(() => {

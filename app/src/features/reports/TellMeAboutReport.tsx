@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import { MadLib } from "../../utils/MadLibs";
+import { MadLib, PhraseSelections } from "../../utils/MadLibs";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -36,7 +36,7 @@ function CountyLevelTable(countyList: County[]) {
         </TableHead>
         <TableBody>
           {countyList.map((county: County) => (
-            <TableRow>
+            <TableRow key={county.name}>
               <TableCell>{county.name}</TableCell>
               <TableCell>{county.value}</TableCell>
             </TableRow>
@@ -49,7 +49,7 @@ function CountyLevelTable(countyList: County[]) {
 
 function TellMeAboutReport(props: {
   madlib: MadLib;
-  phraseSelectionIds: number[];
+  phraseSelectionIds: PhraseSelections;
 }) {
   const [countyList, setCountyList] = useState<County[]>([]);
   const [race, setRace] = useState<string>("All");
@@ -99,7 +99,7 @@ function TellMeAboutReport(props: {
       <Grid item xs={12}>
         <h2>
           {props.madlib.phrase.map((phraseSegment, index) => (
-            <React.Fragment>
+            <React.Fragment key={index}>
               {phraseSegment.constructor === Object ? (
                 <span> {phraseSegment[props.phraseSelectionIds[index]]} </span>
               ) : (
