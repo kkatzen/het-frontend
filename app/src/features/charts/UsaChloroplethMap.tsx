@@ -30,11 +30,8 @@ function UsaChloroplethMap(props: {
   const [spec, setSpec] = useState({});
   const myRef = useRef(document.createElement("div"));
 
-  // const [ref, width] = useResponsiveChartWidth()
-
   useEffect(() => {
     /* SET UP VARIABLE DATSET */
-
     let varTransformer: any[] = [];
     // If user wants data filtered, we first apply the filter
     if (props.filterVar && props.filterValue && props.filterValue !== "All") {
@@ -43,7 +40,6 @@ function UsaChloroplethMap(props: {
         expr: "datum." + props.filterVar + " === '" + props.filterValue + "'",
       });
     }
-
     // Next we perform the aggregation based on requested operation
     if (props.operation) {
       varTransformer.push({
@@ -56,7 +52,6 @@ function UsaChloroplethMap(props: {
     }
 
     /* SET UP GEO DATSET */
-
     // Transform geo dataset by adding varField from VAR_DATASET
     const fipsKey = props.stateFips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
@@ -68,7 +63,6 @@ function UsaChloroplethMap(props: {
         values: [props.varField],
       },
     ];
-
     if (props.stateFips) {
       // The first two characters of a county FIPS are the state FIPS
       let stateFipsVar = "slice(datum.id,0,2) == " + props.stateFips;
@@ -78,12 +72,14 @@ function UsaChloroplethMap(props: {
       });
     }
 
+    /* SET UP TOOLTIP */
     let tooltipDatum =
       props.numberFormat === "percentage"
         ? "format(datum." + props.varField + ", '0.1%')"
         : "datum." + props.varField;
     let tooltipValue = 'datum.properties.name + ": " + ' + tooltipDatum;
 
+    /* SET UP LEGEND */
     let legend: any = {
       fill: "colorScale",
       orient: "top-right",
