@@ -49,7 +49,7 @@ function CountyLevelTable(countyList: County[]) {
 
 function TellMeAboutReport(props: {
   madlib: MadLib;
-  phraseSelectionIds: PhraseSelections;
+  phraseSelections: PhraseSelections;
 }) {
   const [countyList, setCountyList] = useState<County[]>([]);
   const [race, setRace] = useState<string>("All");
@@ -58,7 +58,7 @@ function TellMeAboutReport(props: {
     setCountyList([]);
     setRace("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseSelectionIds[1]]);
+  }, [props.phraseSelections[1]]);
 
   const signalListeners: any = {
     click: (...args: any) => {
@@ -69,7 +69,7 @@ function TellMeAboutReport(props: {
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,
-          value: clickedData[FIELDS[props.phraseSelectionIds[1]].field],
+          value: clickedData[FIELDS[props.phraseSelections[1]].field],
         };
         setCountyList([...countyList, newCountyDatum]);
       }
@@ -101,7 +101,7 @@ function TellMeAboutReport(props: {
           {props.madlib.phrase.map((phraseSegment, index) => (
             <React.Fragment key={index}>
               {phraseSegment.constructor === Object ? (
-                <span> {phraseSegment[props.phraseSelectionIds[index]]} </span>
+                <span> {phraseSegment[props.phraseSelections[index]]} </span>
               ) : (
                 <span>{phraseSegment}</span>
               )}
@@ -129,8 +129,8 @@ function TellMeAboutReport(props: {
         </FormControl>
         <UsaChloroplethMap
           signalListeners={signalListeners}
-          varField={FIELDS[props.phraseSelectionIds[1]].field}
-          legendTitle={FIELDS[props.phraseSelectionIds[1]].legend}
+          varField={FIELDS[props.phraseSelections[1]].field}
+          legendTitle={FIELDS[props.phraseSelections[1]].legend}
           filterVar="BRFSS2019_IMPLIED_RACE"
           filterValue={race}
           dataUrl="brfss.json"

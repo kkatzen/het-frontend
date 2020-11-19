@@ -3,6 +3,7 @@ import styles from "./LandingPage.module.scss";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { LinkWithStickyParams } from "../utils/urlutils";
 
 function LandingPage() {
   return (
@@ -63,13 +64,14 @@ function LandingPage() {
         </Grid>
         <Grid item xs={12} sm={6} className={styles.BlueLandingSquare}>
           <Typography variant="h6" className={styles.HomeLogo}>
-            Covid Data for Virgina
+            COPD in the USA
           </Typography>
           <p>
-            As of Friday morning, there have been at least 178,183 cases and
-            3,636 deaths in Virginia since the beginning of the pandemic.
+            Florida has the highest cases of COPD in the united states.
             <br />
-            <Button variant="outlined">Explore Data</Button>
+            <LinkWithStickyParams to={`/exploredata?mlp=1&mls=1:0`}>
+              <Button variant="outlined">Explore Data</Button>
+            </LinkWithStickyParams>
           </p>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
@@ -77,7 +79,7 @@ function LandingPage() {
             height="300px"
             width="300px"
             alt="placeholder"
-            src="https://eazybi.com/static/img/blog/posts/2016_03_01/data_visualization_column_chart.png"
+            src="copd_usa.png"
           />
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
@@ -85,30 +87,32 @@ function LandingPage() {
             height="300px"
             width="300px"
             alt="placeholder"
-            src="https://eazybi.com/static/img/blog/posts/2016_03_01/data_visualization_column_chart.png"
+            src="penn_unemp.png"
           />
         </Grid>
         <Grid item xs={12} sm={6} className={styles.GreenLandingSquare}>
           <Typography variant="h6" className={styles.HomeLogo}>
-            Diabetes Data
+            Unemployment in Pennsylvania
           </Typography>
           <p>
-            The complications from this data are coronary heart disease,
-            congestive heart failure, chronic kidney disease and peripheral
-            vascular disease.
+            County level look at where the highest rates of unemployment are in
+            the state of Pennsylvania
             <br />
-            <Button variant="outlined">Explore Data</Button>
+            <LinkWithStickyParams to={`/exploredata?mlp=0&mls=5:42`}>
+              <Button variant="outlined">Explore Data</Button>
+            </LinkWithStickyParams>
           </p>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.BlueLandingSquare}>
           <Typography variant="h6" className={styles.HomeLogo}>
-            Obesity Data
+            Diabetes in American Indian/Alaska Native, non hispanic population
           </Typography>
           <p>
-            Learn about behavioral, policy and environmental indicators that
-            affect childhood obesity, fruit and vegetable consumption, physical
-            activity and breastfeeding.
-            <Button variant="outlined">Explore Data</Button>
+            Explore racial breakdowns of Diabetes data in the United States
+            <br />
+            <LinkWithStickyParams to={`/exploredata?mlp=1&mls=1:1`}>
+              <Button variant="outlined">Explore Data</Button>
+            </LinkWithStickyParams>
           </p>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
@@ -116,7 +120,7 @@ function LandingPage() {
             height="300px"
             width="300px"
             alt="placeholder"
-            src="https://eazybi.com/static/img/blog/posts/2016_03_01/data_visualization_column_chart.png"
+            src="diabetes_amin.png"
           />
         </Grid>
         <Grid item xs={12} container className={styles.GreenLandingSquare}>

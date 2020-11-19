@@ -13,15 +13,39 @@ import {
   PhraseSelections,
 } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
+import {
+  clearSearchParams,
+  buildMadLibSelectionParams,
+  MADLIB_PHRASE,
+  MADLIB_SELECTIONS,
+  useSearchParams,
+} from "../utils/urlutils";
 
 function ExploreDataPage() {
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [phraseSelectionIds, setPhraseSelectionIds] = useState<
-    PhraseSelections
-  >(MADLIB_LIST[phraseIndex].defaultSelections);
+  const params = useSearchParams();
+  console.log(params);
+  useEffect(() => {
+    clearSearchParams([MADLIB_PHRASE, MADLIB_SELECTIONS]);
+  }, []);
+
+  const [phraseIndex, setPhraseIndex] = useState<number>(
+    Number(params[MADLIB_PHRASE]) | 0
+  );
+
+  let defaultValuesWithOverrides = MADLIB_LIST[phraseIndex].defaultSelections;
+  if (params[MADLIB_SELECTIONS]) {
+    params[MADLIB_SELECTIONS].split(",").forEach((override) => {
+      console.log("override", override);
+      const [key, value] = override.split(":");
+      defaultValuesWithOverrides[Number(key)] = Number(value);
+    });
+  }
+  const [phraseSelections, setPhraseSelections] = useState<PhraseSelections>(
+    defaultValuesWithOverrides
+  );
 
   useEffect(() => {
-    setPhraseSelectionIds({ ...MADLIB_LIST[phraseIndex].defaultSelections });
+    setPhraseSelections({ ...MADLIB_LIST[phraseIndex].defaultSelections });
   }, [phraseIndex]);
 
   return (
@@ -34,14 +58,15 @@ function ExploreDataPage() {
           indicators={false}
           animation="slide"
           navButtonsAlwaysVisible={true}
+          index={phraseIndex}
           onChange={setPhraseIndex}
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
             <Paper elevation={3} className={styles.CarouselItem} key={i}>
               <CarouselMadLib
                 madlib={madlib}
-                phraseSelectionIds={phraseSelectionIds}
-                setPhraseSelectionIds={setPhraseSelectionIds}
+                phraseSelections={phraseSelections}
+                setPhraseSelections={setPhraseSelections}
                 key={i}
               />
             </Paper>
@@ -49,16 +74,18 @@ function ExploreDataPage() {
         </Carousel>
       </div>
       <div className={styles.ReportContainer}>
+        Link to this report: {window.location.host}/exploredata?mlp=
+        {phraseIndex}&{buildMadLibSelectionParams(phraseSelections)}
         {phraseIndex === 0 && (
           <DemoReport
             madlib={MADLIB_LIST[0]}
-            phraseSelectionIds={phraseSelectionIds}
+            phraseSelections={phraseSelections}
           />
         )}
         {phraseIndex === 1 && (
           <TellMeAboutReport
             madlib={MADLIB_LIST[1]}
-            phraseSelectionIds={phraseSelectionIds}
+            phraseSelections={phraseSelections}
           />
         )}
       </div>
@@ -68,8 +95,8 @@ function ExploreDataPage() {
 
 function CarouselMadLib(props: {
   madlib: MadLib;
-  phraseSelectionIds: PhraseSelections;
-  setPhraseSelectionIds: (newArray: PhraseSelections) => void;
+  phraseSelections: PhraseSelections;
+  setPhraseSelections: (newArray: PhraseSelections) => void;
 }) {
   return (
     <React.Fragment>
@@ -84,14 +111,14 @@ function CarouselMadLib(props: {
                   className={styles.MadLibSelect}
                   name={index.toString()}
                   defaultValue={props.madlib.defaultSelections[index]}
-                  value={props.phraseSelectionIds[index]}
+                  value={props.phraseSelections[index]}
                   onChange={(event) => {
                     let phraseIndex: number = Number(event.target.name);
                     let updatedArray: PhraseSelections = {
-                      ...props.phraseSelectionIds,
+                      ...props.phraseSelections,
                     };
                     updatedArray[phraseIndex] = Number(event.target.value);
-                    props.setPhraseSelectionIds(updatedArray);
+                    props.setPhraseSelections(updatedArray);
                   }}
                 >
                   {Object.keys(phraseSegment).map((key: string) => (

@@ -1,11 +1,19 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { PhraseSelections } from "../utils/MadLibs";
 export const STICKY_VERSION_PARAM = "sv";
 
 // Value is a comma-separated list of dataset ids. Dataset ids cannot have
 // commas in them.
 export const DATASET_PRE_FILTERS = "dpf";
+
+// Value is index of the phrase to jump to
+export const MADLIB_PHRASE = "mlp";
+
+// Value is a comma-separated list mapping indicies to values with :
+// Overrides defaults
+// mls=0:1,2:5
+export const MADLIB_SELECTIONS = "mls";
 
 export function LinkWithStickyParams(props: {
   to: string;
@@ -42,4 +50,11 @@ export function clearSearchParams(params: string[]) {
   if (newUrl !== originalUrl) {
     window.history.replaceState(null /* state */, "" /* title */, newUrl);
   }
+}
+
+export function buildMadLibSelectionParams(phraseSelections: PhraseSelections) {
+  const overrides = Object.keys(phraseSelections).map(
+    (key) => key + ":" + phraseSelections[Number(key)]
+  );
+  return MADLIB_SELECTIONS + "=" + overrides.join(",");
 }
