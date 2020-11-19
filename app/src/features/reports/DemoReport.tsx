@@ -78,9 +78,6 @@ function DemoReport(props: {
 
   return (
     <Grid container spacing={1} alignItems="flex-start">
-      <Grid item xs={12}>
-        <LineChart />
-      </Grid>
       <Grid item xs={12} sm={12} md={6}>
         {props.phraseSelections[5] === 0 && (
           <UsaChloroplethMap
