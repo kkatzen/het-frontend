@@ -12,6 +12,7 @@ const GEO_ID = "id";
 
 const VAR_DATASET = "VAR_DATASET";
 const VAR_STATE_FIPS = "FIPS";
+const VAR_COUNTY_FIPS = "COUNTY_FIPS";
 
 function UsaChloroplethMap(props: {
   dataUrl: string;
@@ -57,7 +58,7 @@ function UsaChloroplethMap(props: {
     /* SET UP GEO DATSET */
 
     // Transform geo dataset by adding varField from VAR_DATASET
-    const datasetKey = props.state_fips ? "COUNTY_FIPS" : VAR_STATE_FIPS;
+    const datasetKey = props.state_fips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
@@ -69,7 +70,8 @@ function UsaChloroplethMap(props: {
     ];
 
     if (props.state_fips) {
-      let stateFipsVar = "floor(datum.id / 1000) == " + props.state_fips;
+      // TODO - use COUNTY_FIPS instead of this hacky thing
+      let stateFipsVar = "datum.id == " + props.state_fips;
       geoTransformers.push({
         type: "filter",
         expr: stateFipsVar,
