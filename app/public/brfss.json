@@ -199,6 +199,7 @@
     },
     {
         "BRFSS2019_STATE": "Arkansas",
+        "FIPS": "05",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 51,
@@ -209,6 +210,7 @@
     },
     {
         "BRFSS2019_STATE": "Arkansas",
+        "FIPS": "05",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2,
         "DIABETES_NO_REFUSED": 22,
@@ -219,6 +221,7 @@
     },
     {
         "BRFSS2019_STATE": "Arkansas",
+        "FIPS": "05",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 221,
         "DIABETES_NO_REFUSED": 537,
@@ -229,6 +232,7 @@
     },
     {
         "BRFSS2019_STATE": "Arkansas",
+        "FIPS": "05",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 22,
         "DIABETES_NO_REFUSED": 136,
@@ -239,6 +243,7 @@
     },
     {
         "BRFSS2019_STATE": "Arkansas",
+        "FIPS": "05",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 39,
         "DIABETES_NO_REFUSED": 165,
@@ -249,6 +254,7 @@
     },
     {
         "BRFSS2019_STATE": "Arkansas",
+        "FIPS": "05",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 752,
         "DIABETES_NO_REFUSED": 3402,
@@ -259,6 +265,7 @@
     },
     {
         "BRFSS2019_STATE": "California",
+        "FIPS": "06",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 13,
         "DIABETES_NO_REFUSED": 72,
@@ -269,6 +276,7 @@
     },
     {
         "BRFSS2019_STATE": "California",
+        "FIPS": "06",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 77,
         "DIABETES_NO_REFUSED": 868,
@@ -279,6 +287,7 @@
     },
     {
         "BRFSS2019_STATE": "California",
+        "FIPS": "06",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 93,
         "DIABETES_NO_REFUSED": 497,
@@ -289,6 +298,7 @@
     },
     {
         "BRFSS2019_STATE": "California",
+        "FIPS": "06",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 638,
         "DIABETES_NO_REFUSED": 3412,
@@ -299,6 +309,7 @@
     },
     {
         "BRFSS2019_STATE": "California",
+        "FIPS": "06",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 61,
         "DIABETES_NO_REFUSED": 413,
@@ -309,6 +320,7 @@
     },
     {
         "BRFSS2019_STATE": "California",
+        "FIPS": "06",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 553,
         "DIABETES_NO_REFUSED": 4916,
@@ -319,6 +331,7 @@
     },
     {
         "BRFSS2019_STATE": "Colorado",
+        "FIPS": "08",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 73,
@@ -329,6 +342,7 @@
     },
     {
         "BRFSS2019_STATE": "Colorado",
+        "FIPS": "08",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 151,
@@ -339,6 +353,7 @@
     },
     {
         "BRFSS2019_STATE": "Colorado",
+        "FIPS": "08",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 33,
         "DIABETES_NO_REFUSED": 218,
@@ -349,6 +364,7 @@
     },
     {
         "BRFSS2019_STATE": "Colorado",
+        "FIPS": "08",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 199,
         "DIABETES_NO_REFUSED": 1225,
@@ -359,6 +375,7 @@
     },
     {
         "BRFSS2019_STATE": "Colorado",
+        "FIPS": "08",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 26,
         "DIABETES_NO_REFUSED": 188,
@@ -369,6 +386,7 @@
     },
     {
         "BRFSS2019_STATE": "Colorado",
+        "FIPS": "08",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 629,
         "DIABETES_NO_REFUSED": 6560,
@@ -379,6 +397,7 @@
     },
     {
         "BRFSS2019_STATE": "Connecticut",
+        "FIPS": "09",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 31,
@@ -389,6 +408,7 @@
     },
     {
         "BRFSS2019_STATE": "Connecticut",
+        "FIPS": "09",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 23,
         "DIABETES_NO_REFUSED": 180,
@@ -399,6 +419,7 @@
     },
     {
         "BRFSS2019_STATE": "Connecticut",
+        "FIPS": "09",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 125,
         "DIABETES_NO_REFUSED": 514,
@@ -409,6 +430,7 @@
     },
     {
         "BRFSS2019_STATE": "Connecticut",
+        "FIPS": "09",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 99,
         "DIABETES_NO_REFUSED": 623,
@@ -419,6 +441,7 @@
     },
     {
         "BRFSS2019_STATE": "Connecticut",
+        "FIPS": "09",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 48,
         "DIABETES_NO_REFUSED": 235,
@@ -429,6 +452,7 @@
     },
     {
         "BRFSS2019_STATE": "Connecticut",
+        "FIPS": "09",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 858,
         "DIABETES_NO_REFUSED": 6419,
@@ -439,6 +463,7 @@
     },
     {
         "BRFSS2019_STATE": "Delaware",
+        "FIPS": "10",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 22,
@@ -449,6 +474,7 @@
     },
     {
         "BRFSS2019_STATE": "Delaware",
+        "FIPS": "10",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 60,
@@ -459,6 +485,7 @@
     },
     {
         "BRFSS2019_STATE": "Delaware",
+        "FIPS": "10",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 98,
         "DIABETES_NO_REFUSED": 395,
@@ -469,6 +496,7 @@
     },
     {
         "BRFSS2019_STATE": "Delaware",
+        "FIPS": "10",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 68,
         "DIABETES_NO_REFUSED": 378,
@@ -479,6 +507,7 @@
     },
     {
         "BRFSS2019_STATE": "Delaware",
+        "FIPS": "10",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 21,
         "DIABETES_NO_REFUSED": 108,
@@ -489,6 +518,7 @@
     },
     {
         "BRFSS2019_STATE": "Delaware",
+        "FIPS": "10",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 392,
         "DIABETES_NO_REFUSED": 2335,
@@ -559,6 +589,7 @@
     },
     {
         "BRFSS2019_STATE": "Florida",
+        "FIPS": "12",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 32,
         "DIABETES_NO_REFUSED": 144,
@@ -569,6 +600,7 @@
     },
     {
         "BRFSS2019_STATE": "Florida",
+        "FIPS": "12",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 18,
         "DIABETES_NO_REFUSED": 139,
@@ -579,6 +611,7 @@
     },
     {
         "BRFSS2019_STATE": "Florida",
+        "FIPS": "12",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 394,
         "DIABETES_NO_REFUSED": 1256,
@@ -589,6 +622,7 @@
     },
     {
         "BRFSS2019_STATE": "Florida",
+        "FIPS": "12",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 285,
         "DIABETES_NO_REFUSED": 1636,
@@ -599,6 +633,7 @@
     },
     {
         "BRFSS2019_STATE": "Florida",
+        "FIPS": "12",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 117,
         "DIABETES_NO_REFUSED": 550,
@@ -609,6 +644,7 @@
     },
     {
         "BRFSS2019_STATE": "Florida",
+        "FIPS": "12",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1947,
         "DIABETES_NO_REFUSED": 10441,
@@ -619,6 +655,7 @@
     },
     {
         "BRFSS2019_STATE": "Georgia",
+        "FIPS": "13",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 48,
@@ -629,6 +666,7 @@
     },
     {
         "BRFSS2019_STATE": "Georgia",
+        "FIPS": "13",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 11,
         "DIABETES_NO_REFUSED": 101,
@@ -639,6 +677,7 @@
     },
     {
         "BRFSS2019_STATE": "Georgia",
+        "FIPS": "13",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 406,
         "DIABETES_NO_REFUSED": 1229,
@@ -649,6 +688,7 @@
     },
     {
         "BRFSS2019_STATE": "Georgia",
+        "FIPS": "13",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 81,
         "DIABETES_NO_REFUSED": 489,
@@ -659,6 +699,7 @@
     },
     {
         "BRFSS2019_STATE": "Georgia",
+        "FIPS": "13",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 46,
         "DIABETES_NO_REFUSED": 191,
@@ -669,6 +710,7 @@
     },
     {
         "BRFSS2019_STATE": "Georgia",
+        "FIPS": "13",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 731,
         "DIABETES_NO_REFUSED": 4014,
@@ -729,6 +771,7 @@
     },
     {
         "BRFSS2019_STATE": "Hawaii",
+        "FIPS": "15",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 23,
@@ -739,6 +782,7 @@
     },
     {
         "BRFSS2019_STATE": "Hawaii",
+        "FIPS": "15",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 353,
         "DIABETES_NO_REFUSED": 1961,
@@ -749,6 +793,7 @@
     },
     {
         "BRFSS2019_STATE": "Hawaii",
+        "FIPS": "15",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 63,
@@ -759,6 +804,7 @@
     },
     {
         "BRFSS2019_STATE": "Hawaii",
+        "FIPS": "15",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 83,
         "DIABETES_NO_REFUSED": 485,
@@ -769,6 +815,7 @@
     },
     {
         "BRFSS2019_STATE": "Hawaii",
+        "FIPS": "15",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 343,
         "DIABETES_NO_REFUSED": 1712,
@@ -779,6 +826,7 @@
     },
     {
         "BRFSS2019_STATE": "Hawaii",
+        "FIPS": "15",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 223,
         "DIABETES_NO_REFUSED": 2426,
@@ -789,6 +837,7 @@
     },
     {
         "BRFSS2019_STATE": "Idaho",
+        "FIPS": "16",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 51,
@@ -799,6 +848,7 @@
     },
     {
         "BRFSS2019_STATE": "Idaho",
+        "FIPS": "16",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1,
         "DIABETES_NO_REFUSED": 23,
@@ -809,6 +859,7 @@
     },
     {
         "BRFSS2019_STATE": "Idaho",
+        "FIPS": "16",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 5,
         "DIABETES_NO_REFUSED": 13,
@@ -819,6 +870,7 @@
     },
     {
         "BRFSS2019_STATE": "Idaho",
+        "FIPS": "16",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 69,
         "DIABETES_NO_REFUSED": 252,
@@ -829,6 +881,7 @@
     },
     {
         "BRFSS2019_STATE": "Idaho",
+        "FIPS": "16",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 20,
         "DIABETES_NO_REFUSED": 118,
@@ -839,6 +892,7 @@
     },
     {
         "BRFSS2019_STATE": "Idaho",
+        "FIPS": "16",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 676,
         "DIABETES_NO_REFUSED": 4238,
@@ -849,6 +903,7 @@
     },
     {
         "BRFSS2019_STATE": "Illinois",
+        "FIPS": "17",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 3,
         "DIABETES_NO_REFUSED": 20,
@@ -859,6 +914,7 @@
     },
     {
         "BRFSS2019_STATE": "Illinois",
+        "FIPS": "17",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 16,
         "DIABETES_NO_REFUSED": 196,
@@ -869,6 +925,7 @@
     },
     {
         "BRFSS2019_STATE": "Illinois",
+        "FIPS": "17",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 114,
         "DIABETES_NO_REFUSED": 545,
@@ -879,6 +936,7 @@
     },
     {
         "BRFSS2019_STATE": "Illinois",
+        "FIPS": "17",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 126,
         "DIABETES_NO_REFUSED": 690,
@@ -889,6 +947,7 @@
     },
     {
         "BRFSS2019_STATE": "Illinois",
+        "FIPS": "17",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 81,
@@ -899,6 +958,7 @@
     },
     {
         "BRFSS2019_STATE": "Illinois",
+        "FIPS": "17",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 466,
         "DIABETES_NO_REFUSED": 3246,
@@ -909,6 +969,7 @@
     },
     {
         "BRFSS2019_STATE": "Indiana",
+        "FIPS": "18",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 15,
         "DIABETES_NO_REFUSED": 43,
@@ -919,6 +980,7 @@
     },
     {
         "BRFSS2019_STATE": "Indiana",
+        "FIPS": "18",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 65,
@@ -929,6 +991,7 @@
     },
     {
         "BRFSS2019_STATE": "Indiana",
+        "FIPS": "18",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 148,
         "DIABETES_NO_REFUSED": 457,
@@ -939,6 +1002,7 @@
     },
     {
         "BRFSS2019_STATE": "Indiana",
+        "FIPS": "18",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 55,
         "DIABETES_NO_REFUSED": 329,
@@ -949,6 +1013,7 @@
     },
     {
         "BRFSS2019_STATE": "Indiana",
+        "FIPS": "18",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 54,
         "DIABETES_NO_REFUSED": 183,
@@ -959,6 +1024,7 @@
     },
     {
         "BRFSS2019_STATE": "Indiana",
+        "FIPS": "18",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1236,
         "DIABETES_NO_REFUSED": 6302,
@@ -969,6 +1035,7 @@
     },
     {
         "BRFSS2019_STATE": "Iowa",
+        "FIPS": "19",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 29,
@@ -979,6 +1046,7 @@
     },
     {
         "BRFSS2019_STATE": "Iowa",
+        "FIPS": "19",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 77,
@@ -989,6 +1057,7 @@
     },
     {
         "BRFSS2019_STATE": "Iowa",
+        "FIPS": "19",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 34,
         "DIABETES_NO_REFUSED": 153,
@@ -999,6 +1068,7 @@
     },
     {
         "BRFSS2019_STATE": "Iowa",
+        "FIPS": "19",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 48,
         "DIABETES_NO_REFUSED": 416,
@@ -1009,6 +1079,7 @@
     },
     {
         "BRFSS2019_STATE": "Iowa",
+        "FIPS": "19",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 15,
         "DIABETES_NO_REFUSED": 98,
@@ -1019,6 +1090,7 @@
     },
     {
         "BRFSS2019_STATE": "Iowa",
+        "FIPS": "19",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1187,
         "DIABETES_NO_REFUSED": 7731,
@@ -1029,6 +1101,7 @@
     },
     {
         "BRFSS2019_STATE": "Kansas",
+        "FIPS": "20",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 21,
         "DIABETES_NO_REFUSED": 100,
@@ -1039,6 +1112,7 @@
     },
     {
         "BRFSS2019_STATE": "Kansas",
+        "FIPS": "20",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 113,
@@ -1049,6 +1123,7 @@
     },
     {
         "BRFSS2019_STATE": "Kansas",
+        "FIPS": "20",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 84,
         "DIABETES_NO_REFUSED": 345,
@@ -1059,6 +1134,7 @@
     },
     {
         "BRFSS2019_STATE": "Kansas",
+        "FIPS": "20",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 67,
         "DIABETES_NO_REFUSED": 494,
@@ -1069,6 +1145,7 @@
     },
     {
         "BRFSS2019_STATE": "Kansas",
+        "FIPS": "20",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 30,
         "DIABETES_NO_REFUSED": 190,
@@ -1079,6 +1156,7 @@
     },
     {
         "BRFSS2019_STATE": "Kansas",
+        "FIPS": "20",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1397,
         "DIABETES_NO_REFUSED": 8519,
@@ -1089,6 +1167,7 @@
     },
     {
         "BRFSS2019_STATE": "Kentucky",
+        "FIPS": "21",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 12,
         "DIABETES_NO_REFUSED": 48,
@@ -1099,6 +1178,7 @@
     },
     {
         "BRFSS2019_STATE": "Kentucky",
+        "FIPS": "21",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1,
         "DIABETES_NO_REFUSED": 26,
@@ -1109,6 +1189,7 @@
     },
     {
         "BRFSS2019_STATE": "Kentucky",
+        "FIPS": "21",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 177,
         "DIABETES_NO_REFUSED": 494,
@@ -1119,6 +1200,7 @@
     },
     {
         "BRFSS2019_STATE": "Kentucky",
+        "FIPS": "21",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 11,
         "DIABETES_NO_REFUSED": 95,
@@ -1129,6 +1211,7 @@
     },
     {
         "BRFSS2019_STATE": "Kentucky",
+        "FIPS": "21",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 36,
         "DIABETES_NO_REFUSED": 121,
@@ -1139,6 +1222,7 @@
     },
     {
         "BRFSS2019_STATE": "Kentucky",
+        "FIPS": "21",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1229,
         "DIABETES_NO_REFUSED": 5724,
@@ -1149,6 +1233,7 @@
     },
     {
         "BRFSS2019_STATE": "Louisiana",
+        "FIPS": "22",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 12,
         "DIABETES_NO_REFUSED": 59,
@@ -1159,6 +1244,7 @@
     },
     {
         "BRFSS2019_STATE": "Louisiana",
+        "FIPS": "22",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 3,
         "DIABETES_NO_REFUSED": 30,
@@ -1169,6 +1255,7 @@
     },
     {
         "BRFSS2019_STATE": "Louisiana",
+        "FIPS": "22",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 233,
         "DIABETES_NO_REFUSED": 941,
@@ -1179,6 +1266,7 @@
     },
     {
         "BRFSS2019_STATE": "Louisiana",
+        "FIPS": "22",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 20,
         "DIABETES_NO_REFUSED": 118,
@@ -1189,6 +1277,7 @@
     },
     {
         "BRFSS2019_STATE": "Louisiana",
+        "FIPS": "22",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 26,
         "DIABETES_NO_REFUSED": 108,
@@ -1199,6 +1288,7 @@
     },
     {
         "BRFSS2019_STATE": "Louisiana",
+        "FIPS": "22",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 475,
         "DIABETES_NO_REFUSED": 2693,
@@ -1209,6 +1299,7 @@
     },
     {
         "BRFSS2019_STATE": "Maine",
+        "FIPS": "23",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 14,
         "DIABETES_NO_REFUSED": 51,
@@ -1219,6 +1310,7 @@
     },
     {
         "BRFSS2019_STATE": "Maine",
+        "FIPS": "23",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 27,
@@ -1229,6 +1321,7 @@
     },
     {
         "BRFSS2019_STATE": "Maine",
+        "FIPS": "23",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 50,
@@ -1239,6 +1332,7 @@
     },
     {
         "BRFSS2019_STATE": "Maine",
+        "FIPS": "23",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 29,
         "DIABETES_NO_REFUSED": 132,
@@ -1249,6 +1343,7 @@
     },
     {
         "BRFSS2019_STATE": "Maine",
+        "FIPS": "23",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 36,
         "DIABETES_NO_REFUSED": 171,
@@ -1259,6 +1354,7 @@
     },
     {
         "BRFSS2019_STATE": "Maine",
+        "FIPS": "23",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1587,
         "DIABETES_NO_REFUSED": 9264,
@@ -1269,6 +1365,7 @@
     },
     {
         "BRFSS2019_STATE": "Maryland",
+        "FIPS": "24",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 17,
         "DIABETES_NO_REFUSED": 82,
@@ -1279,6 +1376,7 @@
     },
     {
         "BRFSS2019_STATE": "Maryland",
+        "FIPS": "24",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 54,
         "DIABETES_NO_REFUSED": 323,
@@ -1289,6 +1387,7 @@
     },
     {
         "BRFSS2019_STATE": "Maryland",
+        "FIPS": "24",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 732,
         "DIABETES_NO_REFUSED": 2729,
@@ -1299,6 +1398,7 @@
     },
     {
         "BRFSS2019_STATE": "Maryland",
+        "FIPS": "24",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 65,
         "DIABETES_NO_REFUSED": 661,
@@ -1309,6 +1409,7 @@
     },
     {
         "BRFSS2019_STATE": "Maryland",
+        "FIPS": "24",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 86,
         "DIABETES_NO_REFUSED": 422,
@@ -1319,6 +1420,7 @@
     },
     {
         "BRFSS2019_STATE": "Maryland",
+        "FIPS": "24",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1788,
         "DIABETES_NO_REFUSED": 10460,
@@ -1329,6 +1431,7 @@
     },
     {
         "BRFSS2019_STATE": "Massachusetts",
+        "FIPS": "25",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 5,
         "DIABETES_NO_REFUSED": 29,
@@ -1339,6 +1442,7 @@
     },
     {
         "BRFSS2019_STATE": "Massachusetts",
+        "FIPS": "25",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 26,
         "DIABETES_NO_REFUSED": 247,
@@ -1349,6 +1453,7 @@
     },
     {
         "BRFSS2019_STATE": "Massachusetts",
+        "FIPS": "25",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 68,
         "DIABETES_NO_REFUSED": 341,
@@ -1359,6 +1464,7 @@
     },
     {
         "BRFSS2019_STATE": "Massachusetts",
+        "FIPS": "25",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 96,
         "DIABETES_NO_REFUSED": 603,
@@ -1369,6 +1475,7 @@
     },
     {
         "BRFSS2019_STATE": "Massachusetts",
+        "FIPS": "25",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 27,
         "DIABETES_NO_REFUSED": 174,
@@ -1379,6 +1486,7 @@
     },
     {
         "BRFSS2019_STATE": "Massachusetts",
+        "FIPS": "25",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 670,
         "DIABETES_NO_REFUSED": 5445,
@@ -1389,6 +1497,7 @@
     },
     {
         "BRFSS2019_STATE": "Michigan",
+        "FIPS": "26",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 21,
         "DIABETES_NO_REFUSED": 64,
@@ -1399,6 +1508,7 @@
     },
     {
         "BRFSS2019_STATE": "Michigan",
+        "FIPS": "26",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 144,
@@ -1409,6 +1519,7 @@
     },
     {
         "BRFSS2019_STATE": "Michigan",
+        "FIPS": "26",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 167,
         "DIABETES_NO_REFUSED": 708,
@@ -1419,6 +1530,7 @@
     },
     {
         "BRFSS2019_STATE": "Michigan",
+        "FIPS": "26",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 29,
         "DIABETES_NO_REFUSED": 245,
@@ -1429,6 +1541,7 @@
     },
     {
         "BRFSS2019_STATE": "Michigan",
+        "FIPS": "26",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 33,
         "DIABETES_NO_REFUSED": 299,
@@ -1439,6 +1552,7 @@
     },
     {
         "BRFSS2019_STATE": "Michigan",
+        "FIPS": "26",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1222,
         "DIABETES_NO_REFUSED": 7576,
@@ -1449,6 +1563,7 @@
     },
     {
         "BRFSS2019_STATE": "Minnesota",
+        "FIPS": "27",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 42,
         "DIABETES_NO_REFUSED": 129,
@@ -1459,6 +1574,7 @@
     },
     {
         "BRFSS2019_STATE": "Minnesota",
+        "FIPS": "27",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 20,
         "DIABETES_NO_REFUSED": 270,
@@ -1469,6 +1585,7 @@
     },
     {
         "BRFSS2019_STATE": "Minnesota",
+        "FIPS": "27",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 68,
         "DIABETES_NO_REFUSED": 451,
@@ -1479,6 +1596,7 @@
     },
     {
         "BRFSS2019_STATE": "Minnesota",
+        "FIPS": "27",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 87,
         "DIABETES_NO_REFUSED": 588,
@@ -1489,6 +1607,7 @@
     },
     {
         "BRFSS2019_STATE": "Minnesota",
+        "FIPS": "27",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 37,
         "DIABETES_NO_REFUSED": 274,
@@ -1499,6 +1618,7 @@
     },
     {
         "BRFSS2019_STATE": "Minnesota",
+        "FIPS": "27",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1501,
         "DIABETES_NO_REFUSED": 12072,
@@ -1509,6 +1629,7 @@
     },
     {
         "BRFSS2019_STATE": "Mississippi",
+        "FIPS": "28",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 14,
         "DIABETES_NO_REFUSED": 32,
@@ -1519,6 +1640,7 @@
     },
     {
         "BRFSS2019_STATE": "Mississippi",
+        "FIPS": "28",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2,
         "DIABETES_NO_REFUSED": 13,
@@ -1529,6 +1651,7 @@
     },
     {
         "BRFSS2019_STATE": "Mississippi",
+        "FIPS": "28",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 500,
         "DIABETES_NO_REFUSED": 1466,
@@ -1539,6 +1662,7 @@
     },
     {
         "BRFSS2019_STATE": "Mississippi",
+        "FIPS": "28",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 5,
         "DIABETES_NO_REFUSED": 38,
@@ -1549,6 +1673,7 @@
     },
     {
         "BRFSS2019_STATE": "Mississippi",
+        "FIPS": "28",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 11,
         "DIABETES_NO_REFUSED": 52,
@@ -1559,6 +1684,7 @@
     },
     {
         "BRFSS2019_STATE": "Mississippi",
+        "FIPS": "28",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 508,
         "DIABETES_NO_REFUSED": 2485,
@@ -1569,6 +1695,7 @@
     },
     {
         "BRFSS2019_STATE": "Missouri",
+        "FIPS": "29",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 14,
         "DIABETES_NO_REFUSED": 60,
@@ -1579,6 +1706,7 @@
     },
     {
         "BRFSS2019_STATE": "Missouri",
+        "FIPS": "29",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 47,
@@ -1589,6 +1717,7 @@
     },
     {
         "BRFSS2019_STATE": "Missouri",
+        "FIPS": "29",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 151,
         "DIABETES_NO_REFUSED": 532,
@@ -1599,6 +1728,7 @@
     },
     {
         "BRFSS2019_STATE": "Missouri",
+        "FIPS": "29",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 16,
         "DIABETES_NO_REFUSED": 137,
@@ -1609,6 +1739,7 @@
     },
     {
         "BRFSS2019_STATE": "Missouri",
+        "FIPS": "29",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 26,
         "DIABETES_NO_REFUSED": 117,
@@ -1619,6 +1750,7 @@
     },
     {
         "BRFSS2019_STATE": "Missouri",
+        "FIPS": "29",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 887,
         "DIABETES_NO_REFUSED": 5313,
@@ -1629,6 +1761,7 @@
     },
     {
         "BRFSS2019_STATE": "Montana",
+        "FIPS": "30",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 111,
         "DIABETES_NO_REFUSED": 384,
@@ -1639,6 +1772,7 @@
     },
     {
         "BRFSS2019_STATE": "Montana",
+        "FIPS": "30",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2,
         "DIABETES_NO_REFUSED": 32,
@@ -1649,6 +1783,7 @@
     },
     {
         "BRFSS2019_STATE": "Montana",
+        "FIPS": "30",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 11,
@@ -1659,6 +1794,7 @@
     },
     {
         "BRFSS2019_STATE": "Montana",
+        "FIPS": "30",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 16,
         "DIABETES_NO_REFUSED": 123,
@@ -1669,6 +1805,7 @@
     },
     {
         "BRFSS2019_STATE": "Montana",
+        "FIPS": "30",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 36,
         "DIABETES_NO_REFUSED": 202,
@@ -1679,6 +1816,7 @@
     },
     {
         "BRFSS2019_STATE": "Montana",
+        "FIPS": "30",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 555,
         "DIABETES_NO_REFUSED": 5019,
@@ -1689,6 +1827,7 @@
     },
     {
         "BRFSS2019_STATE": "Nebraska",
+        "FIPS": "31",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 55,
         "DIABETES_NO_REFUSED": 118,
@@ -1699,6 +1838,7 @@
     },
     {
         "BRFSS2019_STATE": "Nebraska",
+        "FIPS": "31",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 90,
@@ -1709,6 +1849,7 @@
     },
     {
         "BRFSS2019_STATE": "Nebraska",
+        "FIPS": "31",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 57,
         "DIABETES_NO_REFUSED": 258,
@@ -1719,6 +1860,7 @@
     },
     {
         "BRFSS2019_STATE": "Nebraska",
+        "FIPS": "31",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 151,
         "DIABETES_NO_REFUSED": 1013,
@@ -1729,6 +1871,7 @@
     },
     {
         "BRFSS2019_STATE": "Nebraska",
+        "FIPS": "31",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 39,
         "DIABETES_NO_REFUSED": 164,
@@ -1739,6 +1882,7 @@
     },
     {
         "BRFSS2019_STATE": "Nebraska",
+        "FIPS": "31",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1903,
         "DIABETES_NO_REFUSED": 12013,
@@ -1749,6 +1893,7 @@
     },
     {
         "BRFSS2019_STATE": "Nevada",
+        "FIPS": "32",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 31,
@@ -1759,6 +1904,7 @@
     },
     {
         "BRFSS2019_STATE": "Nevada",
+        "FIPS": "32",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 62,
@@ -1769,6 +1915,7 @@
     },
     {
         "BRFSS2019_STATE": "Nevada",
+        "FIPS": "32",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 19,
         "DIABETES_NO_REFUSED": 141,
@@ -1779,6 +1926,7 @@
     },
     {
         "BRFSS2019_STATE": "Nevada",
+        "FIPS": "32",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 67,
         "DIABETES_NO_REFUSED": 469,
@@ -1789,6 +1937,7 @@
     },
     {
         "BRFSS2019_STATE": "Nevada",
+        "FIPS": "32",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 15,
         "DIABETES_NO_REFUSED": 121,
@@ -1799,6 +1948,7 @@
     },
     {
         "BRFSS2019_STATE": "Nevada",
+        "FIPS": "32",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 206,
         "DIABETES_NO_REFUSED": 1632,
@@ -1809,6 +1959,7 @@
     },
     {
         "BRFSS2019_STATE": "New Hampshire",
+        "FIPS": "33",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 24,
@@ -1819,6 +1970,7 @@
     },
     {
         "BRFSS2019_STATE": "New Hampshire",
+        "FIPS": "33",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 48,
@@ -1829,6 +1981,7 @@
     },
     {
         "BRFSS2019_STATE": "New Hampshire",
+        "FIPS": "33",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 32,
@@ -1839,6 +1992,7 @@
     },
     {
         "BRFSS2019_STATE": "New Hampshire",
+        "FIPS": "33",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 55,
@@ -1849,6 +2003,7 @@
     },
     {
         "BRFSS2019_STATE": "New Hampshire",
+        "FIPS": "33",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 19,
         "DIABETES_NO_REFUSED": 100,
@@ -1859,6 +2014,7 @@
     },
     {
         "BRFSS2019_STATE": "New Hampshire",
+        "FIPS": "33",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 694,
         "DIABETES_NO_REFUSED": 4857,
@@ -1869,6 +2025,7 @@
     },
     {
         "BRFSS2019_STATE": "New Mexico",
+        "FIPS": "35",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 114,
         "DIABETES_NO_REFUSED": 420,
@@ -1879,6 +2036,7 @@
     },
     {
         "BRFSS2019_STATE": "New Mexico",
+        "FIPS": "35",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 3,
         "DIABETES_NO_REFUSED": 39,
@@ -1889,6 +2047,7 @@
     },
     {
         "BRFSS2019_STATE": "New Mexico",
+        "FIPS": "35",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 14,
         "DIABETES_NO_REFUSED": 61,
@@ -1899,6 +2058,7 @@
     },
     {
         "BRFSS2019_STATE": "New Mexico",
+        "FIPS": "35",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 355,
         "DIABETES_NO_REFUSED": 1586,
@@ -1909,6 +2069,7 @@
     },
     {
         "BRFSS2019_STATE": "New Mexico",
+        "FIPS": "35",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 14,
         "DIABETES_NO_REFUSED": 80,
@@ -1919,6 +2080,7 @@
     },
     {
         "BRFSS2019_STATE": "New Mexico",
+        "FIPS": "35",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 388,
         "DIABETES_NO_REFUSED": 2901,
@@ -1928,7 +2090,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 2963
     },
     {
-        "BRFSS2019_STATE": "New York",
+        "BRFSS2019_STATE": "New York","FIPS":"36",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 17,
         "DIABETES_NO_REFUSED": 87,
@@ -1938,7 +2100,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 86
     },
     {
-        "BRFSS2019_STATE": "New York",
+        "BRFSS2019_STATE": "New York","FIPS":"36",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 46,
         "DIABETES_NO_REFUSED": 434,
@@ -1948,7 +2110,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 471
     },
     {
-        "BRFSS2019_STATE": "New York",
+        "BRFSS2019_STATE": "New York","FIPS":"36",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 258,
         "DIABETES_NO_REFUSED": 1047,
@@ -1958,7 +2120,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 1213
     },
     {
-        "BRFSS2019_STATE": "New York",
+        "BRFSS2019_STATE": "New York","FIPS":"36",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 255,
         "DIABETES_NO_REFUSED": 1364,
@@ -1968,7 +2130,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 1538
     },
     {
-        "BRFSS2019_STATE": "New York",
+        "BRFSS2019_STATE": "New York","FIPS":"36",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 82,
         "DIABETES_NO_REFUSED": 467,
@@ -1978,7 +2140,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 504
     },
     {
-        "BRFSS2019_STATE": "New York",
+        "BRFSS2019_STATE": "New York","FIPS":"36",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1310,
         "DIABETES_NO_REFUSED": 8865,
@@ -1988,7 +2150,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 9209
     },
     {
-        "BRFSS2019_STATE": "North Carolina",
+        "BRFSS2019_STATE": "North Carolina","FIPS":"37",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 25,
         "DIABETES_NO_REFUSED": 85,
@@ -1998,7 +2160,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 91
     },
     {
-        "BRFSS2019_STATE": "North Carolina",
+        "BRFSS2019_STATE": "North Carolina","FIPS":"37",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 51,
@@ -2008,7 +2170,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 56
     },
     {
-        "BRFSS2019_STATE": "North Carolina",
+        "BRFSS2019_STATE": "North Carolina","FIPS":"37",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 177,
         "DIABETES_NO_REFUSED": 683,
@@ -2018,7 +2180,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 793
     },
     {
-        "BRFSS2019_STATE": "North Carolina",
+        "BRFSS2019_STATE": "North Carolina","FIPS":"37",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 48,
         "DIABETES_NO_REFUSED": 357,
@@ -2028,7 +2190,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 394
     },
     {
-        "BRFSS2019_STATE": "North Carolina",
+        "BRFSS2019_STATE": "North Carolina","FIPS":"37",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 23,
         "DIABETES_NO_REFUSED": 81,
@@ -2038,7 +2200,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 92
     },
     {
-        "BRFSS2019_STATE": "North Carolina",
+        "BRFSS2019_STATE": "North Carolina","FIPS":"37",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 361,
         "DIABETES_NO_REFUSED": 2389,
@@ -2048,7 +2210,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 2499
     },
     {
-        "BRFSS2019_STATE": "North Dakota",
+        "BRFSS2019_STATE": "North Dakota","FIPS":"38",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 58,
         "DIABETES_NO_REFUSED": 135,
@@ -2058,7 +2220,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 167
     },
     {
-        "BRFSS2019_STATE": "North Dakota",
+        "BRFSS2019_STATE": "North Dakota","FIPS":"38",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 36,
@@ -2068,7 +2230,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 42
     },
     {
-        "BRFSS2019_STATE": "North Dakota",
+        "BRFSS2019_STATE": "North Dakota","FIPS":"38",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 45,
@@ -2078,7 +2240,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 47
     },
     {
-        "BRFSS2019_STATE": "North Dakota",
+        "BRFSS2019_STATE": "North Dakota","FIPS":"38",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 69,
@@ -2088,7 +2250,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 72
     },
     {
-        "BRFSS2019_STATE": "North Dakota",
+        "BRFSS2019_STATE": "North Dakota","FIPS":"38",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 85,
@@ -2098,7 +2260,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 82
     },
     {
-        "BRFSS2019_STATE": "North Dakota",
+        "BRFSS2019_STATE": "North Dakota","FIPS":"38",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 684,
         "DIABETES_NO_REFUSED": 4395,
@@ -2108,7 +2270,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4736
     },
     {
-        "BRFSS2019_STATE": "Ohio",
+        "BRFSS2019_STATE": "Ohio","FIPS":"39",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 23,
         "DIABETES_NO_REFUSED": 71,
@@ -2118,7 +2280,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 77
     },
     {
-        "BRFSS2019_STATE": "Ohio",
+        "BRFSS2019_STATE": "Ohio","FIPS":"39",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 5,
         "DIABETES_NO_REFUSED": 82,
@@ -2128,7 +2290,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 84
     },
     {
-        "BRFSS2019_STATE": "Ohio",
+        "BRFSS2019_STATE": "Ohio","FIPS":"39",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 163,
         "DIABETES_NO_REFUSED": 635,
@@ -2138,7 +2300,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 718
     },
     {
-        "BRFSS2019_STATE": "Ohio",
+        "BRFSS2019_STATE": "Ohio","FIPS":"39",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 36,
         "DIABETES_NO_REFUSED": 185,
@@ -2148,7 +2310,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 205
     },
     {
-        "BRFSS2019_STATE": "Ohio",
+        "BRFSS2019_STATE": "Ohio","FIPS":"39",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 51,
         "DIABETES_NO_REFUSED": 251,
@@ -2158,7 +2320,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 255
     },
     {
-        "BRFSS2019_STATE": "Ohio",
+        "BRFSS2019_STATE": "Ohio","FIPS":"39",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2133,
         "DIABETES_NO_REFUSED": 9901,
@@ -2168,7 +2330,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 10512
     },
     {
-        "BRFSS2019_STATE": "Oklahoma",
+        "BRFSS2019_STATE": "Oklahoma","FIPS":"40",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 101,
         "DIABETES_NO_REFUSED": 353,
@@ -2178,7 +2340,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 396
     },
     {
-        "BRFSS2019_STATE": "Oklahoma",
+        "BRFSS2019_STATE": "Oklahoma","FIPS":"40",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 5,
         "DIABETES_NO_REFUSED": 55,
@@ -2188,7 +2350,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 60
     },
     {
-        "BRFSS2019_STATE": "Oklahoma",
+        "BRFSS2019_STATE": "Oklahoma","FIPS":"40",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 68,
         "DIABETES_NO_REFUSED": 261,
@@ -2198,7 +2360,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 302
     },
     {
-        "BRFSS2019_STATE": "Oklahoma",
+        "BRFSS2019_STATE": "Oklahoma","FIPS":"40",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 70,
         "DIABETES_NO_REFUSED": 336,
@@ -2208,7 +2370,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 387
     },
     {
-        "BRFSS2019_STATE": "Oklahoma",
+        "BRFSS2019_STATE": "Oklahoma","FIPS":"40",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 58,
         "DIABETES_NO_REFUSED": 304,
@@ -2218,7 +2380,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 313
     },
     {
-        "BRFSS2019_STATE": "Oklahoma",
+        "BRFSS2019_STATE": "Oklahoma","FIPS":"40",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 732,
         "DIABETES_NO_REFUSED": 3992,
@@ -2228,7 +2390,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4200
     },
     {
-        "BRFSS2019_STATE": "Oregon",
+        "BRFSS2019_STATE": "Oregon","FIPS":"41",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 13,
         "DIABETES_NO_REFUSED": 74,
@@ -2238,7 +2400,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 77
     },
     {
-        "BRFSS2019_STATE": "Oregon",
+        "BRFSS2019_STATE": "Oregon","FIPS":"41",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 85,
@@ -2248,7 +2410,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 92
     },
     {
-        "BRFSS2019_STATE": "Oregon",
+        "BRFSS2019_STATE": "Oregon","FIPS":"41",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 58,
@@ -2258,7 +2420,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 62
     },
     {
-        "BRFSS2019_STATE": "Oregon",
+        "BRFSS2019_STATE": "Oregon","FIPS":"41",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 63,
         "DIABETES_NO_REFUSED": 468,
@@ -2268,7 +2430,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 521
     },
     {
-        "BRFSS2019_STATE": "Oregon",
+        "BRFSS2019_STATE": "Oregon","FIPS":"41",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 33,
         "DIABETES_NO_REFUSED": 201,
@@ -2278,7 +2440,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 205
     },
     {
-        "BRFSS2019_STATE": "Oregon",
+        "BRFSS2019_STATE": "Oregon","FIPS":"41",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 577,
         "DIABETES_NO_REFUSED": 4523,
@@ -2288,7 +2450,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4755
     },
     {
-        "BRFSS2019_STATE": "Pennsylvania",
+        "BRFSS2019_STATE": "Pennsylvania","FIPS":"42",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 23,
@@ -2298,7 +2460,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 27
     },
     {
-        "BRFSS2019_STATE": "Pennsylvania",
+        "BRFSS2019_STATE": "Pennsylvania","FIPS":"42",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 15,
         "DIABETES_NO_REFUSED": 131,
@@ -2308,7 +2470,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 142
     },
     {
-        "BRFSS2019_STATE": "Pennsylvania",
+        "BRFSS2019_STATE": "Pennsylvania","FIPS":"42",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 131,
         "DIABETES_NO_REFUSED": 563,
@@ -2318,7 +2480,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 639
     },
     {
-        "BRFSS2019_STATE": "Pennsylvania",
+        "BRFSS2019_STATE": "Pennsylvania","FIPS":"42",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 22,
         "DIABETES_NO_REFUSED": 275,
@@ -2328,7 +2490,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 287
     },
     {
-        "BRFSS2019_STATE": "Pennsylvania",
+        "BRFSS2019_STATE": "Pennsylvania","FIPS":"42",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 16,
         "DIABETES_NO_REFUSED": 135,
@@ -2338,7 +2500,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 132
     },
     {
-        "BRFSS2019_STATE": "Pennsylvania",
+        "BRFSS2019_STATE": "Pennsylvania","FIPS":"42",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 644,
         "DIABETES_NO_REFUSED": 4643,
@@ -2398,7 +2560,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 24
     },
     {
-        "BRFSS2019_STATE": "Rhode Island",
+        "BRFSS2019_STATE": "Rhode Island","FIPS":"44",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 8,
         "DIABETES_NO_REFUSED": 34,
@@ -2408,7 +2570,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 33
     },
     {
-        "BRFSS2019_STATE": "Rhode Island",
+        "BRFSS2019_STATE": "Rhode Island","FIPS":"44",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 18,
         "DIABETES_NO_REFUSED": 71,
@@ -2418,7 +2580,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 87
     },
     {
-        "BRFSS2019_STATE": "Rhode Island",
+        "BRFSS2019_STATE": "Rhode Island","FIPS":"44",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 45,
         "DIABETES_NO_REFUSED": 186,
@@ -2428,7 +2590,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 213
     },
     {
-        "BRFSS2019_STATE": "Rhode Island",
+        "BRFSS2019_STATE": "Rhode Island","FIPS":"44",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 73,
         "DIABETES_NO_REFUSED": 389,
@@ -2438,7 +2600,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 439
     },
     {
-        "BRFSS2019_STATE": "Rhode Island",
+        "BRFSS2019_STATE": "Rhode Island","FIPS":"44",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 33,
         "DIABETES_NO_REFUSED": 185,
@@ -2448,7 +2610,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 198
     },
     {
-        "BRFSS2019_STATE": "Rhode Island",
+        "BRFSS2019_STATE": "Rhode Island","FIPS":"44",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 710,
         "DIABETES_NO_REFUSED": 4358,
@@ -2458,7 +2620,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4546
     },
     {
-        "BRFSS2019_STATE": "South Carolina",
+        "BRFSS2019_STATE": "South Carolina","FIPS":"45",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 17,
         "DIABETES_NO_REFUSED": 38,
@@ -2468,7 +2630,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 45
     },
     {
-        "BRFSS2019_STATE": "South Carolina",
+        "BRFSS2019_STATE": "South Carolina","FIPS":"45",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 35,
@@ -2478,7 +2640,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 38
     },
     {
-        "BRFSS2019_STATE": "South Carolina",
+        "BRFSS2019_STATE": "South Carolina","FIPS":"45",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 397,
         "DIABETES_NO_REFUSED": 1156,
@@ -2488,7 +2650,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 1426
     },
     {
-        "BRFSS2019_STATE": "South Carolina",
+        "BRFSS2019_STATE": "South Carolina","FIPS":"45",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 21,
         "DIABETES_NO_REFUSED": 162,
@@ -2498,7 +2660,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 175
     },
     {
-        "BRFSS2019_STATE": "South Carolina",
+        "BRFSS2019_STATE": "South Carolina","FIPS":"45",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 28,
         "DIABETES_NO_REFUSED": 205,
@@ -2508,7 +2670,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 203
     },
     {
-        "BRFSS2019_STATE": "South Carolina",
+        "BRFSS2019_STATE": "South Carolina","FIPS":"45",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 840,
         "DIABETES_NO_REFUSED": 4241,
@@ -2518,7 +2680,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4568
     },
     {
-        "BRFSS2019_STATE": "South Dakota",
+        "BRFSS2019_STATE": "South Dakota","FIPS":"46",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 219,
         "DIABETES_NO_REFUSED": 639,
@@ -2528,7 +2690,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 778
     },
     {
-        "BRFSS2019_STATE": "South Dakota",
+        "BRFSS2019_STATE": "South Dakota","FIPS":"46",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 0,
         "DIABETES_NO_REFUSED": 13,
@@ -2538,7 +2700,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 13
     },
     {
-        "BRFSS2019_STATE": "South Dakota",
+        "BRFSS2019_STATE": "South Dakota","FIPS":"46",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 31,
@@ -2548,7 +2710,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 34
     },
     {
-        "BRFSS2019_STATE": "South Dakota",
+        "BRFSS2019_STATE": "South Dakota","FIPS":"46",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 19,
         "DIABETES_NO_REFUSED": 83,
@@ -2558,7 +2720,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 92
     },
     {
-        "BRFSS2019_STATE": "South Dakota",
+        "BRFSS2019_STATE": "South Dakota","FIPS":"46",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 20,
         "DIABETES_NO_REFUSED": 137,
@@ -2568,7 +2730,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 145
     },
     {
-        "BRFSS2019_STATE": "South Dakota",
+        "BRFSS2019_STATE": "South Dakota","FIPS":"46",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 692,
         "DIABETES_NO_REFUSED": 4773,
@@ -2578,7 +2740,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 5094
     },
     {
-        "BRFSS2019_STATE": "Tennessee",
+        "BRFSS2019_STATE": "Tennessee","FIPS":"47",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 18,
         "DIABETES_NO_REFUSED": 65,
@@ -2588,7 +2750,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 62
     },
     {
-        "BRFSS2019_STATE": "Tennessee",
+        "BRFSS2019_STATE": "Tennessee","FIPS":"47",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 34,
@@ -2598,7 +2760,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 39
     },
     {
-        "BRFSS2019_STATE": "Tennessee",
+        "BRFSS2019_STATE": "Tennessee","FIPS":"47",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 173,
         "DIABETES_NO_REFUSED": 554,
@@ -2608,7 +2770,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 654
     },
     {
-        "BRFSS2019_STATE": "Tennessee",
+        "BRFSS2019_STATE": "Tennessee","FIPS":"47",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 124,
@@ -2618,7 +2780,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 124
     },
     {
-        "BRFSS2019_STATE": "Tennessee",
+        "BRFSS2019_STATE": "Tennessee","FIPS":"47",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 29,
         "DIABETES_NO_REFUSED": 129,
@@ -2628,7 +2790,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 133
     },
     {
-        "BRFSS2019_STATE": "Tennessee",
+        "BRFSS2019_STATE": "Tennessee","FIPS":"47",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 906,
         "DIABETES_NO_REFUSED": 4193,
@@ -2638,7 +2800,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4457
     },
     {
-        "BRFSS2019_STATE": "Texas",
+        "BRFSS2019_STATE": "Texas","FIPS":"48",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 21,
         "DIABETES_NO_REFUSED": 87,
@@ -2648,7 +2810,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 94
     },
     {
-        "BRFSS2019_STATE": "Texas",
+        "BRFSS2019_STATE": "Texas","FIPS":"48",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 31,
         "DIABETES_NO_REFUSED": 238,
@@ -2658,7 +2820,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 264
     },
     {
-        "BRFSS2019_STATE": "Texas",
+        "BRFSS2019_STATE": "Texas","FIPS":"48",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 223,
         "DIABETES_NO_REFUSED": 794,
@@ -2668,7 +2830,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 931
     },
     {
-        "BRFSS2019_STATE": "Texas",
+        "BRFSS2019_STATE": "Texas","FIPS":"48",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 633,
         "DIABETES_NO_REFUSED": 2544,
@@ -2678,7 +2840,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 3031
     },
     {
-        "BRFSS2019_STATE": "Texas",
+        "BRFSS2019_STATE": "Texas","FIPS":"48",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 68,
         "DIABETES_NO_REFUSED": 342,
@@ -2688,7 +2850,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 371
     },
     {
-        "BRFSS2019_STATE": "Texas",
+        "BRFSS2019_STATE": "Texas","FIPS":"48",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1141,
         "DIABETES_NO_REFUSED": 6175,
@@ -2698,7 +2860,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 6570
     },
     {
-        "BRFSS2019_STATE": "Utah",
+        "BRFSS2019_STATE": "Utah","FIPS":"49",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 27,
         "DIABETES_NO_REFUSED": 98,
@@ -2708,7 +2870,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 115
     },
     {
-        "BRFSS2019_STATE": "Utah",
+        "BRFSS2019_STATE": "Utah","FIPS":"49",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 105,
@@ -2718,7 +2880,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 113
     },
     {
-        "BRFSS2019_STATE": "Utah",
+        "BRFSS2019_STATE": "Utah","FIPS":"49",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 7,
         "DIABETES_NO_REFUSED": 58,
@@ -2728,7 +2890,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 62
     },
     {
-        "BRFSS2019_STATE": "Utah",
+        "BRFSS2019_STATE": "Utah","FIPS":"49",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 117,
         "DIABETES_NO_REFUSED": 889,
@@ -2738,7 +2900,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 970
     },
     {
-        "BRFSS2019_STATE": "Utah",
+        "BRFSS2019_STATE": "Utah","FIPS":"49",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 26,
         "DIABETES_NO_REFUSED": 160,
@@ -2748,7 +2910,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 182
     },
     {
-        "BRFSS2019_STATE": "Utah",
+        "BRFSS2019_STATE": "Utah","FIPS":"49",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1161,
         "DIABETES_NO_REFUSED": 9134,
@@ -2758,7 +2920,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 9747
     },
     {
-        "BRFSS2019_STATE": "Vermont",
+        "BRFSS2019_STATE": "Vermont","FIPS":"50",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 11,
         "DIABETES_NO_REFUSED": 37,
@@ -2768,7 +2930,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 35
     },
     {
-        "BRFSS2019_STATE": "Vermont",
+        "BRFSS2019_STATE": "Vermont","FIPS":"50",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 3,
         "DIABETES_NO_REFUSED": 30,
@@ -2778,7 +2940,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 33
     },
     {
-        "BRFSS2019_STATE": "Vermont",
+        "BRFSS2019_STATE": "Vermont","FIPS":"50",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 4,
         "DIABETES_NO_REFUSED": 25,
@@ -2788,7 +2950,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 26
     },
     {
-        "BRFSS2019_STATE": "Vermont",
+        "BRFSS2019_STATE": "Vermont","FIPS":"50",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 6,
         "DIABETES_NO_REFUSED": 62,
@@ -2798,7 +2960,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 61
     },
     {
-        "BRFSS2019_STATE": "Vermont",
+        "BRFSS2019_STATE": "Vermont","FIPS":"50",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 28,
         "DIABETES_NO_REFUSED": 166,
@@ -2808,7 +2970,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 163
     },
     {
-        "BRFSS2019_STATE": "Vermont",
+        "BRFSS2019_STATE": "Vermont","FIPS":"50",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 702,
         "DIABETES_NO_REFUSED": 5383,
@@ -2818,7 +2980,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 5612
     },
     {
-        "BRFSS2019_STATE": "Virginia",
+        "BRFSS2019_STATE": "Virginia","FIPS":"51",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 45,
@@ -2828,7 +2990,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 44
     },
     {
-        "BRFSS2019_STATE": "Virginia",
+        "BRFSS2019_STATE": "Virginia","FIPS":"51",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 19,
         "DIABETES_NO_REFUSED": 190,
@@ -2838,7 +3000,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 203
     },
     {
-        "BRFSS2019_STATE": "Virginia",
+        "BRFSS2019_STATE": "Virginia","FIPS":"51",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 345,
         "DIABETES_NO_REFUSED": 1189,
@@ -2848,7 +3010,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 1402
     },
     {
-        "BRFSS2019_STATE": "Virginia",
+        "BRFSS2019_STATE": "Virginia","FIPS":"51",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 62,
         "DIABETES_NO_REFUSED": 474,
@@ -2858,7 +3020,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 514
     },
     {
-        "BRFSS2019_STATE": "Virginia",
+        "BRFSS2019_STATE": "Virginia","FIPS":"51",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 46,
         "DIABETES_NO_REFUSED": 247,
@@ -2868,7 +3030,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 266
     },
     {
-        "BRFSS2019_STATE": "Virginia",
+        "BRFSS2019_STATE": "Virginia","FIPS":"51",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1005,
         "DIABETES_NO_REFUSED": 6321,
@@ -2878,7 +3040,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 6669
     },
     {
-        "BRFSS2019_STATE": "Washington",
+        "BRFSS2019_STATE": "Washington","FIPS":"53",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 27,
         "DIABETES_NO_REFUSED": 120,
@@ -2888,7 +3050,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 139
     },
     {
-        "BRFSS2019_STATE": "Washington",
+        "BRFSS2019_STATE": "Washington","FIPS":"53",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 46,
         "DIABETES_NO_REFUSED": 419,
@@ -2898,7 +3060,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 457
     },
     {
-        "BRFSS2019_STATE": "Washington",
+        "BRFSS2019_STATE": "Washington","FIPS":"53",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 43,
         "DIABETES_NO_REFUSED": 212,
@@ -2908,7 +3070,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 250
     },
     {
-        "BRFSS2019_STATE": "Washington",
+        "BRFSS2019_STATE": "Washington","FIPS":"53",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 142,
         "DIABETES_NO_REFUSED": 793,
@@ -2918,7 +3080,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 899
     },
     {
-        "BRFSS2019_STATE": "Washington",
+        "BRFSS2019_STATE": "Washington","FIPS":"53",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 86,
         "DIABETES_NO_REFUSED": 494,
@@ -2928,7 +3090,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 532
     },
     {
-        "BRFSS2019_STATE": "Washington",
+        "BRFSS2019_STATE": "Washington","FIPS":"53",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1314,
         "DIABETES_NO_REFUSED": 9297,
@@ -2938,7 +3100,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 9828
     },
     {
-        "BRFSS2019_STATE": "West Virginia",
+        "BRFSS2019_STATE": "West Virginia","FIPS":"54",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 25,
@@ -2948,7 +3110,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 21
     },
     {
-        "BRFSS2019_STATE": "West Virginia",
+        "BRFSS2019_STATE": "West Virginia","FIPS":"54",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2,
         "DIABETES_NO_REFUSED": 10,
@@ -2958,7 +3120,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 12
     },
     {
-        "BRFSS2019_STATE": "West Virginia",
+        "BRFSS2019_STATE": "West Virginia","FIPS":"54",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 23,
         "DIABETES_NO_REFUSED": 73,
@@ -2968,7 +3130,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 87
     },
     {
-        "BRFSS2019_STATE": "West Virginia",
+        "BRFSS2019_STATE": "West Virginia","FIPS":"54",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 36,
@@ -2978,7 +3140,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 40
     },
     {
-        "BRFSS2019_STATE": "West Virginia",
+        "BRFSS2019_STATE": "West Virginia","FIPS":"54",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 15,
         "DIABETES_NO_REFUSED": 86,
@@ -2988,7 +3150,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 84
     },
     {
-        "BRFSS2019_STATE": "West Virginia",
+        "BRFSS2019_STATE": "West Virginia","FIPS":"54",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 1012,
         "DIABETES_NO_REFUSED": 4001,
@@ -2998,7 +3160,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4308
     },
     {
-        "BRFSS2019_STATE": "Wisconsin",
+        "BRFSS2019_STATE": "Wisconsin","FIPS":"55",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 27,
         "DIABETES_NO_REFUSED": 56,
@@ -3008,7 +3170,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 75
     },
     {
-        "BRFSS2019_STATE": "Wisconsin",
+        "BRFSS2019_STATE": "Wisconsin","FIPS":"55",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 3,
         "DIABETES_NO_REFUSED": 39,
@@ -3018,7 +3180,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 42
     },
     {
-        "BRFSS2019_STATE": "Wisconsin",
+        "BRFSS2019_STATE": "Wisconsin","FIPS":"55",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 54,
         "DIABETES_NO_REFUSED": 177,
@@ -3028,7 +3190,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 209
     },
     {
-        "BRFSS2019_STATE": "Wisconsin",
+        "BRFSS2019_STATE": "Wisconsin","FIPS":"55",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 17,
         "DIABETES_NO_REFUSED": 129,
@@ -3038,7 +3200,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 136
     },
     {
-        "BRFSS2019_STATE": "Wisconsin",
+        "BRFSS2019_STATE": "Wisconsin","FIPS":"55",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 11,
         "DIABETES_NO_REFUSED": 86,
@@ -3048,7 +3210,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 89
     },
     {
-        "BRFSS2019_STATE": "Wisconsin",
+        "BRFSS2019_STATE": "Wisconsin","FIPS":"55",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 482,
         "DIABETES_NO_REFUSED": 3870,
@@ -3058,7 +3220,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 4078
     },
     {
-        "BRFSS2019_STATE": "Wyoming",
+        "BRFSS2019_STATE": "Wyoming","FIPS":"56",
         "BRFSS2019_IMPLIED_RACE": "American Indian/Alaskan Native, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 9,
         "DIABETES_NO_REFUSED": 47,
@@ -3068,7 +3230,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 53
     },
     {
-        "BRFSS2019_STATE": "Wyoming",
+        "BRFSS2019_STATE": "Wyoming","FIPS":"56",
         "BRFSS2019_IMPLIED_RACE": "Asian, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2,
         "DIABETES_NO_REFUSED": 8,
@@ -3078,7 +3240,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 9
     },
     {
-        "BRFSS2019_STATE": "Wyoming",
+        "BRFSS2019_STATE": "Wyoming","FIPS":"56",
         "BRFSS2019_IMPLIED_RACE": "Black, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 2,
         "DIABETES_NO_REFUSED": 26,
@@ -3088,7 +3250,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 27
     },
     {
-        "BRFSS2019_STATE": "Wyoming",
+        "BRFSS2019_STATE": "Wyoming","FIPS":"56",
         "BRFSS2019_IMPLIED_RACE": "Hispanic",
         "DIABETES_YES_YESPREGNANT": 27,
         "DIABETES_NO_REFUSED": 172,
@@ -3098,7 +3260,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 185
     },
     {
-        "BRFSS2019_STATE": "Wyoming",
+        "BRFSS2019_STATE": "Wyoming","FIPS":"56",
         "BRFSS2019_IMPLIED_RACE": "Other race, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 10,
         "DIABETES_NO_REFUSED": 78,
@@ -3108,7 +3270,7 @@
         "COPD_NO_UNKNOWN_REFUSED": 80
     },
     {
-        "BRFSS2019_STATE": "Wyoming",
+        "BRFSS2019_STATE": "Wyoming","FIPS":"56",
         "BRFSS2019_IMPLIED_RACE": "White, Non-Hispanic",
         "DIABETES_YES_YESPREGNANT": 521,
         "DIABETES_NO_REFUSED": 3728,

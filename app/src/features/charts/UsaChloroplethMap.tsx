@@ -105,7 +105,7 @@ function UsaChloroplethMap(props: {
         {
           name: VAR_DATASET,
           url: props.dataUrl,
-          format: { type: "csv" },
+          format: { type: props.dataUrl.split(".").pop() },
           transform: varTransformer,
         },
         {
