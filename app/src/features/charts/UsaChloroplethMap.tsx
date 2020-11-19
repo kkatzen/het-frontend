@@ -15,14 +15,14 @@ const VAR_STATE_FIPS = "FIPS";
 const VAR_COUNTY_FIPS = "COUNTY_FIPS";
 
 function UsaChloroplethMap(props: {
-  dataUrl: string;
+  dataUrl: string; // Takes CSV or JSON
   varField: string;
   legendTitle: string;
   filterVar?: string;
   filterValue?: string;
   signalListeners: any;
   operation?: AggregationOperation;
-  state_fips?: number;
+  stateFips?: number;
   numberFormat?: NumberFormat;
 }) {
   const [width, setWidth] = useState<number | undefined>();
@@ -58,7 +58,7 @@ function UsaChloroplethMap(props: {
     /* SET UP GEO DATSET */
 
     // Transform geo dataset by adding varField from VAR_DATASET
-    const fipsKey = props.state_fips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
+    const fipsKey = props.stateFips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
@@ -69,9 +69,9 @@ function UsaChloroplethMap(props: {
       },
     ];
 
-    if (props.state_fips) {
+    if (props.stateFips) {
       // The first two characters of a county FIPS are the state FIPS
-      let stateFipsVar = "slice(datum.id,0,2) == " + props.state_fips;
+      let stateFipsVar = "slice(datum.id,0,2) == " + props.stateFips;
       geoTransformers.push({
         type: "filter",
         expr: stateFipsVar,
@@ -114,7 +114,7 @@ function UsaChloroplethMap(props: {
           url: "counties-10m.json",
           format: {
             type: "topojson",
-            feature: props.state_fips ? "counties" : "states",
+            feature: props.stateFips ? "counties" : "states",
           },
         },
         {
@@ -193,7 +193,7 @@ function UsaChloroplethMap(props: {
     props.filterValue,
     props.dataUrl,
     props.operation,
-    props.state_fips,
+    props.stateFips,
     props.numberFormat,
   ]);
 

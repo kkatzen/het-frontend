@@ -90,7 +90,7 @@ function DemoReport(props: {
         )}
         {props.phraseSelectionIds[5] !== 0 && (
           <UsaChloroplethMap
-            state_fips={props.phraseSelectionIds[5]}
+            stateFips={props.phraseSelectionIds[5]}
             signalListeners={signalListeners}
             varField="rate"
             legendTitle="% unemployed"
