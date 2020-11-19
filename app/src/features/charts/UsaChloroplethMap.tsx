@@ -58,20 +58,20 @@ function UsaChloroplethMap(props: {
     /* SET UP GEO DATSET */
 
     // Transform geo dataset by adding varField from VAR_DATASET
-    const datasetKey = props.state_fips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
+    const fipsKey = props.state_fips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
         from: VAR_DATASET,
-        key: datasetKey,
+        key: fipsKey,
         fields: [GEO_ID],
         values: [props.varField],
       },
     ];
 
     if (props.state_fips) {
-      // TODO - use COUNTY_FIPS instead of this hacky thing
-      let stateFipsVar = "datum.id == " + props.state_fips;
+      // The first two characters of a county FIPS are the state FIPS
+      let stateFipsVar = "slice(datum.id,0,2) == " + props.state_fips;
       geoTransformers.push({
         type: "filter",
         expr: stateFipsVar,
