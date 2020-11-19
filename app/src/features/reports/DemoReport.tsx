@@ -9,7 +9,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import { MadLib, PhraseSelections } from "../../utils/MadLibs";
+import {
+  MadLib,
+  PhraseSelections,
+  getMadLibPhraseText,
+} from "../../utils/MadLibs";
 
 /*
 Corresponds to:
@@ -104,17 +108,6 @@ function DemoReport(props: {
         )}
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
-        <h2>
-          {props.madlib.phrase.map((phraseSegment, index) => (
-            <React.Fragment key={index}>
-              {phraseSegment.constructor === Object ? (
-                <span> {phraseSegment[props.phraseSelections[index]]} </span>
-              ) : (
-                <span>{phraseSegment}</span>
-              )}
-            </React.Fragment>
-          ))}
-        </h2>
         <p>
           Click on some counties to see data in this table, shift click on map
           to reset.

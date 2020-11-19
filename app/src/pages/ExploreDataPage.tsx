@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper } from "@material-ui/core";
@@ -6,6 +8,16 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import DemoReport from "../features/reports/DemoReport";
 import TellMeAboutReport from "../features/reports/TellMeAboutReport";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import ShareIcon from "@material-ui/icons/Share";
+import { getMadLibPhraseText } from "../utils/MadLibs";
+
 import {
   MADLIB_LIST,
   MadLib,
@@ -22,8 +34,9 @@ import {
 } from "../utils/urlutils";
 
 function ExploreDataPage() {
+  const [shareModalOpen, setShareModalOpen] = React.useState(false);
   const params = useSearchParams();
-  console.log(params);
+
   useEffect(() => {
     clearSearchParams([MADLIB_PHRASE, MADLIB_SELECTIONS]);
   }, []);
@@ -50,6 +63,20 @@ function ExploreDataPage() {
 
   return (
     <React.Fragment>
+      <Dialog
+        open={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Link to this Report</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {window.location.host}/exploredata?mlp={phraseIndex}&
+            {buildMadLibSelectionParams(phraseSelections)}
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       <div className={styles.CarouselContainer}>
         <Carousel
           className={styles.Carousel}
@@ -74,8 +101,17 @@ function ExploreDataPage() {
         </Carousel>
       </div>
       <div className={styles.ReportContainer}>
-        Link to this report: {window.location.host}/exploredata?mlp=
-        {phraseIndex}&{buildMadLibSelectionParams(phraseSelections)}
+        <h1>
+          {getMadLibPhraseText(MADLIB_LIST[phraseIndex], phraseSelections)}
+          <IconButton
+            aria-label="delete"
+            color="primary"
+            onClick={() => setShareModalOpen(true)}
+            autoFocus
+          >
+            <ShareIcon />
+          </IconButton>
+        </h1>
         {phraseIndex === 0 && (
           <DemoReport
             madlib={MADLIB_LIST[0]}

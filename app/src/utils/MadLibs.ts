@@ -12,6 +12,21 @@ export interface MadLib {
   readonly defaultSelections: PhraseSelections;
 }
 
+function getMadLibPhraseText(
+  madLib: MadLib,
+  phraseSelections: PhraseSelections
+): string {
+  let madLibText = "";
+  madLib.phrase.map((phraseSegment, index) => {
+    if (phraseSegment.constructor === Object) {
+      madLibText += " " + phraseSegment[phraseSelections[index]] + " ";
+    } else {
+      madLibText += phraseSegment;
+    }
+  });
+  return madLibText;
+}
+
 const MADLIB_LIST: MadLib[] = [
   {
     phrase: [
@@ -31,4 +46,4 @@ const MADLIB_LIST: MadLib[] = [
   },
 ];
 
-export { MADLIB_LIST };
+export { MADLIB_LIST, getMadLibPhraseText };
