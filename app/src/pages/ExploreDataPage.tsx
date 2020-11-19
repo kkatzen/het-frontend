@@ -16,12 +16,12 @@ import styles from "./ExploreDataPage.module.scss";
 
 function ExploreDataPage() {
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const [phraseSelectionIds, setPhraseSelectionIds] = useState<
-    PhraseSelections
-  >(MADLIB_LIST[phraseIndex].defaultSelections);
+  const [phraseSelections, setPhraseSelections] = useState<PhraseSelections>(
+    MADLIB_LIST[phraseIndex].defaultSelections
+  );
 
   useEffect(() => {
-    setPhraseSelectionIds({ ...MADLIB_LIST[phraseIndex].defaultSelections });
+    setPhraseSelections({ ...MADLIB_LIST[phraseIndex].defaultSelections });
   }, [phraseIndex]);
 
   return (
@@ -40,8 +40,8 @@ function ExploreDataPage() {
             <Paper elevation={3} className={styles.CarouselItem} key={i}>
               <CarouselMadLib
                 madlib={madlib}
-                phraseSelectionIds={phraseSelectionIds}
-                setPhraseSelectionIds={setPhraseSelectionIds}
+                phraseSelections={phraseSelections}
+                setPhraseSelections={setPhraseSelections}
                 key={i}
               />
             </Paper>
@@ -52,13 +52,13 @@ function ExploreDataPage() {
         {phraseIndex === 0 && (
           <DemoReport
             madlib={MADLIB_LIST[0]}
-            phraseSelectionIds={phraseSelectionIds}
+            phraseSelections={phraseSelections}
           />
         )}
         {phraseIndex === 1 && (
           <TellMeAboutReport
             madlib={MADLIB_LIST[1]}
-            phraseSelectionIds={phraseSelectionIds}
+            phraseSelections={phraseSelections}
           />
         )}
       </div>
@@ -68,8 +68,8 @@ function ExploreDataPage() {
 
 function CarouselMadLib(props: {
   madlib: MadLib;
-  phraseSelectionIds: PhraseSelections;
-  setPhraseSelectionIds: (newArray: PhraseSelections) => void;
+  phraseSelections: PhraseSelections;
+  setPhraseSelections: (newArray: PhraseSelections) => void;
 }) {
   return (
     <React.Fragment>
@@ -84,14 +84,14 @@ function CarouselMadLib(props: {
                   className={styles.MadLibSelect}
                   name={index.toString()}
                   defaultValue={props.madlib.defaultSelections[index]}
-                  value={props.phraseSelectionIds[index]}
+                  value={props.phraseSelections[index]}
                   onChange={(event) => {
                     let phraseIndex: number = Number(event.target.name);
                     let updatedArray: PhraseSelections = {
-                      ...props.phraseSelectionIds,
+                      ...props.phraseSelections,
                     };
                     updatedArray[phraseIndex] = Number(event.target.value);
-                    props.setPhraseSelectionIds(updatedArray);
+                    props.setPhraseSelections(updatedArray);
                   }}
                 >
                   {Object.keys(phraseSegment).map((key: string) => (

@@ -48,14 +48,14 @@ function CountyLevelTable(countyList: County[]) {
 
 function DemoReport(props: {
   madlib: MadLib;
-  phraseSelectionIds: PhraseSelections;
+  phraseSelections: PhraseSelections;
 }) {
   const [countyList, setCountyList] = useState<County[]>([]);
 
   useEffect(() => {
     setCountyList([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseSelectionIds[5]]);
+  }, [props.phraseSelections[5]]);
 
   const signalListeners: any = {
     click: (...args: any) => {
@@ -78,7 +78,7 @@ function DemoReport(props: {
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        {props.phraseSelectionIds[5] === 0 && (
+        {props.phraseSelections[5] === 0 && (
           <UsaChloroplethMap
             signalListeners={signalListeners}
             varField="rate"
@@ -88,9 +88,9 @@ function DemoReport(props: {
             numberFormat="percentage"
           />
         )}
-        {props.phraseSelectionIds[5] !== 0 && (
+        {props.phraseSelections[5] !== 0 && (
           <UsaChloroplethMap
-            stateFips={props.phraseSelectionIds[5]}
+            stateFips={props.phraseSelections[5]}
             signalListeners={signalListeners}
             varField="rate"
             legendTitle="% unemployed"
@@ -104,7 +104,7 @@ function DemoReport(props: {
           {props.madlib.phrase.map((phraseSegment, index) => (
             <React.Fragment key={index}>
               {phraseSegment.constructor === Object ? (
-                <span> {phraseSegment[props.phraseSelectionIds[index]]} </span>
+                <span> {phraseSegment[props.phraseSelections[index]]} </span>
               ) : (
                 <span>{phraseSegment}</span>
               )}
