@@ -84,7 +84,7 @@ function DemoReport(props: {
             signalListeners={signalListeners}
             varField="rate"
             legendTitle="% unemployed"
-            dataUrl="unemp.csv"
+            dataUrl="tmp/unemp.csv"
             operation="mean"
             numberFormat="percentage"
           />
@@ -95,7 +95,7 @@ function DemoReport(props: {
             signalListeners={signalListeners}
             varField="rate"
             legendTitle="% unemployed"
-            dataUrl="unemp.csv"
+            dataUrl="tmp/unemp.csv"
             numberFormat="percentage"
           />
         )}

@@ -120,7 +120,7 @@ function TellMeAboutReport(props: {
           legendTitle={FIELDS[props.phraseSelections[1]].legend}
           filterVar="BRFSS2019_IMPLIED_RACE"
           filterValue={race}
-          dataUrl="brfss.json"
+          dataUrl="tmp/brfss.json"
           operation="sum"
         />
       </Grid>

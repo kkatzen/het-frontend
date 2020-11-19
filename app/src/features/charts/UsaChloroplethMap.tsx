@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+// @ts-nocheck
+
+import React, { useState, useEffect } from "react";
 import { Vega } from "react-vega";
+import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
 
 type AggregationOperation = "sum" | "mean";
 type NumberFormat = "raw" | "percentage";
@@ -25,10 +28,10 @@ function UsaChloroplethMap(props: {
   stateFips?: number;
   numberFormat?: NumberFormat;
 }) {
-  const [width, setWidth] = useState<number | undefined>();
-  // Initial spec state is set in useEffect when default geo is set
+  const [ref, width] = useResponsiveWidth();
+
+  // Initial spec state is set in useEffect
   const [spec, setSpec] = useState({});
-  const myRef = useRef(document.createElement("div"));
 
   useEffect(() => {
     /* SET UP VARIABLE DATSET */
@@ -193,28 +196,9 @@ function UsaChloroplethMap(props: {
     props.numberFormat,
   ]);
 
-  // TODO: useLayoutEffect or other
-  useEffect(() => {
-    if (myRef && myRef.current) {
-      setWidth(myRef.current.offsetWidth);
-    }
-
-    const handleResize = () => {
-      if (myRef && myRef.current) {
-        setWidth(myRef.current.offsetWidth);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [myRef]);
-
   return (
     <div
-      ref={myRef}
+      ref={ref}
       style={{
         width: "80%",
         margin: "auto",
