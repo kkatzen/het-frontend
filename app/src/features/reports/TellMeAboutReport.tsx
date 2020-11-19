@@ -9,16 +9,19 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
 import { MadLib, PhraseSelections } from "../../utils/MadLibs";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
 
 /*
 Corresponds to:
-Where are the {0:"highest", 1:"lowest"} rates of {0:"obesity", 1:"diabetes"} in STATE_FIPS_MAP ?
+Tell me about {0:"copd", 1:"diabetes"} in USA ?
 */
 
 interface County {
   id: string;
   name: string;
-  rate: number;
+  value: number;
 }
 
 function CountyLevelTable(countyList: County[]) {
@@ -27,17 +30,15 @@ function CountyLevelTable(countyList: County[]) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>County ID</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Rate</TableCell>
+            <TableCell>Cases</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {countyList.map((county: County) => (
-            <TableRow>
-              <TableCell>{county.id}</TableCell>
+            <TableRow key={county.name}>
               <TableCell>{county.name}</TableCell>
-              <TableCell>{(county.rate * 100).toFixed(2)}%</TableCell>
+              <TableCell>{county.value}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -46,26 +47,29 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function DemoReport(props: {
+function TellMeAboutReport(props: {
   madlib: MadLib;
   phraseSelections: PhraseSelections;
 }) {
   const [countyList, setCountyList] = useState<County[]>([]);
+  const [race, setRace] = useState<string>("All");
 
   useEffect(() => {
     setCountyList([]);
+    setRace("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseSelections[5]]);
+  }, [props.phraseSelections[1]]);
 
   const signalListeners: any = {
     click: (...args: any) => {
       const clickedData = args[1];
       let countyIds = countyList.map((datum: County) => datum.id);
       if (!countyIds.includes(args[1].id)) {
+        console.log(clickedData);
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,
-          rate: clickedData.rate,
+          value: clickedData[FIELDS[props.phraseSelections[1]].field],
         };
         setCountyList([...countyList, newCountyDatum]);
       }
@@ -75,31 +79,24 @@ function DemoReport(props: {
     },
   };
 
+  const FIELDS: Record<number, any> = {
+    0: { field: "COPD_YES", legend: "# COPD cases" },
+    1: { field: "DIABETES_YES_YESPREGNANT", legend: "# Diabetes cases" },
+  };
+
+  const RACES = [
+    "All",
+    "American Indian/Alaskan Native, Non-Hispanic",
+    "Asian, Non-Hispanic",
+    "Black, Non-Hispanic",
+    "Hispanic",
+    "Other race, Non-Hispanic",
+    "White, Non-Hispanic",
+  ];
+
   return (
     <Grid container spacing={1} alignItems="flex-start">
-      <Grid item xs={12} sm={12} md={6}>
-        {props.phraseSelections[5] === 0 && (
-          <UsaChloroplethMap
-            signalListeners={signalListeners}
-            varField="rate"
-            legendTitle="% unemployed"
-            dataUrl="tmp/unemp.csv"
-            operation="mean"
-            numberFormat="percentage"
-          />
-        )}
-        {props.phraseSelections[5] !== 0 && (
-          <UsaChloroplethMap
-            stateFips={props.phraseSelections[5]}
-            signalListeners={signalListeners}
-            varField="rate"
-            legendTitle="% unemployed"
-            dataUrl="tmp/unemp.csv"
-            numberFormat="percentage"
-          />
-        )}
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
+      <Grid item xs={12}>
         <h2>
           {props.madlib.phrase.map((phraseSegment, index) => (
             <React.Fragment key={index}>
@@ -111,9 +108,39 @@ function DemoReport(props: {
             </React.Fragment>
           ))}
         </h2>
+      </Grid>
+      <Grid item xs={12} sm={12} md={6}>
+        Filter results by race:
+        <FormControl>
+          <Select
+            name="raceSelect"
+            value={race}
+            onChange={(e) => {
+              setRace(e.target.value as string);
+              setCountyList([]);
+            }}
+          >
+            {RACES.map((race) => (
+              <MenuItem key={race} value={race}>
+                {race}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <UsaChloroplethMap
+          signalListeners={signalListeners}
+          varField={FIELDS[props.phraseSelections[1]].field}
+          legendTitle={FIELDS[props.phraseSelections[1]].legend}
+          filterVar="BRFSS2019_IMPLIED_RACE"
+          filterValue={race}
+          dataUrl="tmp/brfss.json"
+          operation="sum"
+        />
+      </Grid>
+      <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
         <p>
-          Click on some counties to see data in this table, shift click on map
-          to reset.
+          Click on some states to see data in this table, shift click on map to
+          reset.
         </p>
         {CountyLevelTable(countyList)}
       </Grid>
@@ -121,4 +148,4 @@ function DemoReport(props: {
   );
 }
 
-export default DemoReport;
+export default TellMeAboutReport;

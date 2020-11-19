@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-import DemoReport from "../features/reports/DemoReport";
 import MenuItem from "@material-ui/core/MenuItem";
-import { MADLIB_LIST, MadLib, PhraseSegment } from "../utils/MadLibs";
+import DemoReport from "../features/reports/DemoReport";
+import TellMeAboutReport from "../features/reports/TellMeAboutReport";
+import {
+  MADLIB_LIST,
+  MadLib,
+  PhraseSegment,
+  PhraseSelections,
+} from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
 
 function ExploreDataPage() {
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const [phraseSelectionIds, setPhraseValues] = useState(
-    MADLIB_LIST[0].phrase.map(() => 0)
+  const [phraseSelections, setPhraseSelections] = useState<PhraseSelections>(
+    MADLIB_LIST[phraseIndex].defaultSelections
   );
 
-  function changeMadLib(index: number) {
-    setPhraseValues(MADLIB_LIST[index].phrase.map(() => 0));
-    setPhraseIndex(index);
-  }
+  useEffect(() => {
+    setPhraseSelections({ ...MADLIB_LIST[phraseIndex].defaultSelections });
+  }, [phraseIndex]);
 
   return (
     <React.Fragment>
@@ -29,16 +34,14 @@ function ExploreDataPage() {
           indicators={false}
           animation="slide"
           navButtonsAlwaysVisible={true}
-          onChange={(index: number) => {
-            changeMadLib(index);
-          }}
+          onChange={setPhraseIndex}
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
             <Paper elevation={3} className={styles.CarouselItem} key={i}>
               <CarouselMadLib
                 madlib={madlib}
-                phraseSelectionIds={phraseSelectionIds}
-                setPhraseValues={setPhraseValues}
+                phraseSelections={phraseSelections}
+                setPhraseSelections={setPhraseSelections}
                 key={i}
               />
             </Paper>
@@ -49,7 +52,13 @@ function ExploreDataPage() {
         {phraseIndex === 0 && (
           <DemoReport
             madlib={MADLIB_LIST[0]}
-            phraseSelectionIds={phraseSelectionIds}
+            phraseSelections={phraseSelections}
+          />
+        )}
+        {phraseIndex === 1 && (
+          <TellMeAboutReport
+            madlib={MADLIB_LIST[1]}
+            phraseSelections={phraseSelections}
           />
         )}
       </div>
@@ -59,14 +68,14 @@ function ExploreDataPage() {
 
 function CarouselMadLib(props: {
   madlib: MadLib;
-  phraseSelectionIds: number[];
-  setPhraseValues: (newArray: number[]) => void;
+  phraseSelections: PhraseSelections;
+  setPhraseSelections: (newArray: PhraseSelections) => void;
 }) {
   return (
     <React.Fragment>
       {props.madlib.phrase.map(
         (phraseSegment: PhraseSegment, index: number) => (
-          <React.Fragment>
+          <React.Fragment key={index}>
             {typeof phraseSegment === "string" ? (
               <React.Fragment>{phraseSegment}</React.Fragment>
             ) : (
@@ -74,21 +83,22 @@ function CarouselMadLib(props: {
                 <Select
                   className={styles.MadLibSelect}
                   name={index.toString()}
-                  value={props.phraseSelectionIds[index]}
+                  defaultValue={props.madlib.defaultSelections[index]}
+                  value={props.phraseSelections[index]}
                   onChange={(event) => {
                     let phraseIndex: number = Number(event.target.name);
-                    let updatedArray: number[] = [...props.phraseSelectionIds];
+                    let updatedArray: PhraseSelections = {
+                      ...props.phraseSelections,
+                    };
                     updatedArray[phraseIndex] = Number(event.target.value);
-                    props.setPhraseValues(updatedArray);
+                    props.setPhraseSelections(updatedArray);
                   }}
                 >
-                  {Object.keys(phraseSegment).map(
-                    (value: string, index: number) => (
-                      <MenuItem key={index} value={index}>
-                        {phraseSegment[index]}
-                      </MenuItem>
-                    )
-                  )}
+                  {Object.keys(phraseSegment).map((key: string) => (
+                    <MenuItem key={key} value={Number(key)}>
+                      {phraseSegment[Number(key)]}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             )}
