@@ -17,7 +17,7 @@ function getMadLibPhraseText(
   phraseSelections: PhraseSelections
 ): string {
   let madLibText = "";
-  madLib.phrase.map((phraseSegment, index) => {
+  madLib.phrase.forEach((phraseSegment, index) => {
     if (phraseSegment.constructor === Object) {
       madLibText += " " + phraseSegment[phraseSelections[index]] + " ";
     } else {

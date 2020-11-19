@@ -9,11 +9,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import {
-  MadLib,
-  PhraseSelections,
-  getMadLibPhraseText,
-} from "../../utils/MadLibs";
+import { MadLib, PhraseSelections } from "../../utils/MadLibs";
 
 /*
 Corresponds to:

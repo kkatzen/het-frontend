@@ -11,11 +11,7 @@ import styles from "./Report.module.scss";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import {
-  MadLib,
-  PhraseSelections,
-  getMadLibPhraseText,
-} from "../../utils/MadLibs";
+import { MadLib, PhraseSelections } from "../../utils/MadLibs";
 
 /*
 Corresponds to:
