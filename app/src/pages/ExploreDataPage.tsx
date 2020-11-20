@@ -6,6 +6,14 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import DemoReport from "../features/reports/DemoReport";
 import TellMeAboutReport from "../features/reports/TellMeAboutReport";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
+import ShareIcon from "@material-ui/icons/Share";
+import { getMadLibPhraseText } from "../utils/MadLibs";
+
 import {
   MADLIB_LIST,
   MadLib,
@@ -13,6 +21,13 @@ import {
   PhraseSelections,
 } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
+import {
+  clearSearchParams,
+  MADLIB_PHRASE_PARAM,
+  MADLIB_SELECTIONS_PARAM,
+  useSearchParams,
+  linkToMadLib,
+} from "../utils/urlutils";
 import CompareStatesForVariableReport from "../features/reports/CompareStatesForVariableReport";
 
 function getPhraseValue(
@@ -54,12 +69,39 @@ function ReportWrapper(props: {
     default:
       return <p>Report not found</p>;
   }
-}
-
+}  
+        
+        
 function ExploreDataPage() {
+  const [shareModalOpen, setShareModalOpen] = React.useState(false);
+  const params = useSearchParams();
+  useEffect(() => {
+    // TODO - it would be nice to have the params stay and update when selections are made
+    // Until then, it's best to just clear them so they can't become mismatched
+    clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
+  }, []);
   const [madLibIndex, setMadLibIndex] = useState(0);
+    Number(params[MADLIB_PHRASE_PARAM]) | 0
+  );
+
+  let defaultValuesWithOverrides = MADLIB_LIST[madLibIndex].defaultSelections;
+  if (params[MADLIB_SELECTIONS_PARAM]) {
+    params[MADLIB_SELECTIONS_PARAM].split(",").forEach((override) => {
+      const [key, value] = override.split(":");
+      // Validate that key is in valid range
+      if (!Object.keys(MADLIB_LIST[madLibIndex].phrase).includes(key)) return;
+      // Validate that value is in valid range
+      if (
+        !Object.keys(MADLIB_LIST[madLibIndex].phrase[Number(key)]).includes(
+          value
+        )
+      )
+        return;
+      defaultValuesWithOverrides[Number(key)] = Number(value);
+    });
+  }
   const [phraseSelections, setPhraseSelections] = useState<PhraseSelections>(
-    MADLIB_LIST[madLibIndex].defaultSelections
+    defaultValuesWithOverrides
   );
 
   useEffect(() => {
@@ -68,6 +110,19 @@ function ExploreDataPage() {
 
   return (
     <React.Fragment>
+      <Dialog
+        open={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Link to this Report</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {linkToMadLib(madLibIndex, phraseSelections, true)}
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       <div className={styles.CarouselContainer}>
         <Carousel
           className={styles.Carousel}
@@ -76,6 +131,7 @@ function ExploreDataPage() {
           indicators={false}
           animation="slide"
           navButtonsAlwaysVisible={true}
+          index={madLibIndex}
           onChange={setMadLibIndex}
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
@@ -91,6 +147,16 @@ function ExploreDataPage() {
         </Carousel>
       </div>
       <div className={styles.ReportContainer}>
+        <h1>
+          {getMadLibPhraseText(MADLIB_LIST[madLibIndex], phraseSelections)}
+          <IconButton
+            aria-label="delete"
+            color="primary"
+            onClick={() => setShareModalOpen(true)}
+          >
+            <ShareIcon />
+          </IconButton>
+        </h1>
         <ReportWrapper
           madLibIndex={madLibIndex}
           phraseSelections={phraseSelections}
@@ -103,7 +169,7 @@ function ExploreDataPage() {
 function CarouselMadLib(props: {
   madlib: MadLib;
   phraseSelections: PhraseSelections;
-  setPhraseSelections: (newArray: PhraseSelections) => void;
+  Selections: (newArray: PhraseSelections) => void;
 }) {
   return (
     <React.Fragment>

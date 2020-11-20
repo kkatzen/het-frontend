@@ -1,11 +1,23 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { PhraseSelections } from "../utils/MadLibs";
 export const STICKY_VERSION_PARAM = "sv";
+
+export const EXPLORE_DATA_PAGE = "exploredata";
+export const DATA_CATALOG_PAGE = "datacatalog";
+export const ABOUT_US_PAGE = "aboutus";
 
 // Value is a comma-separated list of dataset ids. Dataset ids cannot have
 // commas in them.
 export const DATASET_PRE_FILTERS = "dpf";
+
+// Value is index of the phrase to jump to
+export const MADLIB_PHRASE_PARAM = "mlp";
+
+// Value is a comma-separated list mapping indicies to values with : delimiter
+// Values are applied on top of defaults so you only need to specify those that differ
+// mls=0:1,2:5
+export const MADLIB_SELECTIONS_PARAM = "mls";
 
 export function LinkWithStickyParams(props: {
   to: string;
@@ -42,4 +54,28 @@ export function clearSearchParams(params: string[]) {
   if (newUrl !== originalUrl) {
     window.history.replaceState(null /* state */, "" /* title */, newUrl);
   }
+}
+
+export function linkToMadLib(
+  index: Number,
+  phraseSelections: PhraseSelections,
+  absolute = false
+) {
+  const selectionOverrides = Object.keys(phraseSelections).map(
+    (key) => key + ":" + phraseSelections[Number(key)]
+  );
+
+  const url = [
+    "/",
+    EXPLORE_DATA_PAGE,
+    "?",
+    MADLIB_PHRASE_PARAM,
+    "=",
+    index,
+    "&",
+    MADLIB_SELECTIONS_PARAM,
+    "=",
+    selectionOverrides.join(","),
+  ].join("");
+  return absolute ? window.location.host + url : url;
 }

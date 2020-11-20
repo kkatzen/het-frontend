@@ -8,10 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import { MadLib, PhraseSelections } from "../../utils/MadLibs";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
+import { MadLib, PhraseSelections } from "../../utils/MadLibs";
 
 /*
 Corresponds to:
@@ -96,19 +96,6 @@ function TellMeAboutReport(props: {
 
   return (
     <Grid container spacing={1} alignItems="flex-start">
-      <Grid item xs={12}>
-        <h2>
-          {props.madlib.phrase.map((phraseSegment, index) => (
-            <React.Fragment key={index}>
-              {phraseSegment.constructor === Object ? (
-                <span> {phraseSegment[props.phraseSelections[index]]} </span>
-              ) : (
-                <span>{phraseSegment}</span>
-              )}
-            </React.Fragment>
-          ))}
-        </h2>
-      </Grid>
       <Grid item xs={12} sm={12} md={6}>
         Filter results by race:
         <FormControl>

@@ -100,17 +100,6 @@ function DemoReport(props: {
         )}
       </Grid>
       <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
-        <h2>
-          {props.madlib.phrase.map((phraseSegment, index) => (
-            <React.Fragment key={index}>
-              {phraseSegment.constructor === Object ? (
-                <span> {phraseSegment[props.phraseSelections[index]]} </span>
-              ) : (
-                <span>{phraseSegment}</span>
-              )}
-            </React.Fragment>
-          ))}
-        </h2>
         <p>
           Click on some counties to see data in this table, shift click on map
           to reset.
