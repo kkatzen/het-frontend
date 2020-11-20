@@ -29,6 +29,17 @@ const MADLIB_LIST: MadLib[] = [
     phrase: ["Tell me about", { 0: "COPD", 1: "diabetes" }, "in the USA."],
     defaultSelections: { 1: 0 },
   },
+  {
+    phrase: [
+      "Compare",
+      { 0: "diabetes_per_100k" },
+      " in ",
+      STATE_FIPS_MAP,
+      " compared to ",
+      STATE_FIPS_MAP,
+    ],
+    defaultSelections: { 1: 0, 3: 13, 5: 0 },
+  },
 ];
 
 export { MADLIB_LIST };
