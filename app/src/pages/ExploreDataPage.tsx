@@ -69,9 +69,8 @@ function ReportWrapper(props: {
     default:
       return <p>Report not found</p>;
   }
-}  
-        
-        
+}
+
 function ExploreDataPage() {
   const [shareModalOpen, setShareModalOpen] = React.useState(false);
   const params = useSearchParams();
@@ -80,7 +79,7 @@ function ExploreDataPage() {
     // Until then, it's best to just clear them so they can't become mismatched
     clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
-  const [madLibIndex, setMadLibIndex] = useState(0);
+  const [madLibIndex, setMadLibIndex] = useState(
     Number(params[MADLIB_PHRASE_PARAM]) | 0
   );
 
@@ -169,7 +168,7 @@ function ExploreDataPage() {
 function CarouselMadLib(props: {
   madlib: MadLib;
   phraseSelections: PhraseSelections;
-  Selections: (newArray: PhraseSelections) => void;
+  setPhraseSelections: (newArray: PhraseSelections) => void;
 }) {
   return (
     <React.Fragment>
