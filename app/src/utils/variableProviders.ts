@@ -2,6 +2,11 @@ import { Breakdowns } from "./Breakdowns";
 import { Dataset, Row } from "./DatasetTypes";
 import STATE_FIPS_MAP from "./Fips";
 
+// TODO - do we want these to be a type instead? for example:
+// export type DatasetId = "diabetes_count" | "diabetes_per_100k";
+export const DIABETES_COUNT_ID = "diabetes_count";
+export const DIABETES_PER_100K_ID = "diabetes_per_100k";
+
 export abstract class VariableProvider {
   readonly variableId: string;
   readonly variableName: string;
@@ -164,12 +169,12 @@ export class AcsPopulationProvider extends VariableProvider {
 
 const variableProviders: Record<string, VariableProvider> = {
   diabetes_count: new DiabetesProvider(
-    "diabetes_count",
+    DIABETES_COUNT_ID,
     "Diabetes Count",
     "Number of people with diabetes"
   ),
   diabetes_per_100k: new DiabetesProvider(
-    "diabetes_per_100k",
+    DIABETES_PER_100K_ID,
     "Diabetes Per 100k",
     "Number of people with diabetes per 100k population"
   ),

@@ -11,12 +11,12 @@ import styles from "./Report.module.scss";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import { MadLib, PhraseSelections } from "../../utils/MadLibs";
-
-/*
-Corresponds to:
-Tell me about {0:"copd", 1:"diabetes"} in USA ?
-*/
+import WithDatasets from "../../utils/WithDatasets";
+import useDatasetStore from "../../utils/useDatasetStore";
+import variableProviders, {
+  VariableProvider,
+} from "../../utils/variableProviders";
+import { Breakdowns } from "../../utils/Breakdowns";
 
 interface County {
   id: string;
@@ -24,14 +24,14 @@ interface County {
   value: number;
 }
 
-function CountyLevelTable(countyList: County[]) {
+function CountyLevelTable(countyList: County[], valueName: string) {
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell>Cases</TableCell>
+            <TableCell>{valueName}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,10 +47,13 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function TellMeAboutReport(props: {
-  madlib: MadLib;
-  phraseSelections: PhraseSelections;
-}) {
+function TellMeAboutReport(props: { variable: string }) {
+  const datasetStore = useDatasetStore();
+  const variableProvider = variableProviders[props.variable];
+  const requiredDatasets = VariableProvider.getUniqueDatasetIds([
+    variableProvider,
+  ]);
+
   const [countyList, setCountyList] = useState<County[]>([]);
   const [race, setRace] = useState<string>("All");
 
@@ -58,7 +61,7 @@ function TellMeAboutReport(props: {
     setCountyList([]);
     setRace("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseSelections[1]]);
+  }, [props.variable]);
 
   const signalListeners: any = {
     click: (...args: any) => {
@@ -69,7 +72,7 @@ function TellMeAboutReport(props: {
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,
-          value: clickedData[FIELDS[props.phraseSelections[1]].field],
+          value: clickedData[props.variable],
         };
         setCountyList([...countyList, newCountyDatum]);
       }
@@ -79,11 +82,7 @@ function TellMeAboutReport(props: {
     },
   };
 
-  const FIELDS: Record<number, any> = {
-    0: { field: "COPD_YES", legend: "# COPD cases" },
-    1: { field: "DIABETES_YES_YESPREGNANT", legend: "# Diabetes cases" },
-  };
-
+  // TODO - filter from the dataset provider instead of here
   const RACES = [
     "All",
     "American Indian/Alaskan Native, Non-Hispanic",
@@ -95,43 +94,50 @@ function TellMeAboutReport(props: {
   ];
 
   return (
-    <Grid container spacing={1} alignItems="flex-start">
-      <Grid item xs={12} sm={12} md={6}>
-        Filter results by race:
-        <FormControl>
-          <Select
-            name="raceSelect"
-            value={race}
-            onChange={(e) => {
-              setRace(e.target.value as string);
-              setCountyList([]);
-            }}
-          >
-            {RACES.map((race) => (
-              <MenuItem key={race} value={race}>
-                {race}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <UsaChloroplethMap
-          signalListeners={signalListeners}
-          varField={FIELDS[props.phraseSelections[1]].field}
-          legendTitle={FIELDS[props.phraseSelections[1]].legend}
-          filterVar="BRFSS2019_IMPLIED_RACE"
-          filterValue={race}
-          dataUrl="tmp/brfss.json"
-          operation="sum"
-        />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
-        <p>
-          Click on some states to see data in this table, shift click on map to
-          reset.
-        </p>
-        {CountyLevelTable(countyList)}
-      </Grid>
-    </Grid>
+    <WithDatasets datasetIds={requiredDatasets}>
+      {() => (
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={12} sm={12} md={6}>
+            Filter results by race:
+            <FormControl>
+              <Select
+                name="raceSelect"
+                value={race}
+                onChange={(e) => {
+                  setRace(e.target.value as string);
+                  setCountyList([]);
+                }}
+              >
+                {RACES.map((race) => (
+                  <MenuItem key={race} value={race}>
+                    {race}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <UsaChloroplethMap
+              signalListeners={signalListeners}
+              varField={props.variable}
+              legendTitle={variableProvider.variableName}
+              filterVar="race"
+              filterValue={race}
+              data={variableProvider.getData(
+                datasetStore.datasets,
+                Breakdowns.byState().andRace()
+              )}
+              operation="sum"
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
+            <p>
+              Click on some states to see data in this table, shift click on map
+              to reset.
+            </p>
+            {CountyLevelTable(countyList, variableProvider.variableName)}
+          </Grid>
+        </Grid>
+      )}
+    </WithDatasets>
   );
 }
 

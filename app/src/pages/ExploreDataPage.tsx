@@ -54,8 +54,7 @@ function ReportWrapper(props: {
     case 1:
       return (
         <TellMeAboutReport
-          madlib={madlib}
-          phraseSelections={props.phraseSelections}
+          variable={getPhraseValue(madlib, 1, props.phraseSelections)}
         />
       );
     case 2:
