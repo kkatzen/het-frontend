@@ -5,6 +5,7 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import DemoReport from "../features/reports/DemoReport";
+import ChartDumpReport from "../features/reports/ChartDumpReport";
 import TellMeAboutReport from "../features/reports/TellMeAboutReport";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -12,10 +13,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
-import { getMadLibPhraseText } from "../utils/MadLibs";
-
 import {
   MADLIB_LIST,
+  getMadLibPhraseText,
   MadLib,
   PhraseSegment,
   PhraseSelections,
@@ -30,81 +30,64 @@ import {
 } from "../utils/urlutils";
 import CompareStatesForVariableReport from "../features/reports/CompareStatesForVariableReport";
 
-function getPhraseValue(
-  madlib: MadLib,
-  segmentIndex: number,
-  phraseSelections: PhraseSelections
-): string {
-  const segment = madlib.phrase[segmentIndex];
+function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
+  const segment = madLib.phrase[segmentIndex];
   return typeof segment === "string"
     ? segment
-    : segment[phraseSelections[segmentIndex]];
+    : segment[madLib.activeSelections[segmentIndex]];
 }
 
-function ReportWrapper(props: {
-  madLibIndex: number;
-  phraseSelections: PhraseSelections;
-}) {
-  const madlib = MADLIB_LIST[props.madLibIndex];
-  switch (props.madLibIndex) {
+function ReportWrapper(props: { madLib: MadLib }) {
+  switch (props.madLib.index) {
     case 0:
-      return (
-        <DemoReport madlib={madlib} phraseSelections={props.phraseSelections} />
-      );
+      return <DemoReport madLib={props.madLib} />;
     case 1:
-      return (
-        <TellMeAboutReport
-          variable={getPhraseValue(madlib, 1, props.phraseSelections)}
-        />
-      );
+      return <TellMeAboutReport variable={getPhraseValue(props.madLib, 1)} />;
     case 2:
       return (
         <CompareStatesForVariableReport
-          state1={getPhraseValue(madlib, 3, props.phraseSelections)}
-          state2={getPhraseValue(madlib, 5, props.phraseSelections)}
-          variable={getPhraseValue(madlib, 1, props.phraseSelections)}
+          state1={getPhraseValue(props.madLib, 3)}
+          state2={getPhraseValue(props.madLib, 5)}
+          variable={getPhraseValue(props.madLib, 1)}
         />
       );
+    case 3:
+      return <ChartDumpReport />;
     default:
       return <p>Report not found</p>;
   }
 }
 
 function ExploreDataPage() {
-  const [shareModalOpen, setShareModalOpen] = React.useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+
   const params = useSearchParams();
   useEffect(() => {
     // TODO - it would be nice to have the params stay and update when selections are made
     // Until then, it's best to just clear them so they can't become mismatched
     clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
-  const [madLibIndex, setMadLibIndex] = useState(
-    Number(params[MADLIB_PHRASE_PARAM]) | 0
-  );
 
-  let defaultValuesWithOverrides = MADLIB_LIST[madLibIndex].defaultSelections;
+  const initalIndex = Number(params[MADLIB_PHRASE_PARAM]) | 0;
+  let defaultValuesWithOverrides = MADLIB_LIST[initalIndex].defaultSelections;
   if (params[MADLIB_SELECTIONS_PARAM]) {
     params[MADLIB_SELECTIONS_PARAM].split(",").forEach((override) => {
       const [key, value] = override.split(":");
-      // Validate that key is in valid range
-      if (!Object.keys(MADLIB_LIST[madLibIndex].phrase).includes(key)) return;
-      // Validate that value is in valid range
+      let phrase = MADLIB_LIST[initalIndex].phrase;
       if (
-        !Object.keys(MADLIB_LIST[madLibIndex].phrase[Number(key)]).includes(
-          value
-        )
-      )
-        return;
-      defaultValuesWithOverrides[Number(key)] = Number(value);
+        Object.keys(phrase).includes(key) &&
+        Object.keys(phrase[Number(key)]).includes(value)
+      ) {
+        defaultValuesWithOverrides[Number(key)] = Number(value);
+      }
+      console.log(defaultValuesWithOverrides);
     });
   }
-  const [phraseSelections, setPhraseSelections] = useState<PhraseSelections>(
-    defaultValuesWithOverrides
-  );
 
-  useEffect(() => {
-    setPhraseSelections({ ...MADLIB_LIST[madLibIndex].defaultSelections });
-  }, [madLibIndex]);
+  const [madLib, setMadLib] = useState<MadLib>({
+    ...MADLIB_LIST[initalIndex],
+    activeSelections: defaultValuesWithOverrides,
+  });
 
   return (
     <React.Fragment>
@@ -117,7 +100,7 @@ function ExploreDataPage() {
         <DialogTitle id="alert-dialog-title">Link to this Report</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {linkToMadLib(madLibIndex, phraseSelections, true)}
+            {linkToMadLib(madLib.index, madLib.activeSelections, true)}
           </DialogContentText>
         </DialogContent>
       </Dialog>
@@ -129,24 +112,24 @@ function ExploreDataPage() {
           indicators={false}
           animation="slide"
           navButtonsAlwaysVisible={true}
-          index={madLibIndex}
-          onChange={setMadLibIndex}
+          index={madLib.index}
+          onChange={(index: number) => {
+            setMadLib({
+              ...MADLIB_LIST[index],
+              activeSelections: MADLIB_LIST[index].defaultSelections,
+            });
+          }}
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
             <Paper elevation={3} className={styles.CarouselItem} key={i}>
-              <CarouselMadLib
-                madlib={madlib}
-                phraseSelections={phraseSelections}
-                setPhraseSelections={setPhraseSelections}
-                key={i}
-              />
+              <CarouselMadLib madLib={madLib} setMadLib={setMadLib} key={i} />
             </Paper>
           ))}
         </Carousel>
       </div>
       <div className={styles.ReportContainer}>
         <h1>
-          {getMadLibPhraseText(MADLIB_LIST[madLibIndex], phraseSelections)}
+          {getMadLibPhraseText(madLib)}
           <IconButton
             aria-label="delete"
             color="primary"
@@ -155,23 +138,19 @@ function ExploreDataPage() {
             <ShareIcon />
           </IconButton>
         </h1>
-        <ReportWrapper
-          madLibIndex={madLibIndex}
-          phraseSelections={phraseSelections}
-        />
+        <ReportWrapper madLib={madLib} />
       </div>
     </React.Fragment>
   );
 }
 
 function CarouselMadLib(props: {
-  madlib: MadLib;
-  phraseSelections: PhraseSelections;
-  setPhraseSelections: (newArray: PhraseSelections) => void;
+  madLib: MadLib;
+  setMadLib: (updatedMadLib: MadLib) => void;
 }) {
   return (
     <React.Fragment>
-      {props.madlib.phrase.map(
+      {props.madLib.phrase.map(
         (phraseSegment: PhraseSegment, index: number) => (
           <React.Fragment key={index}>
             {typeof phraseSegment === "string" ? (
@@ -181,15 +160,18 @@ function CarouselMadLib(props: {
                 <Select
                   className={styles.MadLibSelect}
                   name={index.toString()}
-                  defaultValue={props.madlib.defaultSelections[index]}
-                  value={props.phraseSelections[index]}
+                  defaultValue={props.madLib.defaultSelections[index]}
+                  value={props.madLib.activeSelections[index]}
                   onChange={(event) => {
-                    let madLibIndex: number = Number(event.target.name);
+                    let index: number = Number(event.target.name);
                     let updatedArray: PhraseSelections = {
-                      ...props.phraseSelections,
+                      ...props.madLib.activeSelections,
                     };
-                    updatedArray[madLibIndex] = Number(event.target.value);
-                    props.setPhraseSelections(updatedArray);
+                    updatedArray[index] = Number(event.target.value);
+                    props.setMadLib({
+                      ...props.madLib,
+                      activeSelections: updatedArray,
+                    });
                   }}
                 >
                   {Object.keys(phraseSegment).map((key: string) => (

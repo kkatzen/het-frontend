@@ -6,6 +6,8 @@ import STATE_FIPS_MAP from "./Fips";
 // export type DatasetId = "diabetes_count" | "diabetes_per_100k";
 export const DIABETES_COUNT_ID = "diabetes_count";
 export const DIABETES_PER_100K_ID = "diabetes_per_100k";
+export const POPULATION_PCT_ID = "population_pct";
+export const POPULATION_ID = "population_pct";
 
 export abstract class VariableProvider {
   readonly variableId: string;
@@ -179,12 +181,12 @@ const variableProviders: Record<string, VariableProvider> = {
     "Number of people with diabetes per 100k population"
   ),
   population_pct: new AcsPopulationProvider(
-    "population_pct",
+    POPULATION_PCT_ID,
     "Population Percent",
     "Percentage of population"
   ),
   population: new AcsPopulationProvider(
-    "population",
+    POPULATION_ID,
     "Population",
     "Population"
   ),

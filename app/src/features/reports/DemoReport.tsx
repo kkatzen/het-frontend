@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import { MadLib, PhraseSelections } from "../../utils/MadLibs";
+import { MadLib } from "../../utils/MadLibs";
 
 /*
 Corresponds to:
@@ -46,16 +46,13 @@ function CountyLevelTable(countyList: County[]) {
   );
 }
 
-function DemoReport(props: {
-  madlib: MadLib;
-  phraseSelections: PhraseSelections;
-}) {
+function DemoReport(props: { madLib: MadLib }) {
   const [countyList, setCountyList] = useState<County[]>([]);
 
   useEffect(() => {
     setCountyList([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.phraseSelections[5]]);
+  }, [props.madLib.activeSelections[5]]);
 
   const signalListeners: any = {
     click: (...args: any) => {
@@ -78,7 +75,7 @@ function DemoReport(props: {
   return (
     <Grid container spacing={1} alignItems="flex-start">
       <Grid item xs={12} sm={12} md={6}>
-        {props.phraseSelections[5] === 0 && (
+        {props.madLib.activeSelections[5] === 0 && (
           <UsaChloroplethMap
             signalListeners={signalListeners}
             varField="rate"
@@ -88,9 +85,9 @@ function DemoReport(props: {
             numberFormat="percentage"
           />
         )}
-        {props.phraseSelections[5] !== 0 && (
+        {props.madLib.activeSelections[5] !== 0 && (
           <UsaChloroplethMap
-            stateFips={props.phraseSelections[5]}
+            stateFips={props.madLib.activeSelections[5]}
             signalListeners={signalListeners}
             varField="rate"
             legendTitle="% unemployed"
