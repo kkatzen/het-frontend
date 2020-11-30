@@ -2,7 +2,7 @@ import { DatasetMetadata, MetadataMap } from "./DatasetTypes";
 
 const fakeMetadata: DatasetMetadata[] = [
   {
-    id: "acs_state_population_by_race",
+    id: "acs_state_population_by_race_nonstandard",
     name: "Share of population by state and race",
     data_source_name: "American Community Survey 5-year estimates (2014-2018)",
     data_source_link:
@@ -28,7 +28,7 @@ const fakeMetadata: DatasetMetadata[] = [
       },
       {
         data_type: "string",
-        name: "race",
+        name: "hispanic_or_latino_and_race",
         description: "description",
         origin_dataset: "acs_state_population_by_race",
       },
@@ -118,6 +118,56 @@ const fakeMetadata: DatasetMetadata[] = [
         name: "copd_count",
         description: "description",
         origin_dataset: "brfss_diabetes",
+      },
+    ],
+  },
+  {
+    id: "covid_by_state_and_race",
+    name: "Covid deaths, cases, and hospitalizations by state and race",
+    data_source_name: "Covid tracking project",
+    data_source_link: "https://covidtracking.com/race",
+    geographic_level: "State",
+    demographic_granularity: "Race/ethnicity",
+    update_frequency: "?",
+    update_time: "?",
+    description:
+      "Description placeholder for covid. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id lectus urna. Vestibulum lobortis ac quam vel tincidunt. Quisque ex erat, efficitur nec sagittis vitae, dictum semper arcu. Vivamus metus felis, fringilla sit amet metus nec, feugiat suscipit nisl. Morbi posuere mi sit amet elit posuere, id gravida ligula facilisis. Aenean gravida a eros fringilla venenatis.",
+    fields: [
+      {
+        data_type: "string",
+        name: "Date",
+        description: "description",
+        origin_dataset: "covid_by_state_and_race",
+      },
+      {
+        data_type: "string",
+        name: "state_name",
+        description: "description",
+        origin_dataset: "covid_by_state_and_race",
+      },
+      {
+        data_type: "string",
+        name: "race",
+        description: "description",
+        origin_dataset: "covid_by_state_and_race",
+      },
+      {
+        data_type: "integer",
+        name: "Cases",
+        description: "description",
+        origin_dataset: "covid_by_state_and_race",
+      },
+      {
+        data_type: "integer",
+        name: "Deaths",
+        description: "description",
+        origin_dataset: "covid_by_state_and_race",
+      },
+      {
+        data_type: "integer",
+        name: "Hosp",
+        description: "description",
+        origin_dataset: "covid_by_state_and_race",
       },
     ],
   },

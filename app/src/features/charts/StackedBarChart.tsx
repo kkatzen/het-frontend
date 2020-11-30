@@ -34,8 +34,16 @@ function getSpec(
 }
 
 function StackedBarChart(props: { data: Row[]; measure: string }) {
+  // TODO stop hard coding values for this chart.
   return (
-    <Vega spec={getSpec(props.data, "state_name", "race", props.measure)} />
+    <Vega
+      spec={getSpec(
+        props.data,
+        "state_name",
+        "hispanic_or_latino_and_race",
+        props.measure
+      )}
+    />
   );
 }
 

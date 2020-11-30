@@ -5,15 +5,14 @@ import VerticalGroupedBarChart from "../charts/VerticalGroupedBarChart";
 import StackedBarChart from "../charts/StackedBarChart";
 import { Button, Grid } from "@material-ui/core";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders, {
-  VariableProvider,
-} from "../../utils/variableProviders";
+import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
+import VariableProvider from "../../utils/variables/VariableProvider";
 
 function CompareStatesForVariableReport(props: {
   state1: string;
   state2: string;
-  variable: string;
+  variable: VariableId;
 }) {
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[props.variable];
@@ -60,7 +59,11 @@ function CompareStatesForVariableReport(props: {
                       Breakdowns.national().andRace()
                     )
                   )
-                  .filter((r) => selectedStates.includes(r.state_name))}
+                  .filter(
+                    (r) =>
+                      selectedStates.includes(r.state_name) &&
+                      r.hispanic_or_latino_and_race !== "Total"
+                  )}
                 measure={acsProvider.variableId}
               />
             </Grid>

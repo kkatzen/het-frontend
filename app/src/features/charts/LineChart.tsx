@@ -1,21 +1,23 @@
 import React from "react";
 import { Vega } from "react-vega";
+import { Row } from "../../utils/DatasetTypes";
 
 function LineChart(props: {
-  data: {}; // for instance, race
+  data: Row[];
   breakdownVar: string; // for instance, race
-  breakdownValues: string[]; // array of the values of breakdown
   variable: string; // for instance, rate
   timeVariable: string; // for instance, rate
 }) {
-  const tooltipValues = props.breakdownValues.map((raceName) => ({
-    field: raceName,
-    type: "quantitative",
-  }));
+  const tooltipValues = Array.from(
+    new Set(props.data.map((row: any) => row[props.breakdownVar]))
+  ).map((breakdown) => ({ field: breakdown, type: "quantitative" }));
+  tooltipValues.push({ field: props.timeVariable, type: "temporal" });
 
   const liteSpec: any = {
     $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-    data: props.data,
+    data: {
+      values: props.data,
+    },
     width: 400,
     height: 300,
     encoding: {

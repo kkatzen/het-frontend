@@ -1,7 +1,5 @@
 import STATE_FIPS_MAP from "./Fips";
 
-import { DIABETES_COUNT_ID, DIABETES_PER_100K_ID } from "./variableProviders";
-
 // Map of phrase segment index to its selected value
 export type PhraseSelections = Record<number, number>;
 
@@ -51,7 +49,7 @@ const MADLIB_LIST: MadLib[] = [
     index: 1,
     phrase: [
       "Tell me about",
-      { 0: DIABETES_COUNT_ID, 1: DIABETES_PER_100K_ID },
+      { 0: "diabetes_count", 1: "diabetes_per_100k" },
       "in the USA.",
     ],
     defaultSelections: { 1: 0 },
@@ -61,7 +59,7 @@ const MADLIB_LIST: MadLib[] = [
     index: 2,
     phrase: [
       "Compare",
-      { 0: DIABETES_PER_100K_ID },
+      { 0: "diabetes_per_100k" },
       " in ",
       STATE_FIPS_MAP,
       " compared to ",
@@ -75,6 +73,17 @@ const MADLIB_LIST: MadLib[] = [
     phrase: ["Show me ALL THE CHARTS!!!!"],
     defaultSelections: { 0: 0 },
     activeSelections: { 0: 0 },
+  },
+  {
+    index: 4,
+    phrase: [
+      "Tell me about",
+      { 0: "covid_cases_per_100k", 1: "covid_deaths_per_100k" },
+      " in ",
+      STATE_FIPS_MAP,
+    ],
+    defaultSelections: { 1: 0, 3: 0 },
+    activeSelections: { 1: 0, 3: 0 },
   },
 ];
 

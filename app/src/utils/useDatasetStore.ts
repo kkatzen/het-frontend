@@ -32,6 +32,7 @@ interface ResourceCacheManager<R> {
 
 /** Whether the resource should be loaded based on its current load status. */
 function shouldLoadResource(loadStatus: LoadStatus) {
+  // TODO need to make it not retry for non-retryable errors or it'll just try forever. Or maybe just max 3 times with backoff?
   return (
     loadStatus === undefined ||
     loadStatus === "error" ||
@@ -144,6 +145,8 @@ export function useDatasetStoreProvider(): DatasetStore {
           metadataLoadPromise,
         ]);
         // TODO throw specific error message if metadata is missing.
+        // TODO validate metadata against data, and also process variables out
+        // of it?
         return new Dataset(data, metadata[datasetId]);
       }
     );

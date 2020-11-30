@@ -29,6 +29,8 @@ import {
   linkToMadLib,
 } from "../utils/urlutils";
 import CompareStatesForVariableReport from "../features/reports/CompareStatesForVariableReport";
+import CovidReport from "../features/reports/CovidReport";
+import { VariableId } from "../utils/variableProviders";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
@@ -38,21 +40,33 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
 }
 
 function ReportWrapper(props: { madLib: MadLib }) {
+  let variableId: VariableId;
   switch (props.madLib.index) {
     case 0:
       return <DemoReport madLib={props.madLib} />;
     case 1:
-      return <TellMeAboutReport variable={getPhraseValue(props.madLib, 1)} />;
+      // TODO we should add type safety to these instead of casting.
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      return <TellMeAboutReport variable={variableId} />;
     case 2:
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
         <CompareStatesForVariableReport
           state1={getPhraseValue(props.madLib, 3)}
           state2={getPhraseValue(props.madLib, 5)}
-          variable={getPhraseValue(props.madLib, 1)}
+          variable={variableId}
         />
       );
     case 3:
       return <ChartDumpReport />;
+    case 4:
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      return (
+        <CovidReport
+          variable={variableId}
+          geography={getPhraseValue(props.madLib, 3)}
+        />
+      );
     default:
       return <p>Report not found</p>;
   }
@@ -80,7 +94,6 @@ function ExploreDataPage() {
       ) {
         defaultValuesWithOverrides[Number(key)] = Number(value);
       }
-      console.log(defaultValuesWithOverrides);
     });
   }
 

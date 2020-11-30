@@ -13,10 +13,9 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders, {
-  VariableProvider,
-} from "../../utils/variableProviders";
+import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
+import VariableProvider from "../../utils/variables/VariableProvider";
 
 interface County {
   id: string;
@@ -47,7 +46,7 @@ function CountyLevelTable(countyList: County[], valueName: string) {
   );
 }
 
-function TellMeAboutReport(props: { variable: string }) {
+function TellMeAboutReport(props: { variable: VariableId }) {
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[props.variable];
   const requiredDatasets = VariableProvider.getUniqueDatasetIds([
@@ -68,7 +67,6 @@ function TellMeAboutReport(props: { variable: string }) {
       const clickedData = args[1];
       let countyIds = countyList.map((datum: County) => datum.id);
       if (!countyIds.includes(args[1].id)) {
-        console.log(clickedData);
         let newCountyDatum = {
           id: clickedData.id,
           name: clickedData.properties.name,

@@ -1,5 +1,12 @@
 export type GeographicBreakdown = "national" | "state" | "county";
-export type DemographicBreakdown = "race" | "age" | "gender";
+
+// TODO is the race vs race_nonstandard distinction necessary, or should we just
+// expect each provider to know what type it uses?
+export type DemographicBreakdown =
+  | "race"
+  | "race_nonstandard"
+  | "age"
+  | "gender";
 
 export class Breakdowns {
   geography: GeographicBreakdown;
@@ -18,6 +25,10 @@ export class Breakdowns {
     this.geography = geography;
     this.demographic = demographic;
     this.time = time;
+  }
+
+  getUniqueKey() {
+    return `geography: ${this.geography}, demographic: ${this.demographic}, time: ${this.time}`;
   }
 
   static national(): Breakdowns {
@@ -40,8 +51,10 @@ export class Breakdowns {
     return this;
   }
 
-  andRace(): Breakdowns {
-    return this.andDemographic("race");
+  andRace(nonstandard = false): Breakdowns {
+    return nonstandard
+      ? this.andDemographic("race_nonstandard")
+      : this.andDemographic("race");
   }
 
   andAge(): Breakdowns {

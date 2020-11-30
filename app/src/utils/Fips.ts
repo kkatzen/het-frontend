@@ -6,8 +6,8 @@ const STATE_FIPS_MAP = {
   5: "Arkansas",
   6: "California",
   8: "Colorado",
-  9: "Conneticut",
-  10: "Delware",
+  9: "Connecticut",
+  10: "Delaware",
   12: "Florida",
   13: "Georgia",
   15: "Hawaii",
@@ -49,7 +49,7 @@ const STATE_FIPS_MAP = {
   53: "Washington",
   54: "West Virginia",
   55: "Wisconsin",
-  56: "Wyomming",
+  56: "Wyoming",
 };
 /*
     60: "American Samoa",
