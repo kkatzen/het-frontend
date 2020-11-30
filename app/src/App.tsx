@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./App.module.scss";
 import MaterialTheme from "./styles/MaterialTheme";
 import DataCatalogPage from "./pages/DataCatalogPage";
@@ -9,6 +9,13 @@ import Footer from "./Footer";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -17,10 +24,52 @@ import {
   DatasetProvider,
   startMetadataLoad,
 } from "./utils/useDatasetStore";
-import { LinkWithStickyParams } from "./utils/urlutils";
+import {
+  LinkWithStickyParams,
+  EXPLORE_DATA_PAGE_LINK,
+  DATA_CATALOG_PAGE_LINK,
+  ABOUT_US_PAGE_LINK,
+} from "./utils/urlutils";
 import AboutUsPage from "./pages/AboutUsPage";
 
+const MOBILE_BREAKPOINT = 600;
+
+const PAGE_URL_TO_NAMES: Record<string, string> = {
+  "/": "Homepage",
+  [ABOUT_US_PAGE_LINK]: "About Us",
+  [DATA_CATALOG_PAGE_LINK]: "Data Sources & Methodology",
+  [EXPLORE_DATA_PAGE_LINK]: "Explore the Data",
+};
+
 startMetadataLoad();
+
+function MobileAppToolbar() {
+  const [open, setOpen] = useState(false);
+
+  function ListItemLink(props: any) {
+    return <ListItem button component="a" {...props} />;
+  }
+
+  return (
+    <Toolbar>
+      <IconButton onClick={() => setOpen(true)}>
+        <MenuIcon />
+      </IconButton>
+      <Drawer variant="persistent" anchor="left" open={open}>
+        <Button onClick={() => setOpen(false)}>
+          <ChevronLeftIcon />
+        </Button>
+        <List>
+          {Object.keys(PAGE_URL_TO_NAMES).map((pageUrl, index) => (
+            <ListItemLink href={pageUrl} key={index}>
+              <ListItemText primary={PAGE_URL_TO_NAMES[pageUrl]} />
+            </ListItemLink>
+          ))}
+        </List>
+      </Drawer>
+    </Toolbar>
+  );
+}
 
 function AppToolbar() {
   return (
@@ -30,19 +79,15 @@ function AppToolbar() {
           Health Equity Tracker
         </LinkWithStickyParams>
       </Typography>
-      <Button className={styles.NavButton}>
-        <LinkWithStickyParams to="/aboutus">About us</LinkWithStickyParams>
-      </Button>
-      <Button className={styles.NavButton}>
-        <LinkWithStickyParams to="/datacatalog">
-          Data Sources & Methodology
-        </LinkWithStickyParams>
-      </Button>
-      <Button className={styles.NavButton}>
-        <LinkWithStickyParams to="/exploredata">
-          Explore the Data
-        </LinkWithStickyParams>
-      </Button>
+      {[ABOUT_US_PAGE_LINK, DATA_CATALOG_PAGE_LINK, EXPLORE_DATA_PAGE_LINK].map(
+        (pageUrl) => (
+          <Button className={styles.NavButton}>
+            <LinkWithStickyParams to={pageUrl}>
+              {PAGE_URL_TO_NAMES[pageUrl]}
+            </LinkWithStickyParams>
+          </Button>
+        )
+      )}
       <Button className={styles.NavButton}>
         <a href="https://satcherinstitute.github.io/data-visualization/02_covid19_death_disparities/">
           Prototypes
@@ -53,6 +98,15 @@ function AppToolbar() {
 }
 
 function App() {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleResize() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const datasetStore = useDatasetStoreProvider();
   return (
     <ThemeProvider theme={MaterialTheme}>
@@ -61,12 +115,22 @@ function App() {
           <div className={styles.Content}>
             <Router>
               <AppBar position="static">
-                <AppToolbar />
+                {width > MOBILE_BREAKPOINT ? (
+                  <AppToolbar />
+                ) : (
+                  <MobileAppToolbar />
+                )}
               </AppBar>
               <Switch>
-                <Route path="/aboutus" component={AboutUsPage} />
-                <Route path="/datacatalog" component={DataCatalogPage} />
-                <Route path="/exploredata" component={ExploreDataPage} />
+                <Route path={ABOUT_US_PAGE_LINK} component={AboutUsPage} />
+                <Route
+                  path={DATA_CATALOG_PAGE_LINK}
+                  component={DataCatalogPage}
+                />
+                <Route
+                  path={EXPLORE_DATA_PAGE_LINK}
+                  component={ExploreDataPage}
+                />
                 <Route exact path="/" component={LandingPage} />
                 <Route component={NotFoundPage} />
               </Switch>

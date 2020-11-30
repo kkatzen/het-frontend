@@ -3,9 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { PhraseSelections } from "../utils/MadLibs";
 export const STICKY_VERSION_PARAM = "sv";
 
-export const EXPLORE_DATA_PAGE = "exploredata";
-export const DATA_CATALOG_PAGE = "datacatalog";
-export const ABOUT_US_PAGE = "aboutus";
+export const EXPLORE_DATA_PAGE_LINK = "/exploredata";
+export const DATA_CATALOG_PAGE_LINK = "/datacatalog";
+export const ABOUT_US_PAGE_LINK = "/aboutus";
 
 // Value is a comma-separated list of dataset ids. Dataset ids cannot have
 // commas in them.
@@ -66,8 +66,7 @@ export function linkToMadLib(
   );
 
   const url = [
-    "/",
-    EXPLORE_DATA_PAGE,
+    EXPLORE_DATA_PAGE_LINK,
     "?",
     MADLIB_PHRASE_PARAM,
     "=",
