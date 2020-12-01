@@ -40,12 +40,12 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
 
 function ReportWrapper(props: { madLib: MadLib }) {
   let variableId: VariableId;
-  switch (props.madLib.index) {
-    case 0:
+  switch (props.madLib.id) {
+    case "diabetes":
       // TODO we should add type safety to these instead of casting.
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return <TellMeAboutReport variable={variableId} />;
-    case 1:
+    case "compare":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
         <CompareStatesForVariableReport
@@ -54,9 +54,9 @@ function ReportWrapper(props: { madLib: MadLib }) {
           variable={variableId}
         />
       );
-    case 2:
+    case "dump":
       return <ChartDumpReport />;
-    case 3:
+    case "covid":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
         <CovidReport
@@ -79,7 +79,10 @@ function ExploreDataPage() {
     clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
 
-  const initalIndex = Number(params[MADLIB_PHRASE_PARAM]) | 0;
+  const foundIndex = MADLIB_LIST.findIndex(
+    (madlib) => madlib.id === params[MADLIB_PHRASE_PARAM]
+  );
+  const initalIndex = foundIndex !== -1 ? foundIndex : 0;
   let defaultValuesWithOverrides = MADLIB_LIST[initalIndex].defaultSelections;
   if (params[MADLIB_SELECTIONS_PARAM]) {
     params[MADLIB_SELECTIONS_PARAM].split(",").forEach((override) => {
@@ -110,7 +113,7 @@ function ExploreDataPage() {
         <DialogTitle id="alert-dialog-title">Link to this Report</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {linkToMadLib(madLib.index, madLib.activeSelections, true)}
+            {linkToMadLib(madLib.id, madLib.activeSelections, true)}
           </DialogContentText>
         </DialogContent>
       </Dialog>
@@ -122,7 +125,6 @@ function ExploreDataPage() {
           indicators={false}
           animation="slide"
           navButtonsAlwaysVisible={true}
-          index={madLib.index}
           onChange={(index: number) => {
             setMadLib({
               ...MADLIB_LIST[index],

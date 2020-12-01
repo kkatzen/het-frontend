@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { PhraseSelections } from "../utils/MadLibs";
+import { PhraseSelections, MadLibId } from "../utils/MadLibs";
 export const STICKY_VERSION_PARAM = "sv";
 
 export const EXPLORE_DATA_PAGE_LINK = "/exploredata";
@@ -57,7 +57,7 @@ export function clearSearchParams(params: string[]) {
 }
 
 export function linkToMadLib(
-  index: Number,
+  madLibId: MadLibId,
   phraseSelections: PhraseSelections,
   absolute = false
 ) {
@@ -70,7 +70,7 @@ export function linkToMadLib(
     "?",
     MADLIB_PHRASE_PARAM,
     "=",
-    index,
+    madLibId,
     "&",
     MADLIB_SELECTIONS_PARAM,
     "=",

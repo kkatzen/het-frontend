@@ -70,7 +70,7 @@ function LandingPage() {
           <p>
             Florida has the highest cases of COPD in the united states.
             <br />
-            <LinkWithStickyParams to={linkToMadLib(1, { 1: 0 })}>
+            <LinkWithStickyParams to={linkToMadLib("diabetes", { 1: 0 })}>
               <Button variant="outlined">Explore Data</Button>
             </LinkWithStickyParams>
           </p>
@@ -99,7 +99,7 @@ function LandingPage() {
             County level look at where the highest rates of unemployment are in
             the state of Pennsylvania
             <br />
-            <LinkWithStickyParams to={linkToMadLib(0, { 5: 42 })}>
+            <LinkWithStickyParams to={linkToMadLib("diabetes", { 1: 1 })}>
               <Button variant="outlined">Explore Data</Button>
             </LinkWithStickyParams>
           </p>
@@ -111,7 +111,7 @@ function LandingPage() {
           <p>
             Explore racial breakdowns of Diabetes data in the United States
             <br />
-            <LinkWithStickyParams to={linkToMadLib(1, { 1: 1 })}>
+            <LinkWithStickyParams to={linkToMadLib("diabetes", { 1: 1 })}>
               <Button variant="outlined">Explore Data</Button>
             </LinkWithStickyParams>
           </p>
