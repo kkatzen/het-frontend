@@ -60,3 +60,55 @@ export function reshapeColsToRows(
     })
     .dropSeries(cols);
 }
+
+/**
+ * Groups df by all the columns in groupByCols, and applies the specified
+ * function to each group, and then collects the resulting groups into a data
+ * frame and returns that.
+ */
+export function applyToGroups(
+  df: IDataFrame,
+  groupByCols: string[],
+  fn: (group: IDataFrame) => IDataFrame
+): IDataFrame {
+  const groups = df
+    .groupBy((row) => row[groupByCols[0]])
+    .select((group) => {
+      if (groupByCols.length === 1) {
+        return fn(group);
+      }
+      return applyToGroups(group, groupByCols.slice(1), fn);
+    });
+  return groups
+    .skip(1)
+    .aggregate(groups.first(), (prev, next) => prev.concat(next))
+    .resetIndex();
+}
+
+/**
+ * Left joins two data frames on the specified columns, keeping all the
+ * remaining columns from both.
+ */
+export function joinOnCols(
+  df1: IDataFrame,
+  df2: IDataFrame,
+  cols: string[]
+): IDataFrame {
+  const keySelector = (row: any) => {
+    const keys = cols.map((col) => col + ": " + row[col]);
+    return keys.join(",");
+  };
+  return df1
+    .join(df2, keySelector, keySelector, (row1, row2) => ({ ...row2, ...row1 }))
+    .resetIndex();
+}
+
+/** Calculates a rate as occurrences per 100k */
+export function per100k(numerator: number, denominator: number): number {
+  return Math.round(100000 * (numerator / denominator));
+}
+
+/** Calculates a rate as a percent to one decimal place. */
+export function percent(numerator: number, denominator: number): number {
+  return Math.round((1000 * numerator) / denominator) / 10;
+}

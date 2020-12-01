@@ -1,4 +1,4 @@
-import { DataFrame } from "data-forge";
+import { DataFrame, IDataFrame } from "data-forge";
 
 /* TODO: These are not yet comprehensive, final interfaces */
 
@@ -42,7 +42,7 @@ export class Dataset {
     this.metadata = metadata;
   }
 
-  toDataFrame() {
+  toDataFrame(): IDataFrame {
     return new DataFrame(this.rows);
   }
 

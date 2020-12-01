@@ -11,9 +11,15 @@ export type VariableId =
   | "diabetes_per_100k"
   | "population"
   | "population_pct"
+  | "covid_cases"
+  | "covid_deaths"
+  | "covid_hosp"
+  | "covid_cases_pct_of_geo"
+  | "covid_deaths_pct_of_geo"
+  | "covid_hosp_pct_of_geo"
   | "covid_deaths_per_100k"
   | "covid_cases_per_100k"
-  | "covid_death_count";
+  | "covid_hosp_per_100k";
 
 const acsProvider = new AcsPopulationProvider(
   "population",
@@ -27,9 +33,27 @@ const acsProvider = new AcsPopulationProvider(
 // to be provided by the same getData() call.
 const providers: VariableProvider[] = [
   new CovidProvider(
-    "covid_death_count",
+    "covid_cases",
+    "Confirmed Covid19 Cases",
+    "Number of people who have been diagnosed with Covid19",
+    acsProvider
+  ),
+  new CovidProvider(
+    "covid_deaths",
     "Confirmed Covid19 Deaths",
     "Number of people who have died of Covid19",
+    acsProvider
+  ),
+  new CovidProvider(
+    "covid_hosp",
+    "Confirmed Covid19 Hospitalizations",
+    "Number of people who have been hospitalized by Covid19",
+    acsProvider
+  ),
+  new CovidProvider(
+    "covid_cases_per_100k",
+    "Confirmed Covid19 Cases per 100k people",
+    "Number of people who have been diagnosed with Covid19 per 100k population",
     acsProvider
   ),
   new CovidProvider(
@@ -39,9 +63,27 @@ const providers: VariableProvider[] = [
     acsProvider
   ),
   new CovidProvider(
-    "covid_cases_per_100k",
-    "Confirmed Covid19 cases per 100k people",
-    "Number of people who have been diagnosed with Covid19 per 100k population",
+    "covid_hosp_per_100k",
+    "Confirmed Covid19 Hospitalizations per 100k people",
+    "Number of people who have been hospitalized by Covid19 per 100k population",
+    acsProvider
+  ),
+  new CovidProvider(
+    "covid_cases_pct_of_geo",
+    "Percent of total cases",
+    "Percentage of cases for a particular region that came from the specified demographic",
+    acsProvider
+  ),
+  new CovidProvider(
+    "covid_deaths_pct_of_geo",
+    "Percent of total deaths",
+    "Percentage of deaths for a particular region that came from the specified demographic",
+    acsProvider
+  ),
+  new CovidProvider(
+    "covid_hosp_pct_of_geo",
+    "Percent of total hospitalizations",
+    "Percentage of hospitalizations for a particular region that came from the specified demographic",
     acsProvider
   ),
   new DiabetesProvider(

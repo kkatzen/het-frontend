@@ -1,6 +1,7 @@
 import { IDataFrame } from "data-forge";
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
+import { applyToGroups, percent } from "../datasetutils";
 import STATE_FIPS_MAP from "../Fips";
 import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
@@ -16,27 +17,6 @@ const standardizedRaces = [
   "White alone (Non-Hispanic)",
   "Total",
 ];
-
-function addPctOfTotalForStateColumn(
-  df: IDataFrame,
-  aggCol: string,
-  totalVal: string,
-  valCol: string
-) {
-  const groups = df
-    .groupBy((row) => row.state_name)
-    .select((group) => {
-      const total = group.where((r) => r[aggCol] === totalVal).first()[valCol];
-      return group.generateSeries({
-        [valCol + "_pct"]: (row) =>
-          Math.round((1000 * row[valCol]) / total) / 10,
-      });
-    });
-  return groups
-    .skip(1)
-    .aggregate(groups.first(), (prev, next) => prev.concat(next))
-    .resetIndex();
-}
 
 class AcsPopulationProvider extends VariableProvider {
   constructor(
@@ -54,12 +34,14 @@ class AcsPopulationProvider extends VariableProvider {
     breakdowns: Breakdowns
   ): Row[] {
     let df = this.getDataInternalWithoutPercents(datasets, breakdowns);
-    df = addPctOfTotalForStateColumn(
-      df,
-      "hispanic_or_latino_and_race",
-      "Total",
-      "population"
-    );
+    df = applyToGroups(df, ["state_name"], (group) => {
+      const total = group
+        .where((r) => r.hispanic_or_latino_and_race === "Total")
+        .first()["population"];
+      return group.generateSeries({
+        population_pct: (row) => percent(row.population, total),
+      });
+    });
     return df.toArray();
   }
 

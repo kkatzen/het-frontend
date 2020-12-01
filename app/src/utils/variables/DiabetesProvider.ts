@@ -1,5 +1,6 @@
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
+import { per100k } from "../datasetutils";
 import STATE_FIPS_MAP from "../Fips";
 import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
@@ -32,10 +33,9 @@ class DiabetesProvider extends VariableProvider {
     return df
       .generateSeries({
         diabetes_per_100k: (row) =>
-          100000 *
-          (row.diabetes_count / (row.diabetes_count + row.diabetes_no)),
+          per100k(row.diabetes_count, row.diabetes_count + row.diabetes_no),
         copd_per_100k: (row) =>
-          100000 * (row.copd_count / (row.copd_count + row.copd_no)),
+          per100k(row.copd_count, row.copd_count + row.copd_no),
       })
       .toArray();
   }

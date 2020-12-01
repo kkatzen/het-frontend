@@ -5,6 +5,7 @@ import VariableProvider from "./VariableProvider";
 import STATE_FIPS_MAP from "../Fips";
 import { VariableId } from "../variableProviders";
 import AcsPopulationProvider from "./AcsPopulationProvider";
+import { applyToGroups, joinOnCols, per100k, percent } from "../datasetutils";
 
 class CovidProvider extends VariableProvider {
   private acsProvider: AcsPopulationProvider;
@@ -29,50 +30,59 @@ class CovidProvider extends VariableProvider {
     breakdowns: Breakdowns
   ): Row[] {
     const covid_by_state_and_race = datasets["covid_by_state_and_race"];
-    const acs_population = new DataFrame(
-      this.acsProvider.getData(datasets, Breakdowns.byState().andRace(true))
-    );
-
-    const df = covid_by_state_and_race.toDataFrame();
-    const keySelector = (row: any) =>
-      JSON.stringify({
-        state_name: row.state_name,
-        race: row.hispanic_or_latino_and_race,
-      });
-    const joined = df.join(
-      acs_population,
-      keySelector,
-      keySelector,
-      (dia, acs) => ({ ...acs, ...dia })
-    );
-
-    // TODO change this to pivot before joining, so we can defer to the ACS
-    // provider for getting the right ACS data, and so derived values like
-    // population_pct still apply.
-    let result =
+    // TODO need to figure out how to handle getting this at the national level
+    // because each state reports race differently.
+    let df = covid_by_state_and_race.toDataFrame();
+    df = df.renameSeries({
+      Cases: "covid_cases",
+      Deaths: "covid_deaths",
+      Hosp: "covid_hosp",
+    });
+    df =
       breakdowns.geography === "state"
-        ? joined
-        : joined
+        ? df
+        : df
             .pivot(["date", "hispanic_or_latino_and_race"], {
               state_name: (series) => STATE_FIPS_MAP[0],
-              Cases: (series) => series.sum(),
-              Deaths: (series) => series.sum(),
-              Hosp: (series) => series.sum(),
-              population: (series) => series.sum(),
+              covid_cases: (series) => series.sum(),
+              covid_deaths: (series) => series.sum(),
+              covid_hosp: (series) => series.sum(),
             })
             .resetIndex();
 
-    return result
+    // TODO How to handle territories?
+    const acsPopulation = new DataFrame(
+      this.acsProvider.getData(
+        datasets,
+        new Breakdowns(breakdowns.geography, breakdowns.demographic)
+      )
+    );
+    df = joinOnCols(df, acsPopulation, [
+      "state_name",
+      "hispanic_or_latino_and_race",
+    ]);
+
+    df = df
       .generateSeries({
-        covid_cases_per_100k: (row) =>
-          Math.round(row.Cases / (row.population / 100000)),
+        covid_cases_per_100k: (row) => per100k(row.covid_cases, row.population),
         covid_deaths_per_100k: (row) =>
-          Math.round(row.Deaths / (row.population / 100000)),
-        covid_hosp_per_100k: (row) =>
-          Math.round(row.Hosp / (row.population / 100000)),
+          per100k(row.covid_deaths, row.population),
+        covid_hosp_per_100k: (row) => per100k(row.covid_hosp, row.population),
       })
-      .resetIndex()
-      .toArray();
+      .resetIndex();
+
+    ["covid_cases", "covid_deaths", "covid_hosp"].forEach((col) => {
+      df = applyToGroups(df, ["date", "state_name"], (group) => {
+        const total = group
+          .where((r) => r.hispanic_or_latino_and_race === "Total")
+          .first()[col];
+        return group.generateSeries({
+          [col + "_pct_of_geo"]: (row) => percent(row[col], total),
+        });
+      });
+    });
+
+    return df.toArray();
   }
 
   allowsBreakdowns(breakdowns: Breakdowns): boolean {
