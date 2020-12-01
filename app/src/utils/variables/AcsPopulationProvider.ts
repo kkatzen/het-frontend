@@ -2,7 +2,7 @@ import { IDataFrame } from "data-forge";
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import { applyToGroups, percent } from "../datasetutils";
-import STATE_FIPS_MAP from "../Fips";
+import { USA_DISPLAY_NAME } from "../Fips";
 import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
 
@@ -67,7 +67,7 @@ class AcsPopulationProvider extends VariableProvider {
         .pivot("hispanic_or_latino_and_race", {
           // TODO for the purpose of charts, rename state_name to something more
           // general so we can compare counties with states with the nation.
-          state_name: (series) => STATE_FIPS_MAP[0],
+          state_name: (series) => USA_DISPLAY_NAME,
           population: (series) => series.sum(),
         })
         .resetIndex();
@@ -86,7 +86,7 @@ class AcsPopulationProvider extends VariableProvider {
     ) {
       return acsStandard
         .pivot("hispanic_or_latino_and_race", {
-          state_name: (series) => STATE_FIPS_MAP[0],
+          state_name: (series) => USA_DISPLAY_NAME,
           population: (series) => series.sum(),
         })
         .resetIndex();

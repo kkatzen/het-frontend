@@ -1,5 +1,9 @@
-const STATE_FIPS_MAP = {
-  0: "the USA",
+// TODO maybe rename this file since this string is out of place
+export const ALL_RACES_DISPLAY_NAME = "All races";
+export const USA_DISPLAY_NAME = "the USA";
+
+export const STATE_FIPS_MAP = {
+  0: USA_DISPLAY_NAME,
   1: "Alabama",
   2: "Alaska",
   4: "Arizona",
@@ -58,5 +62,3 @@ const STATE_FIPS_MAP = {
     72: "Puerto Rico",
     78: "Virgin Islands"
 */
-
-export default STATE_FIPS_MAP;
