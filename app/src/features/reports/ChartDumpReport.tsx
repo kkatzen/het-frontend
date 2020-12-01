@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from "react";
 import { Grid } from "@material-ui/core";
 import TellMeAboutReport from "./TellMeAboutReport";
@@ -51,10 +52,10 @@ function ChartDumpReport() {
                     selectedStates.includes(r.state_name) &&
                     r.hispanic_or_latino_and_race !== "Total"
                 )}
-              columns={[
-                "state_name",
-                "hispanic_or_latino_and_race",
-                "population",
+              fields={[
+                { name: "state_name", displayName: "State Name" },
+                { name: "hispanic_or_latino_and_race", displayName: "Race" },
+                { name: "population", displayName: "Population" },
               ]}
             />
             <Divider />

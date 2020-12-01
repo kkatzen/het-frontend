@@ -143,7 +143,13 @@ function TellMeAboutReport(props: { variable: VariableId }) {
             <Grid item xs={12} sm={12} md={6} className={styles.PaddedGrid}>
               <TableChart
                 data={dataset}
-                columns={["state_name", variableProvider.variableName]}
+                fields={[
+                  { name: "state_name", displayName: "State name" },
+                  {
+                    name: props.variable,
+                    displayName: variableProvider.variableName,
+                  },
+                ]}
               />
             </Grid>
           </Grid>

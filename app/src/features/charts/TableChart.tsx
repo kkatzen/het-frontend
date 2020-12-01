@@ -9,6 +9,11 @@ import TableRow from "@material-ui/core/TableRow";
 import { Row } from "../../utils/DatasetTypes";
 import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 
+export interface Field {
+  readonly name: string;
+  readonly displayName: string;
+}
+
 const StyledTableHeader = withStyles((theme: Theme) =>
   createStyles({
     head: {
@@ -18,28 +23,33 @@ const StyledTableHeader = withStyles((theme: Theme) =>
   })
 )(TableCell);
 
-function TableChart(props: { data: Row[]; columns?: string[] }) {
-  const tableColumns: string[] =
-    props.columns === undefined ? Object.keys(props.data[0]) : props.columns;
+function TableChart(props: { data: Row[]; fields?: Field[] }) {
+  const tableColumns: Field[] =
+    props.fields === undefined
+      ? Object.keys(props.data[0]).map((name) => ({
+          name: name,
+          displayName: name,
+        }))
+      : props.fields;
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            {tableColumns.map((columnName) => (
-              <StyledTableHeader>{columnName}</StyledTableHeader>
+            {tableColumns.map((field) => (
+              <StyledTableHeader>{field.displayName}</StyledTableHeader>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
             <TableRow>
-              {tableColumns.map((columnName) => (
+              {tableColumns.map((field) => (
                 <TableCell>
-                  {Number.isInteger(row[columnName])
-                    ? row[columnName].toLocaleString("en")
-                    : row[columnName]}
+                  {Number.isInteger(row[field.name])
+                    ? row[field.name].toLocaleString("en")
+                    : row[field.name]}
                 </TableCell>
               ))}
             </TableRow>
