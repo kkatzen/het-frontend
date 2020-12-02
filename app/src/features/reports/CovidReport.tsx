@@ -7,6 +7,7 @@ import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
 import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
 import VariableProvider from "../../utils/variables/VariableProvider";
+import TwoVarBarChart from "../charts/TwoVarBarChart";
 
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
@@ -78,6 +79,16 @@ function CovidReport(props: { variable: VariableId; geography: string }) {
             // TODO why is the line chart showing one day earlier?
             return (
               <>
+                {covidProvider.variableId.endsWith("pct_of_geo") && (
+                  <TwoVarBarChart
+                    data={mostRecent.filter(
+                      (r) => r.hispanic_or_latino_and_race !== "Total"
+                    )}
+                    thickMeasure="population_pct"
+                    thinMeasure={covidProvider.variableId}
+                    breakdownVar="hispanic_or_latino_and_race"
+                  />
+                )}
                 <LineChart
                   data={data}
                   breakdownVar="hispanic_or_latino_and_race"
