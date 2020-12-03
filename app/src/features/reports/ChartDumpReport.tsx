@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core";
 import TellMeAboutReport from "./TellMeAboutReport";
 import Divider from "@material-ui/core/Divider";
 import WithDatasets from "../../utils/WithDatasets";
-import VerticalGroupedBarChart from "../charts/VerticalGroupedBarChart";
+import GroupedBarChart from "../charts/GroupedBarChart";
 import TableChart from "../charts/TableChart";
 import StackedBarChart from "../charts/StackedBarChart";
 import PieChart from "../charts/PieChart";
@@ -115,7 +115,7 @@ function ChartDumpReport() {
             <Divider />
 
             <div style={{ width: "500px", margin: "auto", textAlign: "left" }}>
-              <h1>Vertical Grouped Bar Chart</h1>
+              <h1>Grouped Bar Charts (horizontal or vertical)</h1>
               <b>Examples</b>
               <ul>
                 <li>
@@ -123,7 +123,7 @@ function ChartDumpReport() {
                 </li>
               </ul>
             </div>
-            <VerticalGroupedBarChart
+            <GroupedBarChart
               data={variableProvider
                 .getData(datasetStore.datasets, Breakdowns.byState().andRace())
                 .concat(
@@ -134,6 +134,24 @@ function ChartDumpReport() {
                 )
                 .filter((r) => selectedStates.includes(r.state_name))}
               measure={variableProvider.variableId}
+              dimension1="state_name"
+              dimension2="race"
+              bars="vertical"
+            />
+            <GroupedBarChart
+              data={variableProvider
+                .getData(datasetStore.datasets, Breakdowns.byState().andRace())
+                .concat(
+                  variableProvider.getData(
+                    datasetStore.datasets,
+                    Breakdowns.national().andRace()
+                  )
+                )
+                .filter((r) => selectedStates.includes(r.state_name))}
+              measure={variableProvider.variableId}
+              bars="horizontal"
+              dimension1="state_name"
+              dimension2="race"
             />
             <Divider />
 

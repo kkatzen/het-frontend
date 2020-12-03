@@ -1,7 +1,7 @@
 import React from "react";
 import WithDatasets from "../../utils/WithDatasets";
 import { LinkWithStickyParams } from "../../utils/urlutils";
-import VerticalGroupedBarChart from "../charts/VerticalGroupedBarChart";
+import GroupedBarChart from "../charts/GroupedBarChart";
 import StackedBarChart from "../charts/StackedBarChart";
 import { Button, Grid } from "@material-ui/core";
 import useDatasetStore from "../../utils/useDatasetStore";
@@ -29,7 +29,7 @@ function CompareStatesForVariableReport(props: {
           <Grid container spacing={1} alignItems="flex-start">
             <Grid item xs={12} sm={12} md={6}>
               <strong>{variableProvider.description}</strong>
-              <VerticalGroupedBarChart
+              <GroupedBarChart
                 data={variableProvider
                   .getData(
                     datasetStore.datasets,
@@ -43,6 +43,9 @@ function CompareStatesForVariableReport(props: {
                   )
                   .filter((r) => selectedStates.includes(r.state_name))}
                 measure={variableProvider.variableId}
+                bars="vertical"
+                dimension1="state_name"
+                dimension2="race"
               />
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
