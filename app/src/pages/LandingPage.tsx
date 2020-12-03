@@ -3,8 +3,8 @@ import styles from "./LandingPage.module.scss";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { LinkWithStickyParams } from "../utils/urlutils";
 import { linkToMadLib } from "../utils/urlutils";
+import ImageButton from "../features/ui/ImageButton";
 
 function LandingPage() {
   return (
@@ -67,61 +67,42 @@ function LandingPage() {
           <Typography variant="h6" className={styles.HomeLogo}>
             COPD in the USA
           </Typography>
-          <p>
-            Florida has the highest cases of COPD in the united states.
-            <br />
-            <LinkWithStickyParams to={linkToMadLib("diabetes", { 1: 0 })}>
-              <Button variant="outlined">Explore Data</Button>
-            </LinkWithStickyParams>
-          </p>
+          <p>Florida has the highest cases of COPD in the united states.</p>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
-          <img
-            height="300px"
-            width="300px"
-            alt="placeholder"
-            src="img/copd_usa.png"
+          <ImageButton
+            imageUrl="img/copd_usa.png"
+            text="Explore the Data"
+            link={linkToMadLib("compare", { 3: 12 })}
           />
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
-          <img
-            height="300px"
-            width="300px"
-            alt="placeholder"
-            src="img/penn_unemp.png"
+          <ImageButton
+            imageUrl="img/penn_unemp.png"
+            text="Explore the Data"
+            link={linkToMadLib("covid", { 3: 42 })}
           />
         </Grid>
         <Grid item xs={12} sm={6} className={styles.GreenLandingSquare}>
           <Typography variant="h6" className={styles.HomeLogo}>
-            Unemployment in Pennsylvania
+            COVID-19 in Pennsylvania
           </Typography>
           <p>
-            County level look at where the highest rates of unemployment are in
-            the state of Pennsylvania
-            <br />
-            <LinkWithStickyParams to={linkToMadLib("diabetes", { 1: 1 })}>
-              <Button variant="outlined">Explore Data</Button>
-            </LinkWithStickyParams>
+            Look at where the highest rates of COVID-19 are in the state of
+            Pennsylvania
           </p>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.BlueLandingSquare}>
           <Typography variant="h6" className={styles.HomeLogo}>
             Diabetes in American Indian/Alaska Native, non hispanic population
           </Typography>
-          <p>
-            Explore racial breakdowns of Diabetes data in the United States
-            <br />
-            <LinkWithStickyParams to={linkToMadLib("diabetes", { 1: 1 })}>
-              <Button variant="outlined">Explore Data</Button>
-            </LinkWithStickyParams>
-          </p>
+          <p>Explore racial breakdowns of Diabetes data in the United States</p>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
-          <img
-            height="300px"
-            width="300px"
-            alt="placeholder"
-            src="img/diabetes_amin.png"
+          <ImageButton
+            imageUrl="img/diabetes_amin.png"
+            text="Explore the Data"
+            link={linkToMadLib("diabetes", { 1: 0 })}
           />
         </Grid>
         <Grid item xs={12} container className={styles.GreenLandingSquare}>

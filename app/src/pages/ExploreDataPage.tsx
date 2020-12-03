@@ -30,6 +30,7 @@ import {
 import CompareStatesForVariableReport from "../features/reports/CompareStatesForVariableReport";
 import CovidReport from "../features/reports/CovidReport";
 import { VariableId } from "../utils/variableProviders";
+import ReactTooltip from "react-tooltip";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
@@ -104,6 +105,7 @@ function ExploreDataPage() {
 
   return (
     <React.Fragment>
+      <ReactTooltip />
       <Dialog
         open={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
@@ -146,6 +148,7 @@ function ExploreDataPage() {
             aria-label="delete"
             color="primary"
             onClick={() => setShareModalOpen(true)}
+            data-tip="Share a Link to this Report"
           >
             <ShareIcon />
           </IconButton>

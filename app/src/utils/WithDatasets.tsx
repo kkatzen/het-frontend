@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { LoadStatus } from "../utils/DatasetTypes";
 import useDatasetStore from "../utils/useDatasetStore";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function getJointLoadStatus(statuses: LoadStatus[]) {
   if (statuses.includes("error")) {
@@ -36,7 +37,7 @@ function WithDatasets(props: {
     case "loaded":
       return props.children();
     case "loading":
-      return <p>Loading...</p>;
+      return <CircularProgress />;
     default:
       return (
         <div>
