@@ -11,7 +11,13 @@ export type PhraseSelector = Record<string, string>;
 // or a map of IDs to string options that can fill in a blank
 export type PhraseSegment = string | PhraseSelector;
 
-export type MadLibId = "diabetes" | "compare" | "dump" | "covid" | "mapnav";
+export type MadLibId =
+  | "dump"
+  | "disvargeo"
+  | "varcompare"
+  | "geo"
+  | "vargeo"
+  | "disvarcompare";
 export interface MadLib {
   readonly id: MadLibId;
   readonly phrase: PhraseSegment[];
@@ -58,35 +64,63 @@ const DIABETES_VARIABLES: Record<VariableId, string> = {
 
 const MADLIB_LIST: MadLib[] = [
   {
-    id: "mapnav",
-    phrase: ["Compare", STATE_FIPS_MAP, " and ", STATE_FIPS_MAP],
-    defaultSelections: { 1: "13", 3: USA_FIPS },
-    activeSelections: { 1: "13", 3: USA_FIPS },
-  },
-  {
-    id: "covid",
-    phrase: ["Tell me about", COVID_VARIABLES, " in ", STATE_FIPS_MAP],
-    defaultSelections: { 1: "covid_cases", 3: USA_FIPS },
-    activeSelections: { 1: "covid_cases", 3: USA_FIPS },
-  },
-  {
-    id: "diabetes",
-    phrase: ["Tell me about", DIABETES_VARIABLES, "in the USA."],
-    defaultSelections: { 1: "diabetes_count" },
-    activeSelections: { 1: "diabetes_count" },
-  },
-  {
-    id: "compare",
+    id: "disvargeo",
     phrase: [
-      "Compare",
-      { diabetes_per_100k: "Diabetes per 100k" },
-      " in ",
-      STATE_FIPS_MAP,
-      " compared to ",
+      "Tell me about disparities for",
+      {
+        covid_cases_pct_of_geo: "COVID Cases % of Geo",
+        covid_deaths_pct_of_geo: "COVID Deaths % of Geo",
+        covid_hosp_pct_of_geo: "COVID Hospitalizations % of Geo",
+      },
+      "in",
       STATE_FIPS_MAP,
     ],
-    defaultSelections: { 1: "diabetes_per_100k", 3: "13", 5: USA_FIPS },
-    activeSelections: { 1: "diabetes_per_100k", 3: "13", 5: USA_FIPS },
+    defaultSelections: { 1: "covid_cases_pct_of_geo", 3: USA_FIPS },
+    activeSelections: { 1: "covid_cases_pct_of_geo", 3: USA_FIPS },
+  },
+  {
+    id: "varcompare",
+    phrase: [
+      "Compare ",
+      { diabetes_count: "Diabetes Cases" },
+      " between ",
+      STATE_FIPS_MAP,
+      " and ",
+      STATE_FIPS_MAP,
+    ],
+    defaultSelections: { 1: "diabetes_count", 3: "13", 5: USA_FIPS }, // 13 is Georgia
+    activeSelections: { 1: "diabetes_count", 3: "13", 5: USA_FIPS },
+  },
+  {
+    id: "geo",
+    phrase: ["Tell me about", STATE_FIPS_MAP],
+    defaultSelections: { 1: USA_FIPS },
+    activeSelections: { 1: USA_FIPS },
+  },
+  {
+    id: "vargeo",
+    phrase: [
+      "Show me what",
+      { diabetes_count: "Diabetes Cases" },
+      "looks like in",
+      STATE_FIPS_MAP,
+    ],
+    defaultSelections: { 1: "diabetes_count", 3: USA_FIPS },
+    activeSelections: { 1: "diabetes_count", 3: USA_FIPS },
+  },
+
+  {
+    id: "disvarcompare",
+    phrase: [
+      "Compare ",
+      COVID_VARIABLES,
+      " between ",
+      STATE_FIPS_MAP,
+      " and ",
+      STATE_FIPS_MAP,
+    ],
+    defaultSelections: { 1: "covid_deaths_per_100k", 3: USA_FIPS, 5: USA_FIPS },
+    activeSelections: { 1: "covid_deaths_per_100k", 3: USA_FIPS, 5: USA_FIPS },
   },
   {
     id: "dump",

@@ -32,6 +32,8 @@ import CompareStatesForVariableReport from "../features/reports/CompareStatesFor
 import CovidReport from "../features/reports/CovidReport";
 import { VariableId } from "../utils/variableProviders";
 import ReactTooltip from "react-tooltip";
+import DisVarGeo from "../features/reports/DisVarGeoReport";
+import VarGeoReport from "../features/reports/VarGeoReport";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
@@ -39,6 +41,13 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
     ? segment
     : madLib.activeSelections[segmentIndex];
 }
+export type MadLibId =
+  | "dump"
+  | "disvargeo"
+  | "varcompare"
+  | "geo"
+  | "vargeo"
+  | "disvarcompare";
 
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
   let variableId: VariableId;
@@ -55,38 +64,48 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
   }
 
   switch (props.madLib.id) {
-    case "diabetes":
-      // TODO we should add type safety to these instead of casting.
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
-      return <TellMeAboutReport variable={variableId} />;
-    case "compare":
+    case "disvargeo":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
-        <CompareStatesForVariableReport
-          stateFips1={getPhraseValue(props.madLib, 3)}
-          stateFips2={getPhraseValue(props.madLib, 5)}
-          variable={variableId}
-        />
-      );
-    case "dump":
-      return <ChartDumpReport />;
-    case "covid":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
-      return (
-        <CovidReport
+        <DisVarGeo
           variable={variableId}
           stateFips={getPhraseValue(props.madLib, 3)}
         />
       );
-    case "mapnav":
+    case "varcompare":
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
         <CompareMapNavReport
-          fipsGeo1={props.madLib.activeSelections[1]}
-          fipsGeo2={props.madLib.activeSelections[3]}
-          updateGeo1Callback={(fips: string) => updateGeo(fips, 1)}
-          updateGeo2Callback={(fips: string) => updateGeo(fips, 3)}
+          fipsGeo1={props.madLib.activeSelections[3]}
+          fipsGeo2={props.madLib.activeSelections[5]}
+          updateGeo1Callback={(fips: string) => updateGeo(fips, 3)}
+          updateGeo2Callback={(fips: string) => updateGeo(fips, 5)}
         />
       );
+    case "geo":
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      return <p>geo</p>;
+    case "vargeo":
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      return (
+        <VarGeoReport
+          variable={variableId}
+          stateFips={getPhraseValue(props.madLib, 3)}
+          updateGeoCallback={(fips: string) => updateGeo(fips, 3)}
+        />
+      );
+    case "disvarcompare":
+      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      return (
+        <CompareMapNavReport
+          fipsGeo1={props.madLib.activeSelections[3]}
+          fipsGeo2={props.madLib.activeSelections[5]}
+          updateGeo1Callback={(fips: string) => updateGeo(fips, 3)}
+          updateGeo2Callback={(fips: string) => updateGeo(fips, 5)}
+        />
+      );
+    case "dump":
+      return <ChartDumpReport />;
     default:
       return <p>Report not found</p>;
   }
