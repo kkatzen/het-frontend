@@ -15,7 +15,7 @@ function asDate(dateStr: string) {
   return new Date(parts[0], parts[1] - 1, parts[2]);
 }
 
-function CovidReport(props: { variable: VariableId; geography: string }) {
+function CovidReport(props: { variable: VariableId; stateFips: string }) {
   const datasetStore = useDatasetStore();
   const covidProvider = variableProviders[props.variable];
   const popProvider = variableProviders["population_pct"];
@@ -40,7 +40,7 @@ function CovidReport(props: { variable: VariableId; geography: string }) {
                   Breakdowns.national().andTime().andRace(true)
                 )
               )
-              .filter((row) => row.state_name === props.geography)
+              .filter((row) => row.state_fips_code === props.stateFips)
               .filter(
                 (row) =>
                   !row.hispanic_or_latino_and_race.includes(
@@ -102,14 +102,14 @@ function CovidReport(props: { variable: VariableId; geography: string }) {
                 />
                 <SimpleHorizontalBarChart
                   data={populationData.filter(
-                    (row) => row.state_name === props.geography
+                    (row) => row.state_fips_code === props.stateFips
                   )}
                   breakdownVar="hispanic_or_latino_and_race"
                   measure={popProvider.variableId}
                 />
                 <SimpleHorizontalBarChart
                   data={populationDataStandardized.filter(
-                    (row) => row.state_name === props.geography
+                    (row) => row.state_fips_code === props.stateFips
                   )}
                   breakdownVar="hispanic_or_latino_and_race"
                   measure={popProvider.variableId}

@@ -1,7 +1,7 @@
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import { per100k } from "../datasetutils";
-import { USA_DISPLAY_NAME, ALL_RACES_DISPLAY_NAME } from "../Fips";
+import { USA_FIPS, USA_DISPLAY_NAME, ALL_RACES_DISPLAY_NAME } from "../Fips";
 import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
 
@@ -23,6 +23,7 @@ class DiabetesProvider extends VariableProvider {
 
     if (breakdowns.geography === "national") {
       df = df.pivot("race", {
+        state_fips_code: (series) => USA_FIPS,
         state_name: (series) => USA_DISPLAY_NAME,
         diabetes_count: (series) => series.sum(),
         diabetes_no: (series) => series.sum(),

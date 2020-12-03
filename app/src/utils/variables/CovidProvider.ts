@@ -2,7 +2,7 @@ import { DataFrame } from "data-forge";
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import VariableProvider from "./VariableProvider";
-import { USA_DISPLAY_NAME } from "../Fips";
+import { USA_FIPS, USA_DISPLAY_NAME } from "../Fips";
 import { VariableId } from "../variableProviders";
 import AcsPopulationProvider from "./AcsPopulationProvider";
 import { applyToGroups, joinOnCols, per100k, percent } from "../datasetutils";
@@ -43,6 +43,7 @@ class CovidProvider extends VariableProvider {
         ? df
         : df
             .pivot(["date", "hispanic_or_latino_and_race"], {
+              state_fips_code: (series) => USA_FIPS,
               state_name: (series) => USA_DISPLAY_NAME,
               covid_cases: (series) => series.sum(),
               covid_deaths: (series) => series.sum(),

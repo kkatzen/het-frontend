@@ -12,8 +12,8 @@ import useDatasetStore from "../../utils/useDatasetStore";
 import variableProviders from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
 import CovidReport from "./CovidReport";
-import { STATE_FIPS_MAP } from "../../utils/Fips";
 import VariableProvider from "../../utils/variables/VariableProvider";
+import { USA_FIPS } from "../../utils/Fips";
 
 function ChartDumpReport() {
   const datasetStore = useDatasetStore();
@@ -77,13 +77,8 @@ function ChartDumpReport() {
             <div style={{ width: "500px", margin: "auto", textAlign: "left" }}>
               <h1>Time Series & Two Variable Bar Chart</h1>
             </div>
-            <CovidReport
-              variable={"covid_deaths_pct_of_geo"}
-              geography={STATE_FIPS_MAP[1]}
-            />
-
+            <CovidReport variable="covid_cases" stateFips={USA_FIPS} />
             <Divider />
-
             <div style={{ width: "500px", margin: "auto", textAlign: "left" }}>
               <h1>Choropleth</h1>
               <b>Examples</b>
@@ -113,7 +108,6 @@ function ChartDumpReport() {
             </div>
             <TellMeAboutReport variable={"diabetes_count"} />
             <Divider />
-
             <div style={{ width: "500px", margin: "auto", textAlign: "left" }}>
               <h1>Grouped Bar Charts (horizontal or vertical)</h1>
               <b>Examples</b>
@@ -154,7 +148,6 @@ function ChartDumpReport() {
               dimension2="race"
             />
             <Divider />
-
             <div style={{ width: "500px", margin: "auto", textAlign: "left" }}>
               <h1>Stacked Bar Chart</h1>
               <b>Examples</b>

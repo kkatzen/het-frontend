@@ -36,7 +36,7 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
   return typeof segment === "string"
     ? segment
-    : segment[madLib.activeSelections[segmentIndex]];
+    : madLib.activeSelections[segmentIndex];
 }
 
 function ReportWrapper(props: { madLib: MadLib }) {
@@ -50,8 +50,8 @@ function ReportWrapper(props: { madLib: MadLib }) {
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
         <CompareStatesForVariableReport
-          state1={getPhraseValue(props.madLib, 3)}
-          state2={getPhraseValue(props.madLib, 5)}
+          stateFips1={getPhraseValue(props.madLib, 3)}
+          stateFips2={getPhraseValue(props.madLib, 5)}
           variable={variableId}
         />
       );
@@ -62,7 +62,7 @@ function ReportWrapper(props: { madLib: MadLib }) {
       return (
         <CovidReport
           variable={variableId}
-          geography={getPhraseValue(props.madLib, 3)}
+          stateFips={getPhraseValue(props.madLib, 3)}
         />
       );
     default:
@@ -87,13 +87,13 @@ function ExploreDataPage() {
   let defaultValuesWithOverrides = MADLIB_LIST[initalIndex].defaultSelections;
   if (params[MADLIB_SELECTIONS_PARAM]) {
     params[MADLIB_SELECTIONS_PARAM].split(",").forEach((override) => {
-      const [key, value] = override.split(":");
-      let phrase = MADLIB_LIST[initalIndex].phrase;
+      const [phraseSegmentIndex, value] = override.split(":");
+      let phraseSegments: PhraseSegment[] = MADLIB_LIST[initalIndex].phrase;
       if (
-        Object.keys(phrase).includes(key) &&
-        Object.keys(phrase[Number(key)]).includes(value)
+        Object.keys(phraseSegments).includes(phraseSegmentIndex) &&
+        Object.keys(phraseSegments[Number(phraseSegmentIndex)]).includes(value)
       ) {
-        defaultValuesWithOverrides[Number(key)] = Number(value);
+        defaultValuesWithOverrides[Number(phraseSegmentIndex)] = value;
       }
     });
   }
@@ -178,22 +178,26 @@ function CarouselMadLib(props: {
                   defaultValue={props.madLib.defaultSelections[index]}
                   value={props.madLib.activeSelections[index]}
                   onChange={(event) => {
-                    let index: number = Number(event.target.name);
-                    let updatedArray: PhraseSelections = {
+                    let phraseIndex: number = Number(event.target.name);
+                    let updatePhraseSelections: PhraseSelections = {
                       ...props.madLib.activeSelections,
                     };
-                    updatedArray[index] = Number(event.target.value);
+                    updatePhraseSelections[phraseIndex] = event.target
+                      .value as string;
                     props.setMadLib({
                       ...props.madLib,
-                      activeSelections: updatedArray,
+                      activeSelections: updatePhraseSelections,
                     });
                   }}
                 >
-                  {Object.keys(phraseSegment).map((key: string) => (
-                    <MenuItem key={key} value={Number(key)}>
-                      {phraseSegment[Number(key)]}
-                    </MenuItem>
-                  ))}
+                  {Object.entries(phraseSegment)
+                    .sort((a, b) => a[0].localeCompare(b[0]))
+                    .map(([key, value]) => (
+                      // TODO - we may want to not have this alphabetized by ID by default
+                      <MenuItem key={value} value={key}>
+                        {value}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             )}

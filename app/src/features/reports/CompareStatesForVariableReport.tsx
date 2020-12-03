@@ -10,18 +10,19 @@ import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 
 function CompareStatesForVariableReport(props: {
-  state1: string;
-  state2: string;
+  stateFips1: string;
+  stateFips2: string;
   variable: VariableId;
 }) {
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[props.variable];
   const acsProvider = variableProviders["population_pct"];
-  const selectedStates = [props.state1, props.state2];
+  const selectedStateFips = [props.stateFips1, props.stateFips2];
   const requiredDatasets = VariableProvider.getUniqueDatasetIds([
     variableProvider,
     acsProvider,
   ]);
+
   return (
     <WithDatasets datasetIds={requiredDatasets}>
       {() => (
@@ -41,7 +42,7 @@ function CompareStatesForVariableReport(props: {
                       Breakdowns.national().andRace()
                     )
                   )
-                  .filter((r) => selectedStates.includes(r.state_name))}
+                  .filter((r) => selectedStateFips.includes(r.state_fips_code))}
                 measure={variableProvider.variableId}
                 bars="vertical"
                 dimension1="state_name"
@@ -64,7 +65,7 @@ function CompareStatesForVariableReport(props: {
                   )
                   .filter(
                     (r) =>
-                      selectedStates.includes(r.state_name) &&
+                      selectedStateFips.includes(r.state_fips_code) &&
                       r.hispanic_or_latino_and_race !== "Total"
                   )}
                 measure={acsProvider.variableId}
