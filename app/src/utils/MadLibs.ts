@@ -11,7 +11,7 @@ export type PhraseSelector = Record<string, string>;
 // or a map of IDs to string options that can fill in a blank
 export type PhraseSegment = string | PhraseSelector;
 
-export type MadLibId = "diabetes" | "compare" | "dump" | "covid";
+export type MadLibId = "diabetes" | "compare" | "dump" | "covid" | "mapnav";
 export interface MadLib {
   readonly id: MadLibId;
   readonly phrase: PhraseSegment[];
@@ -57,6 +57,12 @@ const DIABETES_VARIABLES: Record<VariableId, string> = {
 };
 
 const MADLIB_LIST: MadLib[] = [
+  {
+    id: "mapnav",
+    phrase: ["Compare", STATE_FIPS_MAP, " and ", STATE_FIPS_MAP],
+    defaultSelections: { 1: "13", 3: USA_FIPS },
+    activeSelections: { 1: "13", 3: USA_FIPS },
+  },
   {
     id: "covid",
     phrase: ["Tell me about", COVID_VARIABLES, " in ", STATE_FIPS_MAP],

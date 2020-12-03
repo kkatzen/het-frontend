@@ -21,8 +21,10 @@ function UsaChloroplethMap(props: {
   varField: string;
   legendTitle: string;
   signalListeners: any;
-  stateFips?: number;
+  stateFips?: string;
+  countyFips?: string;
   numberFormat?: NumberFormat;
+  hideLegend?: boolean;
 }) {
   const [ref, width] = useResponsiveWidth();
 
@@ -32,7 +34,8 @@ function UsaChloroplethMap(props: {
   useEffect(() => {
     /* SET UP GEO DATSET */
     // Transform geo dataset by adding varField from VAR_DATASET
-    const fipsKey = props.stateFips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
+    const fipsKey =
+      props.stateFips || props.countyFips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
@@ -42,6 +45,20 @@ function UsaChloroplethMap(props: {
         values: [props.varField],
       },
     ];
+    if (props.stateFips && !props.countyFips) {
+      // The first two characters of a county FIPS are the state FIPS
+      let stateFipsVar = `slice(datum.id,0,2) == '${props.stateFips}'`;
+      geoTransformers.push({
+        type: "filter",
+        expr: stateFipsVar,
+      });
+    }
+    if (props.countyFips) {
+      geoTransformers.push({
+        type: "filter",
+        expr: `datum.id === "${props.countyFips}"`,
+      });
+    }
 
     /* SET UP TOOLTIP */
     let tooltipDatum =
@@ -52,6 +69,7 @@ function UsaChloroplethMap(props: {
 
     /* SET UP LEGEND */
     // TODO - Legends should be scaled exactly the same the across compared charts. Looks misleading otherwise.
+    let legendList = [];
     let legend: any = {
       fill: "colorScale",
       orient: "top-right",
@@ -62,6 +80,9 @@ function UsaChloroplethMap(props: {
     };
     if (props.numberFormat === "percentage") {
       legend["format"] = "0.1%";
+    }
+    if (!props.hideLegend) {
+      legendList.push(legend);
     }
 
     setSpec({
@@ -114,7 +135,7 @@ function UsaChloroplethMap(props: {
           range: { scheme: "yellowgreenblue", count: 7 },
         },
       ],
-      legends: [legend],
+      legends: legendList,
       marks: [
         {
           type: "shape",
@@ -159,6 +180,8 @@ function UsaChloroplethMap(props: {
     props.stateFips,
     props.numberFormat,
     props.data,
+    props.countyFips,
+    props.hideLegend,
   ]);
 
   return (

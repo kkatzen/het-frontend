@@ -4,6 +4,7 @@ import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
+import CompareMapNavReport from "../features/reports/CompareMapNavReport";
 import ChartDumpReport from "../features/reports/ChartDumpReport";
 import TellMeAboutReport from "../features/reports/TellMeAboutReport";
 import Dialog from "@material-ui/core/Dialog";
@@ -39,8 +40,20 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
     : madLib.activeSelections[segmentIndex];
 }
 
-function ReportWrapper(props: { madLib: MadLib }) {
+function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
   let variableId: VariableId;
+
+  function updateGeo(fips: string, geoIndex: number) {
+    let updatedArray: PhraseSelections = {
+      ...props.madLib.activeSelections,
+    };
+    updatedArray[geoIndex] = fips;
+    props.setMadLib({
+      ...props.madLib,
+      activeSelections: updatedArray,
+    });
+  }
+
   switch (props.madLib.id) {
     case "diabetes":
       // TODO we should add type safety to these instead of casting.
@@ -63,6 +76,15 @@ function ReportWrapper(props: { madLib: MadLib }) {
         <CovidReport
           variable={variableId}
           stateFips={getPhraseValue(props.madLib, 3)}
+        />
+      );
+    case "mapnav":
+      return (
+        <CompareMapNavReport
+          fipsGeo1={props.madLib.activeSelections[1]}
+          fipsGeo2={props.madLib.activeSelections[3]}
+          updateGeo1Callback={(fips: string) => updateGeo(fips, 1)}
+          updateGeo2Callback={(fips: string) => updateGeo(fips, 3)}
         />
       );
     default:
@@ -153,7 +175,7 @@ function ExploreDataPage() {
             <ShareIcon />
           </IconButton>
         </h1>
-        <ReportWrapper madLib={madLib} />
+        <ReportWrapper madLib={madLib} setMadLib={setMadLib} />
       </div>
     </React.Fragment>
   );

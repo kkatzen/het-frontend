@@ -24,39 +24,48 @@ const StyledTableHeader = withStyles((theme: Theme) =>
 )(TableCell);
 
 function TableChart(props: { data: Row[]; fields?: Field[] }) {
-  const tableColumns: Field[] =
-    props.fields === undefined
-      ? Object.keys(props.data[0]).map((name) => ({
-          name: name,
-          displayName: name,
-        }))
-      : props.fields;
+  let tableColumns: Field[] | undefined = undefined;
+  if (props.data.length > 0) {
+    tableColumns =
+      props.fields === undefined
+        ? Object.keys(props.data[0]).map((name) => ({
+            name: name,
+            displayName: name,
+          }))
+        : props.fields;
+  }
 
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {tableColumns.map((field) => (
-              <StyledTableHeader>{field.displayName}</StyledTableHeader>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.data.map((row) => (
-            <TableRow>
-              {tableColumns.map((field) => (
-                <TableCell>
-                  {Number.isInteger(row[field.name])
-                    ? row[field.name].toLocaleString("en")
-                    : row[field.name]}
-                </TableCell>
+    <>
+      {!tableColumns ? (
+        <h1>No Data provided</h1>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {tableColumns.map((field) => (
+                  <StyledTableHeader>{field.displayName}</StyledTableHeader>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.data.map((row) => (
+                <TableRow>
+                  {tableColumns!.map((field) => (
+                    <TableCell>
+                      {Number.isInteger(row[field.name])
+                        ? row[field.name].toLocaleString("en")
+                        : row[field.name]}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </>
   );
 }
 
