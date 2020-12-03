@@ -81,7 +81,7 @@ function Map(props: {
         {props.fipsGeo !== USA_FIPS && (
           <GeographyBreadcrumb
             text={STATE_FIPS_MAP[props.fipsGeo]}
-            isClickable={!(!props.fipsGeo || !countyFips)}
+            isClickable={!!countyFips}
             onClick={() => {
               setCountyFips(undefined);
             }}
