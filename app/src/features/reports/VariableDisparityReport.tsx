@@ -11,6 +11,7 @@ import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
+import Card from "@material-ui/core/Card";
 
 // TODO- investigate type check error to see if we can remove @ts-ignore
 const VARIABLE_DISPLAY_NAMES: Record<
@@ -20,9 +21,9 @@ const VARIABLE_DISPLAY_NAMES: Record<
   // @ts-ignore
   covid: {
     // @ts-ignore
-    covid_cases_pct_of_geo: "Cases",
-    covid_deaths_pct_of_geo: "Deaths",
-    covid_hosp_pct_of_geo: "Hospitalizations",
+    covid_cases_pct_of_geo: "COVID-19 Cases",
+    covid_deaths_pct_of_geo: "COVID-19  Death",
+    covid_hosp_pct_of_geo: "COVID-19 Hospitalizations",
   },
 };
 
@@ -32,7 +33,11 @@ function asDate(dateStr: string) {
   return new Date(parts[0], parts[1] - 1, parts[2]);
 }
 
-function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
+function DisVarGeo(props: {
+  dropdownVarId: DropdownVarId;
+  stateFips: string;
+  vertical?: boolean;
+}) {
   // TODO Remove hard coded fail safe value
   const validDropdownVariable = Object.keys(
     VARIABLE_DISPLAY_NAMES
@@ -64,84 +69,102 @@ function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
       )}
 
       {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.dropdownVarId) && (
-        <Grid container spacing={1} alignItems="flex-start">
-          <Grid item xs={12}>
-            <ToggleButtonGroup
-              exclusive
-              value={metric}
-              onChange={(e, v) => {
-                if (v !== null) {
-                  setMetric(v);
-                }
-              }}
-              aria-label="text formatting"
-            >
-              {Object.entries(VARIABLE_DISPLAY_NAMES[props.dropdownVarId]).map(
-                ([variableId, displayName]: [string, string]) => (
-                  <ToggleButton value={variableId as VariableId}>
-                    {displayName}
-                  </ToggleButton>
+        <Grid container spacing={1} justify="center">
+          <WithDatasets datasetIds={datasetIds}>
+            {() => {
+              const data = varProvider
+                .getData(
+                  datasetStore.datasets,
+                  Breakdowns.byState().andTime().andRace(true)
                 )
-              )}
-            </ToggleButtonGroup>
-          </Grid>
-          <Grid item xs={12}>
-            <WithDatasets datasetIds={datasetIds}>
-              {() => {
-                const data = varProvider
-                  .getData(
+                .concat(
+                  varProvider.getData(
                     datasetStore.datasets,
-                    Breakdowns.byState().andTime().andRace(true)
+                    Breakdowns.national().andTime().andRace(true)
                   )
-                  .concat(
-                    varProvider.getData(
-                      datasetStore.datasets,
-                      Breakdowns.national().andTime().andRace(true)
+                )
+                .filter((row) => row.state_fips_code === props.stateFips)
+                .filter(
+                  (row) =>
+                    !row.hispanic_or_latino_and_race.includes(
+                      "Some other race alone"
                     )
-                  )
-                  .filter((row) => row.state_fips_code === props.stateFips)
-                  .filter(
-                    (row) =>
-                      !row.hispanic_or_latino_and_race.includes(
-                        "Some other race alone"
-                      )
-                  );
-
-                const dateTimes = data.map((row) => asDate(row.date).getTime());
-                const lastDate = new Date(Math.max(...dateTimes));
-                const mostRecent = data.filter(
-                  (row) => asDate(row.date).getTime() === lastDate.getTime()
                 );
 
-                const dataset = mostRecent.filter(
-                  (r) => r.hispanic_or_latino_and_race !== "Total"
-                );
+              const dateTimes = data.map((row) => asDate(row.date).getTime());
+              const lastDate = new Date(Math.max(...dateTimes));
+              const mostRecent = data.filter(
+                (row) => asDate(row.date).getTime() === lastDate.getTime()
+              );
 
-                return (
-                  <>
-                    <TwoVarBarChart
-                      data={dataset}
-                      thickMeasure="population_pct"
-                      thinMeasure={varProvider.variableId}
-                      breakdownVar="hispanic_or_latino_and_race"
-                    />
-                    <TableChart
-                      data={dataset}
-                      fields={[
-                        {
-                          name: "hispanic_or_latino_and_race",
-                          displayName: "Race",
-                        },
-                        { name: "population", displayName: "Population" },
-                        { name: "population_pct", displayName: "Population %" },
-                        { name: metric, displayName: metric },
-                      ]}
-                    />
-                  </>
-                );
-              }}
-            </WithDatasets>
-          </Grid>
+              const dataset = mostRecent.filter(
+                (r) => r.hispanic_or_latino_and_race !== "Total"
+              );
+
+              return (
+                <>
+                  <Grid item xs={12}>
+                    <ToggleButtonGroup
+                      exclusive
+                      value={metric}
+                      onChange={(e, v) => {
+                        if (v !== null) {
+                          setMetric(v);
+                        }
+                      }}
+                      aria-label="text formatting"
+                    >
+                      {Object.entries(
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId]
+                      ).map(([variableId, displayName]: [string, string]) => (
+                        <ToggleButton value={variableId as VariableId}>
+                          {displayName}
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  </Grid>
+                  <Grid item xs={props.vertical ? 12 : 6}>
+                    <Card
+                      raised={true}
+                      style={{ padding: "20px", margin: "10px" }}
+                    >
+                      <TwoVarBarChart
+                        data={dataset}
+                        thickMeasure="population_pct"
+                        thinMeasure={varProvider.variableId}
+                        breakdownVar="hispanic_or_latino_and_race"
+                      />
+                    </Card>
+                  </Grid>
+                  <Grid item xs={props.vertical ? 12 : 6}>
+                    <Card raised={true} style={{ margin: "10px" }}>
+                      <TableChart
+                        data={dataset}
+                        fields={[
+                          {
+                            name: "hispanic_or_latino_and_race",
+                            displayName: "Race",
+                          },
+                          { name: "population", displayName: "Population" },
+                          {
+                            name: "population_pct",
+                            displayName: "Population %",
+                          },
+                          {
+                            name: metric,
+                            displayName:
+                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
+                                metric
+                              ] + " as % of Geo",
+                          },
+                        ]}
+                      />
+                    </Card>
+                  </Grid>
+                </>
+              );
+            }}
+          </WithDatasets>
         </Grid>
       )}
     </>

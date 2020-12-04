@@ -54,6 +54,11 @@ function MapNavChart(props: {
   // TODO - make the mouse turn into a pointer when you hover over
   return (
     <div>
+      {props.fipsGeo !== USA_FIPS && (
+        <Alert severity="error">
+          This dataset does not provide county level data
+        </Alert>
+      )}
       <Breadcrumbs aria-label="breadcrumb">
         <GeographyBreadcrumb
           text={USA_DISPLAY_NAME}
@@ -76,11 +81,6 @@ function MapNavChart(props: {
           <GeographyBreadcrumb text={countyName} isClickable={false} />
         )}
       </Breadcrumbs>
-      {props.fipsGeo !== USA_FIPS && (
-        <Alert severity="error">
-          This dataset does not provide county level data
-        </Alert>
-      )}
       <UsaChloroplethMap
         signalListeners={signalListeners}
         varField={props.varField}

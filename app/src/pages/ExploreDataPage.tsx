@@ -70,12 +70,14 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
               stateFips={props.madLib.activeSelections[3]}
+              vertical={true}
             />
           </Grid>
           <Grid item xs={6}>
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
               stateFips={props.madLib.activeSelections[5]}
+              vertical={true}
             />
           </Grid>
         </Grid>

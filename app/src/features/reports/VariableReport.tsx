@@ -11,6 +11,7 @@ import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS } from "../../utils/Fips";
 import MapNavChart from "../charts/MapNavChart";
 import Alert from "@material-ui/lab/Alert";
+import Card from "@material-ui/core/Card";
 
 // TODO- investigate type check error to see if we can remove
 const VARIABLE_DISPLAY_NAMES: Record<
@@ -92,22 +93,27 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  <MapNavChart
-                    data={dataset}
-                    varField={variableId}
-                    varFieldDisplayName={variableDisplayName}
-                    fipsGeo={props.stateFips}
-                    countyFips={countyFips}
-                    updateGeoCallback={(e: string) => {
-                      console.log(e);
-                      if (e.length === 5) {
-                        setCountyFips(e);
-                      } else {
-                        setCountyFips(undefined);
-                        props.updateStateCallback(e);
-                      }
-                    }}
-                  />
+                  <Card
+                    raised={true}
+                    style={{ margin: "10px", padding: "20px" }}
+                  >
+                    <MapNavChart
+                      data={dataset}
+                      varField={variableId}
+                      varFieldDisplayName={variableDisplayName}
+                      fipsGeo={props.stateFips}
+                      countyFips={countyFips}
+                      updateGeoCallback={(e: string) => {
+                        console.log(e);
+                        if (e.length === 5) {
+                          setCountyFips(e);
+                        } else {
+                          setCountyFips(undefined);
+                          props.updateStateCallback(e);
+                        }
+                      }}
+                    />
+                  </Card>
                 </Grid>
                 <Grid
                   item
@@ -116,23 +122,25 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  {!countyFips && (
-                    <TableChart
-                      data={tableDataset}
-                      fields={[
-                        { name: "race", displayName: "Race and Ethnicity" },
-                        {
-                          name: variableId,
-                          displayName: variableDisplayName,
-                        },
-                      ]}
-                    />
-                  )}
-                  {countyFips && (
-                    <Alert severity="error">
-                      This dataset does not provide county level data
-                    </Alert>
-                  )}
+                  <Card raised={true} style={{ margin: "10px" }}>
+                    {!countyFips && (
+                      <TableChart
+                        data={tableDataset}
+                        fields={[
+                          { name: "race", displayName: "Race and Ethnicity" },
+                          {
+                            name: variableId,
+                            displayName: variableDisplayName,
+                          },
+                        ]}
+                      />
+                    )}
+                    {countyFips && (
+                      <Alert severity="error">
+                        This dataset does not provide county level data
+                      </Alert>
+                    )}
+                  </Card>
                 </Grid>
               </Grid>
             )}

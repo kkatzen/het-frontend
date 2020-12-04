@@ -57,6 +57,8 @@ function TableChart(props: { data: Row[]; fields?: Field[] }) {
                       {Number.isInteger(row[field.name])
                         ? row[field.name].toLocaleString("en")
                         : row[field.name]}
+                      {field.name.endsWith("_pct") && <span>%</span>}
+                      {field.name.endsWith("_pct_of_geo") && <span>%</span>}
                     </TableCell>
                   ))}
                 </TableRow>
