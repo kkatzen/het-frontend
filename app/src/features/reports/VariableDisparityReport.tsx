@@ -132,7 +132,13 @@ function DisVarGeo(props: {
                         data={dataset}
                         thickMeasure="population_pct"
                         thinMeasure={varProvider.variableId}
+                        thickMeasureDisplayName="Population %"
+                        thinMeasureDisplayName={
+                          VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
+                          " as % of Geo"
+                        }
                         breakdownVar="hispanic_or_latino_and_race"
+                        breakdownVarDisplayName="Race/Ethnicity"
                       />
                     </Card>
                   </Grid>

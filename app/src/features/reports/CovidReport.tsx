@@ -86,7 +86,10 @@ function CovidReport(props: { variable: VariableId; stateFips: string }) {
                     )}
                     thickMeasure="population_pct"
                     thinMeasure={covidProvider.variableId}
+                    thickMeasureDisplayName="Population %"
+                    thinMeasureDisplayName={covidProvider.variableId}
                     breakdownVar="hispanic_or_latino_and_race"
+                    breakdownVarDisplayName="Race/Ethnicity"
                   />
                 )}
                 <LineChart
