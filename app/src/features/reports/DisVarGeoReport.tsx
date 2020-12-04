@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import WithDatasets from "../../utils/WithDatasets";
@@ -12,6 +14,19 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 
+// TODO- investigate type check error to see if we can remove
+// @ts-ignore
+const VARIABLE_DISPLAY_NAMES: Record<
+  DropdownVarId,
+  Record<VariableId, string>
+> = {
+  covid: {
+    covid_cases_pct_of_geo: "Cases",
+    covid_deaths_pct_of_geo: "Deaths",
+    covid_hosp_pct_of_geo: "Hospitalizations",
+  },
+};
+
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
   // Date expects month to be 0-indexed so need to subtract 1.
@@ -20,7 +35,12 @@ function asDate(dateStr: string) {
 //covid_cases_pct_of_geo covid_deaths_pct_of_geo	covid_hosp_pct_of_geo
 
 function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
-  const [metric, setMetric] = useState<VariableId>("covid_cases_pct_of_geo");
+  // TODO - Remove need for failsafe value
+  const [metric, setMetric] = useState<VariableId>(
+    Object.keys(VARIABLE_DISPLAY_NAMES)[props.variable]
+      ? Object.keys(VARIABLE_DISPLAY_NAMES)[props.variable][0]
+      : "covid_cases_pct_of_geo"
+  );
 
   const datasetStore = useDatasetStore();
   // TODO- no hardocde
@@ -33,11 +53,11 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
 
   return (
     <>
-      {props.variable !== "covid" && (
+      {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
         <Alert severity="error">Data not currently available</Alert>
       )}
 
-      {props.variable === "covid" && (
+      {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={12}>
             <ToggleButtonGroup
@@ -50,13 +70,11 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
               }}
               aria-label="text formatting"
             >
-              <ToggleButton value="covid_cases_pct_of_geo">Cases</ToggleButton>
-              <ToggleButton value="covid_deaths_pct_of_geo">
-                Deaths
-              </ToggleButton>
-              <ToggleButton value="covid_hosp_pct_of_geo">
-                Hospitalizations
-              </ToggleButton>
+              {Object.entries(VARIABLE_DISPLAY_NAMES[props.variable]).map(
+                ([variableId, displayName]: [VariableId, string]) => (
+                  <ToggleButton value={variableId}>{displayName}</ToggleButton>
+                )
+              )}
             </ToggleButtonGroup>
           </Grid>
           <Grid item xs={12}>
