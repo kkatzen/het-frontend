@@ -88,8 +88,8 @@ function VarGeoReport(props: {
                       fields={[
                         { name: "race", displayName: "Race and Ethnicity" },
                         {
-                          name: props.variable,
-                          displayName: variableProvider.variableName,
+                          name: variableId,
+                          displayName: variableId,
                         },
                       ]}
                     />
