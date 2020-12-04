@@ -134,7 +134,7 @@ const MADLIB_LIST: MadLib[] = [
   {
     id: "disvarcompare",
     phrase: [
-      "Compare ",
+      "Compare disparities",
       DISPARITY_DROPDOWN_VAR,
       " between ",
       STATE_FIPS_MAP,
