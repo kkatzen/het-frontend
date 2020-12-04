@@ -54,6 +54,7 @@ const COVID_VARIABLES: Record<VariableId, string> = {
   covid_cases_per_100k: "COVID Cases per 100k",
   covid_hosp_per_100k: "COVID Hospitalizations per 100k",
 };
+console.log(COVID_VARIABLES);
 
 // TODO- investigate type check error to see if we can remove
 // @ts-ignore
@@ -61,6 +62,7 @@ const DIABETES_VARIABLES: Record<VariableId, string> = {
   diabetes_count: "Diabetes Count",
   diabetes_per_100k: "Diabetes per 100k",
 };
+console.log(DIABETES_VARIABLES);
 
 const MADLIB_LIST: MadLib[] = [
   {

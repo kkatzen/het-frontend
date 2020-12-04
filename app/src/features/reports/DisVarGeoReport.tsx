@@ -1,11 +1,9 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import LineChart from "../charts/LineChart";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
-import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import TwoVarBarChart from "../charts/TwoVarBarChart";
 import TableChart from "../charts/TableChart";
@@ -54,28 +52,6 @@ function DisVarGeo(props: { variable: VariableId; stateFips: string }) {
             const mostRecent = data.filter(
               (row) => asDate(row.date).getTime() === lastDate.getTime()
             );
-
-            // TODO make it more convenient to do this concat pattern
-            const populationData = popProvider
-              .getData(
-                datasetStore.datasets,
-                Breakdowns.byState().andRace(true)
-              )
-              .concat(
-                popProvider.getData(
-                  datasetStore.datasets,
-                  Breakdowns.national().andRace(true)
-                )
-              );
-
-            const populationDataStandardized = popProvider
-              .getData(datasetStore.datasets, Breakdowns.byState().andRace())
-              .concat(
-                popProvider.getData(
-                  datasetStore.datasets,
-                  Breakdowns.national().andRace()
-                )
-              );
 
             const dataset = mostRecent.filter(
               (r) => r.hispanic_or_latino_and_race !== "Total"

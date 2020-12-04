@@ -7,7 +7,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import CompareMapNavReport from "../features/reports/CompareVarGeoReport";
 import ChartDumpReport from "../features/reports/ChartDumpReport";
 import CompareDisVarGeoReport from "../features/reports/CompareDisVarGeoReport";
-import TellMeAboutReport from "../features/reports/TellMeAboutReport";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -29,8 +28,6 @@ import {
   useSearchParams,
   linkToMadLib,
 } from "../utils/urlutils";
-import CompareStatesForVariableReport from "../features/reports/CompareStatesForVariableReport";
-import CovidReport from "../features/reports/CovidReport";
 import { VariableId } from "../utils/variableProviders";
 import ReactTooltip from "react-tooltip";
 import DisVarGeoReport from "../features/reports/DisVarGeoReport";

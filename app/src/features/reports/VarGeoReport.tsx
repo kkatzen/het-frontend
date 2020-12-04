@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Paper, Grid } from "@material-ui/core";
+import React, { useState } from "react";
+import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import styles from "./Report.module.scss";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import { ALL_RACES_DISPLAY_NAME, USA_FIPS } from "../../utils/Fips";
-import Alert from "@material-ui/lab/Alert";
+import { USA_FIPS } from "../../utils/Fips";
 import MapNavChart from "../charts/MapNavChart";
 
 function VarGeoReport(props: {
