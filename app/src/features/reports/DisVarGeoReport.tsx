@@ -16,6 +16,7 @@ function asDate(dateStr: string) {
   // Date expects month to be 0-indexed so need to subtract 1.
   return new Date(parts[0], parts[1] - 1, parts[2]);
 }
+//covid_cases_pct_of_geo covid_deaths_pct_of_geo	covid_hosp_pct_of_geo
 
 function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
   const [metric, setMetric] = useState<VariableId>("covid_cases_pct_of_geo");
@@ -104,7 +105,7 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
                         },
                         { name: "population", displayName: "Population" },
                         { name: "population_pct", displayName: "Population %" },
-                        { name: props.variable, displayName: props.variable },
+                        { name: metric, displayName: metric },
                       ]}
                     />
                   </>
