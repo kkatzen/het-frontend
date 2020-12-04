@@ -46,7 +46,9 @@ function VarGeoReport(props: {
 
         return (
           <>
-            {props.variable !== "diabetes" && <p>unimplemented</p>}
+            {props.variable !== "diabetes" && (
+              <Alert severity="error">Data not currently available</Alert>
+            )}
 
             {props.variable === "diabetes" && (
               <Grid container spacing={1} alignItems="flex-start">

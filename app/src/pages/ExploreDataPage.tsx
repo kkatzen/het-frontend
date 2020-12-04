@@ -4,7 +4,7 @@ import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import CompareMapNavReport from "../features/reports/CompareVarGeoReport";
+import CompareVarGeoReport from "../features/reports/CompareVarGeoReport";
 import ChartDumpReport from "../features/reports/ChartDumpReport";
 import CompareDisVarGeoReport from "../features/reports/CompareDisVarGeoReport";
 import Dialog from "@material-ui/core/Dialog";
@@ -73,7 +73,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
     case "varcompare":
       variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
-        <CompareMapNavReport
+        <CompareVarGeoReport
           variable={variableId}
           fipsGeo1={props.madLib.activeSelections[3]}
           fipsGeo2={props.madLib.activeSelections[5]}

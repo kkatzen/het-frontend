@@ -10,6 +10,7 @@ import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import Alert from "@material-ui/lab/Alert";
 
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
@@ -32,7 +33,9 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
 
   return (
     <>
-      {props.variable !== "covid" && <p>unimplemented</p>}
+      {props.variable !== "covid" && (
+        <Alert severity="error">Data not currently available</Alert>
+      )}
 
       {props.variable === "covid" && (
         <Grid container spacing={1} alignItems="flex-start">
