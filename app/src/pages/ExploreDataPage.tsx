@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper } from "@material-ui/core";
+import { Paper, Grid } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import CompareVarGeoReport from "../features/reports/CompareVarGeoReport";
 import ChartDumpReport from "../features/reports/ChartDumpReport";
-import CompareDisVarGeoReport from "../features/reports/CompareDisVarGeoReport";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -73,13 +71,28 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
     case "varcompare":
       variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
-        <CompareVarGeoReport
-          variable={variableId}
-          fipsGeo1={props.madLib.activeSelections[3]}
-          fipsGeo2={props.madLib.activeSelections[5]}
-          updateGeo1Callback={(fips: string) => updateStateCallback(fips, 3)}
-          updateGeo2Callback={(fips: string) => updateStateCallback(fips, 5)}
-        />
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <VarGeoReport
+              variable={variableId}
+              stateFips={props.madLib.activeSelections[3]}
+              updateStateCallback={(fips: string) =>
+                updateStateCallback(fips, 3)
+              }
+              vertical={true}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <VarGeoReport
+              variable={variableId}
+              stateFips={props.madLib.activeSelections[5]}
+              updateStateCallback={(fips: string) =>
+                updateStateCallback(fips, 5)
+              }
+              vertical={true}
+            />
+          </Grid>
+        </Grid>
       );
     case "geo":
       variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
@@ -96,11 +109,20 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
     case "disvarcompare":
       variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
-        <CompareDisVarGeoReport
-          variable={variableId}
-          fipsGeo1={props.madLib.activeSelections[3]}
-          fipsGeo2={props.madLib.activeSelections[5]}
-        />
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <DisVarGeoReport
+              variable={variableId}
+              stateFips={props.madLib.activeSelections[3]}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DisVarGeoReport
+              variable={variableId}
+              stateFips={props.madLib.activeSelections[5]}
+            />
+          </Grid>
+        </Grid>
       );
     case "dump":
       return <ChartDumpReport />;

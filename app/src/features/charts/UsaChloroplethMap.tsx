@@ -28,9 +28,6 @@ function UsaChloroplethMap(props: {
 }) {
   const [ref, width] = useResponsiveWidth();
 
-  console.log("countyFips", props.countyFips);
-  console.log("stateFips", props.stateFips);
-
   // Initial spec state is set in useEffect
   const [spec, setSpec] = useState({});
 

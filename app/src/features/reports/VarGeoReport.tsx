@@ -31,10 +31,15 @@ function VarGeoReport(props: {
   updateStateCallback: Function;
   vertical?: boolean;
 }) {
-  const variableId = Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0];
-  const variableDisplayName = Object.entries(
-    VARIABLE_DISPLAY_NAMES[props.variable]
-  )[0][1];
+  // TODO Remove hard coded fail safe value
+  const variableId =
+    props.variable === "diabetes"
+      ? Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0]
+      : "diabetes_count";
+  const variableDisplayName =
+    props.variable === "diabetes"
+      ? Object.entries(VARIABLE_DISPLAY_NAMES[props.variable])[0][1]
+      : "Placeholder";
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
