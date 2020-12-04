@@ -73,6 +73,11 @@ function MapNavChart(props: {
           <GeographyBreadcrumb text={countyName} isClickable={false} />
         )}
       </Breadcrumbs>
+      {props.fipsGeo !== USA_FIPS && (
+        <Alert severity="error">
+          This dataset does not provide county level data
+        </Alert>
+      )}
       <UsaChloroplethMap
         signalListeners={signalListeners}
         varField={"diabetes_count"} // TODO - this is wrong
@@ -82,11 +87,6 @@ function MapNavChart(props: {
         stateFips={props.fipsGeo === USA_FIPS ? undefined : props.fipsGeo}
         countyFips={props.countyFips}
       />
-      {props.fipsGeo !== USA_FIPS && (
-        <Alert severity="error">
-          This dataset does not provide county level data
-        </Alert>
-      )}
     </div>
   );
 }
