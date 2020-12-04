@@ -52,10 +52,10 @@ export type DropdownVarId =
 // TODO- investigate type check error to see if we can remove
 // @ts-ignore
 const DROPDOWN_VAR: Record<DropdownVarId, string> = {
-  covid: "COVID-19",
+  covid: "[coming soon] COVID-19",
   diabetes: "diabetes",
-  obesity: "obesity",
-  asthma: "asthma",
+  obesity: "[coming soon] obesity",
+  asthma: "[coming soon] asthma",
   copd: "copd",
 };
 
@@ -63,11 +63,11 @@ const DROPDOWN_VAR: Record<DropdownVarId, string> = {
 // @ts-ignore
 const DISPARITY_DROPDOWN_VAR: Record<DropdownVarId, string> = {
   covid: "COVID-19",
-  diabetes: "diabetes",
-  obesity: "obesity",
-  asthma: "asthma",
-  copd: "copd",
-  insurance: "insurance type",
+  diabetes: "[coming soon] diabetes",
+  obesity: "[coming soon] obesity",
+  asthma: "[coming soon] asthma",
+  copd: "[coming soon] copd",
+  insurance: "[coming soon] insurance type",
 };
 
 const MADLIB_LIST: MadLib[] = [
