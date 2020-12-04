@@ -22,7 +22,7 @@ const VARIABLE_DISPLAY_NAMES: Record<
   covid: {
     // @ts-ignore
     covid_cases_pct_of_geo: "COVID-19 Cases",
-    covid_deaths_pct_of_geo: "COVID-19  Death",
+    covid_deaths_pct_of_geo: "COVID-19  Deaths",
     covid_hosp_pct_of_geo: "COVID-19 Hospitalizations",
   },
 };
