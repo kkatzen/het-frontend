@@ -51,7 +51,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
     });
   }
 
-  switch (props.madLib.id) {
+  switch (props.madLib.id as MadLibId) {
     case "disvargeo":
       return (
         <VariableDisparityReport
