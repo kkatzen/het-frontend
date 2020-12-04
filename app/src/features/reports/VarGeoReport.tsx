@@ -4,7 +4,7 @@ import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders, { VariableId } from "../../utils/variableProviders";
+import variableProviders from "../../utils/variableProviders";
 import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
