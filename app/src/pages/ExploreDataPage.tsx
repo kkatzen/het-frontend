@@ -18,6 +18,7 @@ import {
   PhraseSegment,
   PhraseSelections,
   DropdownVarId,
+  MadLibId,
 } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
 import {
@@ -37,17 +38,8 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
     ? segment
     : madLib.activeSelections[segmentIndex];
 }
-export type MadLibId =
-  | "dump"
-  | "disvargeo"
-  | "varcompare"
-  | "geo"
-  | "vargeo"
-  | "disvarcompare";
 
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
-  let variableId: DropdownVarId;
-
   function updateStateCallback(fips: string, geoIndex: number) {
     let updatedArray: PhraseSelections = {
       ...props.madLib.activeSelections,
@@ -61,20 +53,48 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
 
   switch (props.madLib.id) {
     case "disvargeo":
-      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
         <DisVarGeoReport
-          variable={variableId}
+          variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
           stateFips={getPhraseValue(props.madLib, 3)}
         />
       );
+    case "disvarcompare":
+      const compareDisparityVariable = getPhraseValue(
+        props.madLib,
+        1
+      ) as DropdownVarId;
+      return (
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <DisVarGeoReport
+              variable={compareDisparityVariable}
+              stateFips={props.madLib.activeSelections[3]}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DisVarGeoReport
+              variable={compareDisparityVariable}
+              stateFips={props.madLib.activeSelections[5]}
+            />
+          </Grid>
+        </Grid>
+      );
+    case "vargeo":
+      return (
+        <VarGeoReport
+          variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
+          stateFips={getPhraseValue(props.madLib, 3)}
+          updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
+        />
+      );
     case "varcompare":
-      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
+      const compareVariable = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
             <VarGeoReport
-              variable={variableId}
+              variable={compareVariable}
               stateFips={props.madLib.activeSelections[3]}
               updateStateCallback={(fips: string) =>
                 updateStateCallback(fips, 3)
@@ -84,7 +104,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
           </Grid>
           <Grid item xs={6}>
             <VarGeoReport
-              variable={variableId}
+              variable={compareVariable}
               stateFips={props.madLib.activeSelections[5]}
               updateStateCallback={(fips: string) =>
                 updateStateCallback(fips, 5)
@@ -95,35 +115,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         </Grid>
       );
     case "geo":
-      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
-      return <p>unimplemented</p>;
-    case "vargeo":
-      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
-      return (
-        <VarGeoReport
-          variable={variableId}
-          stateFips={getPhraseValue(props.madLib, 3)}
-          updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
-        />
-      );
-    case "disvarcompare":
-      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
-      return (
-        <Grid container spacing={1} alignItems="flex-start">
-          <Grid item xs={6}>
-            <DisVarGeoReport
-              variable={variableId}
-              stateFips={props.madLib.activeSelections[3]}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DisVarGeoReport
-              variable={variableId}
-              stateFips={props.madLib.activeSelections[5]}
-            />
-          </Grid>
-        </Grid>
-      );
+      return <p>Unimplemented</p>;
     case "dump":
       return <ChartDumpReport />;
     default:
