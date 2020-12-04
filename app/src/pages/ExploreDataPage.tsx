@@ -86,7 +86,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       );
     case "geo":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
-      return <p>geo</p>;
+      return <p>unimplemented</p>;
     case "vargeo":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
@@ -119,7 +119,7 @@ function ExploreDataPage() {
   useEffect(() => {
     // TODO - it would be nice to have the params stay and update when selections are made
     // Until then, it's best to just clear them so they can't become mismatched
-    // clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
+    clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
 
   const foundIndex = MADLIB_LIST.findIndex(

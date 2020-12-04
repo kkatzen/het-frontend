@@ -20,7 +20,7 @@ function getSpec(
     background: "white",
     padding: 5,
     height: 500,
-    width: 800,
+    width: 300,
     style: "cell",
     data: [
       {
