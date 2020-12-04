@@ -9,6 +9,7 @@ import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS } from "../../utils/Fips";
 import MapNavChart from "../charts/MapNavChart";
+import Alert from "@material-ui/lab/Alert";
 
 function VarGeoReport(props: {
   variable: VariableId;
@@ -82,6 +83,11 @@ function VarGeoReport(props: {
                     },
                   ]}
                 />
+              )}
+              {countyFips && (
+                <Alert severity="error">
+                  This dataset does not provide county level data
+                </Alert>
               )}
             </Grid>
           </Grid>
