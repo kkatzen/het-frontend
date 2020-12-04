@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import WithDatasets from "../../utils/WithDatasets";
@@ -14,13 +12,14 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 
-// TODO- investigate type check error to see if we can remove
-// @ts-ignore
+// TODO- investigate type check error to see if we can remove @ts-ignore
 const VARIABLE_DISPLAY_NAMES: Record<
   DropdownVarId,
   Record<VariableId, string>
 > = {
+  // @ts-ignore
   covid: {
+    // @ts-ignore
     covid_cases_pct_of_geo: "Cases",
     covid_deaths_pct_of_geo: "Deaths",
     covid_hosp_pct_of_geo: "Hospitalizations",
@@ -32,18 +31,21 @@ function asDate(dateStr: string) {
   // Date expects month to be 0-indexed so need to subtract 1.
   return new Date(parts[0], parts[1] - 1, parts[2]);
 }
-//covid_cases_pct_of_geo covid_deaths_pct_of_geo	covid_hosp_pct_of_geo
 
-function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
-  // TODO - Remove need for failsafe value
+function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
+  // TODO - default value bad
+  const validDropdownVariable = Object.keys(
+    VARIABLE_DISPLAY_NAMES
+  ) as DropdownVarId[];
   const [metric, setMetric] = useState<VariableId>(
-    Object.keys(VARIABLE_DISPLAY_NAMES)[props.variable]
-      ? Object.keys(VARIABLE_DISPLAY_NAMES)[props.variable][0]
+    validDropdownVariable.includes(props.dropdownVarId)
+      ? (Object.keys(
+          VARIABLE_DISPLAY_NAMES[props.dropdownVarId]
+        )[0] as VariableId)
       : "covid_cases_pct_of_geo"
   );
 
   const datasetStore = useDatasetStore();
-  // TODO- no hardocde
   const covidProvider = variableProviders[metric];
   const popProvider = variableProviders["population_pct"];
   const datasetIds = VariableProvider.getUniqueDatasetIds([
@@ -53,11 +55,15 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
 
   return (
     <>
-      {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
-        <Alert severity="error">Data not currently available</Alert>
+      {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.dropdownVarId) && (
+        <Grid container xs={12} spacing={1} justify="center">
+          <Grid item xs={5}>
+            <Alert severity="error">Data not currently available</Alert>
+          </Grid>
+        </Grid>
       )}
 
-      {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
+      {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.dropdownVarId) && (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={12}>
             <ToggleButtonGroup
@@ -70,9 +76,11 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
               }}
               aria-label="text formatting"
             >
-              {Object.entries(VARIABLE_DISPLAY_NAMES[props.variable]).map(
-                ([variableId, displayName]: [VariableId, string]) => (
-                  <ToggleButton value={variableId}>{displayName}</ToggleButton>
+              {Object.entries(VARIABLE_DISPLAY_NAMES[props.dropdownVarId]).map(
+                ([variableId, displayName]: [string, string]) => (
+                  <ToggleButton value={variableId as VariableId}>
+                    {displayName}
+                  </ToggleButton>
                 )
               )}
             </ToggleButtonGroup>

@@ -29,8 +29,8 @@ import {
   linkToMadLib,
 } from "../utils/urlutils";
 import ReactTooltip from "react-tooltip";
-import DisVarGeoReport from "../features/reports/DisVarGeoReport";
-import VarGeoReport from "../features/reports/VarGeoReport";
+import VariableDisparityReport from "../features/reports/VariableDisparityReport";
+import VariableReport from "../features/reports/VariableReport";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
@@ -54,8 +54,8 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
   switch (props.madLib.id) {
     case "disvargeo":
       return (
-        <DisVarGeoReport
-          variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
+        <VariableDisparityReport
+          dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
           stateFips={getPhraseValue(props.madLib, 3)}
         />
       );
@@ -67,14 +67,14 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       return (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
-            <DisVarGeoReport
-              variable={compareDisparityVariable}
+            <VariableDisparityReport
+              dropdownVarId={compareDisparityVariable}
               stateFips={props.madLib.activeSelections[3]}
             />
           </Grid>
           <Grid item xs={6}>
-            <DisVarGeoReport
-              variable={compareDisparityVariable}
+            <VariableDisparityReport
+              dropdownVarId={compareDisparityVariable}
               stateFips={props.madLib.activeSelections[5]}
             />
           </Grid>
@@ -82,7 +82,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       );
     case "vargeo":
       return (
-        <VarGeoReport
+        <VariableReport
           variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
           stateFips={getPhraseValue(props.madLib, 3)}
           updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
@@ -93,7 +93,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       return (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
-            <VarGeoReport
+            <VariableReport
               variable={compareVariable}
               stateFips={props.madLib.activeSelections[3]}
               updateStateCallback={(fips: string) =>
@@ -103,7 +103,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
             />
           </Grid>
           <Grid item xs={6}>
-            <VarGeoReport
+            <VariableReport
               variable={compareVariable}
               stateFips={props.madLib.activeSelections[5]}
               updateStateCallback={(fips: string) =>

@@ -67,7 +67,11 @@ function VarGeoReport(props: {
         return (
           <>
             {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
-              <Alert severity="error">Data not currently available</Alert>
+              <Grid container xs={12} spacing={1} justify="center">
+                <Grid item xs={5}>
+                  <Alert severity="error">Data not currently available</Alert>
+                </Grid>
+              </Grid>
             )}
             {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
               <Grid container spacing={1} alignItems="flex-start">
