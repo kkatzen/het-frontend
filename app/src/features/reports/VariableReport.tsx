@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
@@ -15,12 +13,13 @@ import MapNavChart from "../charts/MapNavChart";
 import Alert from "@material-ui/lab/Alert";
 
 // TODO- investigate type check error to see if we can remove
-// @ts-ignore
 const VARIABLE_DISPLAY_NAMES: Record<
   DropdownVarId,
   Record<VariableId, string>
 > = {
+  // @ts-ignore
   diabetes: {
+    // @ts-ignore
     diabetes_count: "Diabetes Case Count",
   },
 };
@@ -32,10 +31,10 @@ function VarGeoReport(props: {
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
-  const variableId =
+  const variableId: VariableId =
     props.variable === "diabetes"
-      ? Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0]
-      : "diabetes_count";
+      ? (Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0] as VariableId)
+      : ("diabetes_count" as VariableId);
   const variableDisplayName =
     props.variable === "diabetes"
       ? Object.entries(VARIABLE_DISPLAY_NAMES[props.variable])[0][1]
@@ -92,7 +91,6 @@ function VarGeoReport(props: {
                       console.log(e);
                       if (e.length === 5) {
                         setCountyFips(e);
-                        // props.updateStateCallback(e.substring(0,2));
                       } else {
                         setCountyFips(undefined);
                         props.updateStateCallback(e);

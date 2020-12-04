@@ -33,7 +33,7 @@ function asDate(dateStr: string) {
 }
 
 function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
-  // TODO - default value bad
+  // TODO Remove hard coded fail safe value
   const validDropdownVariable = Object.keys(
     VARIABLE_DISPLAY_NAMES
   ) as DropdownVarId[];
@@ -46,10 +46,10 @@ function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
   );
 
   const datasetStore = useDatasetStore();
-  const covidProvider = variableProviders[metric];
+  const varProvider = variableProviders[metric];
   const popProvider = variableProviders["population_pct"];
   const datasetIds = VariableProvider.getUniqueDatasetIds([
-    covidProvider,
+    varProvider,
     popProvider,
   ]);
 
@@ -88,13 +88,13 @@ function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
           <Grid item xs={12}>
             <WithDatasets datasetIds={datasetIds}>
               {() => {
-                const data = covidProvider
+                const data = varProvider
                   .getData(
                     datasetStore.datasets,
                     Breakdowns.byState().andTime().andRace(true)
                   )
                   .concat(
-                    covidProvider.getData(
+                    varProvider.getData(
                       datasetStore.datasets,
                       Breakdowns.national().andTime().andRace(true)
                     )
@@ -122,7 +122,7 @@ function DisVarGeo(props: { dropdownVarId: DropdownVarId; stateFips: string }) {
                     <TwoVarBarChart
                       data={dataset}
                       thickMeasure="population_pct"
-                      thinMeasure={covidProvider.variableId}
+                      thinMeasure={varProvider.variableId}
                       breakdownVar="hispanic_or_latino_and_race"
                     />
                     <TableChart
