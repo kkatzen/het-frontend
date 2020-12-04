@@ -1,10 +1,10 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import VarGeoReport from "./VarGeoReport";
-import { VariableId } from "../../utils/variableProviders";
+import { DropdownVarId } from "../../utils/MadLibs";
 
 function CompareMapNavReport(props: {
-  variable: VariableId;
+  variable: DropdownVarId;
   fipsGeo1: string;
   fipsGeo2: string;
   updateGeo1Callback: Function;
@@ -25,7 +25,7 @@ function CompareMapNavReport(props: {
         </Grid>
         <Grid item xs={6}>
           <VarGeoReport
-            variable={"diabetes_count"}
+            variable={props.variable}
             stateFips={props.fipsGeo2}
             updateStateCallback={(fips: string) =>
               props.updateGeo2Callback(fips)

@@ -1,10 +1,10 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { VariableId } from "../../utils/variableProviders";
 import DisVarGeoReport from "./DisVarGeoReport";
+import { DropdownVarId } from "../../utils/MadLibs";
 
 function CompareDisVarGeoReport(props: {
-  variable: VariableId;
+  variable: DropdownVarId;
   fipsGeo1: string;
   fipsGeo2: string;
 }) {

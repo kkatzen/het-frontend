@@ -75,7 +75,7 @@ function MapNavChart(props: {
       </Breadcrumbs>
       <UsaChloroplethMap
         signalListeners={signalListeners}
-        varField={"diabetes_count"}
+        varField={"diabetes_count"} // TODO - this is wrong
         legendTitle="Diabetes Count"
         data={props.data}
         hideLegend={props.fipsGeo ? true : false}

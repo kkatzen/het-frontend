@@ -19,6 +19,7 @@ import {
   MadLib,
   PhraseSegment,
   PhraseSelections,
+  DropdownVarId,
 } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
 import {
@@ -28,7 +29,6 @@ import {
   useSearchParams,
   linkToMadLib,
 } from "../utils/urlutils";
-import { VariableId } from "../utils/variableProviders";
 import ReactTooltip from "react-tooltip";
 import DisVarGeoReport from "../features/reports/DisVarGeoReport";
 import VarGeoReport from "../features/reports/VarGeoReport";
@@ -48,7 +48,7 @@ export type MadLibId =
   | "disvarcompare";
 
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
-  let variableId: VariableId;
+  let variableId: DropdownVarId;
 
   function updateStateCallback(fips: string, geoIndex: number) {
     let updatedArray: PhraseSelections = {
@@ -63,7 +63,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
 
   switch (props.madLib.id) {
     case "disvargeo":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
         <DisVarGeoReport
           variable={variableId}
@@ -71,7 +71,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         />
       );
     case "varcompare":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
         <CompareMapNavReport
           variable={variableId}
@@ -82,10 +82,10 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         />
       );
     case "geo":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return <p>unimplemented</p>;
     case "vargeo":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
         <VarGeoReport
           variable={variableId}
@@ -94,7 +94,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         />
       );
     case "disvarcompare":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+      variableId = getPhraseValue(props.madLib, 1) as DropdownVarId;
       return (
         <CompareDisVarGeoReport
           variable={variableId}
