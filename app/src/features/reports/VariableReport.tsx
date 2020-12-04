@@ -22,6 +22,11 @@ const VARIABLE_DISPLAY_NAMES: Record<
     // @ts-ignore
     diabetes_count: "Diabetes Case Count",
   },
+  // @ts-ignore
+  copd: {
+    // @ts-ignore
+    copd_count: "COPD Case Count",
+  },
 };
 
 function VarGeoReport(props: {
@@ -30,18 +35,24 @@ function VarGeoReport(props: {
   updateStateCallback: Function;
   vertical?: boolean;
 }) {
+  console.log(props.variable);
+  console.log(Object.keys(VARIABLE_DISPLAY_NAMES));
   // TODO Remove hard coded fail safe value
-  const variableId: VariableId =
-    props.variable === "diabetes"
-      ? (Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0] as VariableId)
-      : ("diabetes_count" as VariableId);
-  const variableDisplayName =
-    props.variable === "diabetes"
-      ? Object.entries(VARIABLE_DISPLAY_NAMES[props.variable])[0][1]
-      : "Placeholder";
+  const variableId: VariableId = Object.keys(VARIABLE_DISPLAY_NAMES).includes(
+    props.variable
+  )
+    ? (Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0] as VariableId)
+    : ("diabetes_count" as VariableId);
+  console.log(variableId);
+  const variableDisplayName = Object.keys(VARIABLE_DISPLAY_NAMES).includes(
+    props.variable
+  )
+    ? Object.entries(VARIABLE_DISPLAY_NAMES[props.variable])[0][1]
+    : "Placeholder";
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
+  console.log(variableProvider);
   const requiredDatasets = VariableProvider.getUniqueDatasetIds([
     variableProvider,
   ]);
