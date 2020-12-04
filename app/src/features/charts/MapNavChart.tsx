@@ -86,7 +86,7 @@ function MapNavChart(props: {
         varField={props.varField}
         legendTitle={props.varFieldDisplayName}
         data={props.data}
-        hideLegend={props.fipsGeo ? true : false}
+        hideLegend={props.fipsGeo === USA_FIPS ? false : true}
         stateFips={props.fipsGeo === USA_FIPS ? undefined : props.fipsGeo}
         countyFips={props.countyFips}
       />
