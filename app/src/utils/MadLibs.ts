@@ -113,14 +113,18 @@ const MADLIB_LIST: MadLib[] = [
     id: "disvarcompare",
     phrase: [
       "Compare ",
-      COVID_VARIABLES,
+      {
+        covid_cases_pct_of_geo: "COVID Cases % of Geo",
+        covid_deaths_pct_of_geo: "COVID Deaths % of Geo",
+        covid_hosp_pct_of_geo: "COVID Hospitalizations % of Geo",
+      },
       " between ",
       STATE_FIPS_MAP,
       " and ",
       STATE_FIPS_MAP,
     ],
-    defaultSelections: { 1: "covid_deaths_per_100k", 3: USA_FIPS, 5: USA_FIPS },
-    activeSelections: { 1: "covid_deaths_per_100k", 3: USA_FIPS, 5: USA_FIPS },
+    defaultSelections: { 1: "covid_cases_pct_of_geo", 3: "13", 5: USA_FIPS }, // 13 is Georgia
+    activeSelections: { 1: "covid_cases_pct_of_geo", 3: "13", 5: USA_FIPS }, // 13 is Georgia
   },
   {
     id: "dump",

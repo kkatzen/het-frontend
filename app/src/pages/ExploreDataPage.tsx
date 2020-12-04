@@ -4,8 +4,9 @@ import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import CompareMapNavReport from "../features/reports/CompareMapNavReport";
+import CompareMapNavReport from "../features/reports/CompareVarGeoReport";
 import ChartDumpReport from "../features/reports/ChartDumpReport";
+import CompareDisVarGeoReport from "../features/reports/CompareDisVarGeoReport";
 import TellMeAboutReport from "../features/reports/TellMeAboutReport";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -32,7 +33,7 @@ import CompareStatesForVariableReport from "../features/reports/CompareStatesFor
 import CovidReport from "../features/reports/CovidReport";
 import { VariableId } from "../utils/variableProviders";
 import ReactTooltip from "react-tooltip";
-import DisVarGeo from "../features/reports/DisVarGeoReport";
+import DisVarGeoReport from "../features/reports/DisVarGeoReport";
 import VarGeoReport from "../features/reports/VarGeoReport";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
@@ -52,7 +53,7 @@ export type MadLibId =
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
   let variableId: VariableId;
 
-  function updateGeo(fips: string, geoIndex: number) {
+  function updateStateCallback(fips: string, geoIndex: number) {
     let updatedArray: PhraseSelections = {
       ...props.madLib.activeSelections,
     };
@@ -67,7 +68,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
     case "disvargeo":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
-        <DisVarGeo
+        <DisVarGeoReport
           variable={variableId}
           stateFips={getPhraseValue(props.madLib, 3)}
         />
@@ -76,10 +77,11 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
         <CompareMapNavReport
+          variable={variableId}
           fipsGeo1={props.madLib.activeSelections[3]}
           fipsGeo2={props.madLib.activeSelections[5]}
-          updateGeo1Callback={(fips: string) => updateGeo(fips, 3)}
-          updateGeo2Callback={(fips: string) => updateGeo(fips, 5)}
+          updateGeo1Callback={(fips: string) => updateStateCallback(fips, 3)}
+          updateGeo2Callback={(fips: string) => updateStateCallback(fips, 5)}
         />
       );
     case "geo":
@@ -91,17 +93,16 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         <VarGeoReport
           variable={variableId}
           stateFips={getPhraseValue(props.madLib, 3)}
-          updateGeoCallback={(fips: string) => updateGeo(fips, 3)}
+          updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
         />
       );
     case "disvarcompare":
       variableId = getPhraseValue(props.madLib, 1) as VariableId;
       return (
-        <CompareMapNavReport
+        <CompareDisVarGeoReport
+          variable={variableId}
           fipsGeo1={props.madLib.activeSelections[3]}
           fipsGeo2={props.madLib.activeSelections[5]}
-          updateGeo1Callback={(fips: string) => updateGeo(fips, 3)}
-          updateGeo2Callback={(fips: string) => updateGeo(fips, 5)}
         />
       );
     case "dump":
@@ -118,7 +119,7 @@ function ExploreDataPage() {
   useEffect(() => {
     // TODO - it would be nice to have the params stay and update when selections are made
     // Until then, it's best to just clear them so they can't become mismatched
-    clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
+    // clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
 
   const foundIndex = MADLIB_LIST.findIndex(

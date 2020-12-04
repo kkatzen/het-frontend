@@ -34,14 +34,13 @@ function GeographyBreadcrumb(props: {
 
 function MapNavChart(props: {
   fipsGeo: string;
+  countyFips: string | undefined;
   data: Record<string, any>[];
   updateGeoCallback: (message: string) => void;
 }) {
-  const [countyFips, setCountyFips] = useState<string>();
   const [countyName, setCountyName] = useState<string>();
 
   useEffect(() => {
-    setCountyFips(undefined);
     setCountyName(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fipsGeo]);
@@ -49,21 +48,12 @@ function MapNavChart(props: {
   const signalListeners: any = {
     click: (...args: any) => {
       const clickedData = args[1];
-      if (clickedData.id.length === 2) {
-        // Updating the state
-        props.updateGeoCallback(clickedData.id);
-      } else {
-        // Updating the county
-        setCountyFips(clickedData.id);
+      props.updateGeoCallback(clickedData.id);
+      if (clickedData.id.length === 5) {
         setCountyName(clickedData.properties.name);
       }
     },
   };
-
-  let dataset =
-    props.fipsGeo === USA_FIPS
-      ? props.data
-      : props.data.filter((r) => r.state_fips_code === props.fipsGeo);
 
   // TODO - make the mouse turn into a pointer when you hover over
   return (
@@ -74,16 +64,15 @@ function MapNavChart(props: {
           isClickable={props.fipsGeo !== USA_FIPS}
           onClick={() => {
             props.updateGeoCallback(USA_FIPS);
-            setCountyFips(undefined);
             setCountyName(undefined);
           }}
         />
         {props.fipsGeo !== USA_FIPS && (
           <GeographyBreadcrumb
             text={STATE_FIPS_MAP[props.fipsGeo]}
-            isClickable={!!countyFips}
+            isClickable={!!countyName}
             onClick={() => {
-              setCountyFips(undefined);
+              props.updateGeoCallback(props.fipsGeo.substring(0, 2));
             }}
           />
         )}
@@ -91,22 +80,20 @@ function MapNavChart(props: {
           <GeographyBreadcrumb text={countyName} isClickable={false} />
         )}
       </Breadcrumbs>
-
       <UsaChloroplethMap
         signalListeners={signalListeners}
         varField={"diabetes_count"}
         legendTitle="Diabetes Count"
-        data={dataset}
+        data={props.data}
         hideLegend={props.fipsGeo ? true : false}
         stateFips={props.fipsGeo === USA_FIPS ? undefined : props.fipsGeo}
-        countyFips={countyFips ? countyFips : undefined}
+        countyFips={props.countyFips}
       />
       {props.fipsGeo !== USA_FIPS && (
         <Alert severity="error">
           This dataset does not provide county level data
         </Alert>
       )}
-      {countyFips === undefined && <TableChart data={dataset} />}
     </div>
   );
 }
