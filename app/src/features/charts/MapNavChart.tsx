@@ -5,6 +5,7 @@ import Alert from "@material-ui/lab/Alert";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
+import { VariableId } from "../../utils/variableProviders";
 
 function GeographyBreadcrumb(props: {
   text: string;
@@ -26,6 +27,8 @@ function GeographyBreadcrumb(props: {
 }
 
 function MapNavChart(props: {
+  varField: VariableId;
+  varFieldDisplayName: string;
   fipsGeo: string;
   countyFips: string | undefined;
   data: Record<string, any>[];
@@ -80,8 +83,8 @@ function MapNavChart(props: {
       )}
       <UsaChloroplethMap
         signalListeners={signalListeners}
-        varField={"diabetes_count"} // TODO - this is wrong
-        legendTitle="Diabetes Count"
+        varField={props.varField}
+        legendTitle={props.varFieldDisplayName}
         data={props.data}
         hideLegend={props.fipsGeo ? true : false}
         stateFips={props.fipsGeo === USA_FIPS ? undefined : props.fipsGeo}

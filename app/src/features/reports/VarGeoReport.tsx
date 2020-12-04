@@ -31,8 +31,6 @@ function VarGeoReport(props: {
   updateStateCallback: Function;
   vertical?: boolean;
 }) {
-  // TODO hardcode no
-
   const variableId = Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0];
   const variableDisplayName = Object.entries(
     VARIABLE_DISPLAY_NAMES[props.variable]
@@ -77,6 +75,8 @@ function VarGeoReport(props: {
                 >
                   <MapNavChart
                     data={dataset}
+                    varField={variableId}
+                    varFieldDisplayName={variableDisplayName}
                     fipsGeo={props.stateFips}
                     countyFips={countyFips}
                     updateGeoCallback={(e: string) => {
