@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
+import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import TwoVarBarChart from "../charts/TwoVarBarChart";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
@@ -16,9 +18,11 @@ function asDate(dateStr: string) {
 }
 
 function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
+  const [metric, setMetric] = useState<VariableId>("covid_cases_pct_of_geo");
+
   const datasetStore = useDatasetStore();
   // TODO- no hardocde
-  const covidProvider = variableProviders["covid_cases_pct_of_geo"];
+  const covidProvider = variableProviders[metric];
   const popProvider = variableProviders["population_pct"];
   const datasetIds = VariableProvider.getUniqueDatasetIds([
     covidProvider,
@@ -27,10 +31,30 @@ function DisVarGeo(props: { variable: DropdownVarId; stateFips: string }) {
 
   return (
     <>
-      {props.variable !== "covid" && <p> unimplemented</p>}
+      {props.variable !== "covid" && <p>unimplemented</p>}
 
       {props.variable === "covid" && (
         <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={12}>
+            <ToggleButtonGroup
+              exclusive
+              value={metric}
+              onChange={(e, v) => {
+                if (v !== null) {
+                  setMetric(v);
+                }
+              }}
+              aria-label="text formatting"
+            >
+              <ToggleButton value="covid_cases_pct_of_geo">Cases</ToggleButton>
+              <ToggleButton value="covid_deaths_pct_of_geo">
+                Deaths
+              </ToggleButton>
+              <ToggleButton value="covid_hosp_pct_of_geo">
+                Hospitalizations
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
           <Grid item xs={12}>
             <WithDatasets datasetIds={datasetIds}>
               {() => {
