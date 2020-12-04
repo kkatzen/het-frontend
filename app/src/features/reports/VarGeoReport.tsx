@@ -1,16 +1,29 @@
+// @ts-nocheck
+
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders from "../../utils/variableProviders";
+import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS } from "../../utils/Fips";
 import MapNavChart from "../charts/MapNavChart";
 import Alert from "@material-ui/lab/Alert";
+
+// TODO- investigate type check error to see if we can remove
+// @ts-ignore
+const VARIABLE_DISPLAY_NAMES: Record<
+  DropdownVarId,
+  Record<VariableId, string>
+> = {
+  diabetes: {
+    diabetes_count: "Diabetes Case Count",
+  },
+};
 
 function VarGeoReport(props: {
   variable: DropdownVarId;
@@ -19,7 +32,11 @@ function VarGeoReport(props: {
   vertical?: boolean;
 }) {
   // TODO hardcode no
-  const variableId = "diabetes_count";
+
+  const variableId = Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0];
+  const variableDisplayName = Object.entries(
+    VARIABLE_DISPLAY_NAMES[props.variable]
+  )[0][1];
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
@@ -46,11 +63,10 @@ function VarGeoReport(props: {
 
         return (
           <>
-            {props.variable !== "diabetes" && (
+            {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
               <Alert severity="error">Data not currently available</Alert>
             )}
-
-            {props.variable === "diabetes" && (
+            {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
               <Grid container spacing={1} alignItems="flex-start">
                 <Grid
                   item
@@ -89,7 +105,7 @@ function VarGeoReport(props: {
                         { name: "race", displayName: "Race and Ethnicity" },
                         {
                           name: variableId,
-                          displayName: variableId,
+                          displayName: variableDisplayName,
                         },
                       ]}
                     />
