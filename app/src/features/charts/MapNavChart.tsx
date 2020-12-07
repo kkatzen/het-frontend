@@ -36,6 +36,9 @@ function MapNavChart(props: {
 }) {
   const [countyName, setCountyName] = useState<string>();
 
+  // TODO- don't hardcode, change based on dataset
+  const granularDataUnavailable = props.fipsGeo === USA_FIPS;
+
   useEffect(() => {
     setCountyName(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +57,7 @@ function MapNavChart(props: {
   // TODO - make the mouse turn into a pointer when you hover over
   return (
     <div>
-      {props.fipsGeo !== USA_FIPS && (
+      {granularDataUnavailable && (
         <Alert severity="error">
           This dataset does not provide county level data
         </Alert>
@@ -86,7 +89,7 @@ function MapNavChart(props: {
         varField={props.varField}
         legendTitle={props.varFieldDisplayName}
         data={props.data}
-        hideLegend={props.fipsGeo === USA_FIPS ? false : true}
+        hideLegend={granularDataUnavailable}
         stateFips={props.fipsGeo === USA_FIPS ? undefined : props.fipsGeo}
         countyFips={props.countyFips}
       />

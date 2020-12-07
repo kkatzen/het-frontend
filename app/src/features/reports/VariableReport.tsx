@@ -36,15 +36,12 @@ function VarGeoReport(props: {
   updateStateCallback: Function;
   vertical?: boolean;
 }) {
-  console.log(props.variable);
-  console.log(Object.keys(VARIABLE_DISPLAY_NAMES));
   // TODO Remove hard coded fail safe value
   const variableId: VariableId = Object.keys(VARIABLE_DISPLAY_NAMES).includes(
     props.variable
   )
     ? (Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0] as VariableId)
     : ("diabetes_count" as VariableId);
-  console.log(variableId);
   const variableDisplayName = Object.keys(VARIABLE_DISPLAY_NAMES).includes(
     props.variable
   )
@@ -53,7 +50,6 @@ function VarGeoReport(props: {
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
-  console.log(variableProvider);
   const requiredDatasets = VariableProvider.getUniqueDatasetIds([
     variableProvider,
   ]);
@@ -104,7 +100,6 @@ function VarGeoReport(props: {
                       fipsGeo={props.stateFips}
                       countyFips={countyFips}
                       updateGeoCallback={(e: string) => {
-                        console.log(e);
                         if (e.length === 5) {
                           setCountyFips(e);
                         } else {
