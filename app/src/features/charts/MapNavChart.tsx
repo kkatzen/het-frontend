@@ -4,9 +4,10 @@ import { USA_FIPS, USA_DISPLAY_NAME, STATE_FIPS_MAP } from "../../utils/Fips";
 import Alert from "@material-ui/lab/Alert";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
 import { VariableId } from "../../utils/variableProviders";
-
+import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
 function GeographyBreadcrumb(props: {
   text: string;
   isClickable: boolean;
@@ -15,12 +16,16 @@ function GeographyBreadcrumb(props: {
   return (
     <>
       {props.isClickable && (
-        <Link color="inherit" onClick={() => props.onClick!()}>
-          {props.text}
-        </Link>
+        <Button color="primary" style={{ padding: "3px" }}>
+          <Link color="inherit" onClick={() => props.onClick!()}>
+            {props.text}
+          </Link>
+        </Button>
       )}
       {!props.isClickable && (
-        <Typography color="textPrimary">{props.text}</Typography>
+        <Button style={{ padding: "3px" }} disabled>
+          {props.text}
+        </Button>
       )}
     </>
   );
@@ -51,15 +56,20 @@ function MapNavChart(props: {
     },
   };
 
-  // TODO - make the mouse turn into a pointer when you hover over
   return (
     <div>
-      {props.fipsGeo !== USA_FIPS && (
-        <Alert severity="error">
-          This dataset does not provide county level data
-        </Alert>
-      )}
-      <Breadcrumbs aria-label="breadcrumb">
+      <Typography variant="h6">
+        {props.varFieldDisplayName} in{" "}
+        {countyName ? (
+          <span>
+            {countyName} County, {STATE_FIPS_MAP[props.fipsGeo]}
+          </span>
+        ) : (
+          STATE_FIPS_MAP[props.fipsGeo]
+        )}
+      </Typography>
+      <Divider />
+      <Breadcrumbs separator="›" aria-label="breadcrumb">
         <GeographyBreadcrumb
           text={USA_DISPLAY_NAME}
           isClickable={props.fipsGeo !== USA_FIPS}
@@ -81,6 +91,12 @@ function MapNavChart(props: {
           <GeographyBreadcrumb text={countyName} isClickable={false} />
         )}
       </Breadcrumbs>
+      <Divider />
+      {props.fipsGeo !== USA_FIPS && (
+        <Alert severity="error">
+          This dataset does not provide county level data
+        </Alert>
+      )}
       <UsaChloroplethMap
         signalListeners={signalListeners}
         varField={props.varField}
