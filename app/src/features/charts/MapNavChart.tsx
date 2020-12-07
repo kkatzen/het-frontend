@@ -81,7 +81,7 @@ function MapNavChart(props: {
         varField={props.varField}
         legendTitle={props.varFieldDisplayName}
         data={props.data}
-        hideLegend={props.fips.isUsa()}
+        hideLegend={props.fips.isUsa()} // TODO - update logic here when we have county level data
         fips={props.fips}
       />
     </div>
