@@ -5,16 +5,12 @@ import useDatasetStore from "../../utils/useDatasetStore";
 import { Breakdowns } from "../../utils/Breakdowns";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import TwoVarBarChart from "../charts/TwoVarBarChart";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import Typography from "@material-ui/core/Typography";
-import styles from "./Report.module.scss";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Alert } from "@material-ui/lab";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 
 // TODO- investigate type check error to see if we can remove @ts-ignore
@@ -130,6 +126,7 @@ function DisVarGeo(props: {
                   <Grid item xs={props.vertical ? 12 : 6}>
                     <DisparityBarChartCard
                       dataset={dataset}
+                      datasetIds={datasetIds}
                       variableId={varProvider.variableId}
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
@@ -138,6 +135,7 @@ function DisVarGeo(props: {
                       breakdownVarDisplayName="Race/Ethnicity"
                     />
                     <DisparityBarChartCard
+                      datasetIds={datasetIds}
                       variableId={varProvider.variableId}
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
@@ -146,6 +144,7 @@ function DisVarGeo(props: {
                       breakdownVarDisplayName="Age"
                     />
                     <DisparityBarChartCard
+                      datasetIds={datasetIds}
                       variableId={varProvider.variableId}
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
