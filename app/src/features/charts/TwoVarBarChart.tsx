@@ -14,8 +14,8 @@ function getSpec(
   const BAR_HEIGHT = 40;
   const BAR_PADDING = 0.1;
   const THIN_RATIO = 0.3;
-  const THICK_MEASURE_COLOR = "#4c78a8";
-  const THIN_MEASURE_COLOR = "#89B7D5";
+  const THIN_MEASURE_COLOR = "#4c78a8";
+  const THICK_MEASURE_COLOR = "#89B7D5";
   const DATASET = "DATASET";
 
   return {
