@@ -10,8 +10,12 @@ import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import Typography from "@material-ui/core/Typography";
+import styles from "./Report.module.scss";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 
 // TODO- investigate type check error to see if we can remove @ts-ignore
 const VARIABLE_DISPLAY_NAMES: Record<
@@ -124,23 +128,15 @@ function DisVarGeo(props: {
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
-                    <Card
-                      raised={true}
-                      style={{ padding: "20px", margin: "10px" }}
-                    >
-                      <TwoVarBarChart
-                        data={dataset}
-                        thickMeasure="population_pct"
-                        thinMeasure={varProvider.variableId}
-                        thickMeasureDisplayName="Population %"
-                        thinMeasureDisplayName={
-                          VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
-                          " as % of Geo"
-                        }
-                        breakdownVar="hispanic_or_latino_and_race"
-                        breakdownVarDisplayName="Race/Ethnicity"
-                      />
-                    </Card>
+                    <DisparityBarChartCard
+                      dataset={dataset}
+                      variableId={varProvider.variableId}
+                      variableDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                      }
+                      breakdownVar="hispanic_or_latino_and_race"
+                      breakdownVarDisplayName="Race/Ethnicity"
+                    />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
                     <Card raised={true} style={{ margin: "10px" }}>

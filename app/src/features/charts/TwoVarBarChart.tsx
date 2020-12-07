@@ -1,9 +1,12 @@
+// @ts-nocheck
 import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
+import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
 
 function getSpec(
   data: Record<string, any>[],
+  width: number,
   breakdownVar: string,
   breakdownVarDisplayName: string,
   thickMeasure: string,
@@ -22,8 +25,8 @@ function getSpec(
     $schema: "https://vega.github.io/schema/vega/v5.json",
     background: "white",
     padding: 5,
-    height: 500,
-    width: 300,
+    autosize: { resize: true, type: "fit-x" },
+    width,
     style: "cell",
     data: [
       {
@@ -211,18 +214,23 @@ function TwoVarBarChart(props: {
   breakdownVar: string;
   breakdownVarDisplayName: string;
 }) {
+  const [ref, width] = useResponsiveWidth();
+
   return (
-    <Vega
-      spec={getSpec(
-        props.data,
-        props.breakdownVar,
-        props.breakdownVarDisplayName,
-        props.thickMeasure,
-        props.thickMeasureDisplayName,
-        props.thinMeasure,
-        props.thinMeasureDisplayName
-      )}
-    />
+    <div ref={ref}>
+      <Vega
+        spec={getSpec(
+          props.data,
+          width,
+          props.breakdownVar,
+          props.breakdownVarDisplayName,
+          props.thickMeasure,
+          props.thickMeasureDisplayName,
+          props.thinMeasure,
+          props.thinMeasureDisplayName
+        )}
+      />
+    </div>
   );
 }
 
