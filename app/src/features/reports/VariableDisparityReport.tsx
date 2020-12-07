@@ -13,14 +13,8 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
-// TODO- investigate type check error to see if we can remove @ts-ignore
-const VARIABLE_DISPLAY_NAMES: Record<
-  DropdownVarId,
-  Record<VariableId, string>
-> = {
-  // @ts-ignore
+const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   covid: {
-    // @ts-ignore
     covid_cases_pct_of_geo: "COVID-19 Cases",
     covid_deaths_pct_of_geo: "COVID-19  Deaths",
     covid_hosp_pct_of_geo: "COVID-19 Hospitalizations",
