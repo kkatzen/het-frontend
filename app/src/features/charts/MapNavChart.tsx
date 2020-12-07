@@ -47,7 +47,7 @@ function MapNavChart(props: {
   // TODO - make the mouse turn into a pointer when you hover over
   return (
     <div>
-      {props.fips.isUsa() && (
+      {!props.fips.isUsa() && (
         <Alert severity="error">
           This dataset does not provide county level data
         </Alert>
