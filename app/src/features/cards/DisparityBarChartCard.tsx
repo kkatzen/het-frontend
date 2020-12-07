@@ -16,12 +16,7 @@ function DisparityBarChartCard(props: {
 }) {
   return (
     <Card raised={true} style={{ padding: "20px", margin: "10px" }}>
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="h5"
-        className={styles.CardHeader}
-      >
+      <Typography gutterBottom className={styles.CardHeader}>
         Disparities in {props.variableDisplayName} for{" "}
         <b>{props.breakdownVarDisplayName}</b>
       </Typography>

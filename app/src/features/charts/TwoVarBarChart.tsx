@@ -20,13 +20,14 @@ function getSpec(
   const THICK_MEASURE_COLOR = "#4c78a8";
   const THIN_MEASURE_COLOR = "#89B7D5";
   const DATASET = "DATASET";
+  const WIDTH_PADDING_FOR_SNOWMAN_MENU = 50;
 
   return {
     $schema: "https://vega.github.io/schema/vega/v5.json",
     background: "white",
     padding: 5,
     autosize: { resize: true, type: "fit-x" },
-    width,
+    width: width - WIDTH_PADDING_FOR_SNOWMAN_MENU,
     style: "cell",
     data: [
       {

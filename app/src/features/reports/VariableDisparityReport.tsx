@@ -137,6 +137,22 @@ function DisVarGeo(props: {
                       breakdownVar="hispanic_or_latino_and_race"
                       breakdownVarDisplayName="Race/Ethnicity"
                     />
+                    <DisparityBarChartCard
+                      variableId={varProvider.variableId}
+                      variableDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                      }
+                      breakdownVar="age"
+                      breakdownVarDisplayName="Age"
+                    />
+                    <DisparityBarChartCard
+                      variableId={varProvider.variableId}
+                      variableDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                      }
+                      breakdownVar="gender"
+                      breakdownVarDisplayName="Gender"
+                    />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
                     <Card raised={true} style={{ margin: "10px" }}>
