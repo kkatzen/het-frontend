@@ -13,19 +13,11 @@ import MapNavChart from "../charts/MapNavChart";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
-// TODO- investigate type check error to see if we can remove
-const VARIABLE_DISPLAY_NAMES: Record<
-  DropdownVarId,
-  Record<VariableId, string>
-> = {
-  // @ts-ignore
+const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   diabetes: {
-    // @ts-ignore
     diabetes_count: "Diabetes Case Count",
   },
-  // @ts-ignore
   copd: {
-    // @ts-ignore
     copd_count: "COPD Case Count",
   },
 };
