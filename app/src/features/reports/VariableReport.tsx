@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
@@ -8,7 +8,7 @@ import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import { USA_FIPS } from "../../utils/Fips";
+import { USA_FIPS, Fips } from "../../utils/Fips";
 import MapNavChart from "../charts/MapNavChart";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
@@ -53,7 +53,13 @@ function VarGeoReport(props: {
   const requiredDatasets = VariableProvider.getUniqueDatasetIds([
     variableProvider,
   ]);
-  const [countyFips, setCountyFips] = useState<string | undefined>();
+
+  const [fips, setFips] = useState<Fips>(new Fips(props.stateFips));
+
+  useEffect(() => {
+    console.log(props.stateFips);
+    setFips(new Fips(props.stateFips));
+  }, [props.stateFips]);
 
   return (
     <WithDatasets datasetIds={requiredDatasets}>
@@ -64,12 +70,12 @@ function VarGeoReport(props: {
         );
 
         let tableDataset =
-          props.stateFips === USA_FIPS
+          fips.code === USA_FIPS
             ? variableProvider.getData(
                 datasetStore.datasets,
                 Breakdowns.national().andRace()
               )
-            : dataset.filter((r) => r.state_fips_code === props.stateFips);
+            : dataset.filter((r) => r.state_fips_code === fips.code);
 
         return (
           <>
@@ -97,15 +103,10 @@ function VarGeoReport(props: {
                       data={dataset}
                       varField={variableId}
                       varFieldDisplayName={variableDisplayName}
-                      fipsGeo={props.stateFips}
-                      countyFips={countyFips}
-                      updateGeoCallback={(e: string) => {
-                        if (e.length === 5) {
-                          setCountyFips(e);
-                        } else {
-                          setCountyFips(undefined);
-                          props.updateStateCallback(e);
-                        }
+                      fips={fips}
+                      updateFipsCallback={(fips: Fips) => {
+                        setFips(fips);
+                        props.updateStateCallback(fips.getStateFipsCode());
                       }}
                     />
                   </Card>
@@ -118,7 +119,7 @@ function VarGeoReport(props: {
                   className={styles.PaddedGrid}
                 >
                   <Card raised={true} style={{ margin: "10px" }}>
-                    {!countyFips && (
+                    {!fips.isCounty() && (
                       <TableChart
                         data={tableDataset}
                         fields={[
@@ -130,7 +131,7 @@ function VarGeoReport(props: {
                         ]}
                       />
                     )}
-                    {countyFips && (
+                    {fips.isCounty() && (
                       <Alert severity="error">
                         This dataset does not provide county level data
                       </Alert>

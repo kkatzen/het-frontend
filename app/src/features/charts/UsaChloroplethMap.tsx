@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Vega } from "react-vega";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
+import { Fips } from "../../utils/Fips";
 
 type NumberFormat = "raw" | "percentage";
 
@@ -21,8 +22,7 @@ function UsaChloroplethMap(props: {
   varField: string;
   legendTitle: string;
   signalListeners: any;
-  stateFips?: string;
-  countyFips?: string;
+  fips: Fips;
   numberFormat?: NumberFormat;
   hideLegend?: boolean;
 }) {
@@ -34,8 +34,7 @@ function UsaChloroplethMap(props: {
   useEffect(() => {
     /* SET UP GEO DATSET */
     // Transform geo dataset by adding varField from VAR_DATASET
-    const fipsKey =
-      props.stateFips || props.countyFips ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
+    const fipsKey = props.fips.isUsa() ? VAR_STATE_FIPS : VAR_COUNTY_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
@@ -45,18 +44,18 @@ function UsaChloroplethMap(props: {
         values: [props.varField],
       },
     ];
-    if (props.stateFips && !props.countyFips) {
+    if (props.fips.isState()) {
       // The first two characters of a county FIPS are the state FIPS
-      let stateFipsVar = `slice(datum.id,0,2) == '${props.stateFips}'`;
+      let stateFipsVar = `slice(datum.id,0,2) == '${props.fips.code}'`;
       geoTransformers.push({
         type: "filter",
         expr: stateFipsVar,
       });
     }
-    if (props.countyFips) {
+    if (props.fips.isCounty()) {
       geoTransformers.push({
         type: "filter",
-        expr: `datum.id === "${props.countyFips}"`,
+        expr: `datum.id === "${props.fips.code}"`,
       });
     }
 
@@ -101,7 +100,7 @@ function UsaChloroplethMap(props: {
             "https://raw.githubusercontent.com/kkatzen/het-frontend/designjam2/app/public/counties-10m.json",
           format: {
             type: "topojson",
-            feature: props.stateFips ? "counties" : "states",
+            feature: props.fips.isUsa() ? "states" : "counties",
           },
         },
         {
@@ -177,10 +176,9 @@ function UsaChloroplethMap(props: {
     props.varField,
     props.legendTitle,
     props.operation,
-    props.stateFips,
     props.numberFormat,
     props.data,
-    props.countyFips,
+    props.fips,
     props.hideLegend,
   ]);
 

@@ -64,3 +64,51 @@ export const STATE_FIPS_MAP: Record<string, string> = {
     "72": "Puerto Rico",
     "78": "Virgin Islands"
 */
+
+export type Severity = "INFO" | "WARNING" | "ERROR";
+
+class Fips {
+  code: string;
+  countyName: string;
+
+  constructor(code: string, countyName: string = "") {
+    this.code = code;
+    this.countyName = countyName;
+  }
+
+  isUsa() {
+    return this.code === USA_FIPS;
+  }
+
+  isState() {
+    return !this.isCounty() && !this.isUsa();
+  }
+
+  isCounty() {
+    return this.code.length === 5;
+  }
+
+  getDisplayName() {
+    return this.isCounty() ? this.countyName : STATE_FIPS_MAP[this.code];
+  }
+
+  setCountyName(countyName: string) {
+    this.countyName = countyName;
+  }
+
+  getStateFipsCode() {
+    return this.code.substring(0, 2);
+  }
+
+  getStateDisplayName() {
+    return STATE_FIPS_MAP[this.getStateFipsCode()];
+  }
+
+  getParentFips() {
+    return this.isCounty()
+      ? new Fips(this.code.substring(0, 2))
+      : new Fips(USA_FIPS);
+  }
+}
+
+export { Fips };
