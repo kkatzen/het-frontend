@@ -20,7 +20,7 @@ import {
   PhraseSegment,
   PhraseSelections,
 } from "../utils/MadLibs";
-import { STATE_FIPS_MAP, FIPS_MAP, USA_FIPS, Fips } from "../utils/Fips";
+import { Fips } from "../utils/Fips";
 import styles from "./ExploreDataPage.module.scss";
 import {
   clearSearchParams,
@@ -62,7 +62,7 @@ function ExploreDataPage() {
   useEffect(() => {
     // TODO - it would be nice to have the params stay and update when selections are made
     // Until then, it's best to just clear them so they can't become mismatched
-    // clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
+    clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
 
   const foundIndex = MADLIB_LIST.findIndex(
