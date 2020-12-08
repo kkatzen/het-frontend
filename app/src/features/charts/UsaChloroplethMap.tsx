@@ -71,7 +71,8 @@ function UsaChloroplethMap(props: {
     let legendList = [];
     let legend: any = {
       fill: "colorScale",
-      orient: "top-right",
+      direction: "horizontal",
+      orient: "bottom-left",
       title: props.legendTitle,
       font: "monospace",
       labelFont: "monospace",
