@@ -18,12 +18,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   useDatasetStoreProvider,
   DatasetProvider,
@@ -102,16 +97,6 @@ function AppToolbar() {
   );
 }
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
-
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -129,7 +114,6 @@ function App() {
         <div className={styles.App}>
           <div className={styles.Content}>
             <Router>
-              <ScrollToTop />
               <AppBar position="static">
                 {width > MOBILE_BREAKPOINT ? (
                   <AppToolbar />
