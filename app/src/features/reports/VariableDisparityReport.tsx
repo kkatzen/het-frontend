@@ -117,8 +117,11 @@ function DisVarGeo(props: {
                       aria-label="text formatting"
                     >
                       {DDV_TO_VAR[props.dropdownVarId].map(
-                        (variableId: string) => (
-                          <ToggleButton value={variableId as VariableId}>
+                        (variableId: string, key: number) => (
+                          <ToggleButton
+                            value={variableId as VariableId}
+                            key={key}
+                          >
                             {
                               VARIABLE_DISPLAY_NAME_MAP[
                                 variableId as VariableId

@@ -82,7 +82,6 @@ function MapCard(props: {
                 value={race}
                 onChange={(e) => {
                   setRace(e.target.value as string);
-                  //  setCountyList([]);
                 }}
                 disabled={props.fips.isUsa() ? false : true}
               >

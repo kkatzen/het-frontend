@@ -47,6 +47,7 @@ function FipsSelector(props: {
       options={props.options}
       clearOnEscape={true}
       getOptionLabel={(fips) => fips.getFullDisplayName()}
+      getOptionSelected={(fips) => fips.code === props.value}
       renderOption={(fips) => <>{fips.getFullDisplayName()}</>}
       renderInput={(params) => (
         <TextField margin="dense" fullWidth {...params} variant="outlined" />
@@ -150,13 +151,7 @@ function CarouselMadLib(props: {
   setMadLib: (updatedMadLib: MadLib) => void;
 }) {
   return (
-    <Grid
-      container
-      xs={12}
-      spacing={1}
-      justify="center"
-      style={{ "line-height": "50pt" }}
-    >
+    <Grid container spacing={1} justify="center" style={{ lineHeight: "50pt" }}>
       {props.madLib.phrase.map(
         (phraseSegment: PhraseSegment, index: number) => (
           <React.Fragment key={index}>
@@ -192,7 +187,7 @@ function CarouselMadLib(props: {
                 ) : (
                   <Grid
                     item
-                    style={{ "margin-top": "20px", "margin-bottom": "-20px" }}
+                    style={{ marginTop: "20px", marginBottom: "-20px" }}
                   >
                     <FormControl>
                       <Select
