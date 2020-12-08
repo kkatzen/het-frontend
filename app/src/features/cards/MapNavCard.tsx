@@ -53,7 +53,7 @@ function MapNavCard(props: {
     <Card raised={true} className={styles.ChartCard}>
       <CardContent>
         <Typography variant="h6">
-          {props.varFieldDisplayName} in {props.fips.getDisplayName()}
+          {props.varFieldDisplayName} in {props.fips.getFullDisplayName()}
         </Typography>
       </CardContent>
       <Divider />
