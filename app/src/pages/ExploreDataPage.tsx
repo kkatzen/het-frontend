@@ -1,6 +1,7 @@
 //@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
+import { Grid } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
@@ -151,79 +152,87 @@ function CarouselMadLib(props: {
 }) {
   console.log(props.madLib);
   return (
-    <React.Fragment>
+    <Grid
+      container
+      xs={12}
+      spacing={1}
+      justify="center"
+      style={{ "line-height": "50pt" }}
+    >
       {props.madLib.phrase.map(
         (phraseSegment: PhraseSegment, index: number) => (
           <React.Fragment key={index}>
             {typeof phraseSegment === "string" ? (
-              <React.Fragment>{phraseSegment}</React.Fragment>
+              <Grid item>{phraseSegment}</Grid>
             ) : (
               <>
                 {Object.keys(phraseSegment).length > 10 ? (
-                  <FipsSelector
-                    key={index}
-                    value={props.madLib.activeSelections[index]}
-                    onGeoUpdate={(fipsCode: string) => {
-                      console.log(fipsCode);
-                      console.log(index);
-                      /*
-                      let phraseIndex: number = Number(event.target.name);*/
-                      let updatePhraseSelections: PhraseSelections = {
-                        ...props.madLib.activeSelections,
-                      };
-                      updatePhraseSelections[index] = fipsCode;
-                      console.log(updatePhraseSelections);
-                      props.setMadLib({
-                        ...props.madLib,
-                        activeSelections: updatePhraseSelections,
-                      });
-                    }}
-                    options={Object.keys(phraseSegment)
-                      .sort((a, b) => {
-                        if (a[0].length === b[0].length) {
-                          return a[0].localeCompare(b[0]);
-                        }
-                        return b[0].length > a[0].length ? -1 : 1;
-                      })
-                      .map((fipsCode) => new Fips(fipsCode))}
-                  />
-                ) : (
-                  <FormControl>
-                    <Select
-                      className={styles.MadLibSelect}
-                      name={index.toString()}
-                      defaultValue={props.madLib.defaultSelections[index]}
+                  <Grid item style={{ width: "250px" }}>
+                    <FipsSelector
+                      key={index}
                       value={props.madLib.activeSelections[index]}
-                      onChange={(event) => {
-                        let phraseIndex: number = Number(event.target.name);
+                      onGeoUpdate={(fipsCode: string) => {
                         let updatePhraseSelections: PhraseSelections = {
                           ...props.madLib.activeSelections,
                         };
-                        updatePhraseSelections[phraseIndex] = event.target
-                          .value as string;
+                        updatePhraseSelections[index] = fipsCode;
                         props.setMadLib({
                           ...props.madLib,
                           activeSelections: updatePhraseSelections,
                         });
                       }}
-                    >
-                      {Object.entries(phraseSegment)
-                        .sort((a, b) => a[0].localeCompare(b[0]))
-                        .map(([key, value]) => (
-                          // TODO - we may want to not have this alphabetized by ID by default
-                          <MenuItem key={value} value={key}>
-                            {value}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
+                      options={Object.keys(phraseSegment)
+                        .sort((a, b) => {
+                          if (a[0].length === b[0].length) {
+                            return a[0].localeCompare(b[0]);
+                          }
+                          return b[0].length > a[0].length ? -1 : 1;
+                        })
+                        .map((fipsCode) => new Fips(fipsCode))}
+                    />
+                  </Grid>
+                ) : (
+                  <Grid
+                    item
+                    style={{ "margin-top": "20px", "margin-bottom": "-20px" }}
+                  >
+                    <FormControl>
+                      <Select
+                        className={styles.MadLibSelect}
+                        name={index.toString()}
+                        defaultValue={props.madLib.defaultSelections[index]}
+                        value={props.madLib.activeSelections[index]}
+                        onChange={(event) => {
+                          let phraseIndex: number = Number(event.target.name);
+                          let updatePhraseSelections: PhraseSelections = {
+                            ...props.madLib.activeSelections,
+                          };
+                          updatePhraseSelections[phraseIndex] = event.target
+                            .value as string;
+                          props.setMadLib({
+                            ...props.madLib,
+                            activeSelections: updatePhraseSelections,
+                          });
+                        }}
+                      >
+                        {Object.entries(phraseSegment)
+                          .sort((a, b) => a[0].localeCompare(b[0]))
+                          .map(([key, value]) => (
+                            // TODO - we may want to not have this alphabetized by ID by default
+                            <MenuItem key={value} value={key}>
+                              {value}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
                 )}
               </>
             )}
           </React.Fragment>
         )
       )}
-    </React.Fragment>
+    </Grid>
   );
 }
 
