@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { VariableId } from "../../utils/variableProviders";
 import DisparityBarChart from "../charts/DisparityBarChart";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
@@ -15,7 +14,6 @@ import { CardContent } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
-import Divider from "@material-ui/core/Divider";
 import { Fips } from "../../utils/Fips";
 
 export type ChartToggle = "percents" | "ratio";
