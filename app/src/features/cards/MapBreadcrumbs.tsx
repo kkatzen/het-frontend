@@ -1,21 +1,8 @@
-import React, { useState } from "react";
-import UsaChloroplethMap from "../charts/UsaChloroplethMap";
+import React from "react";
 import { USA_FIPS, USA_DISPLAY_NAME, Fips } from "../../utils/Fips";
-import Alert from "@material-ui/lab/Alert";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
-import { VariableId } from "../../utils/variableProviders";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import { CardContent } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import styles from "./Card.module.scss";
-import {
-  LinkWithStickyParams,
-  DATASET_PRE_FILTERS,
-  DATA_CATALOG_PAGE_LINK,
-} from "../../utils/urlutils";
 
 function MapBreadcrumbs(props: { fips: Fips; updateFipsCallback: Function }) {
   return (

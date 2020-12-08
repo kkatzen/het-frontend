@@ -61,8 +61,8 @@ function UsaChloroplethMap(props: {
     /* SET UP TOOLTIP */
     let tooltipDatum =
       props.numberFormat === "percentage"
-        ? "format(datum." + props.varField + ", '0.1%')"
-        : "datum." + props.varField;
+        ? `format(datum.${props.varField}, '0.1%')`
+        : `format(datum.${props.varField}, ',')`;
     let tooltipValue = 'datum.properties.name + ": " + ' + tooltipDatum;
 
     /* SET UP LEGEND */
@@ -103,13 +103,6 @@ function UsaChloroplethMap(props: {
             feature: props.showCounties ? "counties" : "states",
           },
         },
-        {
-          name: "selected",
-          on: [
-            { trigger: "click", insert: "click" },
-            { trigger: "shiftClick", remove: "true" },
-          ],
-        },
       ],
       projections: [
         {
@@ -146,15 +139,9 @@ function UsaChloroplethMap(props: {
               },
             },
             update: {
-              fill: [
-                {
-                  test: "indata('selected', 'id', datum.id)",
-                  value: "red",
-                },
-                { scale: "colorScale", field: props.varField },
-              ],
+              fill: [{ scale: "colorScale", field: props.varField }],
             },
-            hover: { fill: { value: "pink" } },
+            hover: { fill: { value: "red" } },
           },
           transform: [{ type: "geoshape", projection: "usProjection" }],
         },
@@ -171,7 +158,16 @@ function UsaChloroplethMap(props: {
         },
       ],
     });
-  }, [width, props.varField, props.legendTitle, props.numberFormat, props.data, props.fips, props.hideLegend, props.showCounties]);
+  }, [
+    width,
+    props.varField,
+    props.legendTitle,
+    props.numberFormat,
+    props.data,
+    props.fips,
+    props.hideLegend,
+    props.showCounties,
+  ]);
 
   return (
     <div

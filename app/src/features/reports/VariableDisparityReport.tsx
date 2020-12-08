@@ -6,7 +6,7 @@ import { Breakdowns } from "../../utils/Breakdowns";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
-import NationalMapCard from "../cards/NationalMapCard";
+import MapNavCardWithFilter from "../cards/MapNavCardWithFilter";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -128,7 +128,7 @@ function DisVarGeo(props: {
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
-                    <NationalMapCard
+                    <MapNavCardWithFilter
                       data={dataset}
                       datasetIds={datasetIds}
                       varField={(metric + "_per_100k") as VariableId}

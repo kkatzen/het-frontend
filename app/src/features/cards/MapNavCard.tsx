@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
-import { USA_FIPS, USA_DISPLAY_NAME, Fips } from "../../utils/Fips";
+import { Fips } from "../../utils/Fips";
 import Alert from "@material-ui/lab/Alert";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import Link from "@material-ui/core/Link";
 import { VariableId } from "../../utils/variableProviders";
-import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { CardContent } from "@material-ui/core";
@@ -49,7 +46,7 @@ function MapNavCard(props: {
       <Divider />
       <CardContent>
         {!props.fips.isUsa() /* TODO - don't hardcode */ && (
-          <Alert severity="error">
+          <Alert severity="warning">
             This dataset does not provide county level data
           </Alert>
         )}

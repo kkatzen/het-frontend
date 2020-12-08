@@ -33,7 +33,7 @@ function DisparityBarChartCard(props: {
     <Card raised={true} className={styles.ChartCard}>
       <CardContent>
         <Typography gutterBottom className={styles.CardHeader}>
-          Disparities in {props.variableDisplayName} for{" "}
+          Disparities in {props.variableDisplayName} by{" "}
           <b>{props.breakdownVarDisplayName}</b> in{" "}
           {props.fips.getFullDisplayName()}
         </Typography>
