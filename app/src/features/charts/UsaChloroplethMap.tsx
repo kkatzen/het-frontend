@@ -23,6 +23,7 @@ function UsaChloroplethMap(props: {
   fips: Fips;
   numberFormat?: NumberFormat;
   hideLegend?: boolean;
+  showCounties: boolean;
 }) {
   const [ref, width] = useResponsiveWidth();
 
@@ -32,7 +33,7 @@ function UsaChloroplethMap(props: {
   useEffect(() => {
     /* SET UP GEO DATSET */
     // Transform geo dataset by adding varField from VAR_DATASET
-    const fipsKey = props.fips.isUsa() ? VAR_STATE_FIPS : VAR_COUNTY_FIPS;
+    const fipsKey = props.showCounties ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
@@ -99,7 +100,7 @@ function UsaChloroplethMap(props: {
             "https://raw.githubusercontent.com/kkatzen/het-frontend/designjam2/app/public/counties-10m.json",
           format: {
             type: "topojson",
-            feature: props.fips.isUsa() ? "states" : "counties",
+            feature: props.showCounties ? "counties" : "states",
           },
         },
         {
@@ -170,15 +171,7 @@ function UsaChloroplethMap(props: {
         },
       ],
     });
-  }, [
-    width,
-    props.varField,
-    props.legendTitle,
-    props.numberFormat,
-    props.data,
-    props.fips,
-    props.hideLegend,
-  ]);
+  }, [width, props.varField, props.legendTitle, props.numberFormat, props.data, props.fips, props.hideLegend, props.showCounties]);
 
   return (
     <div
