@@ -12,6 +12,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
+import { Fips } from "../../utils/Fips";
 import cardStyles from "../cards/Card.module.scss";
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
@@ -30,7 +31,7 @@ function asDate(dateStr: string) {
 
 function DisVarGeo(props: {
   dropdownVarId: DropdownVarId;
-  stateFips: string;
+  fips: Fips;
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
@@ -78,7 +79,7 @@ function DisVarGeo(props: {
                     Breakdowns.national().andTime().andRace(true)
                   )
                 )
-                .filter((row) => row.state_fips_code === props.stateFips)
+                .filter((row) => row.state_fips_code === props.fips.code)
                 .filter(
                   (row) =>
                     !row.hispanic_or_latino_and_race.includes(

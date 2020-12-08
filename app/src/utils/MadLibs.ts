@@ -1,4 +1,4 @@
-import { USA_FIPS, STATE_FIPS_MAP } from "./Fips";
+import { USA_FIPS, STATE_FIPS_MAP, FIPS_MAP } from "./Fips";
 
 // Map of phrase segment index to its selected value
 export type PhraseSelections = Record<number, string>;
@@ -8,6 +8,7 @@ export type PhraseSelector = Record<string, string>;
 
 // Each phrase segment of the mad lib is either a string of text
 // or a map of IDs to string options that can fill in a blank
+
 export type PhraseSegment = string | PhraseSelector;
 
 export type MadLibId =
@@ -88,22 +89,22 @@ const MADLIB_LIST: MadLib[] = [
       "Compare ",
       DROPDOWN_VAR,
       " between ",
-      STATE_FIPS_MAP,
+      FIPS_MAP,
       " and ",
-      STATE_FIPS_MAP,
+      FIPS_MAP,
     ],
     defaultSelections: { 1: "diabetes", 3: "13", 5: USA_FIPS }, // 13 is Georgia
     activeSelections: { 1: "diabetes", 3: "13", 5: USA_FIPS }, // 13 is Georgia
   },
   {
     id: "geo",
-    phrase: ["Tell me about", STATE_FIPS_MAP],
+    phrase: ["Tell me about", FIPS_MAP],
     defaultSelections: { 1: USA_FIPS },
     activeSelections: { 1: USA_FIPS },
   },
   {
     id: "vargeo",
-    phrase: ["Show me what", DROPDOWN_VAR, "looks like in", STATE_FIPS_MAP],
+    phrase: ["Show me what", DROPDOWN_VAR, "looks like in", FIPS_MAP],
     defaultSelections: { 1: "diabetes", 3: USA_FIPS },
     activeSelections: { 1: "diabetes", 3: USA_FIPS },
   },
