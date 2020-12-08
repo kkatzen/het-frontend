@@ -15,11 +15,13 @@ import Card from "@material-ui/core/Card";
 import { Fips } from "../../utils/Fips";
 import cardStyles from "../cards/Card.module.scss";
 
-const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
+export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
+
+const VARIABLE_DISPLAY_NAMES: Record<string, Record<MetricToggle, string>> = {
   covid: {
-    covid_cases_pct_of_geo: "COVID-19 Cases",
-    covid_deaths_pct_of_geo: "COVID-19  Deaths",
-    covid_hosp_pct_of_geo: "COVID-19 Hospitalizations",
+    covid_cases: "COVID-19 Cases",
+    covid_deaths: "COVID-19  Deaths",
+    covid_hosp: "COVID-19 Hospitalizations",
   },
 };
 
@@ -38,19 +40,20 @@ function DisVarGeo(props: {
   const validDropdownVariable = Object.keys(
     VARIABLE_DISPLAY_NAMES
   ) as DropdownVarId[];
-  const [metric, setMetric] = useState<VariableId>(
+  const [metric, setMetric] = useState<MetricToggle>(
     validDropdownVariable.includes(props.dropdownVarId)
       ? (Object.keys(
           VARIABLE_DISPLAY_NAMES[props.dropdownVarId]
-        )[0] as VariableId)
-      : "covid_cases_pct_of_geo"
+        )[0] as MetricToggle)
+      : "covid_cases"
   );
 
   const datasetStore = useDatasetStore();
-  const varProvider = variableProviders[metric];
+  const percentProvider =
+    variableProviders[(metric + "_pct_of_geo") as VariableId];
   const popProvider = variableProviders["population_pct"];
   const datasetIds = VariableProvider.getUniqueDatasetIds([
-    varProvider,
+    percentProvider,
     popProvider,
   ]);
 
@@ -68,13 +71,13 @@ function DisVarGeo(props: {
         <Grid container spacing={1} justify="center">
           <WithDatasets datasetIds={datasetIds}>
             {() => {
-              const data = varProvider
+              const data = percentProvider
                 .getData(
                   datasetStore.datasets,
                   Breakdowns.byState().andTime().andRace(true)
                 )
                 .concat(
-                  varProvider.getData(
+                  percentProvider.getData(
                     datasetStore.datasets,
                     Breakdowns.national().andTime().andRace(true)
                   )
@@ -123,30 +126,33 @@ function DisVarGeo(props: {
                     <DisparityBarChartCard
                       dataset={dataset}
                       datasetIds={datasetIds}
-                      variableId={varProvider.variableId}
+                      metricId={metric}
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
                       }
                       breakdownVar="hispanic_or_latino_and_race"
                       breakdownVarDisplayName="Race/Ethnicity"
+                      fips={props.fips}
                     />
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
-                      variableId={varProvider.variableId}
+                      metricId={metric}
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
                       }
                       breakdownVar="age"
                       breakdownVarDisplayName="Age"
+                      fips={props.fips}
                     />
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
-                      variableId={varProvider.variableId}
+                      metricId={metric}
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
                       }
                       breakdownVar="gender"
                       breakdownVarDisplayName="Gender"
+                      fips={props.fips}
                     />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
@@ -164,11 +170,18 @@ function DisVarGeo(props: {
                             displayName: "Population %",
                           },
                           {
-                            name: metric,
+                            name: metric + "_pct_of_geo",
                             displayName:
                               VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
                                 metric
                               ] + " as % of Geo",
+                          },
+                          {
+                            name: metric + "_per_100k",
+                            displayName:
+                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
+                                metric
+                              ] + " per 100k",
                           },
                         ]}
                       />
