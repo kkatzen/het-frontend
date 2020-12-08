@@ -42,12 +42,10 @@ function VarGeoReport(props: {
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
-  const requiredDatasets = VariableProvider.getUniqueDatasetIds([
-    variableProvider,
-  ]);
+  const datasetIds = VariableProvider.getUniqueDatasetIds([variableProvider]);
 
   return (
-    <WithDatasets datasetIds={requiredDatasets}>
+    <WithDatasets datasetIds={datasetIds}>
       {() => {
         let dataset = variableProvider.getData(
           datasetStore.datasets,
@@ -82,6 +80,7 @@ function VarGeoReport(props: {
                 >
                   <MapNavCard
                     data={dataset}
+                    datasetIds={datasetIds}
                     varField={variableId}
                     varFieldDisplayName={variableDisplayName}
                     fips={props.fips}
