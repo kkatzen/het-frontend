@@ -95,13 +95,11 @@ function DisVarGeo(props: {
                 (row) => asDate(row.date).getTime() === lastDate.getTime()
               );
 
-              const dataset = mostRecent.filter(
-                (r) => r.hispanic_or_latino_and_race !== "Total"
-              );
+              const dataset = mostRecent;
 
-              const geoFilteredDataset = dataset.filter(
-                (row) => row.state_fips_code === props.fips.code
-              );
+              const geoFilteredDataset = mostRecent
+                .filter((r) => r.hispanic_or_latino_and_race !== "Total")
+                .filter((row) => row.state_fips_code === props.fips.code);
 
               return (
                 <>

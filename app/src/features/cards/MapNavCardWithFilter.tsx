@@ -37,6 +37,7 @@ function NationalMapCard(props: {
   // TODO - make sure the legends are all the same
   // TODO - pull these from the data itself
   const RACES = [
+    "Total",
     "Not Hispanic or Latino",
     "White alone",
     "White alone (Non-Hispanic)",

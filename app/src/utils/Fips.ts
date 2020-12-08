@@ -117,6 +117,7 @@ export const STATE_FIPS_MAP: Record<string, string> = {
       "78": "Virgin Islands"
   */
 
+// TODO- switch to this list: https://api.census.gov/data/2018/acs/acs5?get=NAME&for=county:*
 export const COUNTY_FIPS_MAP: Record<string, string> = {
   "01001": "Autauga",
   "01003": "Baldwin",
