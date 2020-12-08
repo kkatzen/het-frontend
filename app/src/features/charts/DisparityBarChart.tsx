@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React from "react";
+import React, { RefObject } from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
@@ -217,13 +216,12 @@ function DisparityBarChart(props: {
   breakdownVarDisplayName: string;
 }) {
   const [ref, width] = useResponsiveWidth();
-
   return (
-    <div ref={ref}>
+    <div ref={ref as RefObject<HTMLDivElement>}>
       <Vega
         spec={getSpec(
           props.data,
-          width,
+          width ? width : 100,
           props.breakdownVar,
           props.breakdownVarDisplayName,
           props.thickMeasure,
