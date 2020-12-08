@@ -19,11 +19,12 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
 }
 
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
-  function updateFipsCallback(fips: string, geoIndex: number) {
+  function updateFipsCallback(fips: Fips, geoIndex: number) {
     let updatedArray: PhraseSelections = {
       ...props.madLib.activeSelections,
     };
-    updatedArray[geoIndex] = fips;
+    updatedArray[geoIndex] = fips.code;
+    console.log(updatedArray);
     props.setMadLib({
       ...props.madLib,
       activeSelections: updatedArray,
@@ -65,7 +66,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         <VariableReport
           variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
           fips={new Fips(getPhraseValue(props.madLib, 3))}
-          updateFipsCallback={(fips: string) => updateFipsCallback(fips, 3)}
+          updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
         />
       );
     case "varcompare":
@@ -76,7 +77,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
             <VariableReport
               variable={compareVariable}
               fips={new Fips(getPhraseValue(props.madLib, 3))}
-              updateFipsCallback={(fips: string) => updateFipsCallback(fips, 3)}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
               vertical={true}
             />
           </Grid>
@@ -84,7 +85,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
             <VariableReport
               variable={compareVariable}
               fips={new Fips(getPhraseValue(props.madLib, 5))}
-              updateFipsCallback={(fips: string) => updateFipsCallback(fips, 5)}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
               vertical={true}
             />
           </Grid>

@@ -32,16 +32,21 @@ import {
 import ReactTooltip from "react-tooltip";
 import ReportWrapper from "../features/reports/ReportWrapper";
 
-function FipsSelector(props: { options: Fips[]; onGeoUpdate: Function }) {
+function FipsSelector(props: {
+  value: string;
+  options: Fips[];
+  onGeoUpdate: Function;
+}) {
   return (
     <Autocomplete
       disableClearable={true}
+      value={new Fips(props.value)}
       defaultValue={props.options[0]}
       margin="dense"
       options={props.options}
       clearOnEscape={true}
-      getOptionLabel={(fips) => fips.getDisplayName()}
-      renderOption={(fips) => <>{fips.getDisplayName()}</>}
+      getOptionLabel={(fips) => fips.getFullDisplayName()}
+      renderOption={(fips) => <>{fips.getFullDisplayName()}</>}
       renderInput={(params) => (
         <TextField margin="dense" fullWidth {...params} variant="outlined" />
       )}
@@ -82,6 +87,7 @@ function ExploreDataPage() {
     ...MADLIB_LIST[initalIndex],
     activeSelections: defaultValuesWithOverrides,
   });
+  console.log(madLib);
 
   return (
     <React.Fragment>
@@ -143,6 +149,7 @@ function CarouselMadLib(props: {
   madLib: MadLib;
   setMadLib: (updatedMadLib: MadLib) => void;
 }) {
+  console.log(props.madLib);
   return (
     <React.Fragment>
       {props.madLib.phrase.map(
@@ -155,6 +162,7 @@ function CarouselMadLib(props: {
                 {Object.keys(phraseSegment).length > 10 ? (
                   <FipsSelector
                     key={index}
+                    value={props.madLib.activeSelections[index]}
                     onGeoUpdate={(fipsCode: string) => {
                       console.log(fipsCode);
                       console.log(index);

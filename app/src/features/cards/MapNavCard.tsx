@@ -45,11 +45,7 @@ function MapNavCard(props: {
   const signalListeners: any = {
     click: (...args: any) => {
       const clickedData = args[1];
-      const fips = new Fips(clickedData.id);
-      if (fips.isCounty()) {
-        fips.setCountyName(clickedData.properties.name);
-      }
-      props.updateFipsCallback(fips);
+      props.updateFipsCallback(new Fips(clickedData.id));
     },
   };
 
@@ -81,7 +77,7 @@ function MapNavCard(props: {
           )}
           {props.fips.isCounty() && (
             <GeographyBreadcrumb
-              text={props.fips.countyName}
+              text={props.fips.getDisplayName()}
               isClickable={false}
             />
           )}
