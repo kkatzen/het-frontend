@@ -11,12 +11,7 @@ function LandingPage() {
     <div className={styles.LandingPage}>
       <Grid container justify="space-around" className={styles.Grid}>
         <Grid item xs={12} sm={4} className={styles.GreySquare}>
-          <img
-            height="200px"
-            width="200px"
-            alt="placeholder"
-            src="https://upload.wikimedia.org/wikipedia/commons/5/56/David_Satcher_official_photo_portrait.jpg"
-          />
+          <img width="200px" alt="placeholder" src="img/landing1.png" />
           <Typography variant="h6" align="left">
             Our Initiative
           </Typography>
@@ -26,12 +21,7 @@ function LandingPage() {
           </p>
         </Grid>
         <Grid item xs={12} sm={4} className={styles.GreySquare}>
-          <img
-            height="200px"
-            width="200px"
-            alt="placeholder"
-            src="https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX3311922.jpg"
-          />
+          <img width="200px" alt="placeholder" src="img/landing2.png" />
           <Typography variant="h6" align="left">
             Our Project
           </Typography>
@@ -43,12 +33,7 @@ function LandingPage() {
           </p>
         </Grid>
         <Grid item xs={12} sm={4} className={styles.GreySquare}>
-          <img
-            height="200px"
-            width="200px"
-            alt="placeholder"
-            src="https://www.aamc.org/sites/default/files/Research-laboratory-993475228.jpg"
-          />
+          <img width="200px" alt="placeholder" src="img/landing3.png" />
           <Typography variant="h6" align="left">
             Our Impact
           </Typography>
