@@ -51,8 +51,8 @@ function DisparityBarChartCard(props: {
             onChange={(e, v) => setChartToggle(v)}
             aria-label="text alignment"
           >
-            <ToggleButton value="percents">Percents</ToggleButton>
-            <ToggleButton value="ratio">Ratio</ToggleButton>
+            <ToggleButton value="percents">Percent Share</ToggleButton>
+            <ToggleButton value="ratio">Per 100k Persons</ToggleButton>
           </ToggleButtonGroup>
         )}
       </CardContent>
