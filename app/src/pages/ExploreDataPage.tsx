@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper } from "@material-ui/core";
+import { Paper, Grid } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import CompareMapNavReport from "../features/reports/CompareMapNavReport";
 import ChartDumpReport from "../features/reports/ChartDumpReport";
-import TellMeAboutReport from "../features/reports/TellMeAboutReport";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -19,6 +17,8 @@ import {
   MadLib,
   PhraseSegment,
   PhraseSelections,
+  DropdownVarId,
+  MadLibId,
 } from "../utils/MadLibs";
 import styles from "./ExploreDataPage.module.scss";
 import {
@@ -28,10 +28,9 @@ import {
   useSearchParams,
   linkToMadLib,
 } from "../utils/urlutils";
-import CompareStatesForVariableReport from "../features/reports/CompareStatesForVariableReport";
-import CovidReport from "../features/reports/CovidReport";
-import { VariableId } from "../utils/variableProviders";
 import ReactTooltip from "react-tooltip";
+import VariableDisparityReport from "../features/reports/VariableDisparityReport";
+import VariableReport from "../features/reports/VariableReport";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
@@ -41,9 +40,7 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
 }
 
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
-  let variableId: VariableId;
-
-  function updateGeo(fips: string, geoIndex: number) {
+  function updateStateCallback(fips: string, geoIndex: number) {
     let updatedArray: PhraseSelections = {
       ...props.madLib.activeSelections,
     };
@@ -54,39 +51,75 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
     });
   }
 
-  switch (props.madLib.id) {
-    case "diabetes":
-      // TODO we should add type safety to these instead of casting.
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
-      return <TellMeAboutReport variable={variableId} />;
-    case "compare":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
+  switch (props.madLib.id as MadLibId) {
+    case "disvargeo":
       return (
-        <CompareStatesForVariableReport
-          stateFips1={getPhraseValue(props.madLib, 3)}
-          stateFips2={getPhraseValue(props.madLib, 5)}
-          variable={variableId}
-        />
-      );
-    case "dump":
-      return <ChartDumpReport />;
-    case "covid":
-      variableId = getPhraseValue(props.madLib, 1) as VariableId;
-      return (
-        <CovidReport
-          variable={variableId}
+        <VariableDisparityReport
+          dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
           stateFips={getPhraseValue(props.madLib, 3)}
         />
       );
-    case "mapnav":
+    case "disvarcompare":
+      const compareDisparityVariable = getPhraseValue(
+        props.madLib,
+        1
+      ) as DropdownVarId;
       return (
-        <CompareMapNavReport
-          fipsGeo1={props.madLib.activeSelections[1]}
-          fipsGeo2={props.madLib.activeSelections[3]}
-          updateGeo1Callback={(fips: string) => updateGeo(fips, 1)}
-          updateGeo2Callback={(fips: string) => updateGeo(fips, 3)}
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <VariableDisparityReport
+              dropdownVarId={compareDisparityVariable}
+              stateFips={props.madLib.activeSelections[3]}
+              vertical={true}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <VariableDisparityReport
+              dropdownVarId={compareDisparityVariable}
+              stateFips={props.madLib.activeSelections[5]}
+              vertical={true}
+            />
+          </Grid>
+        </Grid>
+      );
+    case "vargeo":
+      return (
+        <VariableReport
+          variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
+          stateFips={getPhraseValue(props.madLib, 3)}
+          updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
         />
       );
+    case "varcompare":
+      const compareVariable = getPhraseValue(props.madLib, 1) as DropdownVarId;
+      return (
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <VariableReport
+              variable={compareVariable}
+              stateFips={props.madLib.activeSelections[3]}
+              updateStateCallback={(fips: string) =>
+                updateStateCallback(fips, 3)
+              }
+              vertical={true}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <VariableReport
+              variable={compareVariable}
+              stateFips={props.madLib.activeSelections[5]}
+              updateStateCallback={(fips: string) =>
+                updateStateCallback(fips, 5)
+              }
+              vertical={true}
+            />
+          </Grid>
+        </Grid>
+      );
+    case "geo":
+      return <p>Unimplemented</p>;
+    case "dump":
+      return <ChartDumpReport />;
     default:
       return <p>Report not found</p>;
   }

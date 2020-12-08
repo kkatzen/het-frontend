@@ -1,6 +1,7 @@
 import AcsPopulationProvider from "./variables/AcsPopulationProvider";
 import VariableProvider from "./variables/VariableProvider";
 import CovidProvider from "./variables/CovidProvider";
+import CopdProvider from "./variables/CopdProvider";
 import DiabetesProvider from "./variables/DiabetesProvider";
 
 // TODO consider making this an enum instead of a type literal, since these will
@@ -9,6 +10,7 @@ import DiabetesProvider from "./variables/DiabetesProvider";
 export type VariableId =
   | "diabetes_count"
   | "diabetes_per_100k"
+  | "copd_count"
   | "population"
   | "population_pct"
   | "covid_cases"
@@ -96,6 +98,7 @@ const providers: VariableProvider[] = [
     "Diabetes Per 100k",
     "Number of people with diabetes per 100k population"
   ),
+  new CopdProvider("copd_count", "COPD Count", "Number of people with COPD"),
   new AcsPopulationProvider(
     "population_pct",
     "Population Percent",

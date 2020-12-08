@@ -5,14 +5,17 @@ import { Row } from "../../utils/DatasetTypes";
 function getSpec(
   data: Record<string, any>[],
   breakdownVar: string,
+  breakdownVarDisplayName: string,
   thickMeasure: string,
-  thinMeasure: string
+  thickMeasureDisplayName: string,
+  thinMeasure: string,
+  thinMeasureDisplayName: string
 ): any {
   const BAR_HEIGHT = 40;
   const BAR_PADDING = 0.1;
   const THIN_RATIO = 0.3;
-  const THICK_MEASURE_COLOR = "#4c78a8";
-  const THIN_MEASURE_COLOR = "#89B7D5";
+  const THIN_MEASURE_COLOR = "#4c78a8";
+  const THICK_MEASURE_COLOR = "#89B7D5";
   const DATASET = "DATASET";
 
   return {
@@ -20,7 +23,7 @@ function getSpec(
     background: "white",
     padding: 5,
     height: 500,
-    width: 800,
+    width: 300,
     style: "cell",
     data: [
       {
@@ -44,7 +47,7 @@ function getSpec(
         encode: {
           enter: {
             tooltip: {
-              signal: `datum. ${breakdownVar} + ', ${thickMeasure}: ' + datum. ${thickMeasure}+'%'`,
+              signal: `datum. ${breakdownVar} + ', ${thickMeasureDisplayName}: ' + datum. ${thickMeasure}+'%'`,
             },
           },
           update: {
@@ -65,7 +68,7 @@ function getSpec(
         encode: {
           enter: {
             tooltip: {
-              signal: `datum. ${breakdownVar} + ', ${thinMeasure}: ' + datum. ${thinMeasure}+'%'`,
+              signal: `datum. ${breakdownVar} + ', ${thinMeasureDisplayName}: ' + datum. ${thinMeasure}+'%'`,
             },
           },
           update: {
@@ -144,7 +147,7 @@ function getSpec(
       {
         name: "variables",
         type: "ordinal",
-        domain: [thickMeasure, thinMeasure],
+        domain: [thickMeasureDisplayName, thinMeasureDisplayName],
         range: [THICK_MEASURE_COLOR, THIN_MEASURE_COLOR],
       },
     ],
@@ -167,7 +170,7 @@ function getSpec(
         scale: "x",
         orient: "bottom",
         grid: false,
-        title: `${thickMeasure} and ${thinMeasure} `,
+        title: `${thickMeasureDisplayName} and ${thinMeasureDisplayName} `,
         labelFlush: true,
         labelOverlap: true,
         tickCount: { signal: "ceil(width/40)" },
@@ -177,7 +180,7 @@ function getSpec(
         scale: "y",
         orient: "left",
         grid: false,
-        title: breakdownVar,
+        title: breakdownVarDisplayName,
         zindex: 0,
       },
     ],
@@ -203,15 +206,21 @@ function TwoVarBarChart(props: {
   data: Row[];
   thickMeasure: string;
   thinMeasure: string;
+  thickMeasureDisplayName: string;
+  thinMeasureDisplayName: string;
   breakdownVar: string;
+  breakdownVarDisplayName: string;
 }) {
   return (
     <Vega
       spec={getSpec(
         props.data,
         props.breakdownVar,
+        props.breakdownVarDisplayName,
         props.thickMeasure,
-        props.thinMeasure
+        props.thickMeasureDisplayName,
+        props.thinMeasure,
+        props.thinMeasureDisplayName
       )}
     />
   );
