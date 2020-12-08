@@ -5,7 +5,7 @@ import useDatasetStore from "../../utils/useDatasetStore";
 import { Breakdowns } from "../../utils/Breakdowns";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import TwoVarBarChart from "../charts/TwoVarBarChart";
+import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -13,6 +13,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 import { Fips } from "../../utils/Fips";
+import cardStyles from "../cards/Card.module.scss";
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   covid: {
@@ -119,26 +120,37 @@ function DisVarGeo(props: {
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
-                    <Card
-                      raised={true}
-                      style={{ padding: "20px", margin: "10px" }}
-                    >
-                      <TwoVarBarChart
-                        data={dataset}
-                        thickMeasure="population_pct"
-                        thinMeasure={varProvider.variableId}
-                        thickMeasureDisplayName="Population %"
-                        thinMeasureDisplayName={
-                          VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
-                          " as % of Geo"
-                        }
-                        breakdownVar="hispanic_or_latino_and_race"
-                        breakdownVarDisplayName="Race/Ethnicity"
-                      />
-                    </Card>
+                    <DisparityBarChartCard
+                      dataset={dataset}
+                      datasetIds={datasetIds}
+                      variableId={varProvider.variableId}
+                      variableDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                      }
+                      breakdownVar="hispanic_or_latino_and_race"
+                      breakdownVarDisplayName="Race/Ethnicity"
+                    />
+                    <DisparityBarChartCard
+                      datasetIds={datasetIds}
+                      variableId={varProvider.variableId}
+                      variableDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                      }
+                      breakdownVar="age"
+                      breakdownVarDisplayName="Age"
+                    />
+                    <DisparityBarChartCard
+                      datasetIds={datasetIds}
+                      variableId={varProvider.variableId}
+                      variableDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                      }
+                      breakdownVar="gender"
+                      breakdownVarDisplayName="Gender"
+                    />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
-                    <Card raised={true} style={{ margin: "10px" }}>
+                    <Card raised={true} className={cardStyles.ChartCard}>
                       <TableChart
                         data={dataset}
                         fields={[

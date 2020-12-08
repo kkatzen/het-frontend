@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
@@ -9,7 +9,7 @@ import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS, Fips } from "../../utils/Fips";
-import MapNavChart from "../charts/MapNavChart";
+import MapNavCard from "../cards/MapNavCard";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
@@ -80,20 +80,15 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  <Card
-                    raised={true}
-                    style={{ margin: "10px", padding: "20px" }}
-                  >
-                    <MapNavChart
-                      data={dataset}
-                      varField={variableId}
-                      varFieldDisplayName={variableDisplayName}
-                      fips={props.fips}
-                      updateFipsCallback={(fips: Fips) => {
-                        props.updateFipsCallback(fips.code);
-                      }}
-                    />
-                  </Card>
+                  <MapNavCard
+                    data={dataset}
+                    varField={variableId}
+                    varFieldDisplayName={variableDisplayName}
+                    fips={props.fips}
+                    updateFipsCallback={(fips: Fips) => {
+                      props.updateFipsCallback(fips);
+                    }}
+                  />
                 </Grid>
                 <Grid
                   item

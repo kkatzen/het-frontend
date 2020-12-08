@@ -7,7 +7,7 @@ import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
 import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import TwoVarBarChart from "../charts/TwoVarBarChart";
+import DisparityBarChart from "../charts/DisparityBarChart";
 
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
@@ -80,7 +80,7 @@ function CovidReport(props: { variable: VariableId; stateFips: string }) {
             return (
               <>
                 {covidProvider.variableId.endsWith("pct_of_geo") && (
-                  <TwoVarBarChart
+                  <DisparityBarChart
                     data={mostRecent.filter(
                       (r) => r.hispanic_or_latino_and_race !== "Total"
                     )}

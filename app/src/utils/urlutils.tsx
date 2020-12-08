@@ -21,8 +21,10 @@ export const MADLIB_SELECTIONS_PARAM = "mls";
 
 export function LinkWithStickyParams(props: {
   to: string;
+  target?: string;
   children: React.ReactNode;
 }) {
+  let linkProps = { ...props };
   let params = useSearchParams();
   let newUrl = props.to;
   if (params[STICKY_VERSION_PARAM]) {
@@ -30,7 +32,9 @@ export function LinkWithStickyParams(props: {
     newUrl =
       newUrl + `?${STICKY_VERSION_PARAM}=${params[STICKY_VERSION_PARAM]}`;
   }
-  return <Link to={newUrl}>{props.children}</Link>;
+  linkProps.to = newUrl;
+
+  return <Link {...linkProps}>{props.children}</Link>;
 }
 
 export function useSearchParams() {
