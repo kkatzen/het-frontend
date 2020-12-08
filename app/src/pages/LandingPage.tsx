@@ -16,8 +16,9 @@ function LandingPage() {
             Our Initiative
           </Typography>
           <p>
-            We convene staff from all divisions who help streamline coordination
-            and foster collaboration of health equity efforts within the agency.
+            (Draft) We convene staff from all divisions who help streamline
+            coordination and foster collaboration of health equity efforts
+            within the agency.
           </p>
         </Grid>
         <Grid item xs={12} sm={4} className={styles.GreySquare}>
@@ -26,7 +27,7 @@ function LandingPage() {
             Our Project
           </Typography>
           <p>
-            Social determinants of health are conditions which influence
+            (Draft) Social determinants of health are conditions which influence
             individual and population health. For a health equity analysis, one
             must describe the connection between SDOH and health using
             well-documented research.
@@ -38,14 +39,14 @@ function LandingPage() {
             Our Impact
           </Typography>
           <p>
-            We bring together health equity leaders, organizations and
+            (Draft) We bring together health equity leaders, organizations and
             institutions from across the states, share best practices and
             identify common goals to advance health equity.
           </p>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h5" align="left">
-            Join our Efforts
+            Latest Efforts
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} className={styles.BlueLandingSquare}>
