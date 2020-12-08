@@ -2,6 +2,10 @@ import React, { RefObject } from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
+import {
+  VariableId,
+  VARIABLE_DISPLAY_NAME_MAP,
+} from "../../utils/variableProviders";
 
 function getSpec(
   data: Record<string, any>[],
@@ -208,10 +212,8 @@ function getSpec(
 
 function DisparityBarChart(props: {
   data: Row[];
-  thickMeasure: string;
-  thinMeasure: string;
-  thickMeasureDisplayName: string;
-  thinMeasureDisplayName: string;
+  thickMeasure: VariableId;
+  thinMeasure: VariableId;
   breakdownVar: string;
   breakdownVarDisplayName: string;
 }) {
@@ -225,9 +227,9 @@ function DisparityBarChart(props: {
           props.breakdownVar,
           props.breakdownVarDisplayName,
           props.thickMeasure,
-          props.thickMeasureDisplayName,
+          VARIABLE_DISPLAY_NAME_MAP[props.thickMeasure],
           props.thinMeasure,
-          props.thinMeasureDisplayName
+          VARIABLE_DISPLAY_NAME_MAP[props.thinMeasure]
         )}
       />
     </div>

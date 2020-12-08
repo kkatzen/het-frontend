@@ -15,6 +15,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
 import { Fips } from "../../utils/Fips";
+import { VariableId } from "../../utils/variableProviders";
 
 export type ChartToggle = "percents" | "ratio";
 
@@ -22,7 +23,7 @@ function DisparityBarChartCard(props: {
   dataset?: Row[];
   datasetIds: string[];
   metricId: string;
-  variableDisplayName: string;
+  variableTitle: string;
   breakdownVar: string;
   breakdownVarDisplayName: string;
   fips: Fips;
@@ -33,7 +34,7 @@ function DisparityBarChartCard(props: {
     <Card raised={true} className={styles.ChartCard}>
       <CardContent>
         <Typography gutterBottom className={styles.CardHeader}>
-          Disparities in {props.variableDisplayName} by{" "}
+          Disparities in {props.variableTitle} by{" "}
           <b>{props.breakdownVarDisplayName}</b> in{" "}
           {props.fips.getFullDisplayName()}
         </Typography>
@@ -62,10 +63,8 @@ function DisparityBarChartCard(props: {
             {chartToggle === "percents" && (
               <DisparityBarChart
                 data={props.dataset}
-                thickMeasure="population_pct"
-                thinMeasure={props.metricId + "_pct_of_geo"}
-                thickMeasureDisplayName="Population Share"
-                thinMeasureDisplayName={props.variableDisplayName + " Share"}
+                thickMeasure={"population_pct" as VariableId}
+                thinMeasure={(props.metricId + "_pct_of_geo") as VariableId}
                 breakdownVar={props.breakdownVar}
                 breakdownVarDisplayName={props.breakdownVarDisplayName}
               />
@@ -76,9 +75,7 @@ function DisparityBarChartCard(props: {
                 data={props.dataset}
                 breakdownVar={props.breakdownVar}
                 measure={props.metricId + "_per_100k"}
-                measureDisplayName={
-                  props.variableDisplayName + " per 100,000 people"
-                }
+                measureDisplayName={props.variableTitle + " per 100,000 people"}
                 breakdownVarDisplayName="Race/Ethnicity"
                 showLegend={false}
               />

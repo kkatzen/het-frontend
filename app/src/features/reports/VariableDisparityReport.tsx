@@ -154,7 +154,10 @@ function DisVarGeo(props: {
                         { name: "population", displayName: "Population" },
                         {
                           name: "population_pct",
-                          displayName: "Population Share",
+                          displayName:
+                            VARIABLE_DISPLAY_NAME_MAP[
+                              "population_pct" as VariableId
+                            ],
                         },
                         {
                           name: metric + "_pct_of_geo",
@@ -178,7 +181,7 @@ function DisVarGeo(props: {
                       dataset={geoFilteredDataset}
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableDisplayName={METRIC_NAMES[metric]}
+                      variableTitle={METRIC_NAMES[metric]}
                       breakdownVar="hispanic_or_latino_and_race"
                       breakdownVarDisplayName="Race/Ethnicity"
                       fips={props.fips}
@@ -186,7 +189,7 @@ function DisVarGeo(props: {
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableDisplayName={METRIC_NAMES[metric]}
+                      variableTitle={METRIC_NAMES[metric]}
                       breakdownVar="age"
                       breakdownVarDisplayName="Age"
                       fips={props.fips}
@@ -194,7 +197,7 @@ function DisVarGeo(props: {
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableDisplayName={METRIC_NAMES[metric]}
+                      variableTitle={METRIC_NAMES[metric]}
                       breakdownVar="gender"
                       breakdownVarDisplayName="Gender"
                       fips={props.fips}
