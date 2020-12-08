@@ -6,6 +6,7 @@ import { Breakdowns } from "../../utils/Breakdowns";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
+import MapNavCardWithFilter from "../cards/MapNavCardWithFilter";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -34,6 +35,7 @@ function asDate(dateStr: string) {
 function DisVarGeo(props: {
   dropdownVarId: DropdownVarId;
   fips: Fips;
+  updateFipsCallback: Function;
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
@@ -82,7 +84,6 @@ function DisVarGeo(props: {
                     Breakdowns.national().andTime().andRace(true)
                   )
                 )
-                .filter((row) => row.state_fips_code === props.fips.code)
                 .filter(
                   (row) =>
                     !row.hispanic_or_latino_and_race.includes(
@@ -98,6 +99,10 @@ function DisVarGeo(props: {
 
               const dataset = mostRecent.filter(
                 (r) => r.hispanic_or_latino_and_race !== "Total"
+              );
+
+              const geoFilteredDataset = dataset.filter(
+                (row) => row.state_fips_code === props.fips.code
               );
 
               return (
@@ -123,8 +128,53 @@ function DisVarGeo(props: {
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
+                    <MapNavCardWithFilter
+                      data={dataset}
+                      datasetIds={datasetIds}
+                      varField={(metric + "_per_100k") as VariableId}
+                      varFieldDisplayName={
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
+                        " per 100k"
+                      }
+                      fips={props.fips}
+                      updateFipsCallback={(fips: Fips) => {
+                        props.updateFipsCallback(fips);
+                      }}
+                    />
+                    <Card raised={true} className={cardStyles.ChartCard}>
+                      <TableChart
+                        data={geoFilteredDataset}
+                        fields={[
+                          {
+                            name: "hispanic_or_latino_and_race",
+                            displayName: "Race",
+                          },
+                          { name: "population", displayName: "Population" },
+                          {
+                            name: "population_pct",
+                            displayName: "Population %",
+                          },
+                          {
+                            name: metric + "_pct_of_geo",
+                            displayName:
+                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
+                                metric
+                              ] + " as % of Geo",
+                          },
+                          {
+                            name: metric + "_per_100k",
+                            displayName:
+                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
+                                metric
+                              ] + " per 100k",
+                          },
+                        ]}
+                      />
+                    </Card>
+                  </Grid>
+                  <Grid item xs={props.vertical ? 12 : 6}>
                     <DisparityBarChartCard
-                      dataset={dataset}
+                      dataset={geoFilteredDataset}
                       datasetIds={datasetIds}
                       metricId={metric}
                       variableDisplayName={
@@ -154,38 +204,6 @@ function DisVarGeo(props: {
                       breakdownVarDisplayName="Gender"
                       fips={props.fips}
                     />
-                  </Grid>
-                  <Grid item xs={props.vertical ? 12 : 6}>
-                    <Card raised={true} className={cardStyles.ChartCard}>
-                      <TableChart
-                        data={dataset}
-                        fields={[
-                          {
-                            name: "hispanic_or_latino_and_race",
-                            displayName: "Race",
-                          },
-                          { name: "population", displayName: "Population" },
-                          {
-                            name: "population_pct",
-                            displayName: "Population %",
-                          },
-                          {
-                            name: metric + "_pct_of_geo",
-                            displayName:
-                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
-                                metric
-                              ] + " as % of Geo",
-                          },
-                          {
-                            name: metric + "_per_100k",
-                            displayName:
-                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
-                                metric
-                              ] + " per 100k",
-                          },
-                        ]}
-                      />
-                    </Card>
                   </Grid>
                 </>
               );

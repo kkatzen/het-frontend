@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
 import { Fips } from "../../utils/Fips";
 import Alert from "@material-ui/lab/Alert";
@@ -13,15 +13,19 @@ import {
   DATASET_PRE_FILTERS,
   DATA_CATALOG_PAGE_LINK,
 } from "../../utils/urlutils";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
 
-function MapNavCard(props: {
+function NationalMapCard(props: {
   fips: Fips;
   datasetIds: string[];
   varField: VariableId;
   varFieldDisplayName: string;
   data: Record<string, any>[];
   updateFipsCallback: (fips: Fips) => void;
+  countyLevel?: boolean;
 }) {
   const signalListeners: any = {
     click: (...args: any) => {
@@ -29,6 +33,23 @@ function MapNavCard(props: {
       props.updateFipsCallback(new Fips(clickedData.id));
     },
   };
+
+  // TODO - make sure the legends are all the same
+  // TODO - pull these from the data itself
+  const RACES = [
+    "Not Hispanic or Latino",
+    "White alone",
+    "White alone (Non-Hispanic)",
+    "Black or African American alone (Non-Hispanic)",
+    "Hispanic or Latino",
+    "Asian alone",
+    "Asian alone (Non-Hispanic)",
+  ];
+  const [race, setRace] = useState<string>(RACES[0]);
+
+  console.log(props.data);
+  console.log(props.data.filter((r) => r.race === race));
+
   return (
     <Card raised={true} className={styles.ChartCard}>
       <CardContent>
@@ -38,6 +59,25 @@ function MapNavCard(props: {
       </CardContent>
       <Divider />
       <CardContent className={styles.Breadcrumbs}>
+        <div style={{ float: "right" }}>
+          <FormControl>
+            <Select
+              name="raceSelect"
+              value={race}
+              onChange={(e) => {
+                setRace(e.target.value as string);
+                //  setCountyList([]);
+              }}
+              disabled={props.fips.isUsa() ? false : true}
+            >
+              {RACES.map((race) => (
+                <MenuItem key={race} value={race}>
+                  {race}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         <MapBreadcrumbs
           fips={props.fips}
           updateFipsCallback={props.updateFipsCallback}
@@ -56,9 +96,11 @@ function MapNavCard(props: {
           signalListeners={signalListeners}
           varField={props.varField}
           legendTitle={props.varFieldDisplayName}
-          data={props.data}
+          data={props.data.filter(
+            (r) => r.hispanic_or_latino_and_race === race
+          )}
           hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-          showCounties={props.fips.isUsa() ? false : true} // TODO - update logic here when we have county level data
+          showCounties={props.countyLevel ? props.countyLevel : false}
           fips={props.fips}
         />
         <LinkWithStickyParams
@@ -74,4 +116,4 @@ function MapNavCard(props: {
   );
 }
 
-export default MapNavCard;
+export default NationalMapCard;

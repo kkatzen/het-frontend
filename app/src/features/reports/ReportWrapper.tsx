@@ -36,6 +36,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
         <VariableDisparityReport
           dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
           fips={new Fips(getPhraseValue(props.madLib, 3))}
+          updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
         />
       );
     case "disvarcompare":
@@ -49,6 +50,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
               fips={new Fips(getPhraseValue(props.madLib, 3))}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
               vertical={true}
             />
           </Grid>
@@ -56,6 +58,7 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
               fips={new Fips(getPhraseValue(props.madLib, 5))}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
               vertical={true}
             />
           </Grid>
