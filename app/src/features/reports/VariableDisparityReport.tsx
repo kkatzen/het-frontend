@@ -9,7 +9,7 @@ import variableProviders, {
 } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
-import MapNavCardWithFilter from "../cards/MapNavCardWithFilter";
+import MapCard from "../cards/MapCard";
 import TableCard from "../cards/TableCard";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -130,7 +130,7 @@ function DisVarGeo(props: {
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
-                    <MapNavCardWithFilter
+                    <MapCard
                       data={dataset}
                       datasetIds={datasetIds}
                       varField={(metric + "_per_100k") as VariableId}
@@ -143,6 +143,8 @@ function DisVarGeo(props: {
                       updateFipsCallback={(fips: Fips) => {
                         props.updateFipsCallback(fips);
                       }}
+                      enableFilter={true}
+                      showCounties={false}
                     />
                     <TableCard
                       data={geoFilteredDataset}

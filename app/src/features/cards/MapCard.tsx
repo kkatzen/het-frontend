@@ -25,7 +25,8 @@ function NationalMapCard(props: {
   varFieldDisplayName: string;
   data: Record<string, any>[];
   updateFipsCallback: (fips: Fips) => void;
-  countyLevel?: boolean;
+  enableFilter?: boolean;
+  showCounties: boolean;
 }) {
   const signalListeners: any = {
     click: (...args: any) => {
@@ -58,36 +59,47 @@ function NationalMapCard(props: {
           {props.varFieldDisplayName} in {props.fips.getFullDisplayName()}
         </Typography>
       </CardContent>
+
       <Divider />
       <CardContent className={styles.Breadcrumbs}>
-        <div style={{ float: "right" }}>
-          <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
-            Filter by race:
-          </span>
-
-          <FormControl>
-            <Select
-              name="raceSelect"
-              value={race}
-              onChange={(e) => {
-                setRace(e.target.value as string);
-                //  setCountyList([]);
-              }}
-              disabled={props.fips.isUsa() ? false : true}
-            >
-              {RACES.map((race) => (
-                <MenuItem key={race} value={race}>
-                  {race}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
         <MapBreadcrumbs
           fips={props.fips}
           updateFipsCallback={props.updateFipsCallback}
         />
       </CardContent>
+
+      {props.enableFilter && (
+        <>
+          <Divider />
+          <CardContent
+            className={styles.Breadcrumbs}
+            style={{ textAlign: "left" }}
+          >
+            <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
+              Filter by race:
+            </span>
+
+            <FormControl>
+              <Select
+                name="raceSelect"
+                value={race}
+                onChange={(e) => {
+                  setRace(e.target.value as string);
+                  //  setCountyList([]);
+                }}
+                disabled={props.fips.isUsa() ? false : true}
+              >
+                {RACES.map((race) => (
+                  <MenuItem key={race} value={race}>
+                    {race}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </CardContent>
+        </>
+      )}
+
       <Divider />
       <CardContent>
         {!props.fips.isUsa() /* TODO - don't hardcode */ && (
@@ -101,11 +113,13 @@ function NationalMapCard(props: {
           signalListeners={signalListeners}
           varField={props.varField}
           legendTitle={props.varFieldDisplayName}
-          data={props.data.filter(
-            (r) => r.hispanic_or_latino_and_race === race
-          )}
+          data={
+            props.enableFilter
+              ? props.data.filter((r) => r.hispanic_or_latino_and_race === race)
+              : props.data
+          }
           hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-          showCounties={props.countyLevel ? props.countyLevel : false}
+          showCounties={props.showCounties}
           fips={props.fips}
         />
         <LinkWithStickyParams

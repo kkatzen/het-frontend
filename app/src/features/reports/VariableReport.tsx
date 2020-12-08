@@ -12,7 +12,7 @@ import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS, Fips } from "../../utils/Fips";
-import MapNavCard from "../cards/MapNavCard";
+import MapCard from "../cards/MapCard";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
@@ -75,7 +75,7 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  <MapNavCard
+                  <MapCard
                     data={dataset}
                     datasetIds={datasetIds}
                     varField={variableId}
@@ -84,6 +84,7 @@ function VarGeoReport(props: {
                     updateFipsCallback={(fips: Fips) => {
                       props.updateFipsCallback(fips);
                     }}
+                    showCounties={props.fips.isUsa() ? false : true}
                   />
                 </Grid>
                 <Grid
