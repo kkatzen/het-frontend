@@ -156,7 +156,7 @@ function DisVarGeo(props: {
                           displayName:
                             VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
                               metric
-                            ] + " as % of Geo",
+                            ] + " as % share",
                         },
                         {
                           name: metric + "_per_100k",
