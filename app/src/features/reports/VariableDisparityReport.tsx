@@ -3,7 +3,10 @@ import { Grid } from "@material-ui/core";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
 import { Breakdowns } from "../../utils/Breakdowns";
-import variableProviders, { VariableId } from "../../utils/variableProviders";
+import variableProviders, {
+  VariableId,
+  VARIABLE_DISPLAY_NAME_MAP,
+} from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapNavCardWithFilter from "../cards/MapNavCardWithFilter";
@@ -15,6 +18,18 @@ import Alert from "@material-ui/lab/Alert";
 import { Fips } from "../../utils/Fips";
 
 export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
+
+const SUPPORTED_VARIABLES: DropdownVarId[] = ["covid"];
+
+const DDV_TO_VAR: Record<string, string[]> = {
+  covid: ["covid_cases", "covid_deaths", "covid_hosp"],
+};
+
+const METRIC_NAMES: Record<MetricToggle, string> = {
+  covid_cases: "COVID-19 Cases",
+  covid_deaths: "COVID-19 Deaths",
+  covid_hosp: "COVID-19 Hospitalizations",
+};
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<MetricToggle, string>> = {
   covid: {
@@ -37,15 +52,10 @@ function DisVarGeo(props: {
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
-  const validDropdownVariable = Object.keys(
-    VARIABLE_DISPLAY_NAMES
-  ) as DropdownVarId[];
   const [metric, setMetric] = useState<MetricToggle>(
-    validDropdownVariable.includes(props.dropdownVarId)
-      ? (Object.keys(
-          VARIABLE_DISPLAY_NAMES[props.dropdownVarId]
-        )[0] as MetricToggle)
-      : "covid_cases"
+    SUPPORTED_VARIABLES.includes(props.dropdownVarId)
+      ? (DDV_TO_VAR[props.dropdownVarId as string][0] as MetricToggle)
+      : (DDV_TO_VAR[0][0] as MetricToggle)
   );
 
   const datasetStore = useDatasetStore();
@@ -59,7 +69,7 @@ function DisVarGeo(props: {
 
   return (
     <>
-      {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.dropdownVarId) && (
+      {!SUPPORTED_VARIABLES.includes(props.dropdownVarId) && (
         <Grid container xs={12} spacing={1} justify="center">
           <Grid item xs={5}>
             <Alert severity="error">Data not currently available</Alert>
@@ -67,7 +77,7 @@ function DisVarGeo(props: {
         </Grid>
       )}
 
-      {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.dropdownVarId) && (
+      {SUPPORTED_VARIABLES.includes(props.dropdownVarId) && (
         <Grid container spacing={1} justify="center">
           <WithDatasets datasetIds={datasetIds}>
             {() => {
@@ -114,13 +124,17 @@ function DisVarGeo(props: {
                       }}
                       aria-label="text formatting"
                     >
-                      {Object.entries(
-                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId]
-                      ).map(([variableId, displayName]: [string, string]) => (
-                        <ToggleButton value={variableId as VariableId}>
-                          {displayName}
-                        </ToggleButton>
-                      ))}
+                      {DDV_TO_VAR[props.dropdownVarId].map(
+                        (variableId: string) => (
+                          <ToggleButton value={variableId as VariableId}>
+                            {
+                              VARIABLE_DISPLAY_NAME_MAP[
+                                variableId as VariableId
+                              ]
+                            }
+                          </ToggleButton>
+                        )
+                      )}
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
@@ -129,8 +143,9 @@ function DisVarGeo(props: {
                       datasetIds={datasetIds}
                       varField={(metric + "_per_100k") as VariableId}
                       varFieldDisplayName={
-                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
-                        " per 100,000 people"
+                        VARIABLE_DISPLAY_NAME_MAP[
+                          (metric + "_per_100k") as VariableId
+                        ]
                       }
                       fips={props.fips}
                       updateFipsCallback={(fips: Fips) => {
@@ -152,16 +167,16 @@ function DisVarGeo(props: {
                         {
                           name: metric + "_pct_of_geo",
                           displayName:
-                            VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
-                              metric
-                            ] + " Share",
+                            VARIABLE_DISPLAY_NAME_MAP[
+                              (metric + "_pct_of_geo") as VariableId
+                            ],
                         },
                         {
                           name: metric + "_per_100k",
                           displayName:
-                            VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
-                              metric
-                            ] + " per 100,000 people",
+                            VARIABLE_DISPLAY_NAME_MAP[
+                              (metric + "_per_100k") as VariableId
+                            ],
                         },
                       ]}
                     />
@@ -171,9 +186,7 @@ function DisVarGeo(props: {
                       dataset={geoFilteredDataset}
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableDisplayName={
-                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
-                      }
+                      variableDisplayName={METRIC_NAMES[metric]}
                       breakdownVar="hispanic_or_latino_and_race"
                       breakdownVarDisplayName="Race/Ethnicity"
                       fips={props.fips}
@@ -181,9 +194,7 @@ function DisVarGeo(props: {
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableDisplayName={
-                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
-                      }
+                      variableDisplayName={METRIC_NAMES[metric]}
                       breakdownVar="age"
                       breakdownVarDisplayName="Age"
                       fips={props.fips}
@@ -191,9 +202,7 @@ function DisVarGeo(props: {
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableDisplayName={
-                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
-                      }
+                      variableDisplayName={METRIC_NAMES[metric]}
                       breakdownVar="gender"
                       breakdownVarDisplayName="Gender"
                       fips={props.fips}
