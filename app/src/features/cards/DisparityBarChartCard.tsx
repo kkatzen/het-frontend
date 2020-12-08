@@ -35,7 +35,7 @@ function DisparityBarChartCard(props: {
         <Typography gutterBottom className={styles.CardHeader}>
           Disparities in {props.variableDisplayName} for{" "}
           <b>{props.breakdownVarDisplayName}</b> in{" "}
-          {props.fips.getDisplayName()}
+          {props.fips.getFullDisplayName()}
         </Typography>
       </CardContent>
       <CardContent className={styles.Breadcrumbs}>
