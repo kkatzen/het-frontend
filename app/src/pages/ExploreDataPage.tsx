@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper } from "@material-ui/core";
@@ -19,7 +20,7 @@ import {
   PhraseSegment,
   PhraseSelections,
 } from "../utils/MadLibs";
-import { STATE_FIPS_MAP } from "../utils/Fips";
+import { STATE_FIPS_MAP, FIPS_MAP, USA_FIPS, Fips } from "../utils/Fips";
 import styles from "./ExploreDataPage.module.scss";
 import {
   clearSearchParams,
@@ -31,32 +32,20 @@ import {
 import ReactTooltip from "react-tooltip";
 import ReportWrapper from "../features/reports/ReportWrapper";
 
-interface FipsOption {
-  code: string;
-  label: string;
-}
-
-function FipsSelector(props: { options: FipsOption[]; onChange: Function }) {
+function FipsSelector(props: { options: Fips[]; onGeoUpdate: Function }) {
   return (
     <Autocomplete
-      id="country-select-demo"
-      style={{ width: 300 }}
-      options={props.options as FipsOption[]}
-      autoHighlight
-      getOptionLabel={(option) => option.label}
-      renderOption={(option) => <React.Fragment>{option.label}</React.Fragment>}
+      disableClearable={true}
+      defaultValue={props.options[0]}
+      margin="dense"
+      options={props.options}
+      clearOnEscape={true}
+      getOptionLabel={(fips) => fips.getDisplayName()}
+      renderOption={(fips) => <>{fips.getDisplayName()}</>}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Choose a geography"
-          variant="outlined"
-          onChange={(event) => props.onChange(event)}
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: "new-password", // disable autocomplete and autofill
-          }}
-        />
+        <TextField margin="dense" fullWidth {...params} variant="outlined" />
       )}
+      onChange={(e, fips) => props.onGeoUpdate(fips.code)}
     />
   );
 }
@@ -68,7 +57,7 @@ function ExploreDataPage() {
   useEffect(() => {
     // TODO - it would be nice to have the params stay and update when selections are made
     // Until then, it's best to just clear them so they can't become mismatched
-    clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
+    // clearSearchParams([MADLIB_PHRASE_PARAM, MADLIB_SELECTIONS_PARAM]);
   }, []);
 
   const foundIndex = MADLIB_LIST.findIndex(
@@ -165,35 +154,30 @@ function CarouselMadLib(props: {
               <>
                 {Object.keys(phraseSegment).length > 10 ? (
                   <FipsSelector
-                    onChange={(event: any) => {
-                      let phraseIndex: number = Number(event.target.name);
+                    key={index}
+                    onGeoUpdate={(fipsCode: string) => {
+                      console.log(fipsCode);
+                      console.log(index);
+                      /*
+                      let phraseIndex: number = Number(event.target.name);*/
                       let updatePhraseSelections: PhraseSelections = {
                         ...props.madLib.activeSelections,
                       };
-                      console.log(event.target.value);
-                      updatePhraseSelections[phraseIndex] = event.target
-                        .value as string;
+                      updatePhraseSelections[index] = fipsCode;
+                      console.log(updatePhraseSelections);
                       props.setMadLib({
                         ...props.madLib,
                         activeSelections: updatePhraseSelections,
                       });
                     }}
-                    options={Object.entries(phraseSegment)
+                    options={Object.keys(phraseSegment)
                       .sort((a, b) => {
                         if (a[0].length === b[0].length) {
                           return a[0].localeCompare(b[0]);
                         }
                         return b[0].length > a[0].length ? -1 : 1;
                       })
-                      .map(([key, value]) => {
-                        const label =
-                          key.length === 2
-                            ? value
-                            : value +
-                              ", " +
-                              STATE_FIPS_MAP[key.substring(0, 2)];
-                        return { code: key, label: label };
-                      })}
+                      .map((fipsCode) => new Fips(fipsCode))}
                   />
                 ) : (
                   <FormControl>

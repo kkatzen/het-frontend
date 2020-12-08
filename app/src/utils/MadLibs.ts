@@ -1,4 +1,4 @@
-import { USA_FIPS, STATE_FIPS_MAP, COUNTY_FIPS_MAP } from "./Fips";
+import { USA_FIPS, STATE_FIPS_MAP, FIPS_MAP, COUNTY_FIPS_MAP } from "./Fips";
 
 // Map of phrase segment index to its selected value
 export type PhraseSelections = Record<number, string>;
@@ -78,7 +78,7 @@ const MADLIB_LIST: MadLib[] = [
       "Tell me about disparities for",
       DISPARITY_DROPDOWN_VAR,
       "in",
-      { ...STATE_FIPS_MAP, ...COUNTY_FIPS_MAP },
+      STATE_FIPS_MAP,
     ],
     defaultSelections: { 1: "covid", 3: USA_FIPS },
     activeSelections: { 1: "covid", 3: USA_FIPS },
@@ -89,22 +89,22 @@ const MADLIB_LIST: MadLib[] = [
       "Compare ",
       DROPDOWN_VAR,
       " between ",
-      STATE_FIPS_MAP,
+      FIPS_MAP,
       " and ",
-      STATE_FIPS_MAP,
+      FIPS_MAP,
     ],
     defaultSelections: { 1: "diabetes", 3: "13", 5: USA_FIPS }, // 13 is Georgia
     activeSelections: { 1: "diabetes", 3: "13", 5: USA_FIPS }, // 13 is Georgia
   },
   {
     id: "geo",
-    phrase: ["Tell me about", STATE_FIPS_MAP],
+    phrase: ["Tell me about", FIPS_MAP],
     defaultSelections: { 1: USA_FIPS },
     activeSelections: { 1: USA_FIPS },
   },
   {
     id: "vargeo",
-    phrase: ["Show me what", DROPDOWN_VAR, "looks like in", STATE_FIPS_MAP],
+    phrase: ["Show me what", DROPDOWN_VAR, "looks like in", FIPS_MAP],
     defaultSelections: { 1: "diabetes", 3: USA_FIPS },
     activeSelections: { 1: "diabetes", 3: USA_FIPS },
   },

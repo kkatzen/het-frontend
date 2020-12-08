@@ -65,8 +65,6 @@ export const STATE_FIPS_MAP: Record<string, string> = {
     "78": "Virgin Islands"
 */
 
-export type Severity = "INFO" | "WARNING" | "ERROR";
-
 class Fips {
   code: string;
   countyName: string;
@@ -89,7 +87,9 @@ class Fips {
   }
 
   getDisplayName() {
-    return this.isCounty() ? this.countyName : STATE_FIPS_MAP[this.code];
+    return this.isCounty()
+      ? `${COUNTY_FIPS_MAP[this.code]}, ${this.getStateDisplayName()}`
+      : STATE_FIPS_MAP[this.code];
   }
 
   setCountyName(countyName: string) {
@@ -3258,3 +3258,5 @@ export const COUNTY_FIPS_MAP: Record<string, string> = {
   "72999": "Unknown",
   "78999": "Unknown",
 };
+
+export const FIPS_MAP = { ...STATE_FIPS_MAP, ...COUNTY_FIPS_MAP };

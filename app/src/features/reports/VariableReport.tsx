@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
@@ -24,8 +24,8 @@ const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
 
 function VarGeoReport(props: {
   variable: DropdownVarId;
-  stateFips: string;
-  updateStateCallback: Function;
+  fips: Fips;
+  updateFipsCallback: Function;
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
@@ -46,13 +46,6 @@ function VarGeoReport(props: {
     variableProvider,
   ]);
 
-  const [fips, setFips] = useState<Fips>(new Fips(props.stateFips));
-
-  useEffect(() => {
-    console.log(props.stateFips);
-    setFips(new Fips(props.stateFips));
-  }, [props.stateFips]);
-
   return (
     <WithDatasets datasetIds={requiredDatasets}>
       {() => {
@@ -62,12 +55,12 @@ function VarGeoReport(props: {
         );
 
         let tableDataset =
-          fips.code === USA_FIPS
+          props.fips.code === USA_FIPS
             ? variableProvider.getData(
                 datasetStore.datasets,
                 Breakdowns.national().andRace()
               )
-            : dataset.filter((r) => r.state_fips_code === fips.code);
+            : dataset.filter((r) => r.state_fips_code === props.fips.code);
 
         return (
           <>
@@ -95,10 +88,9 @@ function VarGeoReport(props: {
                       data={dataset}
                       varField={variableId}
                       varFieldDisplayName={variableDisplayName}
-                      fips={fips}
+                      fips={props.fips}
                       updateFipsCallback={(fips: Fips) => {
-                        setFips(fips);
-                        props.updateStateCallback(fips.getStateFipsCode());
+                        props.updateFipsCallback(fips.code);
                       }}
                     />
                   </Card>
@@ -111,7 +103,7 @@ function VarGeoReport(props: {
                   className={styles.PaddedGrid}
                 >
                   <Card raised={true} style={{ margin: "10px" }}>
-                    {!fips.isCounty() && (
+                    {!props.fips.isCounty() && (
                       <TableChart
                         data={tableDataset}
                         fields={[
@@ -123,7 +115,7 @@ function VarGeoReport(props: {
                         ]}
                       />
                     )}
-                    {fips.isCounty() && (
+                    {props.fips.isCounty() && (
                       <Alert severity="error">
                         This dataset does not provide county level data
                       </Alert>

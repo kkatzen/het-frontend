@@ -44,16 +44,18 @@ function TableChart(props: { data: Row[]; fields?: Field[] }) {
           <Table>
             <TableHead>
               <TableRow>
-                {tableColumns.map((field) => (
-                  <StyledTableHeader>{field.displayName}</StyledTableHeader>
+                {tableColumns.map((field, i) => (
+                  <StyledTableHeader key={i}>
+                    {field.displayName}
+                  </StyledTableHeader>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {props.data.map((row) => (
-                <TableRow>
-                  {tableColumns!.map((field) => (
-                    <TableCell>
+              {props.data.map((row, i) => (
+                <TableRow key={i}>
+                  {tableColumns!.map((field, j) => (
+                    <TableCell key={j}>
                       {Number.isInteger(row[field.name])
                         ? row[field.name].toLocaleString("en")
                         : row[field.name]}

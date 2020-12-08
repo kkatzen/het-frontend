@@ -19,7 +19,7 @@ function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
 }
 
 function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
-  function updateStateCallback(fips: string, geoIndex: number) {
+  function updateFipsCallback(fips: string, geoIndex: number) {
     let updatedArray: PhraseSelections = {
       ...props.madLib.activeSelections,
     };
@@ -34,7 +34,6 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       return (
         <VariableDisparityReport
           dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
-          stateFips={getPhraseValue(props.madLib, 3)}
           fips={new Fips(getPhraseValue(props.madLib, 3))}
         />
       );
@@ -48,7 +47,6 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
           <Grid item xs={6}>
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
-              stateFips={props.madLib.activeSelections[3]}
               fips={new Fips(getPhraseValue(props.madLib, 3))}
               vertical={true}
             />
@@ -56,7 +54,6 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
           <Grid item xs={6}>
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
-              stateFips={props.madLib.activeSelections[5]}
               fips={new Fips(getPhraseValue(props.madLib, 5))}
               vertical={true}
             />
@@ -67,8 +64,8 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       return (
         <VariableReport
           variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
-          stateFips={getPhraseValue(props.madLib, 3)}
-          updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
+          fips={new Fips(getPhraseValue(props.madLib, 3))}
+          updateFipsCallback={(fips: string) => updateFipsCallback(fips, 3)}
         />
       );
     case "varcompare":
@@ -78,20 +75,16 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
           <Grid item xs={6}>
             <VariableReport
               variable={compareVariable}
-              stateFips={props.madLib.activeSelections[3]}
-              updateStateCallback={(fips: string) =>
-                updateStateCallback(fips, 3)
-              }
+              fips={new Fips(getPhraseValue(props.madLib, 3))}
+              updateFipsCallback={(fips: string) => updateFipsCallback(fips, 3)}
               vertical={true}
             />
           </Grid>
           <Grid item xs={6}>
             <VariableReport
               variable={compareVariable}
-              stateFips={props.madLib.activeSelections[5]}
-              updateStateCallback={(fips: string) =>
-                updateStateCallback(fips, 5)
-              }
+              fips={new Fips(getPhraseValue(props.madLib, 5))}
+              updateFipsCallback={(fips: string) => updateFipsCallback(fips, 5)}
               vertical={true}
             />
           </Grid>

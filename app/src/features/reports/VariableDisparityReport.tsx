@@ -30,7 +30,6 @@ function asDate(dateStr: string) {
 
 function DisVarGeo(props: {
   dropdownVarId: DropdownVarId;
-  stateFips: string;
   fips: Fips;
   vertical?: boolean;
 }) {
@@ -79,7 +78,7 @@ function DisVarGeo(props: {
                     Breakdowns.national().andTime().andRace(true)
                   )
                 )
-                .filter((row) => row.state_fips_code === props.stateFips)
+                .filter((row) => row.state_fips_code === props.fips.code)
                 .filter(
                   (row) =>
                     !row.hispanic_or_latino_and_race.includes(
