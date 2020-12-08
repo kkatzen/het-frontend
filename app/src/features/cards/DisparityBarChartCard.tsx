@@ -64,10 +64,8 @@ function DisparityBarChartCard(props: {
                 data={props.dataset}
                 thickMeasure="population_pct"
                 thinMeasure={props.metricId + "_pct_of_geo"}
-                thickMeasureDisplayName="Population %"
-                thinMeasureDisplayName={
-                  props.variableDisplayName + " as % of Geo"
-                }
+                thickMeasureDisplayName="Population Share"
+                thinMeasureDisplayName={props.variableDisplayName + " Share"}
                 breakdownVar={props.breakdownVar}
                 breakdownVarDisplayName={props.breakdownVarDisplayName}
               />
@@ -78,8 +76,11 @@ function DisparityBarChartCard(props: {
                 data={props.dataset}
                 breakdownVar={props.breakdownVar}
                 measure={props.metricId + "_per_100k"}
-                measureDisplayName={props.variableDisplayName + " per 100k"}
+                measureDisplayName={
+                  props.variableDisplayName + " per 100,000 people"
+                }
                 breakdownVarDisplayName="Race/Ethnicity"
+                showLegend={false}
               />
             )}
             <LinkWithStickyParams

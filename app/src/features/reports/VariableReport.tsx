@@ -15,7 +15,7 @@ import Card from "@material-ui/core/Card";
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   diabetes: {
-    diabetes_per_100k: "Diabetes Cases per 100k persons",
+    diabetes_per_100k: "Diabetes Cases per 100,000 people",
   },
   /*
   copd: {

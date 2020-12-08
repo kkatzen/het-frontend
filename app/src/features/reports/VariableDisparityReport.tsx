@@ -19,7 +19,7 @@ export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<MetricToggle, string>> = {
   covid: {
     covid_cases: "COVID-19 Cases",
-    covid_deaths: "COVID-19  Deaths",
+    covid_deaths: "COVID-19 Deaths",
     covid_hosp: "COVID-19 Hospitalizations",
   },
 };
@@ -130,7 +130,7 @@ function DisVarGeo(props: {
                       varField={(metric + "_per_100k") as VariableId}
                       varFieldDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
-                        " per 100k"
+                        " per 100,000 people"
                       }
                       fips={props.fips}
                       updateFipsCallback={(fips: Fips) => {
@@ -147,21 +147,21 @@ function DisVarGeo(props: {
                         { name: "population", displayName: "Population" },
                         {
                           name: "population_pct",
-                          displayName: "Population %",
+                          displayName: "Population Share",
                         },
                         {
                           name: metric + "_pct_of_geo",
                           displayName:
                             VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
                               metric
-                            ] + " as % share",
+                            ] + " Share",
                         },
                         {
                           name: metric + "_per_100k",
                           displayName:
                             VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
                               metric
-                            ] + " per 100k",
+                            ] + " per 100,000 people",
                         },
                       ]}
                     />

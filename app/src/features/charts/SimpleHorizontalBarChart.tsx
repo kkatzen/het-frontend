@@ -9,7 +9,8 @@ function getSpec(
   breakdownVar: string,
   breakdownVarDisplayName: string,
   measure: string,
-  measureDisplayName: string
+  measureDisplayName: string,
+  showLegend: boolean
 ): any {
   const BAR_HEIGHT = 40;
   const BAR_PADDING = 0.1;
@@ -17,6 +18,24 @@ function getSpec(
   const DATASET = "DATASET";
   const WIDTH_PADDING_FOR_SNOWMAN_MENU = 50;
 
+  const legends = showLegend
+    ? [
+        {
+          stroke: "variables",
+          title: "Variables",
+          orient: "top",
+          padding: 4,
+          encode: {
+            symbols: {
+              enter: {
+                strokeWidth: { value: 2 },
+                size: { value: 50 },
+              },
+            },
+          },
+        },
+      ]
+    : [];
   return {
     $schema: "https://vega.github.io/schema/vega/v5.json",
     background: "white",
@@ -139,22 +158,7 @@ function getSpec(
         zindex: 0,
       },
     ],
-    legends: [
-      {
-        stroke: "variables",
-        title: "Variables",
-        orient: "top",
-        padding: 4,
-        encode: {
-          symbols: {
-            enter: {
-              strokeWidth: { value: 2 },
-              size: { value: 50 },
-            },
-          },
-        },
-      },
-    ],
+    legends: legends,
   };
 }
 
@@ -164,6 +168,7 @@ function SimpleHorizontalBarChart(props: {
   measureDisplayName: string;
   breakdownVar: string;
   breakdownVarDisplayName: string;
+  showLegend: boolean;
 }) {
   const [ref, width] = useResponsiveWidth();
   return (
@@ -175,7 +180,8 @@ function SimpleHorizontalBarChart(props: {
           props.breakdownVar,
           props.breakdownVarDisplayName,
           props.measure,
-          props.measureDisplayName
+          props.measureDisplayName,
+          props.showLegend
         )}
       />
     </div>
