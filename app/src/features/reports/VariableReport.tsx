@@ -32,6 +32,8 @@ function VarGeoReport(props: {
   const variableId: VariableId = SUPPORTED_VARIABLES.includes(props.variable)
     ? (DDV_TO_VAR[props.variable] as VariableId)
     : ("diabetes_per_100k" as VariableId);
+  console.log("variableId", variableId);
+  console.log("props.variable", props.variable);
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
@@ -44,6 +46,7 @@ function VarGeoReport(props: {
           datasetStore.datasets,
           Breakdowns.byState().andRace()
         );
+        console.log(dataset);
 
         let tableDataset =
           props.fips.code === USA_FIPS
@@ -52,17 +55,18 @@ function VarGeoReport(props: {
                 Breakdowns.national().andRace()
               )
             : dataset.filter((r) => r.state_fips_code === props.fips.code);
+        console.log(tableDataset);
 
         return (
           <>
-            {!Object.keys(SUPPORTED_VARIABLES).includes(props.variable) && (
+            {!SUPPORTED_VARIABLES.includes(props.variable) && (
               <Grid container xs={12} spacing={1} justify="center">
                 <Grid item xs={5}>
                   <Alert severity="error">Data not currently available</Alert>
                 </Grid>
               </Grid>
             )}
-            {Object.keys(SUPPORTED_VARIABLES).includes(props.variable) && (
+            {SUPPORTED_VARIABLES.includes(props.variable) && (
               <Grid container spacing={1} alignItems="flex-start">
                 <Grid
                   item

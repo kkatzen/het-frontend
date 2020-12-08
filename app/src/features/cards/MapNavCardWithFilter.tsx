@@ -61,6 +61,10 @@ function NationalMapCard(props: {
       <Divider />
       <CardContent className={styles.Breadcrumbs}>
         <div style={{ float: "right" }}>
+          <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
+            Filter by race:
+          </span>
+
           <FormControl>
             <Select
               name="raceSelect"

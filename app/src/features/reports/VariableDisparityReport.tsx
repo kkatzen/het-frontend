@@ -31,14 +31,6 @@ const METRIC_NAMES: Record<MetricToggle, string> = {
   covid_hosp: "COVID-19 Hospitalizations",
 };
 
-const VARIABLE_DISPLAY_NAMES: Record<string, Record<MetricToggle, string>> = {
-  covid: {
-    covid_cases: "COVID-19 Cases",
-    covid_deaths: "COVID-19 Deaths",
-    covid_hosp: "COVID-19 Hospitalizations",
-  },
-};
-
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
   // Date expects month to be 0-indexed so need to subtract 1.
