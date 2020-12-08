@@ -46,6 +46,7 @@ function VarGeoReport(props: {
     variableProvider,
   ]);
 
+  // TODO - would be nice to have this controlled entirely by the prop, this would mean the MadLib knows the county
   const [fips, setFips] = useState<Fips>(new Fips(props.stateFips));
 
   useEffect(() => {

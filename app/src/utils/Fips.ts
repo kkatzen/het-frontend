@@ -65,13 +65,15 @@ export const STATE_FIPS_MAP: Record<string, string> = {
     "78": "Virgin Islands"
 */
 
-export type Severity = "INFO" | "WARNING" | "ERROR";
-
 class Fips {
   code: string;
   countyName: string;
 
+  // TODO- revisit optional name, this is brittle
   constructor(code: string, countyName: string = "") {
+    if (!RegExp("^[0-9]{2}|[0-9]{5}").test(code)) {
+      throw new Error("Invalid FIPS code");
+    }
     this.code = code;
     this.countyName = countyName;
   }
