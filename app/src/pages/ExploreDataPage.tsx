@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper, Grid } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import ChartDumpReport from "../features/reports/ChartDumpReport";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   MADLIB_LIST,
   getMadLibPhraseText,
   MadLib,
   PhraseSegment,
   PhraseSelections,
-  DropdownVarId,
-  MadLibId,
 } from "../utils/MadLibs";
+import { STATE_FIPS_MAP } from "../utils/Fips";
 import styles from "./ExploreDataPage.module.scss";
 import {
   clearSearchParams,
@@ -29,100 +29,36 @@ import {
   linkToMadLib,
 } from "../utils/urlutils";
 import ReactTooltip from "react-tooltip";
-import VariableDisparityReport from "../features/reports/VariableDisparityReport";
-import VariableReport from "../features/reports/VariableReport";
+import ReportWrapper from "../features/reports/ReportWrapper";
 
-function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
-  const segment = madLib.phrase[segmentIndex];
-  return typeof segment === "string"
-    ? segment
-    : madLib.activeSelections[segmentIndex];
+interface FipsOption {
+  code: string;
+  label: string;
 }
 
-function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
-  function updateStateCallback(fips: string, geoIndex: number) {
-    let updatedArray: PhraseSelections = {
-      ...props.madLib.activeSelections,
-    };
-    updatedArray[geoIndex] = fips;
-    props.setMadLib({
-      ...props.madLib,
-      activeSelections: updatedArray,
-    });
-  }
-
-  switch (props.madLib.id as MadLibId) {
-    case "disvargeo":
-      return (
-        <VariableDisparityReport
-          dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
-          stateFips={getPhraseValue(props.madLib, 3)}
+function FipsSelector(props: { options: FipsOption[]; onChange: Function }) {
+  return (
+    <Autocomplete
+      id="country-select-demo"
+      style={{ width: 300 }}
+      options={props.options as FipsOption[]}
+      autoHighlight
+      getOptionLabel={(option) => option.label}
+      renderOption={(option) => <React.Fragment>{option.label}</React.Fragment>}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Choose a geography"
+          variant="outlined"
+          onChange={(event) => props.onChange(event)}
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: "new-password", // disable autocomplete and autofill
+          }}
         />
-      );
-    case "disvarcompare":
-      const compareDisparityVariable = getPhraseValue(
-        props.madLib,
-        1
-      ) as DropdownVarId;
-      return (
-        <Grid container spacing={1} alignItems="flex-start">
-          <Grid item xs={6}>
-            <VariableDisparityReport
-              dropdownVarId={compareDisparityVariable}
-              stateFips={props.madLib.activeSelections[3]}
-              vertical={true}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <VariableDisparityReport
-              dropdownVarId={compareDisparityVariable}
-              stateFips={props.madLib.activeSelections[5]}
-              vertical={true}
-            />
-          </Grid>
-        </Grid>
-      );
-    case "vargeo":
-      return (
-        <VariableReport
-          variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
-          stateFips={getPhraseValue(props.madLib, 3)}
-          updateStateCallback={(fips: string) => updateStateCallback(fips, 3)}
-        />
-      );
-    case "varcompare":
-      const compareVariable = getPhraseValue(props.madLib, 1) as DropdownVarId;
-      return (
-        <Grid container spacing={1} alignItems="flex-start">
-          <Grid item xs={6}>
-            <VariableReport
-              variable={compareVariable}
-              stateFips={props.madLib.activeSelections[3]}
-              updateStateCallback={(fips: string) =>
-                updateStateCallback(fips, 3)
-              }
-              vertical={true}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <VariableReport
-              variable={compareVariable}
-              stateFips={props.madLib.activeSelections[5]}
-              updateStateCallback={(fips: string) =>
-                updateStateCallback(fips, 5)
-              }
-              vertical={true}
-            />
-          </Grid>
-        </Grid>
-      );
-    case "geo":
-      return <p>Unimplemented</p>;
-    case "dump":
-      return <ChartDumpReport />;
-    default:
-      return <p>Report not found</p>;
-  }
+      )}
+    />
+  );
 }
 
 function ExploreDataPage() {
@@ -226,35 +162,71 @@ function CarouselMadLib(props: {
             {typeof phraseSegment === "string" ? (
               <React.Fragment>{phraseSegment}</React.Fragment>
             ) : (
-              <FormControl>
-                <Select
-                  className={styles.MadLibSelect}
-                  name={index.toString()}
-                  defaultValue={props.madLib.defaultSelections[index]}
-                  value={props.madLib.activeSelections[index]}
-                  onChange={(event) => {
-                    let phraseIndex: number = Number(event.target.name);
-                    let updatePhraseSelections: PhraseSelections = {
-                      ...props.madLib.activeSelections,
-                    };
-                    updatePhraseSelections[phraseIndex] = event.target
-                      .value as string;
-                    props.setMadLib({
-                      ...props.madLib,
-                      activeSelections: updatePhraseSelections,
-                    });
-                  }}
-                >
-                  {Object.entries(phraseSegment)
-                    .sort((a, b) => a[0].localeCompare(b[0]))
-                    .map(([key, value]) => (
-                      // TODO - we may want to not have this alphabetized by ID by default
-                      <MenuItem key={value} value={key}>
-                        {value}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
+              <>
+                {Object.keys(phraseSegment).length > 10 ? (
+                  <FipsSelector
+                    onChange={(event: any) => {
+                      let phraseIndex: number = Number(event.target.name);
+                      let updatePhraseSelections: PhraseSelections = {
+                        ...props.madLib.activeSelections,
+                      };
+                      console.log(event.target.value);
+                      updatePhraseSelections[phraseIndex] = event.target
+                        .value as string;
+                      props.setMadLib({
+                        ...props.madLib,
+                        activeSelections: updatePhraseSelections,
+                      });
+                    }}
+                    options={Object.entries(phraseSegment)
+                      .sort((a, b) => {
+                        if (a[0].length === b[0].length) {
+                          return a[0].localeCompare(b[0]);
+                        }
+                        return b[0].length > a[0].length ? -1 : 1;
+                      })
+                      .map(([key, value]) => {
+                        const label =
+                          key.length === 2
+                            ? value
+                            : value +
+                              ", " +
+                              STATE_FIPS_MAP[key.substring(0, 2)];
+                        return { code: key, label: label };
+                      })}
+                  />
+                ) : (
+                  <FormControl>
+                    <Select
+                      className={styles.MadLibSelect}
+                      name={index.toString()}
+                      defaultValue={props.madLib.defaultSelections[index]}
+                      value={props.madLib.activeSelections[index]}
+                      onChange={(event) => {
+                        let phraseIndex: number = Number(event.target.name);
+                        let updatePhraseSelections: PhraseSelections = {
+                          ...props.madLib.activeSelections,
+                        };
+                        updatePhraseSelections[phraseIndex] = event.target
+                          .value as string;
+                        props.setMadLib({
+                          ...props.madLib,
+                          activeSelections: updatePhraseSelections,
+                        });
+                      }}
+                    >
+                      {Object.entries(phraseSegment)
+                        .sort((a, b) => a[0].localeCompare(b[0]))
+                        .map(([key, value]) => (
+                          // TODO - we may want to not have this alphabetized by ID by default
+                          <MenuItem key={value} value={key}>
+                            {value}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                )}
+              </>
             )}
           </React.Fragment>
         )

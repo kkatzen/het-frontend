@@ -1,4 +1,4 @@
-import { USA_FIPS, STATE_FIPS_MAP } from "./Fips";
+import { USA_FIPS, STATE_FIPS_MAP, COUNTY_FIPS_MAP } from "./Fips";
 
 // Map of phrase segment index to its selected value
 export type PhraseSelections = Record<number, string>;
@@ -8,6 +8,7 @@ export type PhraseSelector = Record<string, string>;
 
 // Each phrase segment of the mad lib is either a string of text
 // or a map of IDs to string options that can fill in a blank
+
 export type PhraseSegment = string | PhraseSelector;
 
 export type MadLibId =
@@ -77,7 +78,7 @@ const MADLIB_LIST: MadLib[] = [
       "Tell me about disparities for",
       DISPARITY_DROPDOWN_VAR,
       "in",
-      STATE_FIPS_MAP,
+      { ...STATE_FIPS_MAP, ...COUNTY_FIPS_MAP },
     ],
     defaultSelections: { 1: "covid", 3: USA_FIPS },
     activeSelections: { 1: "covid", 3: USA_FIPS },

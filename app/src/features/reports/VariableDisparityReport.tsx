@@ -12,6 +12,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
+import { Fips } from "../../utils/Fips";
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   covid: {
@@ -30,6 +31,7 @@ function asDate(dateStr: string) {
 function DisVarGeo(props: {
   dropdownVarId: DropdownVarId;
   stateFips: string;
+  fips: Fips;
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
