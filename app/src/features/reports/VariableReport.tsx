@@ -32,8 +32,6 @@ function VarGeoReport(props: {
   const variableId: VariableId = SUPPORTED_VARIABLES.includes(props.variable)
     ? (DDV_TO_VAR[props.variable] as VariableId)
     : ("diabetes_per_100k" as VariableId);
-  console.log("variableId", variableId);
-  console.log("props.variable", props.variable);
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
@@ -46,7 +44,6 @@ function VarGeoReport(props: {
           datasetStore.datasets,
           Breakdowns.byState().andRace()
         );
-        console.log(dataset);
 
         let tableDataset =
           props.fips.code === USA_FIPS
@@ -55,7 +52,6 @@ function VarGeoReport(props: {
                 Breakdowns.national().andRace()
               )
             : dataset.filter((r) => r.state_fips_code === props.fips.code);
-        console.log(tableDataset);
 
         return (
           <>

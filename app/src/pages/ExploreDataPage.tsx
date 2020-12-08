@@ -88,7 +88,6 @@ function ExploreDataPage() {
     ...MADLIB_LIST[initalIndex],
     activeSelections: defaultValuesWithOverrides,
   });
-  console.log(madLib);
 
   return (
     <React.Fragment>
@@ -150,7 +149,6 @@ function CarouselMadLib(props: {
   madLib: MadLib;
   setMadLib: (updatedMadLib: MadLib) => void;
 }) {
-  console.log(props.madLib);
   return (
     <Grid
       container

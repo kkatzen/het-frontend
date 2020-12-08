@@ -24,7 +24,6 @@ function ReportWrapper(props: { madLib: MadLib; setMadLib: Function }) {
       ...props.madLib.activeSelections,
     };
     updatedArray[geoIndex] = fips.code;
-    console.log(updatedArray);
     props.setMadLib({
       ...props.madLib,
       activeSelections: updatedArray,

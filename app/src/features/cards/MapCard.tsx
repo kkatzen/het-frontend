@@ -18,7 +18,7 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
 
-function NationalMapCard(props: {
+function MapCard(props: {
   fips: Fips;
   datasetIds: string[];
   varField: VariableId;
@@ -48,9 +48,6 @@ function NationalMapCard(props: {
     "Asian alone (Non-Hispanic)",
   ];
   const [race, setRace] = useState<string>(RACES[0]);
-
-  console.log(props.data);
-  console.log(props.data.filter((r) => r.race === race));
 
   return (
     <Card raised={true} className={styles.ChartCard}>
@@ -135,4 +132,4 @@ function NationalMapCard(props: {
   );
 }
 
-export default NationalMapCard;
+export default MapCard;
