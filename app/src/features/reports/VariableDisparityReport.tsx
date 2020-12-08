@@ -12,9 +12,7 @@ import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
-import Card from "@material-ui/core/Card";
 import { Fips } from "../../utils/Fips";
-import cardStyles from "../cards/Card.module.scss";
 
 export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
 

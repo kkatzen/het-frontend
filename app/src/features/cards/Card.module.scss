@@ -2,10 +2,9 @@
   text-align: left;
 }
 
-.TableCard {
-  max-height: 200px;
-  overflow: auto;
-  margin: 10px;
+.TableContainer {
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
 .ChartCard {

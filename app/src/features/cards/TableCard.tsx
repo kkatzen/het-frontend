@@ -1,19 +1,6 @@
-import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
-import WithDatasets from "../../utils/WithDatasets";
-import useDatasetStore from "../../utils/useDatasetStore";
-import { Breakdowns } from "../../utils/Breakdowns";
-import variableProviders, { VariableId } from "../../utils/variableProviders";
-import VariableProvider from "../../utils/variables/VariableProvider";
-import DisparityBarChartCard from "../cards/DisparityBarChartCard";
-import MapNavCardWithFilter from "../cards/MapNavCardWithFilter";
+import React from "react";
 import TableChart from "../charts/TableChart";
-import { DropdownVarId } from "../../utils/MadLibs";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
-import { Fips } from "../../utils/Fips";
 import cardStyles from "./Card.module.scss";
 import { Row } from "../../utils/DatasetTypes";
 
@@ -23,9 +10,12 @@ export interface Field {
 }
 
 function TableCard(props: { data: Row[]; fields?: Field[] }) {
+  // TODO- would be nice if the header row didn't scroll with content
   return (
-    <Card raised={true} className={cardStyles.TableCard}>
-      <TableChart data={props.data} fields={props.fields} />
+    <Card raised={true} className={cardStyles.ChartCard}>
+      <div className={cardStyles.TableContainer}>
+        <TableChart data={props.data} fields={props.fields} />
+      </div>
     </Card>
   );
 }
