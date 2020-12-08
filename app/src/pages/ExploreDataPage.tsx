@@ -159,6 +159,7 @@ function CarouselMadLib(props: {
               <Grid item>{phraseSegment}</Grid>
             ) : (
               <>
+                {/* TODO - don't use this hack to figure out if its a FIPS or not*/}
                 {Object.keys(phraseSegment).length > 10 ? (
                   <Grid item style={{ width: "250px" }}>
                     <FipsSelector
