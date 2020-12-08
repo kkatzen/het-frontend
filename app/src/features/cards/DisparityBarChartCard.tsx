@@ -18,18 +18,18 @@ import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
 import Divider from "@material-ui/core/Divider";
 import { Fips } from "../../utils/Fips";
 
-export type ChartToggle = "percent" | "ratio";
+export type ChartToggle = "percents" | "ratio";
 
 function DisparityBarChartCard(props: {
   dataset?: Row[];
   datasetIds: string[];
-  variableId: VariableId;
+  metricId: string;
   variableDisplayName: string;
   breakdownVar: string;
   breakdownVarDisplayName: string;
   fips: Fips;
 }) {
-  const [chartToggle, setChartToggle] = useState<ChartToggle>("percent");
+  const [chartToggle, setChartToggle] = useState<ChartToggle>("percents");
 
   return (
     <Card raised={true} className={styles.ChartCard}>
@@ -53,7 +53,7 @@ function DisparityBarChartCard(props: {
             onChange={(e, v) => setChartToggle(v)}
             aria-label="text alignment"
           >
-            <ToggleButton value="percent">Percent</ToggleButton>
+            <ToggleButton value="percents">Percents</ToggleButton>
             <ToggleButton value="ratio">Ratio</ToggleButton>
           </ToggleButtonGroup>
         )}
@@ -61,11 +61,11 @@ function DisparityBarChartCard(props: {
       <CardContent className={styles.Breadcrumbs}>
         {props.dataset && (
           <>
-            {chartToggle === "percent" && (
+            {chartToggle === "percents" && (
               <DisparityBarChart
                 data={props.dataset}
                 thickMeasure="population_pct"
-                thinMeasure={props.variableId}
+                thinMeasure={props.metricId + "_pct_of_geo"}
                 thickMeasureDisplayName="Population %"
                 thinMeasureDisplayName={
                   props.variableDisplayName + " as % of Geo"
@@ -74,13 +74,14 @@ function DisparityBarChartCard(props: {
                 breakdownVarDisplayName={props.breakdownVarDisplayName}
               />
             )}
-            {chartToggle !== "percent" && (
+            {chartToggle !== "percents" && (
               // TODO- calculate actual ratio
               <SimpleHorizontalBarChart
                 data={props.dataset}
                 breakdownVar={props.breakdownVar}
-                measure={"covid_cases_per_100k"}
-                measureDisplayName="COVID cases per 100k"
+                measure={props.metricId + "_per_100k"}
+                measureDisplayName={props.variableDisplayName + " per 100k"}
+                breakdownVarDisplayName="Race/Ethnicity"
               />
             )}
             <LinkWithStickyParams
