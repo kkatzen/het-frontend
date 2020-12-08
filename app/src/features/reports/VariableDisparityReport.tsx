@@ -5,22 +5,16 @@ import useDatasetStore from "../../utils/useDatasetStore";
 import { Breakdowns } from "../../utils/Breakdowns";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
+import TwoVarBarChart from "../charts/TwoVarBarChart";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
-import { Alert } from "@material-ui/lab";
-import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 
-// TODO- investigate type check error to see if we can remove @ts-ignore
-const VARIABLE_DISPLAY_NAMES: Record<
-  DropdownVarId,
-  Record<VariableId, string>
-> = {
-  // @ts-ignore
+const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   covid: {
-    // @ts-ignore
     covid_cases_pct_of_geo: "COVID-19 Cases",
     covid_deaths_pct_of_geo: "COVID-19  Deaths",
     covid_hosp_pct_of_geo: "COVID-19 Hospitalizations",

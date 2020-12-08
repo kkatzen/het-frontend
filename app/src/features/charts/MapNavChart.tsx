@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
-import { USA_FIPS, USA_DISPLAY_NAME, STATE_FIPS_MAP } from "../../utils/Fips";
+import { USA_FIPS, USA_DISPLAY_NAME, Fips } from "../../utils/Fips";
 import Alert from "@material-ui/lab/Alert";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
@@ -27,34 +27,27 @@ function GeographyBreadcrumb(props: {
 }
 
 function MapNavChart(props: {
+  fips: Fips;
   varField: VariableId;
   varFieldDisplayName: string;
-  fipsGeo: string;
-  countyFips: string | undefined;
   data: Record<string, any>[];
-  updateGeoCallback: (message: string) => void;
+  updateFipsCallback: (fips: Fips) => void;
 }) {
-  const [countyName, setCountyName] = useState<string>();
-
-  useEffect(() => {
-    setCountyName(undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.fipsGeo]);
-
   const signalListeners: any = {
     click: (...args: any) => {
       const clickedData = args[1];
-      props.updateGeoCallback(clickedData.id);
-      if (clickedData.id.length === 5) {
-        setCountyName(clickedData.properties.name);
+      const fips = new Fips(clickedData.id);
+      if (fips.isCounty()) {
+        fips.setCountyName(clickedData.properties.name);
       }
+      props.updateFipsCallback(fips);
     },
   };
 
   // TODO - make the mouse turn into a pointer when you hover over
   return (
     <div>
-      {props.fipsGeo !== USA_FIPS && (
+      {!props.fips.isUsa() && (
         <Alert severity="error">
           This dataset does not provide county level data
         </Alert>
@@ -62,23 +55,25 @@ function MapNavChart(props: {
       <Breadcrumbs aria-label="breadcrumb">
         <GeographyBreadcrumb
           text={USA_DISPLAY_NAME}
-          isClickable={props.fipsGeo !== USA_FIPS}
+          isClickable={!props.fips.isUsa()}
           onClick={() => {
-            props.updateGeoCallback(USA_FIPS);
-            setCountyName(undefined);
+            props.updateFipsCallback(new Fips(USA_FIPS));
           }}
         />
-        {props.fipsGeo !== USA_FIPS && (
+        {!props.fips.isUsa() && (
           <GeographyBreadcrumb
-            text={STATE_FIPS_MAP[props.fipsGeo]}
-            isClickable={!!countyName}
+            text={props.fips.getStateDisplayName()}
+            isClickable={!props.fips.isState()}
             onClick={() => {
-              props.updateGeoCallback(props.fipsGeo.substring(0, 2));
+              props.updateFipsCallback(props.fips.getParentFips());
             }}
           />
         )}
-        {countyName && (
-          <GeographyBreadcrumb text={countyName} isClickable={false} />
+        {props.fips.isCounty() && (
+          <GeographyBreadcrumb
+            text={props.fips.countyName}
+            isClickable={false}
+          />
         )}
       </Breadcrumbs>
       <UsaChloroplethMap
@@ -86,9 +81,8 @@ function MapNavChart(props: {
         varField={props.varField}
         legendTitle={props.varFieldDisplayName}
         data={props.data}
-        hideLegend={props.fipsGeo === USA_FIPS ? false : true}
-        stateFips={props.fipsGeo === USA_FIPS ? undefined : props.fipsGeo}
-        countyFips={props.countyFips}
+        hideLegend={props.fips.isUsa()} // TODO - update logic here when we have county level data
+        fips={props.fips}
       />
     </div>
   );

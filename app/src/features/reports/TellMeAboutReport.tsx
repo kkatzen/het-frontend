@@ -17,7 +17,7 @@ import useDatasetStore from "../../utils/useDatasetStore";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import { ALL_RACES_DISPLAY_NAME } from "../../utils/Fips";
+import { ALL_RACES_DISPLAY_NAME, Fips, USA_FIPS } from "../../utils/Fips";
 import Alert from "@material-ui/lab/Alert";
 
 interface County {
@@ -133,6 +133,7 @@ function TellMeAboutReport(props: { variable: VariableId }) {
                 varField={props.variable}
                 legendTitle={variableProvider.variableName}
                 data={dataset}
+                fips={new Fips(USA_FIPS)}
               />
               <p>
                 Click on some states to see data in this table, shift click on
