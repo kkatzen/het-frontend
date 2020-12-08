@@ -15,11 +15,12 @@ import Card from "@material-ui/core/Card";
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   diabetes: {
-    diabetes_count: "Diabetes Case Count",
+    diabetes_per_100k: "Diabetes Cases per 100k persons",
   },
+  /*
   copd: {
-    copd_count: "COPD Case Count",
-  },
+    copd_per_100k: "COPD Cases per 100k persons",
+  },*/
 };
 
 function VarGeoReport(props: {

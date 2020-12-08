@@ -39,8 +39,6 @@ class CopdProvider extends VariableProvider {
 
     return df
       .generateSeries({
-        diabetes_per_100k: (row) =>
-          per100k(row.copd_count, row.copd_count + row.copd_no),
         copd_per_100k: (row) =>
           per100k(row.copd_count, row.copd_count + row.copd_no),
       })
