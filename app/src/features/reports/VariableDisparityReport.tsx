@@ -129,6 +129,7 @@ function DisVarGeo(props: {
                       }
                       breakdownVar="hispanic_or_latino_and_race"
                       breakdownVarDisplayName="Race/Ethnicity"
+                      fips={props.fips}
                     />
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
@@ -138,6 +139,7 @@ function DisVarGeo(props: {
                       }
                       breakdownVar="age"
                       breakdownVarDisplayName="Age"
+                      fips={props.fips}
                     />
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
@@ -147,6 +149,7 @@ function DisVarGeo(props: {
                       }
                       breakdownVar="gender"
                       breakdownVarDisplayName="Gender"
+                      fips={props.fips}
                     />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>

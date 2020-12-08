@@ -5,7 +5,8 @@ import { Row } from "../../utils/DatasetTypes";
 function getSpec(
   data: Record<string, any>[],
   dim1: string,
-  measure: string
+  measure: string,
+  measureDisplayName: string
 ): VisualizationSpec {
   return {
     $schema: "https://vega.github.io/schema/vega-lite/v4.json",
@@ -39,8 +40,18 @@ function SimpleHorizontalBarChart(props: {
   data: Row[];
   breakdownVar: string;
   measure: string;
+  measureDisplayName: string;
 }) {
-  return <Vega spec={getSpec(props.data, props.breakdownVar, props.measure)} />;
+  return (
+    <Vega
+      spec={getSpec(
+        props.data,
+        props.breakdownVar,
+        props.measure,
+        props.measureDisplayName
+      )}
+    />
+  );
 }
 
 export default SimpleHorizontalBarChart;
