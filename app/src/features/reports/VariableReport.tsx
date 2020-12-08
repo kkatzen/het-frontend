@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
@@ -50,7 +50,6 @@ function VarGeoReport(props: {
   const [fips, setFips] = useState<Fips>(new Fips(props.stateFips));
 
   useEffect(() => {
-    console.log(props.stateFips);
     setFips(new Fips(props.stateFips));
   }, [props.stateFips]);
 

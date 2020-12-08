@@ -5,7 +5,7 @@ import useDatasetStore from "../../utils/useDatasetStore";
 import { Breakdowns } from "../../utils/Breakdowns";
 import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import TwoVarBarChart from "../charts/TwoVarBarChart";
+import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import TableChart from "../charts/TableChart";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
