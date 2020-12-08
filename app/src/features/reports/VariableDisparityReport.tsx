@@ -84,7 +84,6 @@ function DisVarGeo(props: {
                     Breakdowns.national().andTime().andRace(true)
                   )
                 )
-                .filter((row) => row.state_fips_code === props.fips.code)
                 .filter(
                   (row) =>
                     !row.hispanic_or_latino_and_race.includes(
@@ -100,6 +99,10 @@ function DisVarGeo(props: {
 
               const dataset = mostRecent.filter(
                 (r) => r.hispanic_or_latino_and_race !== "Total"
+              );
+
+              const geoFilteredDataset = dataset.filter(
+                (row) => row.state_fips_code === props.fips.code
               );
 
               return (
@@ -130,7 +133,8 @@ function DisVarGeo(props: {
                       datasetIds={datasetIds}
                       varField={(metric + "_per_100k") as VariableId}
                       varFieldDisplayName={
-                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
+                        VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric] +
+                        " per 100k"
                       }
                       fips={props.fips}
                       updateFipsCallback={(fips: Fips) => {
@@ -139,7 +143,7 @@ function DisVarGeo(props: {
                     />
                     <Card raised={true} className={cardStyles.ChartCard}>
                       <TableChart
-                        data={dataset}
+                        data={geoFilteredDataset}
                         fields={[
                           {
                             name: "hispanic_or_latino_and_race",
@@ -170,7 +174,7 @@ function DisVarGeo(props: {
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
                     <DisparityBarChartCard
-                      dataset={dataset}
+                      dataset={geoFilteredDataset}
                       datasetIds={datasetIds}
                       metricId={metric}
                       variableDisplayName={
