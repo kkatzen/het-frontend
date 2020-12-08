@@ -91,7 +91,9 @@ class Fips {
   }
 
   getDisplayName() {
-    return this.isCounty() ? this.countyName : STATE_FIPS_MAP[this.code];
+    return this.isCounty()
+      ? `${this.countyName}, ${this.getStateDisplayName()}`
+      : STATE_FIPS_MAP[this.code];
   }
 
   setCountyName(countyName: string) {
