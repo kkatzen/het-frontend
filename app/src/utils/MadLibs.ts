@@ -123,7 +123,7 @@ const MADLIB_LIST: MadLib[] = [
   },
   {
     id: "dump",
-    phrase: ["Show me ALL THE CHARTS!!!!"],
+    phrase: ["Show me additional chart options"],
     defaultSelections: {},
     activeSelections: {},
   },
