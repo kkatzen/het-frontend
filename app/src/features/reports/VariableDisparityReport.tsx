@@ -7,7 +7,7 @@ import variableProviders, { VariableId } from "../../utils/variableProviders";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapNavCardWithFilter from "../cards/MapNavCardWithFilter";
-import TableChart from "../charts/TableChart";
+import TableCard from "../cards/TableCard";
 import { DropdownVarId } from "../../utils/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
@@ -141,36 +141,34 @@ function DisVarGeo(props: {
                         props.updateFipsCallback(fips);
                       }}
                     />
-                    <Card raised={true} className={cardStyles.ChartCard}>
-                      <TableChart
-                        data={geoFilteredDataset}
-                        fields={[
-                          {
-                            name: "hispanic_or_latino_and_race",
-                            displayName: "Race",
-                          },
-                          { name: "population", displayName: "Population" },
-                          {
-                            name: "population_pct",
-                            displayName: "Population %",
-                          },
-                          {
-                            name: metric + "_pct_of_geo",
-                            displayName:
-                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
-                                metric
-                              ] + " as % of Geo",
-                          },
-                          {
-                            name: metric + "_per_100k",
-                            displayName:
-                              VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
-                                metric
-                              ] + " per 100k",
-                          },
-                        ]}
-                      />
-                    </Card>
+                    <TableCard
+                      data={geoFilteredDataset}
+                      fields={[
+                        {
+                          name: "hispanic_or_latino_and_race",
+                          displayName: "Race",
+                        },
+                        { name: "population", displayName: "Population" },
+                        {
+                          name: "population_pct",
+                          displayName: "Population %",
+                        },
+                        {
+                          name: metric + "_pct_of_geo",
+                          displayName:
+                            VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
+                              metric
+                            ] + " as % of Geo",
+                        },
+                        {
+                          name: metric + "_per_100k",
+                          displayName:
+                            VARIABLE_DISPLAY_NAMES[props.dropdownVarId][
+                              metric
+                            ] + " per 100k",
+                        },
+                      ]}
+                    />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
                     <DisparityBarChartCard

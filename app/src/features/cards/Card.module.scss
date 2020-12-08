@@ -2,6 +2,12 @@
   text-align: left;
 }
 
+.TableCard {
+  max-height: 200px;
+  overflow: auto;
+  margin: 10px;
+}
+
 .ChartCard {
   margin: 10px;
 }

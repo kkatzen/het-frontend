@@ -57,7 +57,7 @@ const DROPDOWN_VAR: Record<DropdownVarId, string> = {
   diabetes: "diabetes",
   obesity: "[coming soon] obesity",
   asthma: "[coming soon] asthma",
-  copd: "copd",
+  copd: "[coming soon] copd",
 };
 
 // TODO- investigate type check error to see if we can remove
