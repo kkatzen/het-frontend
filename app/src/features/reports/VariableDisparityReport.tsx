@@ -12,6 +12,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
+import cardStyles from "../cards/Card.module.scss";
 
 const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
   covid: {
@@ -148,7 +149,7 @@ function DisVarGeo(props: {
                     />
                   </Grid>
                   <Grid item xs={props.vertical ? 12 : 6}>
-                    <Card raised={true} style={{ margin: "10px" }}>
+                    <Card raised={true} className={cardStyles.ChartCard}>
                       <TableChart
                         data={dataset}
                         fields={[

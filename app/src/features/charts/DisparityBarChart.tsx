@@ -192,6 +192,7 @@ function getSpec(
       {
         stroke: "variables",
         title: "Variables",
+        orient: "top",
         padding: 4,
         encode: {
           symbols: {
@@ -206,7 +207,7 @@ function getSpec(
   };
 }
 
-function TwoVarBarChart(props: {
+function DisparityBarChart(props: {
   data: Row[];
   thickMeasure: string;
   thinMeasure: string;
@@ -235,4 +236,4 @@ function TwoVarBarChart(props: {
   );
 }
 
-export default TwoVarBarChart;
+export default DisparityBarChart;
