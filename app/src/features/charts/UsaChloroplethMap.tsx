@@ -190,7 +190,7 @@ function UsaChloroplethMap(props: {
     >
       <Vega
         spec={spec}
-        width={width ? width : 100}
+        width={width ? width : 100} // Set a default value until width is set
         signalListeners={props.signalListeners}
       />
     </div>

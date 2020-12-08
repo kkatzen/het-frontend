@@ -221,7 +221,7 @@ function DisparityBarChart(props: {
       <Vega
         spec={getSpec(
           props.data,
-          width ? width : 100,
+          width ? width : 100, // Set a default value until width is set
           props.breakdownVar,
           props.breakdownVarDisplayName,
           props.thickMeasure,
