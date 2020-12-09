@@ -217,13 +217,15 @@ function DisparityBarChart(props: {
   breakdownVar: string;
   breakdownVarDisplayName: string;
 }) {
-  const [ref, width] = useResponsiveWidth();
+  const [ref, width] = useResponsiveWidth(
+    100 /* default width during intialization */
+  );
   return (
     <div ref={ref as RefObject<HTMLDivElement>}>
       <Vega
         spec={getSpec(
           props.data,
-          width ? width : 100, // Set a default value until width is set
+          width,
           props.breakdownVar,
           props.breakdownVarDisplayName,
           props.thickMeasure,
