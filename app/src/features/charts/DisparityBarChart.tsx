@@ -194,7 +194,6 @@ function getSpec(
     legends: [
       {
         stroke: "variables",
-        title: "Variables",
         orient: "top",
         padding: 4,
         encode: {
