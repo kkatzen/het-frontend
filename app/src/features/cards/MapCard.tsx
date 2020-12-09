@@ -33,13 +33,21 @@ function MapCard(props: {
   // TODO - pull these from the data itself
   const RACES = [
     "Total",
-    "Not Hispanic or Latino",
-    "White alone",
-    "White alone (Non-Hispanic)",
-    "Black or African American alone (Non-Hispanic)",
-    "Hispanic or Latino",
+    "American Indian and Alaska Native alone",
+    "American Indian and Alaska Native alone (Non-Hispanic)",
     "Asian alone",
     "Asian alone (Non-Hispanic)",
+    "Black or African American alone",
+    "Black or African American alone (Non-Hispanic)",
+    "Hispanic or Latino",
+    "Native Hawaiian and Other Pacific Islander alone",
+    "Native Hawaiian and Other Pacific Islander alone (Non-Hispanic)",
+    "Some other race alone",
+    "Some other race alone (Non-Hispanic)",
+    "Two or more races",
+    "Two or more races (Non-Hispanic)",
+    "White alone",
+    "White alone (Non-Hispanic)",
   ];
   const [race, setRace] = useState<string>(RACES[0]);
 
@@ -105,9 +113,7 @@ function MapCard(props: {
               legendTitle={props.varFieldDisplayName}
               data={
                 props.enableFilter
-                  ? props.data.filter(
-                      (r) => r.hispanic_or_latino_and_race === race
-                    )
+                  ? props.data.filter((r) => r.race_and_ethnicity === race)
                   : props.data
               }
               hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
