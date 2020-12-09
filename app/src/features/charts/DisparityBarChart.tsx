@@ -106,7 +106,7 @@ function getSpec(
             x: { scale: "x", field: thickMeasure },
             y: { scale: "y", field: breakdownVar, band: 0.8 },
             text: {
-              signal: `format(datum["${thickMeasure}"], "") + "%"`,
+              signal: `isValid(datum["${thickMeasure}"]) ? datum["${thickMeasure}"] + "%" : "" `,
             },
           },
         },
@@ -125,7 +125,7 @@ function getSpec(
             x: { scale: "x", field: thinMeasure },
             y: { scale: "y", field: breakdownVar, band: 0.3 },
             text: {
-              signal: `format(datum["${thinMeasure}"], "") + "%"`,
+              signal: `isValid(datum["${thinMeasure}"]) ? datum["${thinMeasure}"] + "%" : "" `,
             },
           },
         },
