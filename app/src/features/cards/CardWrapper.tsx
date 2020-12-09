@@ -7,13 +7,20 @@ import {
   DATA_CATALOG_PAGE_LINK,
 } from "../../utils/urlutils";
 import { CardContent } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 
 function CardWrapper(props: {
   datasetIds: string[];
+  titleText: string;
   children: () => JSX.Element;
 }) {
   return (
     <Card raised={true} className={styles.ChartCard}>
+      <CardContent>
+        <Typography className={styles.CardHeader}>{props.titleText}</Typography>
+      </CardContent>
+      <Divider />
       {props.children()}
       <CardContent>
         <LinkWithStickyParams

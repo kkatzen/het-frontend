@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import DisparityBarChart from "../charts/DisparityBarChart";
-import Typography from "@material-ui/core/Typography";
 import styles from "./Card.module.scss";
 import { Alert } from "@material-ui/lab";
 import { Row } from "../../utils/DatasetTypes";
@@ -25,17 +24,16 @@ function DisparityBarChartCard(props: {
 }) {
   const [chartToggle, setChartToggle] = useState<ChartToggle>("percents");
 
+  // TODO - we want to bold the breakdown name in the card title
   return (
-    <CardWrapper datasetIds={props.datasetIds}>
+    <CardWrapper
+      datasetIds={props.datasetIds}
+      titleText={`Disparities in ${props.variableTitle} by ${
+        props.breakdownVarDisplayName
+      } in ${props.fips.getFullDisplayName()}`}
+    >
       {() => (
         <>
-          <CardContent>
-            <Typography gutterBottom className={styles.CardHeader}>
-              Disparities in {props.variableTitle} by{" "}
-              <b>{props.breakdownVarDisplayName}</b> in{" "}
-              {props.fips.getFullDisplayName()}
-            </Typography>
-          </CardContent>
           <CardContent className={styles.Breadcrumbs}>
             {!props.dataset && (
               <Alert severity="warning">

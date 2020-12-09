@@ -177,7 +177,7 @@ function getSpec(
         scale: "x",
         orient: "bottom",
         grid: false,
-        title: `${thickMeasureDisplayName} and ${thinMeasureDisplayName} `,
+        title: `${thickMeasureDisplayName} vs. ${thinMeasureDisplayName} `,
         labelFlush: true,
         labelOverlap: true,
         tickCount: { signal: "ceil(width/40)" },

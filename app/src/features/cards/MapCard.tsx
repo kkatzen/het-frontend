@@ -4,7 +4,6 @@ import { Fips } from "../../utils/Fips";
 import Alert from "@material-ui/lab/Alert";
 import { VariableId } from "../../utils/variableProviders";
 import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
 import { CardContent } from "@material-ui/core";
 import styles from "./Card.module.scss";
 import Select from "@material-ui/core/Select";
@@ -45,16 +44,14 @@ function MapCard(props: {
   const [race, setRace] = useState<string>(RACES[0]);
 
   return (
-    <CardWrapper datasetIds={props.datasetIds}>
+    <CardWrapper
+      datasetIds={props.datasetIds}
+      titleText={`${
+        props.varFieldDisplayName
+      } in ${props.fips.getFullDisplayName()}`}
+    >
       {() => (
         <>
-          <CardContent>
-            <Typography variant="h6">
-              {props.varFieldDisplayName} in {props.fips.getFullDisplayName()}
-            </Typography>
-          </CardContent>
-
-          <Divider />
           <CardContent className={styles.Breadcrumbs}>
             <MapBreadcrumbs
               fips={props.fips}

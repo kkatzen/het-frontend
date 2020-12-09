@@ -55,7 +55,7 @@ function DisVarGeo(props: {
   const [metric, setMetric] = useState<MetricToggle>(
     SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId)
       ? (METRIC_VARIABLES[props.dropdownVarId as string][0] as MetricToggle)
-      : (METRIC_VARIABLES[0][0] as MetricToggle)
+      : ("covid_cases" as MetricToggle)
   );
 
   const datasetStore = useDatasetStore();
