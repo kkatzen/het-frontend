@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useState, useEffect } from "react";
 import { Vega } from "react-vega";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
@@ -26,7 +24,9 @@ function UsaChloroplethMap(props: {
   numberFormat?: NumberFormat;
   hideLegend?: boolean;
 }) {
-  const [ref, width] = useResponsiveWidth();
+  const [ref, width] = useResponsiveWidth(
+    100 /* default width during intialization */
+  );
 
   // Initial spec state is set in useEffect
   const [spec, setSpec] = useState({});
@@ -71,7 +71,8 @@ function UsaChloroplethMap(props: {
     let legendList = [];
     let legend: any = {
       fill: "colorScale",
-      orient: "top-right",
+      direction: "horizontal",
+      orient: "bottom-left",
       title: props.legendTitle,
       font: "monospace",
       labelFont: "monospace",
@@ -175,7 +176,6 @@ function UsaChloroplethMap(props: {
     width,
     props.varField,
     props.legendTitle,
-    props.operation,
     props.numberFormat,
     props.data,
     props.fips,

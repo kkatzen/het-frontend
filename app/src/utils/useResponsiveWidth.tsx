@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { RefObject } from "react";
 
-export function useResponsiveWidth() {
-  const [width, setWidth] = useState<number | undefined>();
+export function useResponsiveWidth(
+  defaultWidth: number
+): [RefObject<HTMLDivElement>, number] {
+  const [width, setWidth] = useState<number>(defaultWidth);
   // Initial spec state is set in useEffect when default geo is set
-  const ref = useRef(document.createElement("div"));
+  const ref = useRef<HTMLDivElement>(document.createElement("div"));
 
   useEffect(() => {
     if (ref && ref.current) {

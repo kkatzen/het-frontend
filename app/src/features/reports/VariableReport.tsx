@@ -9,7 +9,7 @@ import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS, Fips } from "../../utils/Fips";
-import MapNavChart from "../charts/MapNavChart";
+import MapNavCard from "../cards/MapNavCard";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
@@ -50,7 +50,6 @@ function VarGeoReport(props: {
   const [fips, setFips] = useState<Fips>(new Fips(props.stateFips));
 
   useEffect(() => {
-    console.log(props.stateFips);
     setFips(new Fips(props.stateFips));
   }, [props.stateFips]);
 
@@ -88,21 +87,16 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  <Card
-                    raised={true}
-                    style={{ margin: "10px", padding: "20px" }}
-                  >
-                    <MapNavChart
-                      data={dataset}
-                      varField={variableId}
-                      varFieldDisplayName={variableDisplayName}
-                      fips={fips}
-                      updateFipsCallback={(fips: Fips) => {
-                        setFips(fips);
-                        props.updateStateCallback(fips.getStateFipsCode());
-                      }}
-                    />
-                  </Card>
+                  <MapNavCard
+                    data={dataset}
+                    varField={variableId}
+                    varFieldDisplayName={variableDisplayName}
+                    fips={fips}
+                    updateFipsCallback={(fips: Fips) => {
+                      setFips(fips);
+                      props.updateStateCallback(fips.getStateFipsCode());
+                    }}
+                  />
                 </Grid>
                 <Grid
                   item
@@ -124,6 +118,7 @@ function VarGeoReport(props: {
                         ]}
                       />
                     )}
+
                     {fips.isCounty() && (
                       <Alert severity="error">
                         This dataset does not provide county level data

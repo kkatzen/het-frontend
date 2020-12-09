@@ -1,9 +1,11 @@
 import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
+import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
 
 function getSpec(
   data: Record<string, any>[],
+  width: number,
   breakdownVar: string,
   breakdownVarDisplayName: string,
   thickMeasure: string,
@@ -17,13 +19,14 @@ function getSpec(
   const THIN_MEASURE_COLOR = "#4c78a8";
   const THICK_MEASURE_COLOR = "#89B7D5";
   const DATASET = "DATASET";
+  const WIDTH_PADDING_FOR_SNOWMAN_MENU = 50;
 
   return {
     $schema: "https://vega.github.io/schema/vega/v5.json",
     background: "white",
     padding: 5,
-    height: 500,
-    width: 300,
+    autosize: { resize: true, type: "fit-x" },
+    width: width - WIDTH_PADDING_FOR_SNOWMAN_MENU,
     style: "cell",
     data: [
       {
@@ -188,6 +191,7 @@ function getSpec(
       {
         stroke: "variables",
         title: "Variables",
+        orient: "top",
         padding: 4,
         encode: {
           symbols: {
@@ -202,7 +206,7 @@ function getSpec(
   };
 }
 
-function TwoVarBarChart(props: {
+function DisparityBarChart(props: {
   data: Row[];
   thickMeasure: string;
   thinMeasure: string;
@@ -211,19 +215,25 @@ function TwoVarBarChart(props: {
   breakdownVar: string;
   breakdownVarDisplayName: string;
 }) {
+  const [ref, width] = useResponsiveWidth(
+    100 /* default width during intialization */
+  );
   return (
-    <Vega
-      spec={getSpec(
-        props.data,
-        props.breakdownVar,
-        props.breakdownVarDisplayName,
-        props.thickMeasure,
-        props.thickMeasureDisplayName,
-        props.thinMeasure,
-        props.thinMeasureDisplayName
-      )}
-    />
+    <div ref={ref}>
+      <Vega
+        spec={getSpec(
+          props.data,
+          width,
+          props.breakdownVar,
+          props.breakdownVarDisplayName,
+          props.thickMeasure,
+          props.thickMeasureDisplayName,
+          props.thinMeasure,
+          props.thinMeasureDisplayName
+        )}
+      />
+    </div>
   );
 }
 
-export default TwoVarBarChart;
+export default DisparityBarChart;
