@@ -16,9 +16,9 @@ import MapCard from "../cards/MapCard";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
-const SUPPORTED_VARIABLES: DropdownVarId[] = ["diabetes"];
-
-const DDV_TO_VAR: Record<string, string> = {
+// TODO - remove hardcoded values when we have full support
+const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["diabetes"];
+const METRIC_VARIABLES: Record<string, string> = {
   diabetes: "diabetes_per_100k",
 };
 
@@ -29,8 +29,10 @@ function VarGeoReport(props: {
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
-  const variableId: VariableId = SUPPORTED_VARIABLES.includes(props.variable)
-    ? (DDV_TO_VAR[props.variable] as VariableId)
+  const variableId: VariableId = SUPPORTED_MADLIB_VARIABLES.includes(
+    props.variable
+  )
+    ? (METRIC_VARIABLES[props.variable] as VariableId)
     : ("diabetes_per_100k" as VariableId);
 
   const datasetStore = useDatasetStore();
@@ -55,14 +57,14 @@ function VarGeoReport(props: {
 
         return (
           <>
-            {!SUPPORTED_VARIABLES.includes(props.variable) && (
+            {!SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
               <Grid container xs={12} spacing={1} justify="center">
                 <Grid item xs={5}>
                   <Alert severity="error">Data not currently available</Alert>
                 </Grid>
               </Grid>
             )}
-            {SUPPORTED_VARIABLES.includes(props.variable) && (
+            {SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
               <Grid container spacing={1} alignItems="flex-start">
                 <Grid
                   item

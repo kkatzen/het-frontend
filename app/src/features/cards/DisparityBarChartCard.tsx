@@ -71,11 +71,8 @@ function DisparityBarChartCard(props: {
                   <SimpleHorizontalBarChart
                     data={props.dataset}
                     breakdownVar={props.breakdownVar}
-                    measure={props.metricId + "_per_100k"}
-                    measureDisplayName={
-                      props.variableTitle + " per 100,000 people"
-                    }
-                    breakdownVarDisplayName="Race/Ethnicity"
+                    measure={(props.metricId + "_per_100k") as VariableId}
+                    breakdownVarDisplayName={props.breakdownVarDisplayName}
                     showLegend={false}
                   />
                 )}

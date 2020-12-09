@@ -1,7 +1,11 @@
-import React, { RefObject } from "react";
+import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
+import {
+  VariableId,
+  VARIABLE_DISPLAY_NAME_MAP,
+} from "../../utils/variableProviders";
 
 function getSpec(
   data: Record<string, any>[],
@@ -164,8 +168,7 @@ function getSpec(
 
 function SimpleHorizontalBarChart(props: {
   data: Row[];
-  measure: string;
-  measureDisplayName: string;
+  measure: VariableId;
   breakdownVar: string;
   breakdownVarDisplayName: string;
   showLegend: boolean;
@@ -174,7 +177,7 @@ function SimpleHorizontalBarChart(props: {
     100 /* default width during intialization */
   );
   return (
-    <div ref={ref as RefObject<HTMLDivElement>}>
+    <div ref={ref}>
       <Vega
         spec={getSpec(
           props.data,
@@ -182,7 +185,7 @@ function SimpleHorizontalBarChart(props: {
           props.breakdownVar,
           props.breakdownVarDisplayName,
           props.measure,
-          props.measureDisplayName,
+          VARIABLE_DISPLAY_NAME_MAP[props.measure],
           props.showLegend
         )}
       />
