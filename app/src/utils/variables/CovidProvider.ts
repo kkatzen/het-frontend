@@ -42,8 +42,8 @@ class CovidProvider extends VariableProvider {
       breakdowns.geography === "state"
         ? df
         : df
-            .pivot(["date", "hispanic_or_latino_and_race"], {
-              state_fips_code: (series) => USA_FIPS,
+            .pivot(["date", "race_and_ethnicity"], {
+              state_fips: (series) => USA_FIPS,
               state_name: (series) => USA_DISPLAY_NAME,
               covid_cases: (series) => series.sum(),
               covid_deaths: (series) => series.sum(),
@@ -58,10 +58,15 @@ class CovidProvider extends VariableProvider {
         new Breakdowns(breakdowns.geography, breakdowns.demographic)
       )
     );
-    df = joinOnCols(df, acsPopulation, [
-      "state_name",
-      "hispanic_or_latino_and_race",
-    ]);
+
+    const supportedGeos = acsPopulation
+      .distinct((row) => row.state_fips)
+      .getSeries("state_fips")
+      .toArray();
+    const unknowns = df
+      .where((row) => row.race_and_ethnicity === "Unknown")
+      .where((row) => supportedGeos.includes(row.state_fips));
+    df = joinOnCols(df, acsPopulation, ["state_fips", "race_and_ethnicity"]);
 
     df = df
       .generateSeries({
@@ -72,10 +77,12 @@ class CovidProvider extends VariableProvider {
       })
       .resetIndex();
 
+    df = df.concat(unknowns);
+
     ["covid_cases", "covid_deaths", "covid_hosp"].forEach((col) => {
-      df = applyToGroups(df, ["date", "state_name"], (group) => {
+      df = applyToGroups(df, ["date", "state_fips"], (group) => {
         const total = group
-          .where((r) => r.hispanic_or_latino_and_race === "Total")
+          .where((r) => r.race_and_ethnicity === "Total")
           .first()[col];
         return group.generateSeries({
           [col + "_pct_of_geo"]: (row) => percent(row[col], total),

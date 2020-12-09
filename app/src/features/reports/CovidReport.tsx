@@ -40,12 +40,10 @@ function CovidReport(props: { variable: VariableId; stateFips: string }) {
                   Breakdowns.national().andTime().andRace(true)
                 )
               )
-              .filter((row) => row.state_fips_code === props.stateFips)
+              .filter((row) => row.state_fips === props.stateFips)
               .filter(
                 (row) =>
-                  !row.hispanic_or_latino_and_race.includes(
-                    "Some other race alone"
-                  )
+                  !row.race_and_ethnicity.includes("Some other race alone")
               );
 
             const dateTimes = data.map((row) => asDate(row.date).getTime());
@@ -82,39 +80,39 @@ function CovidReport(props: { variable: VariableId; stateFips: string }) {
                 {covidProvider.variableId.endsWith("pct_of_geo") && (
                   <DisparityBarChart
                     data={mostRecent.filter(
-                      (r) => r.hispanic_or_latino_and_race !== "Total"
+                      (r) => r.race_and_ethnicity !== "Total"
                     )}
                     thickMeasure="population_pct"
                     thinMeasure={covidProvider.variableId}
                     thickMeasureDisplayName="Population %"
                     thinMeasureDisplayName={covidProvider.variableId}
-                    breakdownVar="hispanic_or_latino_and_race"
+                    breakdownVar="race_and_ethnicity"
                     breakdownVarDisplayName="Race/Ethnicity"
                   />
                 )}
                 <LineChart
                   data={data}
-                  breakdownVar="hispanic_or_latino_and_race"
+                  breakdownVar="race_and_ethnicity"
                   variable={covidProvider.variableId}
                   timeVariable="date"
                 />
                 <SimpleHorizontalBarChart
                   data={mostRecent}
-                  breakdownVar="hispanic_or_latino_and_race"
+                  breakdownVar="race_and_ethnicity"
                   measure={covidProvider.variableId}
                 />
                 <SimpleHorizontalBarChart
                   data={populationData.filter(
-                    (row) => row.state_fips_code === props.stateFips
+                    (row) => row.state_fips === props.stateFips
                   )}
-                  breakdownVar="hispanic_or_latino_and_race"
+                  breakdownVar="race_and_ethnicity"
                   measure={popProvider.variableId}
                 />
                 <SimpleHorizontalBarChart
                   data={populationDataStandardized.filter(
-                    (row) => row.state_fips_code === props.stateFips
+                    (row) => row.state_fips === props.stateFips
                   )}
-                  breakdownVar="hispanic_or_latino_and_race"
+                  breakdownVar="race_and_ethnicity"
                   measure={popProvider.variableId}
                 />
               </>

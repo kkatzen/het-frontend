@@ -67,7 +67,7 @@ function VarGeoReport(props: {
                 datasetStore.datasets,
                 Breakdowns.national().andRace()
               )
-            : dataset.filter((r) => r.state_fips_code === fips.code);
+            : dataset.filter((r) => r.state_fips === fips.code);
 
         return (
           <>

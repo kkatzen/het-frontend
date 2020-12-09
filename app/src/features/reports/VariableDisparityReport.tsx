@@ -78,22 +78,17 @@ function DisVarGeo(props: {
                     Breakdowns.national().andTime().andRace(true)
                   )
                 )
-                .filter((row) => row.state_fips_code === props.stateFips)
+                .filter((row) => row.state_fips === props.stateFips)
                 .filter(
                   (row) =>
-                    !row.hispanic_or_latino_and_race.includes(
-                      "Some other race alone"
-                    )
+                    row.race_and_ethnicity !== "Total" &&
+                    row.race_and_ethnicity !== "Not Hispanic or Latino"
                 );
 
               const dateTimes = data.map((row) => asDate(row.date).getTime());
               const lastDate = new Date(Math.max(...dateTimes));
-              const mostRecent = data.filter(
+              const dataset = data.filter(
                 (row) => asDate(row.date).getTime() === lastDate.getTime()
-              );
-
-              const dataset = mostRecent.filter(
-                (r) => r.hispanic_or_latino_and_race !== "Total"
               );
 
               return (
@@ -126,7 +121,7 @@ function DisVarGeo(props: {
                       variableDisplayName={
                         VARIABLE_DISPLAY_NAMES[props.dropdownVarId][metric]
                       }
-                      breakdownVar="hispanic_or_latino_and_race"
+                      breakdownVar="race_and_ethnicity"
                       breakdownVarDisplayName="Race/Ethnicity"
                     />
                     <DisparityBarChartCard
@@ -154,7 +149,7 @@ function DisVarGeo(props: {
                         data={dataset}
                         fields={[
                           {
-                            name: "hispanic_or_latino_and_race",
+                            name: "race_and_ethnicity",
                             displayName: "Race",
                           },
                           { name: "population", displayName: "Population" },

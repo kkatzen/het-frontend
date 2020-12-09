@@ -50,11 +50,11 @@ function ChartDumpReport() {
                 .filter(
                   (r) =>
                     selectedStates.includes(r.state_name) &&
-                    r.hispanic_or_latino_and_race !== "Total"
+                    r.race_and_ethnicity !== "Total"
                 )}
               fields={[
                 { name: "state_name", displayName: "State Name" },
-                { name: "hispanic_or_latino_and_race", displayName: "Race" },
+                { name: "race_and_ethnicity", displayName: "Race" },
                 { name: "population", displayName: "Population" },
               ]}
             />
@@ -68,9 +68,9 @@ function ChartDumpReport() {
                 .filter(
                   (r) =>
                     r.state_name === "Alabama" &&
-                    r.hispanic_or_latino_and_race !== "Total"
+                    r.race_and_ethnicity !== "Total"
                 )}
-              categoryField="hispanic_or_latino_and_race"
+              categoryField="race_and_ethnicity"
               valueField="population_pct"
             />
             <Divider />
@@ -170,7 +170,7 @@ function ChartDumpReport() {
                 .filter(
                   (r) =>
                     selectedStates.includes(r.state_name) &&
-                    r.hispanic_or_latino_and_race !== "Total"
+                    r.race_and_ethnicity !== "Total"
                 )}
               measure={acsProvider.variableId}
             />
