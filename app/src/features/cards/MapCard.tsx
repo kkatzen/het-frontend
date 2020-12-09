@@ -6,17 +6,12 @@ import { VariableId } from "../../utils/variableProviders";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { CardContent } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
 import styles from "./Card.module.scss";
-import {
-  LinkWithStickyParams,
-  DATASET_PRE_FILTERS,
-  DATA_CATALOG_PAGE_LINK,
-} from "../../utils/urlutils";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
+import CardWrapper from "./CardWrapper";
 
 function MapCard(props: {
   fips: Fips;
@@ -50,84 +45,82 @@ function MapCard(props: {
   const [race, setRace] = useState<string>(RACES[0]);
 
   return (
-    <Card raised={true} className={styles.ChartCard}>
-      <CardContent>
-        <Typography variant="h6">
-          {props.varFieldDisplayName} in {props.fips.getFullDisplayName()}
-        </Typography>
-      </CardContent>
-
-      <Divider />
-      <CardContent className={styles.Breadcrumbs}>
-        <MapBreadcrumbs
-          fips={props.fips}
-          updateFipsCallback={props.updateFipsCallback}
-        />
-      </CardContent>
-
-      {props.enableFilter && (
+    <CardWrapper datasetIds={props.datasetIds}>
+      {() => (
         <>
-          <Divider />
-          <CardContent
-            className={styles.Breadcrumbs}
-            style={{ textAlign: "left" }}
-          >
-            <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
-              Filter by race:
-            </span>
+          <CardContent>
+            <Typography variant="h6">
+              {props.varFieldDisplayName} in {props.fips.getFullDisplayName()}
+            </Typography>
+          </CardContent>
 
-            <FormControl>
-              <Select
-                name="raceSelect"
-                value={race}
-                onChange={(e) => {
-                  setRace(e.target.value as string);
-                }}
-                disabled={props.fips.isUsa() ? false : true}
+          <Divider />
+          <CardContent className={styles.Breadcrumbs}>
+            <MapBreadcrumbs
+              fips={props.fips}
+              updateFipsCallback={props.updateFipsCallback}
+            />
+          </CardContent>
+
+          {props.enableFilter && (
+            <>
+              <Divider />
+              <CardContent
+                className={styles.Breadcrumbs}
+                style={{ textAlign: "left" }}
               >
-                {RACES.map((race) => (
-                  <MenuItem key={race} value={race}>
-                    {race}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
+                  Filter by race:
+                </span>
+
+                <FormControl>
+                  <Select
+                    name="raceSelect"
+                    value={race}
+                    onChange={(e) => {
+                      setRace(e.target.value as string);
+                    }}
+                    disabled={props.fips.isUsa() ? false : true}
+                  >
+                    {RACES.map((race) => (
+                      <MenuItem key={race} value={race}>
+                        {race}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </CardContent>
+            </>
+          )}
+
+          <Divider />
+          <CardContent>
+            {!props.fips.isUsa() /* TODO - don't hardcode */ && (
+              <Alert severity="warning">
+                This dataset does not provide county level data
+              </Alert>
+            )}
+          </CardContent>
+          <CardContent>
+            <UsaChloroplethMap
+              signalListeners={signalListeners}
+              varField={props.varField}
+              legendTitle={props.varFieldDisplayName}
+              data={
+                props.enableFilter
+                  ? props.data.filter(
+                      (r) => r.hispanic_or_latino_and_race === race
+                    )
+                  : props.data
+              }
+              hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
+              showCounties={props.showCounties}
+              fips={props.fips}
+            />
           </CardContent>
         </>
       )}
-
-      <Divider />
-      <CardContent>
-        {!props.fips.isUsa() /* TODO - don't hardcode */ && (
-          <Alert severity="warning">
-            This dataset does not provide county level data
-          </Alert>
-        )}
-      </CardContent>
-      <CardContent>
-        <UsaChloroplethMap
-          signalListeners={signalListeners}
-          varField={props.varField}
-          legendTitle={props.varFieldDisplayName}
-          data={
-            props.enableFilter
-              ? props.data.filter((r) => r.hispanic_or_latino_and_race === race)
-              : props.data
-          }
-          hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-          showCounties={props.showCounties}
-          fips={props.fips}
-        />
-        <LinkWithStickyParams
-          target="_blank"
-          to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${props.datasetIds.join(
-            ","
-          )}`}
-        >
-          View Data Sources
-        </LinkWithStickyParams>
-      </CardContent>
-    </Card>
+    </CardWrapper>
   );
 }
 

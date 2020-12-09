@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Grid } from "@material-ui/core";
@@ -43,14 +42,13 @@ function FipsSelector(props: {
       disableClearable={true}
       value={new Fips(props.value)}
       defaultValue={props.options[0]}
-      margin="dense"
       options={props.options}
       clearOnEscape={true}
       getOptionLabel={(fips) => fips.getFullDisplayName()}
       getOptionSelected={(fips) => fips.code === props.value}
       renderOption={(fips) => <>{fips.getFullDisplayName()}</>}
       renderInput={(params) => (
-        <TextField margin="dense" fullWidth {...params} variant="outlined" />
+        <TextField margin="dense" {...params} variant="outlined" />
       )}
       onChange={(e, fips) => props.onGeoUpdate(fips.code)}
     />
@@ -150,6 +148,17 @@ function CarouselMadLib(props: {
   madLib: MadLib;
   setMadLib: (updatedMadLib: MadLib) => void;
 }) {
+  function updateMadLib(phraseSegementIndex: number, newValue: string) {
+    let updatePhraseSelections: PhraseSelections = {
+      ...props.madLib.activeSelections,
+    };
+    updatePhraseSelections[phraseSegementIndex] = newValue;
+    props.setMadLib({
+      ...props.madLib,
+      activeSelections: updatePhraseSelections,
+    });
+  }
+
   return (
     <Grid container spacing={1} justify="center" style={{ lineHeight: "50pt" }}>
       {props.madLib.phrase.map(
@@ -160,21 +169,14 @@ function CarouselMadLib(props: {
             ) : (
               <>
                 {/* TODO - don't use this hack to figure out if its a FIPS or not*/}
-                {Object.keys(phraseSegment).length > 10 ? (
+                {Object.keys(phraseSegment).length > 20 ? (
                   <Grid item style={{ width: "250px" }}>
                     <FipsSelector
                       key={index}
                       value={props.madLib.activeSelections[index]}
-                      onGeoUpdate={(fipsCode: string) => {
-                        let updatePhraseSelections: PhraseSelections = {
-                          ...props.madLib.activeSelections,
-                        };
-                        updatePhraseSelections[index] = fipsCode;
-                        props.setMadLib({
-                          ...props.madLib,
-                          activeSelections: updatePhraseSelections,
-                        });
-                      }}
+                      onGeoUpdate={(fipsCode: string) =>
+                        updateMadLib(index, fipsCode)
+                      }
                       options={Object.keys(phraseSegment)
                         .sort((a, b) => {
                           if (a[0].length === b[0].length) {
@@ -196,18 +198,9 @@ function CarouselMadLib(props: {
                         name={index.toString()}
                         defaultValue={props.madLib.defaultSelections[index]}
                         value={props.madLib.activeSelections[index]}
-                        onChange={(event) => {
-                          let phraseIndex: number = Number(event.target.name);
-                          let updatePhraseSelections: PhraseSelections = {
-                            ...props.madLib.activeSelections,
-                          };
-                          updatePhraseSelections[phraseIndex] = event.target
-                            .value as string;
-                          props.setMadLib({
-                            ...props.madLib,
-                            activeSelections: updatePhraseSelections,
-                          });
-                        }}
+                        onChange={(event) =>
+                          updateMadLib(index, event.target.value as string)
+                        }
                       >
                         {Object.entries(phraseSegment)
                           .sort((a, b) => a[0].localeCompare(b[0]))

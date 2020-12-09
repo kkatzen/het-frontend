@@ -19,9 +19,9 @@ import { Fips } from "../../utils/Fips";
 
 export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
 
-const SUPPORTED_VARIABLES: DropdownVarId[] = ["covid"];
-
-const DDV_TO_VAR: Record<string, string[]> = {
+// TODO - remove hardcoded values when we have full support
+const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["covid"];
+const METRIC_VARIABLES: Record<string, MetricToggle[]> = {
   covid: ["covid_cases", "covid_deaths", "covid_hosp"],
 };
 
@@ -30,6 +30,14 @@ const METRIC_NAMES: Record<MetricToggle, string> = {
   covid_deaths: "COVID-19 Deaths",
   covid_hosp: "COVID-19 Hospitalizations",
 };
+
+function shareOf(metric: string): VariableId {
+  return (metric + "_pct_of_geo") as VariableId;
+}
+
+function per100k(metric: string): VariableId {
+  return (metric + "_per_100k") as VariableId;
+}
 
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
@@ -45,14 +53,13 @@ function DisVarGeo(props: {
 }) {
   // TODO Remove hard coded fail safe value
   const [metric, setMetric] = useState<MetricToggle>(
-    SUPPORTED_VARIABLES.includes(props.dropdownVarId)
-      ? (DDV_TO_VAR[props.dropdownVarId as string][0] as MetricToggle)
-      : (DDV_TO_VAR[0][0] as MetricToggle)
+    SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId)
+      ? (METRIC_VARIABLES[props.dropdownVarId as string][0] as MetricToggle)
+      : (METRIC_VARIABLES[0][0] as MetricToggle)
   );
 
   const datasetStore = useDatasetStore();
-  const percentProvider =
-    variableProviders[(metric + "_pct_of_geo") as VariableId];
+  const percentProvider = variableProviders[shareOf(metric)];
   const popProvider = variableProviders["population_pct"];
   const datasetIds = VariableProvider.getUniqueDatasetIds([
     percentProvider,
@@ -61,7 +68,7 @@ function DisVarGeo(props: {
 
   return (
     <>
-      {!SUPPORTED_VARIABLES.includes(props.dropdownVarId) && (
+      {!SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId) && (
         <Grid container xs={12} spacing={1} justify="center">
           <Grid item xs={5}>
             <Alert severity="error">Data not currently available</Alert>
@@ -69,7 +76,7 @@ function DisVarGeo(props: {
         </Grid>
       )}
 
-      {SUPPORTED_VARIABLES.includes(props.dropdownVarId) && (
+      {SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId) && (
         <Grid container spacing={1} justify="center">
           <WithDatasets datasetIds={datasetIds}>
             {() => {
@@ -116,7 +123,7 @@ function DisVarGeo(props: {
                       }}
                       aria-label="text formatting"
                     >
-                      {DDV_TO_VAR[props.dropdownVarId].map(
+                      {METRIC_VARIABLES[props.dropdownVarId].map(
                         (variableId: string, key: number) => (
                           <ToggleButton
                             value={variableId as VariableId}
@@ -136,11 +143,9 @@ function DisVarGeo(props: {
                     <MapCard
                       data={dataset}
                       datasetIds={datasetIds}
-                      varField={(metric + "_per_100k") as VariableId}
+                      varField={per100k(metric)}
                       varFieldDisplayName={
-                        VARIABLE_DISPLAY_NAME_MAP[
-                          (metric + "_per_100k") as VariableId
-                        ]
+                        VARIABLE_DISPLAY_NAME_MAP[per100k(metric)]
                       }
                       fips={props.fips}
                       updateFipsCallback={(fips: Fips) => {
@@ -165,18 +170,14 @@ function DisVarGeo(props: {
                             ],
                         },
                         {
-                          name: metric + "_pct_of_geo",
+                          name: shareOf(metric),
                           displayName:
-                            VARIABLE_DISPLAY_NAME_MAP[
-                              (metric + "_pct_of_geo") as VariableId
-                            ],
+                            VARIABLE_DISPLAY_NAME_MAP[shareOf(metric)],
                         },
                         {
-                          name: metric + "_per_100k",
+                          name: per100k(metric),
                           displayName:
-                            VARIABLE_DISPLAY_NAME_MAP[
-                              (metric + "_per_100k") as VariableId
-                            ],
+                            VARIABLE_DISPLAY_NAME_MAP[per100k(metric)],
                         },
                       ]}
                     />
