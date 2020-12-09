@@ -40,7 +40,7 @@ function StackedBarChart(props: { data: Row[]; measure: string }) {
       spec={getSpec(
         props.data,
         "state_name",
-        "hispanic_or_latino_and_race",
+        "race_and_ethnicity",
         props.measure
       )}
     />

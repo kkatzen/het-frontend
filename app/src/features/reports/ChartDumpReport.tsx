@@ -36,10 +36,9 @@ function ChartDumpReport() {
               Breakdowns.national().andTime().andRace(true)
             )
           )
-          .filter((row) => row.state_fips_code === "37")
+          .filter((row) => row.state_fips === "37")
           .filter(
-            (row) =>
-              !row.hispanic_or_latino_and_race.includes("Some other race alone")
+            (row) => !row.race_and_ethnicity.includes("Some other race alone")
           );
 
         return (
@@ -65,9 +64,9 @@ function ChartDumpReport() {
                   .filter(
                     (r) =>
                       r.state_name === "Alabama" &&
-                      r.hispanic_or_latino_and_race !== "Total"
+                      r.race_and_ethnicity !== "Total"
                   )}
-                categoryField="hispanic_or_latino_and_race"
+                categoryField="race_and_ethnicity"
                 valueField="population_pct"
               />
               <Divider />
@@ -78,7 +77,7 @@ function ChartDumpReport() {
               </div>
               <LineChart
                 data={data}
-                breakdownVar="hispanic_or_latino_and_race"
+                breakdownVar="race_and_ethnicity"
                 variable={covidProvider.variableId}
                 timeVariable="date"
               />
@@ -158,7 +157,7 @@ function ChartDumpReport() {
                   .filter(
                     (r) =>
                       selectedStates.includes(r.state_name) &&
-                      r.hispanic_or_latino_and_race !== "Total"
+                      r.race_and_ethnicity !== "Total"
                   )}
                 measure={acsProvider.variableId}
               />

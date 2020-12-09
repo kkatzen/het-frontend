@@ -6,6 +6,7 @@ import { MetadataMap, Row } from "./DatasetTypes";
 import { diabetes } from "./FakeData";
 import FakeMetadataMap from "./FakeMetadataMap";
 import { DataFrame } from "data-forge";
+import { STATE_FIPS_MAP } from "./Fips";
 
 async function getDiabetesFrame() {
   const r = await fetch(
@@ -16,7 +17,7 @@ async function getDiabetesFrame() {
     columnNames: json[0],
     rows: json.slice(1),
   }).renameSeries({
-    state: "state_fips_code",
+    state: "state_fips",
     NAME: "state_name",
   });
   return new DataFrame(diabetes)
@@ -36,7 +37,7 @@ async function getDiabetesFrame() {
       stateFipsFrame,
       (row: any) => row.state_name,
       (row: any) => row.state_name,
-      (dia, acs) => ({ ...dia, state_fips_code: acs.state_fips_code })
+      (dia, acs) => ({ ...dia, state_fips: acs.state_fips })
     );
 }
 
@@ -56,7 +57,15 @@ class DataFetcher {
       case "acs_state_population_by_race_nonstandard":
         return await this.loadLocalFile("table_race_nonstand.json");
       case "covid_by_state_and_race":
-        return await this.loadLocalFile("covid_by_state.json");
+        let result = await this.loadLocalFile("covid_by_state.json");
+        const fipsEntries = Object.entries(STATE_FIPS_MAP);
+        const reversed = fipsEntries.map((entry) => [entry[1], entry[0]]);
+        const fipsMap = Object.fromEntries(reversed);
+        result = result.map((row: any) => {
+          return { ...row, state_fips: fipsMap[row["state_name"]] };
+        });
+        console.log(result);
+        return result;
       default:
         throw new Error("Unknown dataset: " + datasetId);
     }

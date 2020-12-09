@@ -12,7 +12,7 @@ const GEO_DATASET = "GEO_DATASET";
 const GEO_ID = "id";
 
 const VAR_DATASET = "VAR_DATASET";
-const VAR_STATE_FIPS = "state_fips_code";
+const VAR_STATE_FIPS = "state_fips";
 const VAR_COUNTY_FIPS = "COUNTY_FIPS";
 
 function UsaChloroplethMap(props: {

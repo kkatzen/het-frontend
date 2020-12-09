@@ -23,14 +23,14 @@ class CopdProvider extends VariableProvider {
 
     if (breakdowns.geography === "national") {
       df = df.pivot("race", {
-        state_fips_code: (series) => USA_FIPS,
+        state_fips: (series) => USA_FIPS,
         state_name: (series) => USA_DISPLAY_NAME,
         copd_count: (series) => series.sum(),
         copd_no: (series) => series.sum(),
       });
     }
     if (!breakdowns.demographic) {
-      df = df.pivot(["state_name", "state_fips_code"], {
+      df = df.pivot(["state_name", "state_fips"], {
         race: (series) => ALL_RACES_DISPLAY_NAME,
         copd_count: (series) => series.sum(),
         copd_no: (series) => series.sum(),

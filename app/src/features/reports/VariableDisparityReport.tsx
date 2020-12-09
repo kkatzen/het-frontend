@@ -92,23 +92,20 @@ function DisVarGeo(props: {
                   )
                 )
                 .filter(
-                  (row) =>
-                    !row.hispanic_or_latino_and_race.includes(
-                      "Some other race alone"
-                    )
+                  (row) => row.race_and_ethnicity !== "Not Hispanic or Latino"
                 );
 
               const dateTimes = data.map((row) => asDate(row.date).getTime());
               const lastDate = new Date(Math.max(...dateTimes));
-              const mostRecent = data.filter(
+              const dataset = data.filter(
                 (row) => asDate(row.date).getTime() === lastDate.getTime()
               );
 
-              const dataset = mostRecent;
-
-              const geoFilteredDataset = mostRecent
-                .filter((r) => r.hispanic_or_latino_and_race !== "Total")
-                .filter((row) => row.state_fips_code === props.fips.code);
+              const geoFilteredDataset = dataset
+                .filter((r) => r.race_and_ethnicity !== "Total")
+                .filter((row) => row.state_fips === props.fips.code);
+              console.log(dataset);
+              console.log(geoFilteredDataset);
 
               return (
                 <>
@@ -158,7 +155,7 @@ function DisVarGeo(props: {
                       data={geoFilteredDataset}
                       fields={[
                         {
-                          name: "hispanic_or_latino_and_race",
+                          name: "race_and_ethnicity",
                           displayName: "Race",
                         },
                         { name: "population", displayName: "Population" },
@@ -188,7 +185,7 @@ function DisVarGeo(props: {
                       datasetIds={datasetIds}
                       metricId={metric}
                       variableTitle={METRIC_NAMES[metric]}
-                      breakdownVar="hispanic_or_latino_and_race"
+                      breakdownVar="race_and_ethnicity"
                       breakdownVarDisplayName="Race/Ethnicity"
                       fips={props.fips}
                     />

@@ -36,7 +36,7 @@ class AcsPopulationProvider extends VariableProvider {
     let df = this.getDataInternalWithoutPercents(datasets, breakdowns);
     df = applyToGroups(df, ["state_name"], (group) => {
       const total = group
-        .where((r) => r.hispanic_or_latino_and_race === "Total")
+        .where((r) => r.race_and_ethnicity === "Total")
         .first()["population"];
       return group.generateSeries({
         population_pct: (row) => percent(row.population, total),
@@ -64,10 +64,10 @@ class AcsPopulationProvider extends VariableProvider {
       breakdowns.geography === "national"
     ) {
       return acsNonStandard
-        .pivot("hispanic_or_latino_and_race", {
+        .pivot("race_and_ethnicity", {
           // TODO for the purpose of charts, rename state_name to something more
           // general so we can compare counties with states with the nation.
-          state_fips_code: (series) => USA_FIPS,
+          state_fips: (series) => USA_FIPS,
           state_name: (series) => USA_DISPLAY_NAME,
           population: (series) => series.sum(),
         })
@@ -75,7 +75,7 @@ class AcsPopulationProvider extends VariableProvider {
     }
 
     const acsStandard = acsNonStandard.where((row) =>
-      standardizedRaces.includes(row.hispanic_or_latino_and_race)
+      standardizedRaces.includes(row.race_and_ethnicity)
     );
     if (breakdowns.demographic === "race" && breakdowns.geography === "state") {
       return acsStandard;
@@ -86,8 +86,8 @@ class AcsPopulationProvider extends VariableProvider {
       breakdowns.geography === "national"
     ) {
       return acsStandard
-        .pivot("hispanic_or_latino_and_race", {
-          state_fips_code: (series) => USA_FIPS,
+        .pivot("race_and_ethnicity", {
+          state_fips: (series) => USA_FIPS,
           state_name: (series) => USA_DISPLAY_NAME,
           population: (series) => series.sum(),
         })
