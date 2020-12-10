@@ -18,7 +18,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import {
   useDatasetStoreProvider,
   DatasetProvider,
@@ -107,7 +112,16 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // TODO - this could be pulled into a hook
+  // https://reactrouter.com/web/api/Hooks/uselocation
+  // https://github.com/ReactTraining/react-router/issues/7015
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const datasetStore = useDatasetStoreProvider();
+
   return (
     <ThemeProvider theme={MaterialTheme}>
       <DatasetProvider value={datasetStore}>
