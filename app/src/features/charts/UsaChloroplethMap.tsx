@@ -12,7 +12,7 @@ const GEO_DATASET = "GEO_DATASET";
 const GEO_ID = "id";
 
 const VAR_DATASET = "VAR_DATASET";
-const VAR_STATE_FIPS = "state_fips_code";
+const VAR_STATE_FIPS = "state_fips";
 const VAR_COUNTY_FIPS = "COUNTY_FIPS";
 
 function UsaChloroplethMap(props: {
@@ -23,6 +23,7 @@ function UsaChloroplethMap(props: {
   fips: Fips;
   numberFormat?: NumberFormat;
   hideLegend?: boolean;
+  showCounties: boolean;
 }) {
   const [ref, width] = useResponsiveWidth(
     100 /* default width during intialization */
@@ -34,7 +35,7 @@ function UsaChloroplethMap(props: {
   useEffect(() => {
     /* SET UP GEO DATSET */
     // Transform geo dataset by adding varField from VAR_DATASET
-    const fipsKey = props.fips.isUsa() ? VAR_STATE_FIPS : VAR_COUNTY_FIPS;
+    const fipsKey = props.showCounties ? VAR_COUNTY_FIPS : VAR_STATE_FIPS;
     let geoTransformers: any[] = [
       {
         type: "lookup",
@@ -62,8 +63,8 @@ function UsaChloroplethMap(props: {
     /* SET UP TOOLTIP */
     let tooltipDatum =
       props.numberFormat === "percentage"
-        ? "format(datum." + props.varField + ", '0.1%')"
-        : "datum." + props.varField;
+        ? `format(datum.${props.varField}, '0.1%')`
+        : `format(datum.${props.varField}, ',')`;
     let tooltipValue = 'datum.properties.name + ": " + ' + tooltipDatum;
 
     /* SET UP LEGEND */
@@ -97,19 +98,11 @@ function UsaChloroplethMap(props: {
         {
           name: GEO_DATASET,
           transform: geoTransformers,
-          url:
-            "https://raw.githubusercontent.com/kkatzen/het-frontend/designjam2/app/public/counties-10m.json",
+          url: "/counties-10m.json",
           format: {
             type: "topojson",
-            feature: props.fips.isUsa() ? "states" : "counties",
+            feature: props.showCounties ? "counties" : "states",
           },
-        },
-        {
-          name: "selected",
-          on: [
-            { trigger: "click", insert: "click" },
-            { trigger: "shiftClick", remove: "true" },
-          ],
         },
       ],
       projections: [
@@ -147,15 +140,9 @@ function UsaChloroplethMap(props: {
               },
             },
             update: {
-              fill: [
-                {
-                  test: "indata('selected', 'id', datum.id)",
-                  value: "red",
-                },
-                { scale: "colorScale", field: props.varField },
-              ],
+              fill: [{ scale: "colorScale", field: props.varField }],
             },
-            hover: { fill: { value: "pink" } },
+            hover: { fill: { value: "red" } },
           },
           transform: [{ type: "geoshape", projection: "usProjection" }],
         },
@@ -180,6 +167,7 @@ function UsaChloroplethMap(props: {
     props.data,
     props.fips,
     props.hideLegend,
+    props.showCounties,
   ]);
 
   return (

@@ -1,5 +1,11 @@
 .CardHeader {
   text-align: left;
+  font-weight: bold !important;
+}
+
+.TableContainer {
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
 .ChartCard {

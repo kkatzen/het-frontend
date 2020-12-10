@@ -85,8 +85,8 @@ function AppToolbar() {
         </LinkWithStickyParams>
       </Typography>
       {[ABOUT_US_PAGE_LINK, DATA_CATALOG_PAGE_LINK, EXPLORE_DATA_PAGE_LINK].map(
-        (pageUrl) => (
-          <Button className={styles.NavButton}>
+        (pageUrl, i) => (
+          <Button className={styles.NavButton} key={i}>
             <LinkWithStickyParams to={pageUrl}>
               {PAGE_URL_TO_NAMES[pageUrl]}
             </LinkWithStickyParams>
@@ -94,7 +94,7 @@ function AppToolbar() {
         )
       )}
       <Button className={styles.NavButton}>
-        <a href="https://satcherinstitute.github.io/data-visualization/02_covid19_death_disparities/">
+        <a href="https://zipline.appspot.com/view/zipline-prototypes/het-test-hawk/het-test---hawk8026/versions/1/data/index.html#/1">
           Prototypes
         </a>
       </Button>

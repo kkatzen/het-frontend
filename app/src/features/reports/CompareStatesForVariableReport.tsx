@@ -42,7 +42,7 @@ function CompareStatesForVariableReport(props: {
                       Breakdowns.national().andRace()
                     )
                   )
-                  .filter((r) => selectedStateFips.includes(r.state_fips_code))}
+                  .filter((r) => selectedStateFips.includes(r.state_fips))}
                 measure={variableProvider.variableId}
                 bars="vertical"
                 dimension1="state_name"
@@ -65,8 +65,8 @@ function CompareStatesForVariableReport(props: {
                   )
                   .filter(
                     (r) =>
-                      selectedStateFips.includes(r.state_fips_code) &&
-                      r.hispanic_or_latino_and_race !== "Total"
+                      selectedStateFips.includes(r.state_fips) &&
+                      r.race_and_ethnicity !== "Total"
                   )}
                 measure={acsProvider.variableId}
               />

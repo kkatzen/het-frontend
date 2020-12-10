@@ -22,13 +22,13 @@ const fakeMetadata: DatasetMetadata[] = [
       },
       {
         data_type: "string",
-        name: "state_fips_code",
+        name: "state_fips",
         description: "description",
         origin_dataset: "acs_state_population_by_race",
       },
       {
         data_type: "string",
-        name: "hispanic_or_latino_and_race",
+        name: "race_and_ethnicity",
         description: "description",
         origin_dataset: "acs_state_population_by_race",
       },

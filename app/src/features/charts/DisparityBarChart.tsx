@@ -2,6 +2,12 @@ import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
+import {
+  VariableId,
+  BreakdownVar,
+  VARIABLE_DISPLAY_NAMES,
+  BREAKDOWN_VAR_DISPLAY_NAMES,
+} from "../../utils/variableProviders";
 
 function getSpec(
   data: Record<string, any>[],
@@ -102,7 +108,7 @@ function getSpec(
             x: { scale: "x", field: thickMeasure },
             y: { scale: "y", field: breakdownVar, band: 0.8 },
             text: {
-              signal: `format(datum["${thickMeasure}"], "") + "%"`,
+              signal: `isValid(datum["${thickMeasure}"]) ? datum["${thickMeasure}"] + "%" : "" `,
             },
           },
         },
@@ -121,7 +127,7 @@ function getSpec(
             x: { scale: "x", field: thinMeasure },
             y: { scale: "y", field: breakdownVar, band: 0.3 },
             text: {
-              signal: `format(datum["${thinMeasure}"], "") + "%"`,
+              signal: `isValid(datum["${thinMeasure}"]) ? datum["${thinMeasure}"] + "%" : "" `,
             },
           },
         },
@@ -173,7 +179,7 @@ function getSpec(
         scale: "x",
         orient: "bottom",
         grid: false,
-        title: `${thickMeasureDisplayName} and ${thinMeasureDisplayName} `,
+        title: `${thickMeasureDisplayName} vs. ${thinMeasureDisplayName} `,
         labelFlush: true,
         labelOverlap: true,
         tickCount: { signal: "ceil(width/40)" },
@@ -190,7 +196,6 @@ function getSpec(
     legends: [
       {
         stroke: "variables",
-        title: "Variables",
         orient: "top",
         padding: 4,
         encode: {
@@ -208,12 +213,9 @@ function getSpec(
 
 function DisparityBarChart(props: {
   data: Row[];
-  thickMeasure: string;
-  thinMeasure: string;
-  thickMeasureDisplayName: string;
-  thinMeasureDisplayName: string;
-  breakdownVar: string;
-  breakdownVarDisplayName: string;
+  thickMeasure: VariableId;
+  thinMeasure: VariableId;
+  breakdownVar: BreakdownVar;
 }) {
   const [ref, width] = useResponsiveWidth(
     100 /* default width during intialization */
@@ -225,11 +227,11 @@ function DisparityBarChart(props: {
           props.data,
           width,
           props.breakdownVar,
-          props.breakdownVarDisplayName,
+          BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar],
           props.thickMeasure,
-          props.thickMeasureDisplayName,
+          VARIABLE_DISPLAY_NAMES[props.thickMeasure],
           props.thinMeasure,
-          props.thinMeasureDisplayName
+          VARIABLE_DISPLAY_NAMES[props.thinMeasure]
         )}
       />
     </div>

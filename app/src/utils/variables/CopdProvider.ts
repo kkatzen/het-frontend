@@ -23,14 +23,14 @@ class CopdProvider extends VariableProvider {
 
     if (breakdowns.geography === "national") {
       df = df.pivot("race", {
-        state_fips_code: (series) => USA_FIPS,
+        state_fips: (series) => USA_FIPS,
         state_name: (series) => USA_DISPLAY_NAME,
         copd_count: (series) => series.sum(),
         copd_no: (series) => series.sum(),
       });
     }
     if (!breakdowns.demographic) {
-      df = df.pivot(["state_name", "state_fips_code"], {
+      df = df.pivot(["state_name", "state_fips"], {
         race: (series) => ALL_RACES_DISPLAY_NAME,
         copd_count: (series) => series.sum(),
         copd_no: (series) => series.sum(),
@@ -39,8 +39,6 @@ class CopdProvider extends VariableProvider {
 
     return df
       .generateSeries({
-        diabetes_per_100k: (row) =>
-          per100k(row.copd_count, row.copd_count + row.copd_no),
         copd_per_100k: (row) =>
           per100k(row.copd_count, row.copd_count + row.copd_no),
       })

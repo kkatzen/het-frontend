@@ -1,60 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Grid } from "@material-ui/core";
 import TableChart from "../charts/TableChart";
 import styles from "./Report.module.scss";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders, { VariableId } from "../../utils/variableProviders";
+import variableProviders, {
+  VariableId,
+  VARIABLE_DISPLAY_NAMES,
+} from "../../utils/variableProviders";
 import { DropdownVarId } from "../../utils/MadLibs";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import { USA_FIPS, Fips } from "../../utils/Fips";
-import MapNavCard from "../cards/MapNavCard";
+import MapCard from "../cards/MapCard";
 import Alert from "@material-ui/lab/Alert";
 import Card from "@material-ui/core/Card";
 
-const VARIABLE_DISPLAY_NAMES: Record<string, Record<string, string>> = {
-  diabetes: {
-    diabetes_count: "Diabetes Case Count",
-  },
-  copd: {
-    copd_count: "COPD Case Count",
-  },
+// TODO - remove hardcoded values when we have full support
+const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["diabetes"];
+const METRIC_VARIABLES: Record<string, string> = {
+  diabetes: "diabetes_per_100k",
 };
 
 function VarGeoReport(props: {
   variable: DropdownVarId;
-  stateFips: string;
-  updateStateCallback: Function;
+  fips: Fips;
+  updateFipsCallback: Function;
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
-  const variableId: VariableId = Object.keys(VARIABLE_DISPLAY_NAMES).includes(
+  const variableId: VariableId = SUPPORTED_MADLIB_VARIABLES.includes(
     props.variable
   )
-    ? (Object.keys(VARIABLE_DISPLAY_NAMES[props.variable])[0] as VariableId)
-    : ("diabetes_count" as VariableId);
-  const variableDisplayName = Object.keys(VARIABLE_DISPLAY_NAMES).includes(
-    props.variable
-  )
-    ? Object.entries(VARIABLE_DISPLAY_NAMES[props.variable])[0][1]
-    : "Placeholder";
+    ? (METRIC_VARIABLES[props.variable] as VariableId)
+    : ("diabetes_per_100k" as VariableId);
 
   const datasetStore = useDatasetStore();
   const variableProvider = variableProviders[variableId];
-  const requiredDatasets = VariableProvider.getUniqueDatasetIds([
-    variableProvider,
-  ]);
-
-  // TODO - would be nice to have this controlled entirely by the prop, this would mean the MadLib knows the county
-  const [fips, setFips] = useState<Fips>(new Fips(props.stateFips));
-
-  useEffect(() => {
-    setFips(new Fips(props.stateFips));
-  }, [props.stateFips]);
+  const datasetIds = VariableProvider.getUniqueDatasetIds([variableProvider]);
 
   return (
-    <WithDatasets datasetIds={requiredDatasets}>
+    <WithDatasets datasetIds={datasetIds}>
       {() => {
         let dataset = variableProvider.getData(
           datasetStore.datasets,
@@ -62,23 +48,23 @@ function VarGeoReport(props: {
         );
 
         let tableDataset =
-          fips.code === USA_FIPS
+          props.fips.code === USA_FIPS
             ? variableProvider.getData(
                 datasetStore.datasets,
                 Breakdowns.national().andRace()
               )
-            : dataset.filter((r) => r.state_fips_code === fips.code);
+            : dataset.filter((r) => r.state_fips_code === props.fips.code);
 
         return (
           <>
-            {!Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
+            {!SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
               <Grid container xs={12} spacing={1} justify="center">
                 <Grid item xs={5}>
                   <Alert severity="error">Data not currently available</Alert>
                 </Grid>
               </Grid>
             )}
-            {Object.keys(VARIABLE_DISPLAY_NAMES).includes(props.variable) && (
+            {SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
               <Grid container spacing={1} alignItems="flex-start">
                 <Grid
                   item
@@ -87,15 +73,16 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  <MapNavCard
+                  <MapCard
                     data={dataset}
+                    datasetIds={datasetIds}
                     varField={variableId}
-                    varFieldDisplayName={variableDisplayName}
-                    fips={fips}
+                    varFieldDisplayName={VARIABLE_DISPLAY_NAMES[variableId]}
+                    fips={props.fips}
                     updateFipsCallback={(fips: Fips) => {
-                      setFips(fips);
-                      props.updateStateCallback(fips.getStateFipsCode());
+                      props.updateFipsCallback(fips);
                     }}
+                    showCounties={props.fips.isUsa() ? false : true}
                   />
                 </Grid>
                 <Grid
@@ -106,20 +93,19 @@ function VarGeoReport(props: {
                   className={styles.PaddedGrid}
                 >
                   <Card raised={true} style={{ margin: "10px" }}>
-                    {!fips.isCounty() && (
+                    {!props.fips.isCounty() && (
                       <TableChart
                         data={tableDataset}
                         fields={[
                           { name: "race", displayName: "Race and Ethnicity" },
                           {
                             name: variableId,
-                            displayName: variableDisplayName,
+                            displayName: VARIABLE_DISPLAY_NAMES[variableId],
                           },
                         ]}
                       />
                     )}
-
-                    {fips.isCounty() && (
+                    {props.fips.isCounty() && (
                       <Alert severity="error">
                         This dataset does not provide county level data
                       </Alert>
