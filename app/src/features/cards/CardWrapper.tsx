@@ -12,15 +12,21 @@ import Divider from "@material-ui/core/Divider";
 
 function CardWrapper(props: {
   datasetIds: string[];
-  titleText: string;
+  titleText?: string;
   children: React.ReactNode;
 }) {
   return (
     <Card raised={true} className={styles.ChartCard}>
-      <CardContent>
-        <Typography className={styles.CardHeader}>{props.titleText}</Typography>
-      </CardContent>
-      <Divider />
+      {props.titleText && (
+        <>
+          <CardContent>
+            <Typography className={styles.CardHeader}>
+              {props.titleText}
+            </Typography>
+          </CardContent>
+          <Divider />
+        </>
+      )}
       {props.children}
       <CardContent>
         <LinkWithStickyParams

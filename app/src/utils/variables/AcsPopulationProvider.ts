@@ -2,7 +2,7 @@ import { IDataFrame } from "data-forge";
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import { applyToGroups, percent } from "../datasetutils";
-import { USA_FIPS, USA_DISPLAY_NAME } from "../Fips";
+import { USA_FIPS, USA_DISPLAY_NAME } from "../madlib/Fips";
 import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
 

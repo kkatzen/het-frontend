@@ -2,12 +2,12 @@ import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
+import { VariableId } from "../../utils/variableProviders";
 import {
-  VariableId,
-  BreakdownVar,
   VARIABLE_DISPLAY_NAMES,
+  BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
-} from "../../utils/variableProviders";
+} from "../../utils/madlib/DisplayNames";
 
 function getSpec(
   data: Record<string, any>[],
@@ -17,7 +17,8 @@ function getSpec(
   thickMeasure: string,
   thickMeasureDisplayName: string,
   thinMeasure: string,
-  thinMeasureDisplayName: string
+  thinMeasureDisplayName: string,
+  metricDisplayName: string
 ): any {
   const BAR_HEIGHT = 40;
   const BAR_PADDING = 0.1;
@@ -95,25 +96,6 @@ function getSpec(
         },
       },
       {
-        name: "thickMeasure_text_labels",
-        type: "text",
-        style: ["text"],
-        from: { data: DATASET },
-        encode: {
-          update: {
-            align: { value: "left" },
-            baseline: { value: "middle" },
-            dx: { value: 3 },
-            fill: { value: "black" },
-            x: { scale: "x", field: thickMeasure },
-            y: { scale: "y", field: breakdownVar, band: 0.8 },
-            text: {
-              signal: `isValid(datum["${thickMeasure}"]) ? datum["${thickMeasure}"] + "%" : "" `,
-            },
-          },
-        },
-      },
-      {
         name: "thinMeasure_text_labels",
         type: "text",
         style: ["text"],
@@ -125,9 +107,9 @@ function getSpec(
             dx: { value: 3 },
             fill: { value: "black" },
             x: { scale: "x", field: thinMeasure },
-            y: { scale: "y", field: breakdownVar, band: 0.3 },
+            y: { scale: "y", field: breakdownVar, band: 0.5 },
             text: {
-              signal: `isValid(datum["${thinMeasure}"]) ? datum["${thinMeasure}"] + "%" : "" `,
+              signal: `isValid(datum["${thinMeasure}"]) ? datum["${thinMeasure}"] + "% of ${metricDisplayName}" : "" `,
             },
           },
         },
@@ -216,6 +198,7 @@ function DisparityBarChart(props: {
   thickMeasure: VariableId;
   thinMeasure: VariableId;
   breakdownVar: BreakdownVar;
+  metricDisplayName: string;
 }) {
   const [ref, width] = useResponsiveWidth(
     100 /* default width during intialization */
@@ -231,7 +214,8 @@ function DisparityBarChart(props: {
           props.thickMeasure,
           VARIABLE_DISPLAY_NAMES[props.thickMeasure],
           props.thinMeasure,
-          VARIABLE_DISPLAY_NAMES[props.thinMeasure]
+          VARIABLE_DISPLAY_NAMES[props.thinMeasure],
+          props.metricDisplayName
         )}
       />
     </div>

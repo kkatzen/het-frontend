@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { PhraseSelections, MadLibId } from "../utils/MadLibs";
+import { PhraseSelections, MadLibId } from "./madlib/MadLibs";
 export const STICKY_VERSION_PARAM = "sv";
 
 export const EXPLORE_DATA_PAGE_LINK = "/exploredata";

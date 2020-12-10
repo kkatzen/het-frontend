@@ -19,8 +19,8 @@ import {
   MadLib,
   PhraseSegment,
   PhraseSelections,
-} from "../utils/MadLibs";
-import { Fips } from "../utils/Fips";
+} from "../utils/madlib/MadLibs";
+import { Fips } from "../utils/madlib/Fips";
 import styles from "./ExploreDataPage.module.scss";
 import {
   clearSearchParams,

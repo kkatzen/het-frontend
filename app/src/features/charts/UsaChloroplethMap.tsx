@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Vega } from "react-vega";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
-import { Fips } from "../../utils/Fips";
+import { Fips } from "../../utils/madlib/Fips";
 
 type NumberFormat = "raw" | "percentage";
 

@@ -102,6 +102,18 @@ function AppToolbar() {
   );
 }
 
+// TODO - this could be pulled into a hook
+// https://reactrouter.com/web/api/Hooks/uselocation
+// https://github.com/ReactTraining/react-router/issues/7015
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -112,14 +124,6 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // TODO - this could be pulled into a hook
-  // https://reactrouter.com/web/api/Hooks/uselocation
-  // https://github.com/ReactTraining/react-router/issues/7015
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
   const datasetStore = useDatasetStoreProvider();
 
   return (
@@ -128,6 +132,7 @@ function App() {
         <div className={styles.App}>
           <div className={styles.Content}>
             <Router>
+              <ScrollToTop />
               <AppBar position="static">
                 {width > MOBILE_BREAKPOINT ? (
                   <AppToolbar />

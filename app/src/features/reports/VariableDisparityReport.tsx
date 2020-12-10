@@ -3,42 +3,26 @@ import { Grid } from "@material-ui/core";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
 import { Breakdowns } from "../../utils/Breakdowns";
-import variableProviders, {
-  VariableId,
-  BreakdownVar,
+import variableProviders, { VariableId } from "../../utils/variableProviders";
+import {
+  MetricToggle,
   VARIABLE_DISPLAY_NAMES,
-} from "../../utils/variableProviders";
+  shareOf,
+  per100k,
+  METRICS_FOR_VARIABLE,
+} from "../../utils/madlib/DisplayNames";
 import VariableProvider from "../../utils/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapCard from "../cards/MapCard";
 import TableCard from "../cards/TableCard";
-import { DropdownVarId } from "../../utils/MadLibs";
+import { DropdownVarId } from "../../utils/madlib/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
-import { Fips } from "../../utils/Fips";
-
-export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
+import { Fips } from "../../utils/madlib/Fips";
 
 // TODO - remove hardcoded values when we have full support
 const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["covid"];
-const METRIC_VARIABLES: Record<string, MetricToggle[]> = {
-  covid: ["covid_cases", "covid_deaths", "covid_hosp"],
-};
-
-const METRIC_NAMES: Record<MetricToggle, string> = {
-  covid_cases: "COVID-19 Cases",
-  covid_deaths: "COVID-19 Deaths",
-  covid_hosp: "COVID-19 Hospitalizations",
-};
-
-function shareOf(metric: string): VariableId {
-  return (metric + "_pct_of_geo") as VariableId;
-}
-
-function per100k(metric: string): VariableId {
-  return (metric + "_per_100k") as VariableId;
-}
 
 function asDate(dateStr: string) {
   const parts = dateStr.split("-").map(Number);
@@ -55,7 +39,7 @@ function DisVarGeo(props: {
   // TODO Remove hard coded fail safe value
   const [metric, setMetric] = useState<MetricToggle>(
     SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId)
-      ? (METRIC_VARIABLES[props.dropdownVarId as string][0] as MetricToggle)
+      ? (METRICS_FOR_VARIABLE[props.dropdownVarId as string][0] as MetricToggle)
       : ("covid_cases" as MetricToggle)
   );
 
@@ -119,7 +103,7 @@ function DisVarGeo(props: {
                       }}
                       aria-label="text formatting"
                     >
-                      {METRIC_VARIABLES[props.dropdownVarId].map(
+                      {METRICS_FOR_VARIABLE[props.dropdownVarId].map(
                         (variableId: string, key: number) => (
                           <ToggleButton
                             value={variableId as VariableId}
@@ -148,27 +132,13 @@ function DisVarGeo(props: {
                     />
                     <TableCard
                       data={geoFilteredDataset}
+                      datasetIds={datasetIds}
                       fields={[
-                        {
-                          name: "race_and_ethnicity" as BreakdownVar,
-                          displayName: "Race",
-                        },
-                        { name: "population", displayName: "Population" },
-                        {
-                          name: "population_pct",
-                          displayName:
-                            VARIABLE_DISPLAY_NAMES[
-                              "population_pct" as VariableId
-                            ],
-                        },
-                        {
-                          name: shareOf(metric),
-                          displayName: VARIABLE_DISPLAY_NAMES[shareOf(metric)],
-                        },
-                        {
-                          name: per100k(metric),
-                          displayName: VARIABLE_DISPLAY_NAMES[per100k(metric)],
-                        },
+                        "race_and_ethnicity",
+                        "population",
+                        "population_pct",
+                        shareOf(metric),
+                        per100k(metric),
                       ]}
                     />
                   </Grid>
@@ -177,21 +147,18 @@ function DisVarGeo(props: {
                       dataset={geoFilteredDataset}
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableTitle={METRIC_NAMES[metric]}
                       breakdownVar="race_and_ethnicity"
                       fips={props.fips}
                     />
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableTitle={METRIC_NAMES[metric]}
                       breakdownVar="age"
                       fips={props.fips}
                     />
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      variableTitle={METRIC_NAMES[metric]}
                       breakdownVar="gender"
                       fips={props.fips}
                     />

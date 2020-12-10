@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
-import { Fips } from "../../utils/Fips";
+import { Fips } from "../../utils/madlib/Fips";
 import Alert from "@material-ui/lab/Alert";
 import { VariableId } from "../../utils/variableProviders";
 import Divider from "@material-ui/core/Divider";
@@ -58,7 +58,7 @@ function MapCard(props: {
         props.varFieldDisplayName
       } in ${props.fips.getFullDisplayName()}`}
     >
-      <CardContent className={styles.Breadcrumbs}>
+      <CardContent className={styles.SmallMarginContent}>
         <MapBreadcrumbs
           fips={props.fips}
           updateFipsCallback={props.updateFipsCallback}
@@ -69,7 +69,7 @@ function MapCard(props: {
         <>
           <Divider />
           <CardContent
-            className={styles.Breadcrumbs}
+            className={styles.SmallMarginContent}
             style={{ textAlign: "left" }}
           >
             <span style={{ lineHeight: "33px", fontSize: "13pt" }}>

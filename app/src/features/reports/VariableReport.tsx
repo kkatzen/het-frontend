@@ -1,20 +1,17 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import TableChart from "../charts/TableChart";
+import TableCard from "../cards/TableCard";
 import styles from "./Report.module.scss";
 import WithDatasets from "../../utils/WithDatasets";
 import useDatasetStore from "../../utils/useDatasetStore";
-import variableProviders, {
-  VariableId,
-  VARIABLE_DISPLAY_NAMES,
-} from "../../utils/variableProviders";
-import { DropdownVarId } from "../../utils/MadLibs";
+import { DropdownVarId } from "../../utils/madlib/MadLibs";
+import { VARIABLE_DISPLAY_NAMES } from "../../utils/madlib/DisplayNames";
+import variableProviders, { VariableId } from "../../utils/variableProviders";
 import { Breakdowns } from "../../utils/Breakdowns";
 import VariableProvider from "../../utils/variables/VariableProvider";
-import { USA_FIPS, Fips } from "../../utils/Fips";
+import { USA_FIPS, Fips } from "../../utils/madlib/Fips";
 import MapCard from "../cards/MapCard";
 import Alert from "@material-ui/lab/Alert";
-import Card from "@material-ui/core/Card";
 
 // TODO - remove hardcoded values when we have full support
 const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["diabetes"];
@@ -53,7 +50,7 @@ function VarGeoReport(props: {
                 datasetStore.datasets,
                 Breakdowns.national().andRace()
               )
-            : dataset.filter((r) => r.state_fips_code === props.fips.code);
+            : dataset.filter((r) => r.state_fips === props.fips.code);
 
         return (
           <>
@@ -92,25 +89,11 @@ function VarGeoReport(props: {
                   md={props.vertical ? 12 : 6}
                   className={styles.PaddedGrid}
                 >
-                  <Card raised={true} style={{ margin: "10px" }}>
-                    {!props.fips.isCounty() && (
-                      <TableChart
-                        data={tableDataset}
-                        fields={[
-                          { name: "race", displayName: "Race and Ethnicity" },
-                          {
-                            name: variableId,
-                            displayName: VARIABLE_DISPLAY_NAMES[variableId],
-                          },
-                        ]}
-                      />
-                    )}
-                    {props.fips.isCounty() && (
-                      <Alert severity="error">
-                        This dataset does not provide county level data
-                      </Alert>
-                    )}
-                  </Card>
+                  <TableCard
+                    data={tableDataset}
+                    datasetIds={datasetIds}
+                    fields={["race", variableId]}
+                  />
                 </Grid>
               </Grid>
             )}

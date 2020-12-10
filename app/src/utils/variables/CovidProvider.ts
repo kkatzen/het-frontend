@@ -2,7 +2,7 @@ import { DataFrame } from "data-forge";
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import VariableProvider from "./VariableProvider";
-import { USA_FIPS, USA_DISPLAY_NAME } from "../Fips";
+import { USA_FIPS, USA_DISPLAY_NAME } from "../madlib/Fips";
 import { VariableId } from "../variableProviders";
 import AcsPopulationProvider from "./AcsPopulationProvider";
 import { applyToGroups, joinOnCols, per100k, percent } from "../datasetutils";

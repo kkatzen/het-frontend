@@ -7,8 +7,8 @@ import {
   PhraseSelections,
   DropdownVarId,
   MadLibId,
-} from "../../utils/MadLibs";
-import { Fips } from "../../utils/Fips";
+} from "../../utils/madlib/MadLibs";
+import { Fips } from "../../utils/madlib/Fips";
 import VariableReport from "./VariableReport";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {

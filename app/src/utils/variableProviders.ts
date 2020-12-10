@@ -40,14 +40,6 @@ export const VARIABLE_DISPLAY_NAMES: Record<VariableId, string> = {
   covid_hosp_per_100k: "COVID-19 hospitalizations per 100,000 people",
 };
 
-export type BreakdownVar = "race_and_ethnicity" | "age" | "gender";
-
-export const BREAKDOWN_VAR_DISPLAY_NAMES: Record<BreakdownVar, string> = {
-  race_and_ethnicity: "Race and Ethnicity",
-  age: "age",
-  gender: "gender",
-};
-
 const acsProvider = new AcsPopulationProvider(
   "population",
   "Population",

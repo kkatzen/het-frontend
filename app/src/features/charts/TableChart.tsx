@@ -8,11 +8,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Row } from "../../utils/DatasetTypes";
 import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
-
-export interface Field {
-  readonly name: string;
-  readonly displayName: string;
-}
+import {
+  getFieldDisplayName,
+  formatFieldValue,
+} from "../../utils/madlib/DisplayNames";
 
 const StyledTableHeader = withStyles((theme: Theme) =>
   createStyles({
@@ -23,30 +22,24 @@ const StyledTableHeader = withStyles((theme: Theme) =>
   })
 )(TableCell);
 
-function TableChart(props: { data: Row[]; fields?: Field[] }) {
-  let tableColumns: Field[] | undefined = undefined;
-  if (props.data.length > 0) {
-    tableColumns =
-      props.fields === undefined
-        ? Object.keys(props.data[0]).map((name) => ({
-            name: name,
-            displayName: name,
-          }))
-        : props.fields;
-  }
+function TableChart(props: { data: Row[]; fields?: string[] }) {
+  const tableColumns: string[] | undefined =
+    !props.fields && props.data.length > 0
+      ? Object.keys(props.data[0])
+      : props.fields;
 
   return (
     <>
       {!tableColumns ? (
         <h1>No Data provided</h1>
       ) : (
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer component={Paper} style={{ maxHeight: "500px" }}>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {tableColumns.map((field, i) => (
                   <StyledTableHeader key={i}>
-                    {field.displayName}
+                    {getFieldDisplayName(field)}
                   </StyledTableHeader>
                 ))}
               </TableRow>
@@ -54,21 +47,9 @@ function TableChart(props: { data: Row[]; fields?: Field[] }) {
             <TableBody>
               {props.data.map((row, i) => (
                 <TableRow key={i}>
-                  {tableColumns!.map((field, j) => (
+                  {tableColumns.map((field, j) => (
                     <TableCell key={j}>
-                      {Number.isInteger(row[field.name])
-                        ? row[field.name].toLocaleString("en")
-                        : row[field.name]}
-                      {
-                        field.name.endsWith("_pct") && (
-                          <span>%</span>
-                        ) /* TODO - don't hard code*/
-                      }
-                      {
-                        field.name.endsWith("_pct_of_geo") && (
-                          <span>%</span>
-                        ) /* TODO - don't hard code*/
-                      }
+                      {formatFieldValue(field, row[field])}
                     </TableCell>
                   ))}
                 </TableRow>

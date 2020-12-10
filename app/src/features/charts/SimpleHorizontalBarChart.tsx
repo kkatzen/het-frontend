@@ -2,12 +2,12 @@ import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../../utils/DatasetTypes";
 import { useResponsiveWidth } from "../../utils/useResponsiveWidth";
+import { VariableId } from "../../utils/variableProviders";
 import {
-  VariableId,
-  BreakdownVar,
   VARIABLE_DISPLAY_NAMES,
+  BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
-} from "../../utils/variableProviders";
+} from "../../utils/madlib/DisplayNames";
 
 function getSpec(
   data: Record<string, any>[],

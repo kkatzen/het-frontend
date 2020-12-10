@@ -1,7 +1,11 @@
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import { per100k } from "../datasetutils";
-import { USA_FIPS, USA_DISPLAY_NAME, ALL_RACES_DISPLAY_NAME } from "../Fips";
+import {
+  USA_FIPS,
+  USA_DISPLAY_NAME,
+  ALL_RACES_DISPLAY_NAME,
+} from "../madlib/Fips";
 import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
 

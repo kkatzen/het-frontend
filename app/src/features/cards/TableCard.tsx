@@ -1,22 +1,27 @@
 import React from "react";
 import TableChart from "../charts/TableChart";
-import Card from "@material-ui/core/Card";
-import cardStyles from "./Card.module.scss";
 import { Row } from "../../utils/DatasetTypes";
+import { Alert } from "@material-ui/lab";
+import CardWrapper from "./CardWrapper";
 
-export interface Field {
-  readonly name: string;
-  readonly displayName: string;
-}
-
-function TableCard(props: { data: Row[]; fields?: Field[] }) {
-  // TODO- would be nice if the header row didn't scroll with content
+function TableCard(props: {
+  datasetIds: string[];
+  data: Row[];
+  fields?: string[];
+}) {
   return (
-    <Card raised={true} className={cardStyles.ChartCard}>
-      <div className={cardStyles.TableContainer}>
-        <TableChart data={props.data} fields={props.fields} />
-      </div>
-    </Card>
+    <>
+      {props.data.length === 0 && (
+        <Alert severity="warning">
+          Missing data means that we don't know the full story.
+        </Alert>
+      )}
+      {props.data.length > 0 && (
+        <CardWrapper datasetIds={props.datasetIds}>
+          <TableChart data={props.data} fields={props.fields} />
+        </CardWrapper>
+      )}
+    </>
   );
 }
 

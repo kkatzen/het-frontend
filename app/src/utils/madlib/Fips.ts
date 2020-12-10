@@ -24,12 +24,7 @@ class Fips {
   }
 
   isCounty() {
-    // 11001 is the DC code
-    return this.code.length === 5 && !this.isDc;
-  }
-
-  isDc() {
-    return this.code === "11001";
+    return this.code.length === 5;
   }
 
   getDisplayName() {
@@ -45,7 +40,7 @@ class Fips {
   }
 
   getStateFipsCode() {
-    return this.isDc() ? this.code : this.code.substring(0, 2);
+    return this.code.substring(0, 2);
   }
 
   getStateDisplayName() {
@@ -71,6 +66,7 @@ export const STATE_FIPS_MAP: Record<string, string> = {
   "08": "Colorado",
   "09": "Connecticut",
   "10": "Delaware",
+  "11": "District of Columbia",
   "12": "Florida",
   "13": "Georgia",
   "15": "Hawaii",
@@ -118,7 +114,6 @@ export const STATE_FIPS_MAP: Record<string, string> = {
   "69": "Northern Mariana Islands",
   "72": "Puerto Rico",
   "78": "Virgin Islands",
-  "11001": "District of Columbia",
 };
 
 // TODO- switch to this list: https://api.census.gov/data/2018/acs/acs5?get=NAME&for=county:*
