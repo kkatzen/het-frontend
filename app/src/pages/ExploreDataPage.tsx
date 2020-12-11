@@ -30,7 +30,7 @@ import {
   linkToMadLib,
 } from "../utils/urlutils";
 import ReactTooltip from "react-tooltip";
-import ReportWrapper from "../features/reports/ReportWrapper";
+import ReportProvider from "../reports/ReportProvider";
 
 function FipsSelector(props: {
   value: string;
@@ -138,7 +138,7 @@ function ExploreDataPage() {
             <ShareIcon />
           </IconButton>
         </h1>
-        <ReportWrapper madLib={madLib} setMadLib={setMadLib} />
+        <ReportProvider madLib={madLib} setMadLib={setMadLib} />
       </div>
     </React.Fragment>
   );

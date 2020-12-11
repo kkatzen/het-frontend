@@ -28,7 +28,7 @@ import {
   useDatasetStoreProvider,
   DatasetProvider,
   startMetadataLoad,
-} from "./utils/useDatasetStore";
+} from "./data/useDatasetStore";
 import {
   LinkWithStickyParams,
   EXPLORE_DATA_PAGE_LINK,

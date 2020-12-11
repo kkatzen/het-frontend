@@ -1,4 +1,4 @@
-import { VariableId } from "../variableProviders";
+import { VariableId } from "../../data/variableProviders";
 
 export const VARIABLE_DISPLAY_NAMES: Record<VariableId, string> = {
   diabetes_count: "Diabetes case count",

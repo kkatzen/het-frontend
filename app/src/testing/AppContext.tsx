@@ -2,7 +2,7 @@ import React from "react";
 import {
   DatasetProvider,
   useDatasetStoreProvider,
-} from "../utils/useDatasetStore";
+} from "../data/useDatasetStore";
 
 /** A fake app context that sets up global context for use in tests. */
 function AppContext(props: { children: React.ReactNode }) {

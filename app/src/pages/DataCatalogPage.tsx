@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import DatasetExplorer from "../features/dataset_explorer/DatasetExplorer";
+import DatasetExplorer from "../dataset_explorer/DatasetExplorer";
 import {
   clearSearchParams,
   DATASET_PRE_FILTERS,
