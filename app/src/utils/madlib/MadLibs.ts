@@ -17,6 +17,7 @@ export type MadLibId =
   | "varcompare"
   | "disvargeo"
   | "disvarcompare"
+  | "vvg"
   | "dump";
 
 export interface MadLib {
@@ -72,6 +73,19 @@ const DISPARITY_DROPDOWN_VAR: Record<DropdownVarId, string> = {
 };
 
 const MADLIB_LIST: MadLib[] = [
+  {
+    id: "vvg",
+    phrase: [
+      "Show me ",
+      DISPARITY_DROPDOWN_VAR,
+      " and ",
+      DISPARITY_DROPDOWN_VAR,
+      "in",
+      FIPS_MAP,
+    ],
+    defaultSelections: { 1: "covid", 3: "covid", 5: USA_FIPS }, // 13 is Georgia
+    activeSelections: { 1: "covid", 3: "covid", 5: USA_FIPS }, // 13 is Georgia
+  },
   {
     id: "disvargeo",
     phrase: [

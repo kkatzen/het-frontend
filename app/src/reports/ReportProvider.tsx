@@ -38,6 +38,36 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
           updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
         />
       );
+    case "vvg":
+      const compareDisparityVariable1 = getPhraseValue(
+        props.madLib,
+        1
+      ) as DropdownVarId;
+      const compareDisparityVariable2 = getPhraseValue(
+        props.madLib,
+        3
+      ) as DropdownVarId;
+      return (
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <VariableDisparityReport
+              dropdownVarId={compareDisparityVariable1}
+              fips={new Fips(getPhraseValue(props.madLib, 5))}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
+              vertical={true}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <VariableDisparityReport
+              dropdownVarId={compareDisparityVariable2}
+              fips={new Fips(getPhraseValue(props.madLib, 5))}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
+              vertical={true}
+            />
+          </Grid>
+        </Grid>
+      );
+
     case "disvarcompare":
       const compareDisparityVariable = getPhraseValue(
         props.madLib,
