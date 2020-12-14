@@ -43,13 +43,11 @@ function DisparityBarChartCard(props: {
   ];
   const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
 
-  const queries = [geoFilteredQuery];
-
   // TODO - we want to bold the breakdown name in the card title
   return (
     <CardWrapper
       datasetIds={getDependentDatasets(variables)}
-      queries={queries}
+      queries={[geoFilteredQuery]}
       titleText={`Disparities in ${METRIC_FULL_NAMES[props.metricId]} by ${
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
       } in ${props.fips.getFullDisplayName()}`}
@@ -66,12 +64,14 @@ function DisparityBarChartCard(props: {
         return (
           <>
             <CardContent className={styles.Breadcrumbs}>
-              {!dataset && (
+              {props.breakdownVar !==
+                ("race_and_ethnicity" as BreakdownVar) && (
                 <Alert severity="warning">
                   Missing data means that we don't know the full story.
                 </Alert>
               )}
-              {dataset && (
+              {props.breakdownVar ===
+                ("race_and_ethnicity" as BreakdownVar) && (
                 <ToggleButtonGroup
                   value={chartToggle}
                   exclusive
@@ -84,7 +84,8 @@ function DisparityBarChartCard(props: {
               )}
             </CardContent>
             <CardContent className={styles.Breadcrumbs}>
-              {dataset && (
+              {props.breakdownVar ===
+                ("race_and_ethnicity" as BreakdownVar) && (
                 <>
                   {chartToggle === "percents" && (
                     <DisparityBarChart

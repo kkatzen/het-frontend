@@ -5,7 +5,7 @@ import styles from "./Report.module.scss";
 import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import useDatasetStore from "../data/useDatasetStore";
 import { DropdownVarId } from "../utils/madlib/MadLibs";
-import { VARIABLE_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
+import { per100k } from "../utils/madlib/DisplayNames";
 import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import { Breakdowns } from "../data/Breakdowns";
 import { Fips } from "../utils/madlib/Fips";
@@ -32,10 +32,13 @@ function VarGeoReport(props: {
     ? (METRIC_VARIABLES[props.variable] as VariableId)
     : ("diabetes" as VariableId);
 
+  const metric = per100k(variableId);
+
   const datasetStore = useDatasetStore();
 
   const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace();
-  const geoFilteredQuery = new VariableQuery(variableId, geoFilteredBreakdowns);
+  const geoFilteredQuery = new VariableQuery(metric, geoFilteredBreakdowns);
+  const datasetIds = getDependentDatasets([metric]);
 
   return (
     <>
@@ -76,8 +79,8 @@ function VarGeoReport(props: {
               {() => (
                 <TableCard
                   data={datasetStore.getVariables(geoFilteredQuery)}
-                  datasetIds={getDependentDatasets([variableId])}
-                  fields={["race_and_ethnicity", variableId]}
+                  datasetIds={datasetIds}
+                  fields={["race_and_ethnicity", metric]}
                 />
               )}
             </WithVariables>
