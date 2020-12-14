@@ -28,13 +28,13 @@ export const BREAKDOWN_VAR_DISPLAY_NAMES: Record<BreakdownVar, string> = {
 
 export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
 
-export const METRIC_FULL_NAMES: Record<MetricToggle, string> = {
+export const METRIC_FULL_NAMES: Record<string, string> = {
   covid_cases: "COVID-19 Cases",
   covid_deaths: "COVID-19 Deaths",
   covid_hosp: "COVID-19 Hospitalizations",
 };
 
-export const METRIC_SHORT_NAMES: Record<MetricToggle, string> = {
+export const METRIC_SHORT_NAMES: Record<string, string> = {
   covid_cases: "cases",
   covid_deaths: "deaths",
   covid_hosp: "hospitalizations",

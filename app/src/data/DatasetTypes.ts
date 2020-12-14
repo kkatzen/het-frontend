@@ -1,7 +1,46 @@
 import { DataFrame, IDataFrame } from "data-forge";
 import VariableQuery from "./VariableQuery";
+import { VariableId } from "../data/variableProviders";
 
 /* TODO: These are not yet comprehensive, final interfaces */
+export type MetricType =
+  | "count"
+  | "pct_share"
+  | "pct_share_to_pop_ratio"
+  | "per100k"
+  | "percentile"
+  | "index";
+
+export type Metric = {
+  variableId: VariableId;
+  fullCardTitleName: string;
+  shortVegaLabel: string;
+};
+
+export const MADLIB_VARIABLES: Record<
+  string,
+  Record<string, Record<string, Metric>>
+> = {
+  covid: {
+    cases: {
+      count: {
+        variableId: "covid_cases",
+        fullCardTitleName: "Covid19 cases",
+        shortVegaLabel: "cases",
+      },
+      pct_share: {
+        variableId: "covid_cases_pct_of_geo",
+        fullCardTitleName: "Share of COVID-19 cases",
+        shortVegaLabel: "% of cases",
+      },
+      per100k: {
+        variableId: "covid_cases_pct_of_geo",
+        fullCardTitleName: "Share of COVID-19 cases",
+        shortVegaLabel: "% of cases",
+      },
+    },
+  },
+};
 
 export interface DatasetMetadata {
   readonly id: string;

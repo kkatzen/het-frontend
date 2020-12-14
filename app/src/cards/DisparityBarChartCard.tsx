@@ -19,6 +19,11 @@ import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
+import {
+  METRIC_CONFIG,
+  MetricConfig,
+  VariableConfig,
+} from "../data/MetricConfig";
 
 import CardWrapper from "./CardWrapper";
 
@@ -26,21 +31,32 @@ export type ChartToggle = "percents" | "ratio";
 
 function DisparityBarChartCard(props: {
   breakdownVar: BreakdownVar;
-  metricId: MetricToggle;
+  variableConfig: VariableConfig;
   fips: Fips;
 }) {
-  const [chartToggle, setChartToggle] = useState<ChartToggle>("percents");
+  const VALID_METRIC_TYPES = ["pct_share", "per100k"];
+
+  // Initalized state
+  const [metricConfig, setMetricConfig] = useState<MetricConfig>(
+    props.variableConfig.metrics[0]
+  );
+  console.log(metricConfig);
 
   const datasetStore = useDatasetStore();
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
   const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
+
+  const metricIds = props.variableConfig.metrics.map(
+    (metricConfig: MetricConfig) => metricConfig.metricId
+  );
   const variables: VariableId[] = [
-    shareOf(props.metricId) as VariableId,
+    ...metricIds,
     "population",
     "population_pct",
   ];
+  console.log(variables);
   const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
 
   // TODO - we want to bold the breakdown name in the card title
@@ -48,7 +64,7 @@ function DisparityBarChartCard(props: {
     <CardWrapper
       datasetIds={getDependentDatasets(variables)}
       queries={[geoFilteredQuery]}
-      titleText={`Disparities in ${METRIC_FULL_NAMES[props.metricId]} by ${
+      titleText={`Disparities in ${metricConfig.fullCardTitleName} by ${
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
       } in ${props.fips.getFullDisplayName()}`}
     >
@@ -73,13 +89,29 @@ function DisparityBarChartCard(props: {
               {props.breakdownVar ===
                 ("race_and_ethnicity" as BreakdownVar) && (
                 <ToggleButtonGroup
-                  value={chartToggle}
+                  value={metricConfig}
                   exclusive
-                  onChange={(e, v) => setChartToggle(v)}
+                  onChange={(e, metricId) => {
+                    console.log(metricId);
+                    if (metricId !== null) {
+                      setMetricConfig(
+                        props.variableConfig.metrics.find(
+                          (metricConfig) => metricConfig.metricId === metricId
+                        ) as MetricConfig
+                      );
+                    }
+                  }}
                   aria-label="text alignment"
                 >
-                  <ToggleButton value="percents">Percent Share</ToggleButton>
-                  <ToggleButton value="ratio">Per 100,000 People</ToggleButton>
+                  {props.variableConfig.metrics
+                    .filter((metricConfig) =>
+                      VALID_METRIC_TYPES.includes(metricConfig.type)
+                    )
+                    .map((metricConfig) => (
+                      <ToggleButton value={metricConfig.metricId}>
+                        {metricConfig.metricId}
+                      </ToggleButton>
+                    ))}
                 </ToggleButtonGroup>
               )}
             </CardContent>
@@ -87,23 +119,20 @@ function DisparityBarChartCard(props: {
               {props.breakdownVar ===
                 ("race_and_ethnicity" as BreakdownVar) && (
                 <>
-                  {chartToggle === "percents" && (
+                  {metricConfig.type === "pct_share" && (
                     <DisparityBarChart
                       data={dataset}
                       thickMeasure={"population_pct" as VariableId}
-                      thinMeasure={
-                        (props.metricId + "_pct_of_geo") as VariableId
-                      }
+                      thinMeasure={metricConfig.metricId}
                       breakdownVar={props.breakdownVar as BreakdownVar}
-                      metricDisplayName={METRIC_SHORT_NAMES[props.metricId]}
+                      metricDisplayName={metricConfig.shortVegaLabel}
                     />
                   )}
-                  {chartToggle !== "percents" && (
-                    // TODO- calculate actual ratio
+                  {metricConfig.type === "per100k" && (
                     <SimpleHorizontalBarChart
                       data={dataset}
                       breakdownVar={props.breakdownVar as BreakdownVar}
-                      measure={(props.metricId + "_per_100k") as VariableId}
+                      measure={metricConfig.metricId}
                       showLegend={false}
                     />
                   )}

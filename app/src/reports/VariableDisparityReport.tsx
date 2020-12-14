@@ -17,26 +17,28 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import { Fips } from "../utils/madlib/Fips";
+import {
+  METRIC_CONFIG,
+  VariableConfig,
+  MetricConfig,
+} from "../data/MetricConfig";
 
-// TODO - remove hardcoded values when we have full support
-const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["covid"];
-
-function DisVarGeo(props: {
+function VariableDisparityReport(props: {
   dropdownVarId: DropdownVarId;
   fips: Fips;
   updateFipsCallback: Function;
   vertical?: boolean;
 }) {
   // TODO Remove hard coded fail safe value
-  const [metric, setMetric] = useState<MetricToggle>(
-    SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId)
-      ? (METRICS_FOR_VARIABLE[props.dropdownVarId as string][0] as MetricToggle)
-      : ("covid_cases" as MetricToggle)
+  const [variableConfig, setVariableConfig] = useState<VariableConfig | null>(
+    Object.keys(METRIC_CONFIG).includes(props.dropdownVarId)
+      ? METRIC_CONFIG[props.dropdownVarId as string][0]
+      : null
   );
 
   return (
     <>
-      {!SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId) && (
+      {!variableConfig && (
         <Grid container xs={12} spacing={1} justify="center">
           <Grid item xs={5}>
             <Alert severity="error">Data not currently available</Alert>
@@ -44,63 +46,53 @@ function DisVarGeo(props: {
         </Grid>
       )}
 
-      {SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId) && (
+      {variableConfig && (
         <Grid container spacing={1} justify="center">
           <Grid item xs={12}>
             <ToggleButtonGroup
               exclusive
-              value={metric}
-              onChange={(e, v) => {
-                if (v !== null) {
-                  setMetric(v);
+              value={variableConfig}
+              onChange={(e, variableId) => {
+                console.log(variableId);
+                if (variableId !== null) {
+                  console.log(
+                    METRIC_CONFIG[props.dropdownVarId].find(
+                      (variableConfig) =>
+                        variableConfig.variableId === variableId
+                    )
+                  );
+                  setVariableConfig(
+                    METRIC_CONFIG[props.dropdownVarId].find(
+                      (variableConfig) =>
+                        variableConfig.variableId === variableId
+                    ) as VariableConfig
+                  );
                 }
               }}
               aria-label="text formatting"
             >
-              {METRICS_FOR_VARIABLE[props.dropdownVarId].map(
-                (variableId: string, key: number) => (
-                  <ToggleButton value={variableId as VariableId} key={key}>
-                    {VARIABLE_DISPLAY_NAMES[variableId as VariableId]}
+              {METRIC_CONFIG[props.dropdownVarId as string].map(
+                (variable: VariableConfig, key: number) => (
+                  <ToggleButton value={variable.variableId} key={key}>
+                    {variable.variableId}
                   </ToggleButton>
                 )
               )}
             </ToggleButtonGroup>
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
-            <MapCard
-              variable={metric as string}
-              fips={props.fips}
-              updateFipsCallback={(fips: Fips) => {
-                props.updateFipsCallback(fips);
-              }}
-              enableFilter={props.fips.isUsa()}
-              showCounties={false}
-              nonstandardizedRace={true}
-            />
-            <TableCard
-              fips={props.fips}
-              variableIds={[
-                per100k(metric) as VariableId,
-                shareOf(metric) as VariableId,
-                "population" as VariableId,
-                "population_pct" as VariableId,
-              ]}
-              breakdownVar={"race_and_ethnicity" as BreakdownVar}
-            />
-          </Grid>
-          <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
-              metricId={metric}
+              variableConfig={variableConfig}
               breakdownVar="race_and_ethnicity"
               fips={props.fips}
             />
             <DisparityBarChartCard
-              metricId={metric}
+              variableConfig={variableConfig}
               breakdownVar="age"
               fips={props.fips}
             />
             <DisparityBarChartCard
-              metricId={metric}
+              variableConfig={variableConfig}
               breakdownVar="sex"
               fips={props.fips}
             />
@@ -111,4 +103,4 @@ function DisVarGeo(props: {
   );
 }
 
-export default DisVarGeo;
+export default VariableDisparityReport;
