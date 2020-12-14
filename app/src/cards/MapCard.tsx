@@ -16,10 +16,15 @@ import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
 import { VARIABLE_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
+import {
+  METRIC_CONFIG,
+  MetricConfig,
+  VariableConfig,
+} from "../data/MetricConfig";
 
 function MapCard(props: {
   fips: Fips;
-  variable: string /* TODO type this- it's the thing you could feed into the per100k */;
+  metricConfig: MetricConfig | undefined;
   nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
@@ -56,25 +61,34 @@ function MapCard(props: {
 
   const datasetStore = useDatasetStore();
 
-  const per100kVariable = per100k(props.variable) as VariableId;
-  const variableDisplayName = VARIABLE_DISPLAY_NAMES[per100kVariable];
   const allGeosBreakdowns = Breakdowns.byState().andRace(
     props.nonstandardizedRace
   );
-  const allGeosQuery = new VariableQuery(per100kVariable, allGeosBreakdowns);
+  const allGeosQuery = new VariableQuery(
+    props.metricConfig!.metricId,
+    allGeosBreakdowns
+  );
+
+  const datasets = props.metricConfig
+    ? getDependentDatasets([props.metricConfig.metricId])
+    : [];
 
   return (
     <CardWrapper
       queries={[allGeosQuery]}
-      datasetIds={getDependentDatasets([per100kVariable])}
-      titleText={`${variableDisplayName} in ${props.fips.getFullDisplayName()}`}
+      datasetIds={datasets}
+      titleText={`${
+        props.metricConfig!.fullCardTitleName
+      } in ${props.fips.getFullDisplayName()}`}
     >
       {() => {
         const dataset = datasetStore
           .getVariables(allGeosQuery)
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
 
-        let mapData = dataset.filter((r) => r[per100kVariable] !== undefined);
+        let mapData = dataset.filter(
+          (r) => r[props.metricConfig!.metricId] !== undefined
+        );
         if (props.fips.code !== USA_FIPS) {
           // TODO - this doesn't consider county level data
           mapData = mapData.filter((r) => r.state_fips === props.fips.code);
@@ -136,15 +150,17 @@ function MapCard(props: {
               )}
             </CardContent>
             <CardContent>
-              <UsaChloroplethMap
-                signalListeners={signalListeners}
-                varField={per100kVariable}
-                legendTitle={variableDisplayName}
-                data={mapData}
-                hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-                showCounties={props.showCounties}
-                fips={props.fips}
-              />
+              {props.metricConfig && (
+                <UsaChloroplethMap
+                  signalListeners={signalListeners}
+                  varField={props.metricConfig!.metricId}
+                  legendTitle={props.metricConfig!.fullCardTitleName}
+                  data={mapData}
+                  hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
+                  showCounties={props.showCounties}
+                  fips={props.fips}
+                />
+              )}
             </CardContent>
           </>
         );

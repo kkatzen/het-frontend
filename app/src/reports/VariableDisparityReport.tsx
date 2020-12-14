@@ -81,6 +81,20 @@ function VariableDisparityReport(props: {
             </ToggleButtonGroup>
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
+            <MapCard
+              metricConfig={variableConfig.metrics.find(
+                (metricConfig) => metricConfig.type === "per100k"
+              )}
+              fips={props.fips}
+              updateFipsCallback={(fips: Fips) => {
+                props.updateFipsCallback(fips);
+              }}
+              enableFilter={props.fips.isUsa()}
+              showCounties={false}
+              nonstandardizedRace={true}
+            />
+          </Grid>
+          <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
               variableConfig={variableConfig}
               breakdownVar="race_and_ethnicity"
