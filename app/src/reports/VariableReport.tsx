@@ -19,7 +19,7 @@ const METRIC_VARIABLES: Record<string, string> = {
   diabetes: "diabetes",
 };
 
-function VarGeoReport(props: {
+function VariableReport(props: {
   variable: DropdownVarId;
   fips: Fips;
   updateFipsCallback: Function;
@@ -91,4 +91,4 @@ function VarGeoReport(props: {
   );
 }
 
-export default VarGeoReport;
+export default VariableReport;

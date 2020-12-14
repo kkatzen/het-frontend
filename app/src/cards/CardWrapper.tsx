@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import VariableQuery from "../data/VariableQuery";
 
+// TODO - gracefully handle loading- progress bar should be inside card
 function CardWrapper(props: {
   datasetIds: string[];
   titleText?: string;

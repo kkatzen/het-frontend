@@ -19,8 +19,8 @@ import { VARIABLE_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
 
 function MapCard(props: {
   fips: Fips;
-  variable: string /* thing you could feed into the per100k */;
-  nonstandardizedRace: boolean /* ideally wouldn't go here */;
+  variable: string /* TODO type this- it's the thing you could feed into the per100k */;
+  nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
   showCounties: boolean;
@@ -56,15 +56,12 @@ function MapCard(props: {
 
   const datasetStore = useDatasetStore();
 
-  console.log("kkz", props.variable);
-
   const per100kVariable = per100k(props.variable) as VariableId;
   const variableDisplayName = VARIABLE_DISPLAY_NAMES[per100kVariable];
   const allGeosBreakdowns = Breakdowns.byState().andRace(
     props.nonstandardizedRace
   );
   const allGeosQuery = new VariableQuery(per100kVariable, allGeosBreakdowns);
-  console.log("kkz", per100kVariable);
 
   return (
     <CardWrapper
@@ -76,7 +73,6 @@ function MapCard(props: {
         const dataset = datasetStore
           .getVariables(allGeosQuery)
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
-        console.log("kkz", dataset);
 
         let mapData = dataset.filter((r) => r[per100kVariable] !== undefined);
         if (props.fips.code !== USA_FIPS) {

@@ -124,7 +124,6 @@ function DisVarGeo(props: {
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
-              // dataset={geoFilteredDataset}
               metricId={metric}
               breakdownVar="race_and_ethnicity"
               fips={props.fips}
