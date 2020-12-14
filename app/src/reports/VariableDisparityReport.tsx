@@ -91,6 +91,16 @@ function VariableDisparityReport(props: {
               showCounties={false}
               nonstandardizedRace={true}
             />
+            <TableCard
+              fips={props.fips}
+              variableIds={[
+                variableConfig.metrics["per100k"].metricId as VariableId,
+                variableConfig.metrics["pct_share"].metricId as VariableId,
+                "population" as VariableId,
+                "population_pct" as VariableId,
+              ]}
+              breakdownVar={"race_and_ethnicity" as BreakdownVar}
+            />
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
