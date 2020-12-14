@@ -13,12 +13,15 @@ function TableCard(props: {
   fips: Fips;
   breakdownVar: BreakdownVar;
   variableIds: VariableId[];
+  nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
 }) {
   const datasetStore = useDatasetStore();
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
-  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
+  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(
+    props.nonstandardizedRace
+  );
   const geoFilteredQuery = new VariableQuery(
     props.variableIds,
     geoFilteredBreakdowns

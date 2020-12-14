@@ -27,30 +27,31 @@ import {
 
 import CardWrapper from "./CardWrapper";
 
-export type ChartToggle = "percents" | "ratio";
-
 function DisparityBarChartCard(props: {
   breakdownVar: BreakdownVar;
   variableConfig: VariableConfig;
+  nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
   fips: Fips;
 }) {
   const VALID_METRIC_TYPES = ["pct_share", "per100k"];
 
   // Initalized state
   const [metricConfig, setMetricConfig] = useState<MetricConfig>(
-    props.variableConfig.metrics["pct_share"]
+    props.variableConfig.metrics["per100k"] // want to start on pct_share, if available
   );
   useEffect(() => {
-    setMetricConfig(props.variableConfig.metrics["pct_share"]);
+    setMetricConfig(props.variableConfig.metrics["per100k"]);
   }, [props.variableConfig]);
 
-  console.log(metricConfig);
+  console.log("metricConfig", metricConfig);
 
   const datasetStore = useDatasetStore();
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
-  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
+  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(
+    props.nonstandardizedRace
+  );
 
   const metricIds = Object.values(props.variableConfig.metrics).map(
     (metricConfig: MetricConfig) => metricConfig.metricId
@@ -68,7 +69,7 @@ function DisparityBarChartCard(props: {
     <CardWrapper
       datasetIds={getDependentDatasets(variables)}
       queries={[geoFilteredQuery]}
-      titleText={`Disparities in ${metricConfig.fullCardTitleName} by ${
+      titleText={`${metricConfig.fullCardTitleName} by ${
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
       } in ${props.fips.getFullDisplayName()}`}
     >
@@ -90,32 +91,38 @@ function DisparityBarChartCard(props: {
                   Missing data means that we don't know the full story.
                 </Alert>
               )}
-              {props.breakdownVar ===
-                ("race_and_ethnicity" as BreakdownVar) && (
-                <ToggleButtonGroup
-                  value={metricConfig.type}
-                  exclusive
-                  onChange={(e, metricType) => {
-                    console.log(metricType);
-                    if (metricType !== null) {
-                      setMetricConfig(
-                        props.variableConfig.metrics[metricType] as MetricConfig
-                      );
-                    }
-                  }}
-                  aria-label="text alignment"
-                >
-                  {Object.values(props.variableConfig.metrics)
-                    .filter((metricConfig) =>
-                      VALID_METRIC_TYPES.includes(metricConfig.type)
-                    )
-                    .map((metricConfig) => (
-                      <ToggleButton value={metricConfig.type}>
-                        {metricConfig.type}
-                      </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-              )}
+              {props.breakdownVar === ("race_and_ethnicity" as BreakdownVar) &&
+                Object.values(
+                  props.variableConfig.metrics
+                ).filter((metricConfig) =>
+                  VALID_METRIC_TYPES.includes(metricConfig.type)
+                ).length > 1 && (
+                  <ToggleButtonGroup
+                    value={metricConfig.type}
+                    exclusive
+                    onChange={(e, metricType) => {
+                      console.log(metricType);
+                      if (metricType !== null) {
+                        setMetricConfig(
+                          props.variableConfig.metrics[
+                            metricType
+                          ] as MetricConfig
+                        );
+                      }
+                    }}
+                    aria-label="text alignment"
+                  >
+                    {Object.values(props.variableConfig.metrics)
+                      .filter((metricConfig) =>
+                        VALID_METRIC_TYPES.includes(metricConfig.type)
+                      )
+                      .map((metricConfig) => (
+                        <ToggleButton value={metricConfig.type}>
+                          {metricConfig.type}
+                        </ToggleButton>
+                      ))}
+                  </ToggleButtonGroup>
+                )}
             </CardContent>
             <CardContent className={styles.Breadcrumbs}>
               {props.breakdownVar ===

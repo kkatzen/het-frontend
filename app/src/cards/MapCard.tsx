@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
 import { Fips, USA_FIPS } from "../utils/madlib/Fips";
 import Alert from "@material-ui/lab/Alert";
@@ -39,25 +39,38 @@ function MapCard(props: {
 
   // TODO - make sure the legends are all the same
   // TODO - pull these from the data itself
-  const RACES = [
-    "Total",
-    "American Indian and Alaska Native alone",
-    "American Indian and Alaska Native alone (Non-Hispanic)",
-    "Asian alone",
-    "Asian alone (Non-Hispanic)",
-    "Black or African American alone",
-    "Black or African American alone (Non-Hispanic)",
-    "Hispanic or Latino",
-    "Native Hawaiian and Other Pacific Islander alone",
-    "Native Hawaiian and Other Pacific Islander alone (Non-Hispanic)",
-    "Some other race alone",
-    "Some other race alone (Non-Hispanic)",
-    "Two or more races",
-    "Two or more races (Non-Hispanic)",
-    "White alone",
-    "White alone (Non-Hispanic)",
-  ];
+  const RACES = props.nonstandardizedRace
+    ? [
+        "Total",
+        "American Indian and Alaska Native alone",
+        "American Indian and Alaska Native alone (Non-Hispanic)",
+        "Asian alone",
+        "Asian alone (Non-Hispanic)",
+        "Black or African American alone",
+        "Black or African American alone (Non-Hispanic)",
+        "Hispanic or Latino",
+        "Native Hawaiian and Other Pacific Islander alone",
+        "Native Hawaiian and Other Pacific Islander alone (Non-Hispanic)",
+        "Some other race alone",
+        "Some other race alone (Non-Hispanic)",
+        "Two or more races",
+        "Two or more races (Non-Hispanic)",
+        "White alone",
+        "White alone (Non-Hispanic)",
+      ]
+    : [
+        "American Indian/Alaskan Native, Non-Hispanic",
+        "Asian, Non-Hispanic",
+        "Black, Non-Hispanic",
+        "Hispanic",
+        "Other race, Non-Hispanic",
+        "White, Non-Hispanic",
+      ];
+
   const [race, setRace] = useState<string>(RACES[0]);
+  useEffect(() => {
+    setRace(RACES[0]);
+  }, [RACES, props.metricConfig]);
 
   const datasetStore = useDatasetStore();
 
@@ -89,13 +102,16 @@ function MapCard(props: {
         let mapData = dataset.filter(
           (r) => r[props.metricConfig!.metricId] !== undefined
         );
+        console.log("mapData", mapData);
         if (props.fips.code !== USA_FIPS) {
           // TODO - this doesn't consider county level data
           mapData = mapData.filter((r) => r.state_fips === props.fips.code);
         }
+        console.log("mapData", mapData);
         if (props.enableFilter) {
           mapData = mapData.filter((r) => r.race_and_ethnicity === race);
         }
+        console.log("mapData", mapData);
 
         return (
           <>

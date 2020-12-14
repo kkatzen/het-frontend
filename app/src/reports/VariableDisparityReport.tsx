@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { VariableId } from "../data/variableProviders";
 import {
@@ -36,6 +36,26 @@ function VariableDisparityReport(props: {
       : null
   );
 
+  useEffect(() => {
+    setVariableConfig(
+      Object.keys(METRIC_CONFIG).includes(props.dropdownVarId)
+        ? METRIC_CONFIG[props.dropdownVarId as string][0]
+        : null
+    );
+  }, [props.dropdownVarId]);
+
+  const fields: VariableId[] = [];
+  if (variableConfig && variableConfig.metrics["per100k"]) {
+    fields.push(variableConfig.metrics["per100k"].metricId as VariableId);
+  }
+  if (variableConfig && variableConfig.metrics["pct_share"]) {
+    fields.push(variableConfig.metrics["pct_share"].metricId as VariableId);
+  }
+
+  const tableFields = variableConfig
+    ? [...fields, "population" as VariableId, "population_pct" as VariableId]
+    : [];
+
   return (
     <>
       {!variableConfig && (
@@ -49,36 +69,38 @@ function VariableDisparityReport(props: {
       {variableConfig && (
         <Grid container spacing={1} justify="center">
           <Grid item xs={12}>
-            <ToggleButtonGroup
-              exclusive
-              value={variableConfig.variableId}
-              onChange={(e, variableId) => {
-                console.log(variableId);
-                if (variableId !== null) {
-                  console.log(
-                    METRIC_CONFIG[props.dropdownVarId].find(
-                      (variableConfig) =>
-                        variableConfig.variableId === variableId
-                    )
-                  );
-                  setVariableConfig(
-                    METRIC_CONFIG[props.dropdownVarId].find(
-                      (variableConfig) =>
-                        variableConfig.variableId === variableId
-                    ) as VariableConfig
-                  );
-                }
-              }}
-              aria-label="text formatting"
-            >
-              {METRIC_CONFIG[props.dropdownVarId as string].map(
-                (variable: VariableConfig, key: number) => (
-                  <ToggleButton value={variable.variableId} key={key}>
-                    {variable.variableId}
-                  </ToggleButton>
-                )
-              )}
-            </ToggleButtonGroup>
+            {METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
+              <ToggleButtonGroup
+                exclusive
+                value={variableConfig.variableId}
+                onChange={(e, variableId) => {
+                  console.log(variableId);
+                  if (variableId !== null) {
+                    console.log(
+                      METRIC_CONFIG[props.dropdownVarId].find(
+                        (variableConfig) =>
+                          variableConfig.variableId === variableId
+                      )
+                    );
+                    setVariableConfig(
+                      METRIC_CONFIG[props.dropdownVarId].find(
+                        (variableConfig) =>
+                          variableConfig.variableId === variableId
+                      ) as VariableConfig
+                    );
+                  }
+                }}
+                aria-label="text formatting"
+              >
+                {METRIC_CONFIG[props.dropdownVarId as string].map(
+                  (variable: VariableConfig, key: number) => (
+                    <ToggleButton value={variable.variableId} key={key}>
+                      {variable.variableId}
+                    </ToggleButton>
+                  )
+                )}
+              </ToggleButtonGroup>
+            )}
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
@@ -89,33 +111,42 @@ function VariableDisparityReport(props: {
               }}
               enableFilter={props.fips.isUsa()}
               showCounties={false}
-              nonstandardizedRace={true}
+              nonstandardizedRace={
+                props.dropdownVarId === "covid" ? true : false
+              }
             />
             <TableCard
               fips={props.fips}
-              variableIds={[
-                variableConfig.metrics["per100k"].metricId as VariableId,
-                variableConfig.metrics["pct_share"].metricId as VariableId,
-                "population" as VariableId,
-                "population_pct" as VariableId,
-              ]}
+              variableIds={tableFields}
               breakdownVar={"race_and_ethnicity" as BreakdownVar}
+              nonstandardizedRace={
+                props.dropdownVarId === "covid" ? true : false
+              }
             />
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
               variableConfig={variableConfig}
               breakdownVar="race_and_ethnicity"
+              nonstandardizedRace={
+                props.dropdownVarId === "covid" ? true : false
+              }
               fips={props.fips}
             />
             <DisparityBarChartCard
               variableConfig={variableConfig}
               breakdownVar="age"
+              nonstandardizedRace={
+                props.dropdownVarId === "covid" ? true : false
+              }
               fips={props.fips}
             />
             <DisparityBarChartCard
               variableConfig={variableConfig}
               breakdownVar="sex"
+              nonstandardizedRace={
+                props.dropdownVarId === "covid" ? true : false
+              }
               fips={props.fips}
             />
           </Grid>

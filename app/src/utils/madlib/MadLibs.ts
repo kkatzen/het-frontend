@@ -48,7 +48,7 @@ export type DropdownVarId =
 // @ts-ignore
 const DROPDOWN_VAR: Record<DropdownVarId, string> = {
   covid: "COVID-19",
-  diabetes: "[coming soon] diabetes",
+  diabetes: "diabetes",
   obesity: "[coming soon] obesity",
   asthma: "[coming soon] asthma",
   copd: "[coming soon] copd",
@@ -64,7 +64,7 @@ const MADLIB_LIST: MadLib[] = [
       "in",
       STATE_FIPS_MAP,
     ],
-    defaultSelections: { 1: "covid", 3: USA_FIPS },
+    defaultSelections: { 1: "diabetes", 3: USA_FIPS },
     activeSelections: { 1: "covid", 3: USA_FIPS },
   },
   {
