@@ -10,14 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
 import CardWrapper from "./CardWrapper";
-import {
-  BreakdownVar,
-  BREAKDOWN_VAR_DISPLAY_NAMES,
-  MetricToggle,
-  shareOf,
-  METRIC_FULL_NAMES,
-  METRIC_SHORT_NAMES,
-} from "../utils/madlib/DisplayNames";
+import { MetricToggle, shareOf } from "../utils/madlib/DisplayNames";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets, VariableId } from "../data/variableProviders";
@@ -67,11 +60,6 @@ function MapCard(props: {
 
   const shareOfVariable = shareOf(props.metricId as string) as VariableId;
   const allGeosBreakdowns = Breakdowns.byState().andRace(true);
-  const variables: VariableId[] = [
-    shareOfVariable,
-    "population",
-    "population_pct",
-  ];
   const allGeosQuery = new VariableQuery(shareOfVariable, allGeosBreakdowns);
 
   return (

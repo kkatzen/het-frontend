@@ -11,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import VariableQuery from "../data/VariableQuery";
-import { Breakdowns } from "../data/Breakdowns";
 
 function CardWrapper(props: {
   datasetIds: string[];

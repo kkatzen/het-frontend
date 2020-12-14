@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DisparityBarChart from "../charts/DisparityBarChart";
 import styles from "./Card.module.scss";
 import { Alert } from "@material-ui/lab";
-import { Row } from "../data/DatasetTypes";
 import { CardContent } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";

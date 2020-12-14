@@ -110,12 +110,6 @@ function DisVarGeo(props: {
                       )
                   );
 
-                const dataset = datasetStore
-                  .getVariables(allGeosQuery)
-                  .filter(
-                    (row) => row.race_and_ethnicity !== "Not Hispanic or Latino"
-                  );
-
                 return (
                   <TableCard
                     data={geoFilteredDataset}
