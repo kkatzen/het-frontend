@@ -7,44 +7,69 @@ import { CardContent } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
-import { VariableId } from "../data/variableProviders";
 import { Fips } from "../utils/madlib/Fips";
 import {
   BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
   MetricToggle,
+  shareOf,
   METRIC_FULL_NAMES,
   METRIC_SHORT_NAMES,
 } from "../utils/madlib/DisplayNames";
+import useDatasetStore from "../data/useDatasetStore";
+import { Breakdowns } from "../data/Breakdowns";
+import { getDependentDatasets, VariableId } from "../data/variableProviders";
+import VariableQuery from "../data/VariableQuery";
 
 import CardWrapper from "./CardWrapper";
 
 export type ChartToggle = "percents" | "ratio";
 
 function DisparityBarChartCard(props: {
-  dataset?: Row[];
-  datasetIds: string[];
   breakdownVar: BreakdownVar;
   metricId: MetricToggle;
   fips: Fips;
 }) {
   const [chartToggle, setChartToggle] = useState<ChartToggle>("percents");
 
+  const datasetStore = useDatasetStore();
+
+  // TODO need to handle race categories standard vs non-standard for covid vs
+  // other demographic.
+  const shareOfVariable = shareOf(props.metricId) as VariableId;
+  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
+  const variables: VariableId[] = [
+    shareOfVariable,
+    "population",
+    "population_pct",
+  ];
+  const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
+
+  const queries = [geoFilteredQuery];
+
+  const dataset = datasetStore
+    .getVariables(geoFilteredQuery)
+    .filter(
+      (row) =>
+        !["Not Hispanic or Latino", "Total"].includes(row.race_and_ethnicity)
+    );
+
   // TODO - we want to bold the breakdown name in the card title
   return (
     <CardWrapper
-      datasetIds={props.datasetIds}
+      datasetIds={getDependentDatasets(variables)}
+      queries={queries}
       titleText={`Disparities in ${METRIC_FULL_NAMES[props.metricId]} by ${
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
       } in ${props.fips.getFullDisplayName()}`}
     >
       <CardContent className={styles.Breadcrumbs}>
-        {!props.dataset && (
+        {!dataset && (
           <Alert severity="warning">
             Missing data means that we don't know the full story.
           </Alert>
         )}
-        {props.dataset && (
+        {dataset && (
           <ToggleButtonGroup
             value={chartToggle}
             exclusive
@@ -57,11 +82,11 @@ function DisparityBarChartCard(props: {
         )}
       </CardContent>
       <CardContent className={styles.Breadcrumbs}>
-        {props.dataset && (
+        {dataset && (
           <>
             {chartToggle === "percents" && (
               <DisparityBarChart
-                data={props.dataset}
+                data={dataset}
                 thickMeasure={"population_pct" as VariableId}
                 thinMeasure={(props.metricId + "_pct_of_geo") as VariableId}
                 breakdownVar={props.breakdownVar as BreakdownVar}
@@ -71,7 +96,7 @@ function DisparityBarChartCard(props: {
             {chartToggle !== "percents" && (
               // TODO- calculate actual ratio
               <SimpleHorizontalBarChart
-                data={props.dataset}
+                data={dataset}
                 breakdownVar={props.breakdownVar as BreakdownVar}
                 measure={(props.metricId + "_per_100k") as VariableId}
                 showLegend={false}
