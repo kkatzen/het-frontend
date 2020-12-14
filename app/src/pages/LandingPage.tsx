@@ -59,14 +59,14 @@ function LandingPage() {
           <ImageButton
             imageUrl="img/copd_usa.png"
             text="Explore the Data"
-            link={linkToMadLib("disvargeo", { 3: "12" })}
+            link={linkToMadLib("disparity", {})}
           />
         </Grid>
         <Grid item xs={12} sm={6} className={styles.LandingSquare}>
           <ImageButton
             imageUrl="img/penn_unemp.png"
             text="Explore the Data"
-            link={linkToMadLib("disvargeo", { 3: "42" })}
+            link={linkToMadLib("disparity", {})}
           />
         </Grid>
         <Grid item xs={12} sm={6} className={styles.GreenLandingSquare}>
@@ -88,7 +88,7 @@ function LandingPage() {
           <ImageButton
             imageUrl="img/diabetes_amin.png"
             text="Explore the Data"
-            link={linkToMadLib("disvargeo", { 1: "00" })}
+            link={linkToMadLib("disparity", {})}
           />
         </Grid>
         <Grid item xs={12} container className={styles.GreenLandingSquare}>
