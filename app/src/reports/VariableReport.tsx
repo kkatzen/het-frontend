@@ -41,25 +41,25 @@ function VarGeoReport(props: {
   const datasetIds = getDependentDatasets([variableId]);
 
   return (
-    <WithVariables queries={[geoFilteredQuery, allGeosQuery]}>
-      {() => (
-        <>
-          {!SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
-            <Grid container xs={12} spacing={1} justify="center">
-              <Grid item xs={5}>
-                <Alert severity="error">Data not currently available</Alert>
-              </Grid>
-            </Grid>
-          )}
-          {SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
-            <Grid container spacing={1} alignItems="flex-start">
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={props.vertical ? 12 : 6}
-                className={styles.PaddedGrid}
-              >
+    <>
+      {!SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
+        <Grid container xs={12} spacing={1} justify="center">
+          <Grid item xs={5}>
+            <Alert severity="error">Data not currently available</Alert>
+          </Grid>
+        </Grid>
+      )}
+      {SUPPORTED_MADLIB_VARIABLES.includes(props.variable) && (
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={props.vertical ? 12 : 6}
+            className={styles.PaddedGrid}
+          >
+            <WithVariables queries={[geoFilteredQuery, allGeosQuery]}>
+              {() => (
                 <MapCard
                   data={datasetStore.getVariables(allGeosQuery)}
                   datasetIds={datasetIds}
@@ -71,25 +71,29 @@ function VarGeoReport(props: {
                   }}
                   showCounties={props.fips.isUsa() ? false : true}
                 />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={props.vertical ? 12 : 6}
-                className={styles.PaddedGrid}
-              >
+              )}
+            </WithVariables>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={props.vertical ? 12 : 6}
+            className={styles.PaddedGrid}
+          >
+            <WithVariables queries={[geoFilteredQuery, allGeosQuery]}>
+              {() => (
                 <TableCard
                   data={datasetStore.getVariables(geoFilteredQuery)}
                   datasetIds={datasetIds}
                   fields={["race_and_ethnicity", variableId]}
                 />
-              </Grid>
-            </Grid>
-          )}
-        </>
+              )}
+            </WithVariables>
+          </Grid>
+        </Grid>
       )}
-    </WithVariables>
+    </>
   );
 }
 
