@@ -20,6 +20,7 @@ async function getDiabetesFrame() {
     state: "state_fips",
     NAME: "state_name",
   });
+  // TODO use brfss.json not in-memory
   return new DataFrame(diabetes)
     .dropSeries([
       "PREDIABETES_YES_YESPREGNANT",
@@ -27,7 +28,7 @@ async function getDiabetesFrame() {
     ])
     .renameSeries({
       BRFSS2019_STATE: "state_name",
-      BRFSS2019_IMPLIED_RACE: "race",
+      BRFSS2019_IMPLIED_RACE: "race_and_ethnicity",
       DIABETES_YES_YESPREGNANT: "diabetes_count",
       COPD_YES: "copd_count",
       DIABETES_NO_REFUSED: "diabetes_no",
@@ -51,7 +52,7 @@ class DataFetcher {
   async loadDataset(datasetId: string): Promise<Row[]> {
     // TODO load from data server once it's ready
     switch (datasetId) {
-      case "brfss_diabetes":
+      case "brfss":
         const diabetesData = await getDiabetesFrame();
         return diabetesData.toArray();
       case "acs_state_population_by_race_nonstandard":

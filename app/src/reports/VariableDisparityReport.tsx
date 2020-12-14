@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
-import WithDatasets from "../data/WithDatasets";
+import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
-import variableProviders, { VariableId } from "../data/variableProviders";
+import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import {
   MetricToggle,
   VARIABLE_DISPLAY_NAMES,
@@ -11,7 +11,6 @@ import {
   per100k,
   METRICS_FOR_VARIABLE,
 } from "../utils/madlib/DisplayNames";
-import VariableProvider from "../data/variables/VariableProvider";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapCard from "../cards/MapCard";
 import TableCard from "../cards/TableCard";
@@ -20,15 +19,10 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import { Fips } from "../utils/madlib/Fips";
+import VariableQuery from "../data/VariableQuery";
 
 // TODO - remove hardcoded values when we have full support
 const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["covid"];
-
-function asDate(dateStr: string) {
-  const parts = dateStr.split("-").map(Number);
-  // Date expects month to be 0-indexed so need to subtract 1.
-  return new Date(parts[0], parts[1] - 1, parts[2]);
-}
 
 function DisVarGeo(props: {
   dropdownVarId: DropdownVarId;
@@ -44,12 +38,22 @@ function DisVarGeo(props: {
   );
 
   const datasetStore = useDatasetStore();
-  const percentProvider = variableProviders[shareOf(metric)];
-  const popProvider = variableProviders["population_pct"];
-  const datasetIds = VariableProvider.getUniqueDatasetIds([
-    percentProvider,
-    popProvider,
-  ]);
+
+  // TODO need to handle race categories standard vs non-standard for covid vs
+  // other demographic.
+  const shareOfVariable = shareOf(metric) as VariableId;
+  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
+  const allGeosBreakdowns = Breakdowns.byState().andRace(true);
+  const variables: VariableId[] = [
+    shareOfVariable,
+    "population",
+    "population_pct",
+  ];
+  const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
+  const allGeosQuery = new VariableQuery(shareOfVariable, allGeosBreakdowns);
+
+  const queries = [geoFilteredQuery, allGeosQuery];
+  const datasetIds = getDependentDatasets(variables);
 
   return (
     <>
@@ -63,32 +67,22 @@ function DisVarGeo(props: {
 
       {SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId) && (
         <Grid container spacing={1} justify="center">
-          <WithDatasets datasetIds={datasetIds}>
+          <WithVariables queries={queries}>
             {() => {
-              const data = percentProvider
-                .getData(
-                  datasetStore.datasets,
-                  Breakdowns.byState().andTime().andRace(true)
-                )
-                .concat(
-                  percentProvider.getData(
-                    datasetStore.datasets,
-                    Breakdowns.national().andTime().andRace(true)
-                  )
-                )
+              const geoFilteredDataset = datasetStore
+                .getVariables(geoFilteredQuery)
+                .filter(
+                  (row) =>
+                    !["Not Hispanic or Latino", "Total"].includes(
+                      row.race_and_ethnicity
+                    )
+                );
+
+              const dataset = datasetStore
+                .getVariables(allGeosQuery)
                 .filter(
                   (row) => row.race_and_ethnicity !== "Not Hispanic or Latino"
                 );
-
-              const dateTimes = data.map((row) => asDate(row.date).getTime());
-              const lastDate = new Date(Math.max(...dateTimes));
-              const dataset = data.filter(
-                (row) => asDate(row.date).getTime() === lastDate.getTime()
-              );
-
-              const geoFilteredDataset = dataset
-                .filter((r) => r.race_and_ethnicity !== "Total")
-                .filter((row) => row.state_fips === props.fips.code);
 
               return (
                 <>
@@ -159,14 +153,14 @@ function DisVarGeo(props: {
                     <DisparityBarChartCard
                       datasetIds={datasetIds}
                       metricId={metric}
-                      breakdownVar="gender"
+                      breakdownVar="sex"
                       fips={props.fips}
                     />
                   </Grid>
                 </>
               );
             }}
-          </WithDatasets>
+          </WithVariables>
         </Grid>
       )}
     </>

@@ -1,46 +1,62 @@
-//@ts-nocheck
 import React from "react";
 import { Grid } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
-import WithDatasets from "../data/WithDatasets";
+import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import GroupedBarChart from "../charts/GroupedBarChart";
 import StackedBarChart from "../charts/StackedBarChart";
 import PieChart from "../charts/PieChart";
 import LineChart from "../charts/LineChart";
 import useDatasetStore from "../data/useDatasetStore";
-import variableProviders from "../data/variableProviders";
 import { Breakdowns } from "../data/Breakdowns";
-import VariableProvider from "../data/variables/VariableProvider";
+import { Fips } from "../utils/madlib/Fips";
+import VariableQuery from "../data/VariableQuery";
 
 function ChartDumpReport() {
   const datasetStore = useDatasetStore();
-  const variableProvider = variableProviders["diabetes_per_100k"];
-  const covidProvider = variableProviders["covid_cases"];
-  const acsProvider = variableProviders["population_pct"];
-  const selectedStates = ["Alabama", "Alaska"];
-  const requiredDatasets = VariableProvider.getUniqueDatasetIds([
-    variableProvider,
-    acsProvider,
-  ]);
+  const breakdownsState1 = Breakdowns.forFips(new Fips("01"));
+  const breakdownsState2 = Breakdowns.forFips(new Fips("02"));
+  const state1DiabetesQuery = new VariableQuery(
+    "diabetes_per_100k",
+    breakdownsState1.copy().andRace()
+  );
+  const state2DiabetesQuery = new VariableQuery(
+    "diabetes_per_100k",
+    breakdownsState2.copy().andRace()
+  );
+  const state1CovidQuery = new VariableQuery(
+    "covid_cases",
+    Breakdowns.forFips(new Fips("37")).andRace(true).andTime()
+  );
+  const state1PopulationQuery = new VariableQuery(
+    "population_pct",
+    breakdownsState1.copy().andRace()
+  );
+  const state2PopulationQuery = new VariableQuery(
+    "population_pct",
+    breakdownsState2.copy().andRace()
+  );
+  const queries = [
+    state1DiabetesQuery,
+    state2DiabetesQuery,
+    state1CovidQuery,
+    state1PopulationQuery,
+    state2PopulationQuery,
+  ];
   return (
-    <WithDatasets datasetIds={requiredDatasets}>
+    <WithVariables queries={queries}>
       {() => {
-        const data = covidProvider
-          .getData(
-            datasetStore.datasets,
-            Breakdowns.byState().andTime().andRace(true)
-          )
-          .concat(
-            covidProvider.getData(
-              datasetStore.datasets,
-              Breakdowns.national().andTime().andRace(true)
-            )
-          )
-          .filter((row) => row.state_fips === "37")
-          .filter(
-            (row) => !row.race_and_ethnicity.includes("Some other race alone")
-          );
-
+        const pieChartData = datasetStore
+          .getVariables(state1PopulationQuery)
+          .filter((r) => r.race_and_ethnicity !== "Total");
+        const timeSeriesData = datasetStore.getVariables(state1CovidQuery);
+        const geo1 = datasetStore.getVariables(state1DiabetesQuery);
+        const geo2 = datasetStore.getVariables(state2DiabetesQuery);
+        const groupedChartData = geo1.concat(geo2);
+        const population1 = datasetStore.getVariables(state1PopulationQuery);
+        const population2 = datasetStore.getVariables(state2PopulationQuery);
+        const popChartData = population1
+          .concat(population2)
+          .filter((r) => r.race_and_ethnicity !== "Total");
         return (
           <Grid container spacing={1} alignItems="flex-start">
             <Grid item xs={12}>
@@ -56,16 +72,7 @@ function ChartDumpReport() {
                 <h1>Pie Chart</h1>
               </div>
               <PieChart
-                data={acsProvider
-                  .getData(
-                    datasetStore.datasets,
-                    Breakdowns.byState().andRace()
-                  )
-                  .filter(
-                    (r) =>
-                      r.state_name === "Alabama" &&
-                      r.race_and_ethnicity !== "Total"
-                  )}
+                data={pieChartData}
                 categoryField="race_and_ethnicity"
                 valueField="population_pct"
               />
@@ -76,9 +83,9 @@ function ChartDumpReport() {
                 <h1>Time Series</h1>
               </div>
               <LineChart
-                data={data}
+                data={timeSeriesData}
                 breakdownVar="race_and_ethnicity"
-                variable={covidProvider.variableId}
+                variable={"covid_cases"}
                 timeVariable="date"
               />
               <Divider />
@@ -94,40 +101,18 @@ function ChartDumpReport() {
                 </ul>
               </div>
               <GroupedBarChart
-                data={variableProvider
-                  .getData(
-                    datasetStore.datasets,
-                    Breakdowns.byState().andRace()
-                  )
-                  .concat(
-                    variableProvider.getData(
-                      datasetStore.datasets,
-                      Breakdowns.national().andRace()
-                    )
-                  )
-                  .filter((r) => selectedStates.includes(r.state_name))}
-                measure={variableProvider.variableId}
+                data={groupedChartData}
+                measure={"diabetes_per_100k"}
                 dimension1="state_name"
-                dimension2="race"
+                dimension2="race_and_ethnicity"
                 bars="vertical"
               />
               <GroupedBarChart
-                data={variableProvider
-                  .getData(
-                    datasetStore.datasets,
-                    Breakdowns.byState().andRace()
-                  )
-                  .concat(
-                    variableProvider.getData(
-                      datasetStore.datasets,
-                      Breakdowns.national().andRace()
-                    )
-                  )
-                  .filter((r) => selectedStates.includes(r.state_name))}
-                measure={variableProvider.variableId}
-                bars="horizontal"
+                data={groupedChartData}
+                measure={"diabetes_per_100k"}
                 dimension1="state_name"
-                dimension2="race"
+                dimension2="race_and_ethnicity"
+                bars="horizontal"
               />
               <Divider />
               <div
@@ -142,30 +127,12 @@ function ChartDumpReport() {
                   </li>
                 </ul>
               </div>
-              <StackedBarChart
-                data={acsProvider
-                  .getData(
-                    datasetStore.datasets,
-                    Breakdowns.byState().andRace()
-                  )
-                  .concat(
-                    acsProvider.getData(
-                      datasetStore.datasets,
-                      Breakdowns.national().andRace()
-                    )
-                  )
-                  .filter(
-                    (r) =>
-                      selectedStates.includes(r.state_name) &&
-                      r.race_and_ethnicity !== "Total"
-                  )}
-                measure={acsProvider.variableId}
-              />
+              <StackedBarChart data={popChartData} measure={"population_pct"} />
             </Grid>
           </Grid>
         );
       }}
-    </WithDatasets>
+    </WithVariables>
   );
 }
 

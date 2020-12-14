@@ -1,87 +1,73 @@
 import React from "react";
-import WithDatasets from "../data/WithDatasets";
+import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import { LinkWithStickyParams } from "../utils/urlutils";
 import GroupedBarChart from "../charts/GroupedBarChart";
 import StackedBarChart from "../charts/StackedBarChart";
 import { Button, Grid } from "@material-ui/core";
 import useDatasetStore from "../data/useDatasetStore";
-import variableProviders, { VariableId } from "../data/variableProviders";
+import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import { Breakdowns } from "../data/Breakdowns";
-import VariableProvider from "../data/variables/VariableProvider";
+import { Fips } from "../utils/madlib/Fips";
+import VariableQuery from "../data/VariableQuery";
 
 function CompareStatesForVariableReport(props: {
-  stateFips1: string;
-  stateFips2: string;
+  stateFips1: Fips;
+  stateFips2: Fips;
   variable: VariableId;
 }) {
   const datasetStore = useDatasetStore();
-  const variableProvider = variableProviders[props.variable];
-  const acsProvider = variableProviders["population_pct"];
-  const selectedStateFips = [props.stateFips1, props.stateFips2];
-  const requiredDatasets = VariableProvider.getUniqueDatasetIds([
-    variableProvider,
-    acsProvider,
-  ]);
+
+  const breakdownsGeo1 = Breakdowns.forFips(props.stateFips1).andRace();
+  const breakdownsGeo2 = Breakdowns.forFips(props.stateFips2).andRace();
+  const geo1Query = new VariableQuery(props.variable, breakdownsGeo1);
+  const geo2Query = new VariableQuery(props.variable, breakdownsGeo2);
+  const geo1PopQuery = new VariableQuery("population_pct", breakdownsGeo1);
+  const geo2PopQuery = new VariableQuery("population_pct", breakdownsGeo2);
+
+  const queries = [geo1Query, geo2Query, geo1PopQuery, geo2PopQuery];
+  const datasetIds = getDependentDatasets([props.variable, "population_pct"]);
 
   return (
-    <WithDatasets datasetIds={requiredDatasets}>
-      {() => (
-        <>
-          <Grid container spacing={1} alignItems="flex-start">
-            <Grid item xs={12} sm={12} md={6}>
-              <strong>{variableProvider.description}</strong>
-              <GroupedBarChart
-                data={variableProvider
-                  .getData(
-                    datasetStore.datasets,
-                    Breakdowns.byState().andRace()
-                  )
-                  .concat(
-                    variableProvider.getData(
-                      datasetStore.datasets,
-                      Breakdowns.national().andRace()
-                    )
-                  )
-                  .filter((r) => selectedStateFips.includes(r.state_fips))}
-                measure={variableProvider.variableId}
-                bars="vertical"
-                dimension1="state_name"
-                dimension2="race"
-              />
+    <WithVariables queries={queries}>
+      {() => {
+        const geo1 = datasetStore.getVariables(geo1Query);
+        const geo2 = datasetStore.getVariables(geo2Query);
+        const groupedChartData = geo1.concat(geo2);
+        const population1 = datasetStore.getVariables(geo1PopQuery);
+        const population2 = datasetStore.getVariables(geo2PopQuery);
+        const popChartData = population1
+          .concat(population2)
+          .filter((r) => r.race_and_ethnicity !== "Total");
+        return (
+          <>
+            <Grid container spacing={1} alignItems="flex-start">
+              <Grid item xs={12} sm={12} md={6}>
+                <GroupedBarChart
+                  data={groupedChartData}
+                  measure={props.variable}
+                  bars="vertical"
+                  dimension1="state_name"
+                  dimension2="race_and_ethnicity"
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                <StackedBarChart
+                  data={popChartData}
+                  measure={"population_pct"}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={6}>
-              <strong>{acsProvider.description}</strong>
-              <StackedBarChart
-                data={acsProvider
-                  .getData(
-                    datasetStore.datasets,
-                    Breakdowns.byState().andRace()
-                  )
-                  .concat(
-                    acsProvider.getData(
-                      datasetStore.datasets,
-                      Breakdowns.national().andRace()
-                    )
-                  )
-                  .filter(
-                    (r) =>
-                      selectedStateFips.includes(r.state_fips) &&
-                      r.race_and_ethnicity !== "Total"
-                  )}
-                measure={acsProvider.variableId}
-              />
-            </Grid>
-          </Grid>
-          <Button>
-            <LinkWithStickyParams
-              to={`/datacatalog?dpf=${requiredDatasets.join(",")}`}
-            >
-              View Data Sources
-            </LinkWithStickyParams>
-          </Button>
-        </>
-      )}
-    </WithDatasets>
+            <Button>
+              <LinkWithStickyParams
+                to={`/datacatalog?dpf=${datasetIds.join(",")}`}
+              >
+                View Data Sources
+              </LinkWithStickyParams>
+            </Button>
+          </>
+        );
+      }}
+    </WithVariables>
   );
 }
 

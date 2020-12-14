@@ -3,7 +3,6 @@ import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
 import { applyToGroups, percent } from "../datasetutils";
 import { USA_FIPS, USA_DISPLAY_NAME } from "../../utils/madlib/Fips";
-import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
 
 const standardizedRaces = [
@@ -19,14 +18,12 @@ const standardizedRaces = [
 ];
 
 class AcsPopulationProvider extends VariableProvider {
-  constructor(
-    variableId: VariableId,
-    variableName: string,
-    description: string
-  ) {
-    super(variableId, variableName, description, [
-      "acs_state_population_by_race_nonstandard",
-    ]);
+  constructor() {
+    super(
+      "acs_pop_provider",
+      ["population", "population_pct"],
+      ["acs_state_population_by_race_nonstandard"]
+    );
   }
 
   getDataInternal(
@@ -34,6 +31,11 @@ class AcsPopulationProvider extends VariableProvider {
     breakdowns: Breakdowns
   ): Row[] {
     let df = this.getDataInternalWithoutPercents(datasets, breakdowns);
+
+    if (breakdowns.filterFips) {
+      df = df.where((row) => row.state_fips === breakdowns.filterFips);
+    }
+
     df = applyToGroups(df, ["state_name"], (group) => {
       const total = group
         .where((r) => r.race_and_ethnicity === "Total")

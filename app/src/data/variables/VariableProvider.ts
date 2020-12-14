@@ -1,32 +1,27 @@
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
-import { VariableId } from "../variableProviders";
+import { ProviderId, VariableId } from "../variableProviders";
 
 abstract class VariableProvider {
-  readonly variableId: VariableId;
-  readonly variableName: string;
-  readonly description: string;
+  readonly providerId: ProviderId;
+  readonly providesVariables: VariableId[];
   readonly datasetIds: readonly string[];
-  private cache: Record<string, Row[]>; // TODO expiration, reload when datasets change.
 
   constructor(
-    variableId: VariableId,
-    variableName: string,
-    description: string,
+    providerId: ProviderId,
+    providesVariables: VariableId[],
     datasetIds: string[]
   ) {
-    this.variableId = variableId;
-    this.variableName = variableName;
-    this.description = description;
+    this.providerId = providerId;
+    this.providesVariables = providesVariables;
     this.datasetIds = datasetIds;
-    this.cache = {};
   }
 
   getData(datasets: Record<string, Dataset>, breakdowns: Breakdowns): Row[] {
     if (!this.allowsBreakdowns(breakdowns)) {
       throw new Error(
-        "Breakdowns not supported for variable " +
-          this.variableId +
+        "Breakdowns not supported for provider " +
+          this.providerId +
           ": " +
           JSON.stringify(breakdowns)
       );
@@ -39,17 +34,7 @@ abstract class VariableProvider {
       );
     }
 
-    // TODO need to reset cache when datasets are reloaded. We should also
-    // probably evaluate if there are better ways to deal with performance than
-    // this.
-    const cached = this.cache[breakdowns.getUniqueKey()];
-    if (cached) {
-      return cached;
-    }
-
-    const rows = this.getDataInternal(datasets, breakdowns);
-    this.cache[breakdowns.getUniqueKey()] = rows;
-    return rows;
+    return this.getDataInternal(datasets, breakdowns);
   }
 
   abstract getDataInternal(

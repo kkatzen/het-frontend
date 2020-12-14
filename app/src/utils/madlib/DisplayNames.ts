@@ -4,6 +4,7 @@ export const VARIABLE_DISPLAY_NAMES: Record<VariableId, string> = {
   diabetes_count: "Diabetes case count",
   diabetes_per_100k: "Diabetes cases per 100,000 people",
   copd_count: "COPD case count",
+  copd_per_100k: "COPD cases per 100,000 people",
   population: "Population Size",
   population_pct: "Population Share",
   covid_cases: "COVID-19 cases",
@@ -17,12 +18,12 @@ export const VARIABLE_DISPLAY_NAMES: Record<VariableId, string> = {
   covid_hosp_per_100k: "COVID-19 hospitalizations per 100,000 people",
 };
 
-export type BreakdownVar = "race_and_ethnicity" | "age" | "gender";
+export type BreakdownVar = "race_and_ethnicity" | "age" | "sex";
 
 export const BREAKDOWN_VAR_DISPLAY_NAMES: Record<BreakdownVar, string> = {
   race_and_ethnicity: "Race and Ethnicity",
   age: "age",
-  gender: "gender",
+  sex: "sex",
 };
 
 export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";

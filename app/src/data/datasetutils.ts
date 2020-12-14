@@ -3,10 +3,10 @@ import { IDataFrame } from "data-forge";
 /**
  * Reshapes the data frame by creating a new column for each value in
  * newColNames, and using the values from newColValues, grouping by
- * groupedByCol. For example, if you have a dataset with columns: 'state_name',
- * 'race', and 'population', calling:
- *     reshapeRowsToCols(df, 'population', 'race', 'state_name');
- * will convert this to a data frame with a 'state_name' column and a population
+ * groupedByCol. For example, if you have a dataset with columns: "state_name",
+ * "race_and_ethnicity", and "population", calling:
+ *     reshapeRowsToCols(df, "population", "race_and_ethnicity", "state_name");
+ * will convert this to a data frame with a "state_name" column and a population
  * column for each race. You can optionally rename the columns using
  * colNameGenerator.
  */
@@ -36,11 +36,12 @@ export function reshapeRowsToCols(
 
 /**
  * Does the opposite of reshapeRowsToCols. For example, if you have a dataset
- * with a 'state_name' column and a population column for each race, calling:
+ * with a "state_name" column and a population column for each race, calling:
  *     reshapeColsToRows(
- *         df, ['Black', 'White', 'Hispanic', ...], "population", "race");
- * will convert it to a dataset with columns: 'state_name', 'race', and
- * 'population'
+ *         df, ["Black", "White", "Hispanic", ...], "population",
+ *         "race_and_ethnicity");
+ * will convert it to a dataset with columns: "state_name",
+ * "race_and_ethnicity", and "population"
  * @param df
  * @param cols
  * @param newCol
@@ -85,22 +86,40 @@ export function applyToGroups(
     .resetIndex();
 }
 
+export type JoinType = "inner" | "left" | "outer";
+
+// TODO consider finding different library for joins, or write our own. This
+// library doesn't support multi-col joins naturally, so this uses a workaround.
+// I've also seen occasional issues with the page hanging that have been
+// difficult to consistently reproduce.
 /**
- * Left joins two data frames on the specified columns, keeping all the
- * remaining columns from both.
+ * Joins two data frames on the specified columns, keeping all the remaining
+ * columns from both.
  */
 export function joinOnCols(
   df1: IDataFrame,
   df2: IDataFrame,
-  cols: string[]
+  cols: string[],
+  joinType: JoinType = "inner"
 ): IDataFrame {
   const keySelector = (row: any) => {
     const keys = cols.map((col) => col + ": " + row[col]);
     return keys.join(",");
   };
-  return df1
-    .join(df2, keySelector, keySelector, (row1, row2) => ({ ...row2, ...row1 }))
-    .resetIndex();
+  const aggFn = (row1: any, row2: any) => ({ ...row2, ...row1 });
+  let joined;
+  switch (joinType) {
+    case "inner":
+      joined = df1.join(df2, keySelector, keySelector, aggFn);
+      break;
+    case "left":
+      joined = df1.joinOuterLeft(df2, keySelector, keySelector, aggFn);
+      break;
+    case "outer":
+      joined = df1.joinOuter(df2, keySelector, keySelector, aggFn);
+      break;
+  }
+  return joined.resetIndex();
 }
 
 /** Calculates a rate as occurrences per 100k */
@@ -115,4 +134,18 @@ export function percent(numerator: number, denominator: number): number | null {
   return numerator == null || denominator == null
     ? null
     : Math.round((1000 * numerator) / denominator) / 10;
+}
+
+export function asDate(dateStr: string) {
+  const parts = dateStr.split("-").map(Number);
+  // Date expects month to be 0-indexed so need to subtract 1.
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+// TODO handle date series missing
+export function getLatestDate(df: IDataFrame): Date {
+  const dateTimes = df
+    .getSeries("date")
+    .select((dateStr) => asDate(dateStr).getTime());
+  return new Date(dateTimes.max());
 }

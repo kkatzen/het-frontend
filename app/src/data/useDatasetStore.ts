@@ -1,11 +1,22 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import DataFetcher from "./DataFetcher";
-import { MetadataMap, Dataset, DatasetStore, LoadStatus } from "./DatasetTypes";
+import {
+  MetadataMap,
+  Dataset,
+  DatasetStore,
+  LoadStatus,
+  Row,
+} from "./DatasetTypes";
 import Logger from "../utils/Logger";
+import { getUniqueProviders } from "./variableProviders";
+import VariableProvider from "./variables/VariableProvider";
+import { joinOnCols } from "./datasetutils";
+import { DataFrame, IDataFrame } from "data-forge";
+import VariableQuery from "./VariableQuery";
 
 const METADATA_KEY = "all_metadata";
 const fetcher = new DataFetcher();
-const logger = new Logger(false);
+const logger = new Logger(true);
 
 let resolveMetadataPromise: (metadata: Promise<MetadataMap>) => void;
 const metadataLoadPromise: Promise<MetadataMap> = new Promise((res, rej) => {
@@ -32,12 +43,10 @@ interface ResourceCacheManager<R> {
 
 /** Whether the resource should be loaded based on its current load status. */
 function shouldLoadResource(loadStatus: LoadStatus) {
-  // TODO need to make it not retry for non-retryable errors or it'll just try forever. Or maybe just max 3 times with backoff?
-  return (
-    loadStatus === undefined ||
-    loadStatus === "error" ||
-    loadStatus === "unloaded"
-  );
+  // TODO need to make it not retry for non-retryable errors and/or have a limit
+  // for the number of retries with backoff. For now, I removed retrying on
+  // error because it causes infinite reloads.
+  return loadStatus === undefined || loadStatus === "unloaded";
 }
 
 /**
@@ -57,6 +66,7 @@ async function loadResource<R>(
   try {
     const loadStatus = cacheManager.cache.statuses[resourceId];
     // TODO handle re-load periodically so long-lived tabs don't get stale.
+    // Also need to reset the variable cache when datasets are reloaded.
     if (!shouldLoadResource(loadStatus)) {
       logger.debugLog("Already loaded or loading " + resourceId);
       return cacheManager.cache.resources[resourceId];
@@ -119,6 +129,7 @@ function useResourceCache<R>(): ResourceCacheManager<R> {
 export function useDatasetStoreProvider(): DatasetStore {
   const metadataCacheManager = useResourceCache<MetadataMap>();
   const datasetCacheManager = useResourceCache<Dataset>();
+  const variableCacheManager = useResourceCache<Row[]>();
 
   function trackMetadataLoad() {
     loadResource<MetadataMap>(
@@ -153,13 +164,83 @@ export function useDatasetStoreProvider(): DatasetStore {
     return result;
   }
 
+  /**
+   * Loads the requested variables into a single dataset and caches them so they
+   * can be accessed via `getVariables()`
+   */
+  async function loadVariables(query: VariableQuery): Promise<void> {
+    const providers = getUniqueProviders(query.varIds);
+
+    await loadResource<Row[]>(
+      query.getUniqueKey(),
+      variableCacheManager,
+      async () => {
+        const promises = VariableProvider.getUniqueDatasetIds(
+          providers
+        ).map((id) => loadDataset(id));
+        const datasets = await Promise.all(promises);
+        const entries = datasets.map((d) => {
+          if (!d) {
+            throw new Error("Failed to load dependent dataset");
+          }
+          return [d.metadata.id, d];
+        });
+        const datasetMap = Object.fromEntries(entries);
+        // Yield thread so the UI can respond. This prevents long calculations
+        // from causing UI elements to look laggy.
+        await new Promise((res) => {
+          setTimeout(res, 0);
+        });
+        // TODO potentially improve caching by caching the individual results
+        // before joining so those can be reused, or caching the results under
+        // all of the variables provided under different keys. For example, if
+        // you request covid cases we could also cache it under covid deaths
+        // since they're provided together. Also, it would be nice to cache ACS
+        // when it's used from within another provider.
+        const variables = providers.map((provider) =>
+          provider.getData(datasetMap, query.breakdowns)
+        );
+        const dataframes: IDataFrame[] = variables.map(
+          (data) => new DataFrame(data)
+        );
+        const joined = dataframes.reduce((prev, next) => {
+          return joinOnCols(
+            prev,
+            next,
+            query.breakdowns.getJoinColumns(),
+            query.joinType
+          );
+        });
+        return joined.toArray();
+      }
+    );
+  }
+
   function getDatasetLoadStatus(id: string): LoadStatus {
     return datasetCacheManager.cache.statuses[id] || "unloaded";
+  }
+
+  function getVariablesLoadStatus(query: VariableQuery): LoadStatus {
+    const key = query.getUniqueKey();
+    return variableCacheManager.cache.statuses[key] || "unloaded";
+  }
+
+  function getVariables(query: VariableQuery): Row[] {
+    const data = variableCacheManager.cache.resources[query.getUniqueKey()];
+    // TODO try to find a good way to use static type checking to make sure
+    // this is present rather than throwing an error.
+    if (!data) {
+      throw new Error("Cannot get a variable that has not been loaded");
+    }
+    return data;
   }
 
   return {
     loadDataset,
     getDatasetLoadStatus,
+    loadVariables: loadVariables,
+    getVariablesLoadStatus,
+    getVariables,
     metadataLoadStatus:
       metadataCacheManager.cache.statuses[METADATA_KEY] || "unloaded",
     metadata: metadataCacheManager.cache.resources[METADATA_KEY] || {},

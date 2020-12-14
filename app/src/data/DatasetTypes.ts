@@ -1,4 +1,5 @@
 import { DataFrame, IDataFrame } from "data-forge";
+import VariableQuery from "./VariableQuery";
 
 /* TODO: These are not yet comprehensive, final interfaces */
 
@@ -24,14 +25,6 @@ export interface Field {
 
 // TODO: make typedef for valid data types instead of any.
 export type Row = Readonly<Record<string, any>>;
-
-export interface Variable {
-  readonly variableId: string;
-  readonly variableName: string;
-  readonly description: string;
-  readonly datasetIds: readonly string[];
-  readonly rows: readonly Row[];
-}
 
 export class Dataset {
   readonly rows: Readonly<Row[]>;
@@ -70,6 +63,9 @@ export type LoadStatus = "unloaded" | "loading" | "loaded" | "error";
 export interface DatasetStore {
   readonly loadDataset: (id: string) => Promise<Dataset | undefined>;
   readonly getDatasetLoadStatus: (id: string) => LoadStatus;
+  readonly loadVariables: (query: VariableQuery) => Promise<void>;
+  readonly getVariablesLoadStatus: (query: VariableQuery) => LoadStatus;
+  readonly getVariables: (query: VariableQuery) => Row[];
   readonly metadataLoadStatus: LoadStatus;
   readonly metadata: MetadataMap;
   readonly datasets: Readonly<Record<string, Dataset>>;

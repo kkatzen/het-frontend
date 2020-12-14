@@ -6,36 +6,44 @@ import {
   USA_DISPLAY_NAME,
   ALL_RACES_DISPLAY_NAME,
 } from "../../utils/madlib/Fips";
-import { VariableId } from "../variableProviders";
 import VariableProvider from "./VariableProvider";
 
-class CopdProvider extends VariableProvider {
-  constructor(
-    variableId: VariableId,
-    variableName: string,
-    description: string
-  ) {
-    super(variableId, variableName, description, ["brfss_diabetes"]);
+class BrfssProvider extends VariableProvider {
+  constructor() {
+    super(
+      "brfss_provider",
+      ["diabetes_count", "diabetes_per_100k", "copd_count", "copd_per_100k"],
+      ["brfss"]
+    );
   }
 
   getDataInternal(
     datasets: Record<string, Dataset>,
     breakdowns: Breakdowns
   ): Row[] {
-    const brfss_diabetes = datasets["brfss_diabetes"];
-    let df = brfss_diabetes.toDataFrame();
+    const brfss = datasets["brfss"];
+    let df = brfss.toDataFrame();
 
     if (breakdowns.geography === "national") {
-      df = df.pivot("race", {
+      df = df.pivot("race_and_ethnicity", {
         state_fips: (series) => USA_FIPS,
         state_name: (series) => USA_DISPLAY_NAME,
+        diabetes_count: (series) => series.sum(),
+        diabetes_no: (series) => series.sum(),
         copd_count: (series) => series.sum(),
         copd_no: (series) => series.sum(),
       });
     }
+
+    if (breakdowns.filterFips) {
+      df = df.where((row) => row.state_fips === breakdowns.filterFips);
+    }
+
     if (!breakdowns.demographic) {
       df = df.pivot(["state_name", "state_fips"], {
         race: (series) => ALL_RACES_DISPLAY_NAME,
+        diabetes_count: (series) => series.sum(),
+        diabetes_no: (series) => series.sum(),
         copd_count: (series) => series.sum(),
         copd_no: (series) => series.sum(),
       });
@@ -43,6 +51,8 @@ class CopdProvider extends VariableProvider {
 
     return df
       .generateSeries({
+        diabetes_per_100k: (row) =>
+          per100k(row.diabetes_count, row.diabetes_count + row.diabetes_no),
         copd_per_100k: (row) =>
           per100k(row.copd_count, row.copd_count + row.copd_no),
       })
@@ -59,4 +69,4 @@ class CopdProvider extends VariableProvider {
   }
 }
 
-export default CopdProvider;
+export default BrfssProvider;

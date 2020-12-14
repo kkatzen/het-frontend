@@ -83,8 +83,7 @@ const fakeMetadata: DatasetMetadata[] = [
     ],
   },
   {
-    // TODO figure out whether copd should be a separate dataset or not.
-    id: "brfss_diabetes",
+    id: "brfss",
     name: "Diabetes Prevalence by state and race",
     data_source_name: "CDC's BrFSS",
     data_source_link: "https://gis.cdc.gov/grasp/diabetes/DiabetesAtlas.html#",
@@ -99,25 +98,25 @@ const fakeMetadata: DatasetMetadata[] = [
         data_type: "string",
         name: "state_name",
         description: "description",
-        origin_dataset: "brfss_diabetes",
+        origin_dataset: "brfss",
       },
       {
         data_type: "string",
-        name: "race",
+        name: "race_and_ethnicity",
         description: "description",
-        origin_dataset: "brfss_diabetes",
+        origin_dataset: "brfss",
       },
       {
         data_type: "integer",
         name: "diabetes_count",
         description: "description",
-        origin_dataset: "brfss_diabetes",
+        origin_dataset: "brfss",
       },
       {
         data_type: "integer",
         name: "copd_count",
         description: "description",
-        origin_dataset: "brfss_diabetes",
+        origin_dataset: "brfss",
       },
     ],
   },
@@ -135,7 +134,7 @@ const fakeMetadata: DatasetMetadata[] = [
     fields: [
       {
         data_type: "string",
-        name: "Date",
+        name: "date",
         description: "description",
         origin_dataset: "covid_by_state_and_race",
       },
@@ -147,7 +146,7 @@ const fakeMetadata: DatasetMetadata[] = [
       },
       {
         data_type: "string",
-        name: "race",
+        name: "race_and_ethnicity",
         description: "description",
         origin_dataset: "covid_by_state_and_race",
       },
