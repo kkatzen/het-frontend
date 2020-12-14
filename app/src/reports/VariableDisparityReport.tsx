@@ -51,7 +51,7 @@ function VariableDisparityReport(props: {
           <Grid item xs={12}>
             <ToggleButtonGroup
               exclusive
-              value={variableConfig}
+              value={variableConfig.variableId}
               onChange={(e, variableId) => {
                 console.log(variableId);
                 if (variableId !== null) {

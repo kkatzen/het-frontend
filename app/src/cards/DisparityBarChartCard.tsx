@@ -93,7 +93,7 @@ function DisparityBarChartCard(props: {
               {props.breakdownVar ===
                 ("race_and_ethnicity" as BreakdownVar) && (
                 <ToggleButtonGroup
-                  value={metricConfig}
+                  value={metricConfig.type}
                   exclusive
                   onChange={(e, metricType) => {
                     console.log(metricType);
