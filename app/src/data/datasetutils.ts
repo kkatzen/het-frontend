@@ -80,6 +80,9 @@ export function applyToGroups(
       }
       return applyToGroups(group, groupByCols.slice(1), fn);
     });
+  if (groups.count() === 0) {
+    return df;
+  }
   return groups
     .skip(1)
     .aggregate(groups.first(), (prev, next) => prev.concat(next))

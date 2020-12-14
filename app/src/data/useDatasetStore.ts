@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import DataFetcher from "./DataFetcher";
 import {
   MetadataMap,
   Dataset,
@@ -7,16 +6,14 @@ import {
   LoadStatus,
   Row,
 } from "./DatasetTypes";
-import Logger from "../utils/Logger";
 import { getUniqueProviders } from "./variableProviders";
 import VariableProvider from "./variables/VariableProvider";
 import { joinOnCols } from "./datasetutils";
 import { DataFrame, IDataFrame } from "data-forge";
 import VariableQuery from "./VariableQuery";
+import { getDataFetcher, getLogger } from "../utils/globals";
 
 const METADATA_KEY = "all_metadata";
-const fetcher = new DataFetcher();
-const logger = new Logger(true);
 
 let resolveMetadataPromise: (metadata: Promise<MetadataMap>) => void;
 const metadataLoadPromise: Promise<MetadataMap> = new Promise((res, rej) => {
@@ -27,7 +24,7 @@ const metadataLoadPromise: Promise<MetadataMap> = new Promise((res, rej) => {
 // this method isn't async, or failures from getMetadata will bubble up to the
 // caller. Instead we want those errors to be handled by the resource loader.
 export function startMetadataLoad() {
-  resolveMetadataPromise(fetcher.getMetadata());
+  resolveMetadataPromise(getDataFetcher().getMetadata());
 }
 
 interface ResourceCache<R> {
@@ -68,19 +65,19 @@ async function loadResource<R>(
     // TODO handle re-load periodically so long-lived tabs don't get stale.
     // Also need to reset the variable cache when datasets are reloaded.
     if (!shouldLoadResource(loadStatus)) {
-      logger.debugLog("Already loaded or loading " + resourceId);
+      getLogger().debugLog("Already loaded or loading " + resourceId);
       return cacheManager.cache.resources[resourceId];
     }
 
-    logger.debugLog("Loading " + resourceId);
+    getLogger().debugLog("Loading " + resourceId);
     cacheManager.setLoadStatus(resourceId, "loading");
     const result = await loadFunction();
-    logger.debugLog("Loaded " + resourceId);
+    getLogger().debugLog("Loaded " + resourceId);
     cacheManager.setLoaded(resourceId, result);
     return result;
   } catch (e) {
     cacheManager.setLoadStatus(resourceId, "error");
-    await logger.logError(e, "WARNING", {
+    await getLogger().logError(e, "WARNING", {
       error_type: "resource_load_failure",
       resource_id: resourceId,
     });
@@ -150,7 +147,7 @@ export function useDatasetStoreProvider(): DatasetStore {
       datasetId,
       datasetCacheManager,
       async () => {
-        const promise = fetcher.loadDataset(datasetId);
+        const promise = getDataFetcher().loadDataset(datasetId);
         const [data, metadata] = await Promise.all([
           promise,
           metadataLoadPromise,

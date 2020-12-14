@@ -100,7 +100,7 @@ export const STATE_FIPS_MAP: Record<string, string> = {
   "44": "Rhode Island",
   "45": "South Carolina",
   "46": "South Dakota",
-  "47": "Tennesse",
+  "47": "Tennessee",
   "48": "Texas",
   "49": "Utah",
   "50": "Vermont",

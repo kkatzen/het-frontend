@@ -29,7 +29,7 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
     });
   }
   switch (props.madLib.id as MadLibId) {
-    case "disvargeo":
+    case "disparity":
       return (
         <VariableDisparityReport
           dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
@@ -37,7 +37,7 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
           updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
         />
       );
-    case "disvarcompare":
+    case "comparegeos":
       const compareDisparityVariable = getPhraseValue(
         props.madLib,
         1
@@ -56,6 +56,31 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
             <VariableDisparityReport
               dropdownVarId={compareDisparityVariable}
               fips={new Fips(getPhraseValue(props.madLib, 5))}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
+              vertical={true}
+            />
+          </Grid>
+        </Grid>
+      );
+    case "comparevars":
+      const compareGeoVariable = getPhraseValue(
+        props.madLib,
+        5
+      ) as DropdownVarId;
+      return (
+        <Grid container spacing={1} alignItems="flex-start">
+          <Grid item xs={6}>
+            <VariableDisparityReport
+              dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
+              fips={new Fips(compareGeoVariable)}
+              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
+              vertical={true}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <VariableDisparityReport
+              dropdownVarId={getPhraseValue(props.madLib, 3) as DropdownVarId}
+              fips={new Fips(compareGeoVariable)}
               updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
               vertical={true}
             />
