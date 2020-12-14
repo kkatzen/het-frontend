@@ -30,6 +30,8 @@ function DisparityBarChartCard(props: {
   metricId: MetricToggle;
   fips: Fips;
 }) {
+  console.log("DisparityBarChartCard!!!!!");
+
   const [chartToggle, setChartToggle] = useState<ChartToggle>("percents");
 
   const datasetStore = useDatasetStore();
@@ -47,13 +49,6 @@ function DisparityBarChartCard(props: {
 
   const queries = [geoFilteredQuery];
 
-  const dataset = datasetStore
-    .getVariables(geoFilteredQuery)
-    .filter(
-      (row) =>
-        !["Not Hispanic or Latino", "Total"].includes(row.race_and_ethnicity)
-    );
-
   // TODO - we want to bold the breakdown name in the card title
   return (
     <CardWrapper
@@ -63,48 +58,64 @@ function DisparityBarChartCard(props: {
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
       } in ${props.fips.getFullDisplayName()}`}
     >
-      <CardContent className={styles.Breadcrumbs}>
-        {!dataset && (
-          <Alert severity="warning">
-            Missing data means that we don't know the full story.
-          </Alert>
-        )}
-        {dataset && (
-          <ToggleButtonGroup
-            value={chartToggle}
-            exclusive
-            onChange={(e, v) => setChartToggle(v)}
-            aria-label="text alignment"
-          >
-            <ToggleButton value="percents">Percent Share</ToggleButton>
-            <ToggleButton value="ratio">Per 100,000 People</ToggleButton>
-          </ToggleButtonGroup>
-        )}
-      </CardContent>
-      <CardContent className={styles.Breadcrumbs}>
-        {dataset && (
+      {() => {
+        const dataset = datasetStore
+          .getVariables(geoFilteredQuery)
+          .filter(
+            (row) =>
+              !["Not Hispanic or Latino", "Total"].includes(
+                row.race_and_ethnicity
+              )
+          );
+        return (
           <>
-            {chartToggle === "percents" && (
-              <DisparityBarChart
-                data={dataset}
-                thickMeasure={"population_pct" as VariableId}
-                thinMeasure={(props.metricId + "_pct_of_geo") as VariableId}
-                breakdownVar={props.breakdownVar as BreakdownVar}
-                metricDisplayName={METRIC_SHORT_NAMES[props.metricId]}
-              />
-            )}
-            {chartToggle !== "percents" && (
-              // TODO- calculate actual ratio
-              <SimpleHorizontalBarChart
-                data={dataset}
-                breakdownVar={props.breakdownVar as BreakdownVar}
-                measure={(props.metricId + "_per_100k") as VariableId}
-                showLegend={false}
-              />
-            )}
+            <CardContent className={styles.Breadcrumbs}>
+              {!dataset && (
+                <Alert severity="warning">
+                  Missing data means that we don't know the full story.
+                </Alert>
+              )}
+              {dataset && (
+                <ToggleButtonGroup
+                  value={chartToggle}
+                  exclusive
+                  onChange={(e, v) => setChartToggle(v)}
+                  aria-label="text alignment"
+                >
+                  <ToggleButton value="percents">Percent Share</ToggleButton>
+                  <ToggleButton value="ratio">Per 100,000 People</ToggleButton>
+                </ToggleButtonGroup>
+              )}
+            </CardContent>
+            <CardContent className={styles.Breadcrumbs}>
+              {dataset && (
+                <>
+                  {chartToggle === "percents" && (
+                    <DisparityBarChart
+                      data={dataset}
+                      thickMeasure={"population_pct" as VariableId}
+                      thinMeasure={
+                        (props.metricId + "_pct_of_geo") as VariableId
+                      }
+                      breakdownVar={props.breakdownVar as BreakdownVar}
+                      metricDisplayName={METRIC_SHORT_NAMES[props.metricId]}
+                    />
+                  )}
+                  {chartToggle !== "percents" && (
+                    // TODO- calculate actual ratio
+                    <SimpleHorizontalBarChart
+                      data={dataset}
+                      breakdownVar={props.breakdownVar as BreakdownVar}
+                      measure={(props.metricId + "_per_100k") as VariableId}
+                      showLegend={false}
+                    />
+                  )}
+                </>
+              )}
+            </CardContent>
           </>
-        )}
-      </CardContent>
+        );
+      }}
     </CardWrapper>
   );
 }

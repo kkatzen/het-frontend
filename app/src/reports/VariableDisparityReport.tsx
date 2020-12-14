@@ -67,97 +67,98 @@ function DisVarGeo(props: {
 
       {SUPPORTED_MADLIB_VARIABLES.includes(props.dropdownVarId) && (
         <Grid container spacing={1} justify="center">
-          <WithVariables queries={queries}>
-            {() => {
-              const geoFilteredDataset = datasetStore
-                .getVariables(geoFilteredQuery)
-                .filter(
-                  (row) =>
-                    !["Not Hispanic or Latino", "Total"].includes(
-                      row.race_and_ethnicity
-                    )
-                );
-
-              const dataset = datasetStore
-                .getVariables(allGeosQuery)
-                .filter(
-                  (row) => row.race_and_ethnicity !== "Not Hispanic or Latino"
-                );
-
-              return (
-                <>
-                  <Grid item xs={12}>
-                    <ToggleButtonGroup
-                      exclusive
-                      value={metric}
-                      onChange={(e, v) => {
-                        if (v !== null) {
-                          setMetric(v);
-                        }
-                      }}
-                      aria-label="text formatting"
-                    >
-                      {METRICS_FOR_VARIABLE[props.dropdownVarId].map(
-                        (variableId: string, key: number) => (
-                          <ToggleButton
-                            value={variableId as VariableId}
-                            key={key}
-                          >
-                            {VARIABLE_DISPLAY_NAMES[variableId as VariableId]}
-                          </ToggleButton>
+          <>
+            <Grid item xs={12}>
+              <ToggleButtonGroup
+                exclusive
+                value={metric}
+                onChange={(e, v) => {
+                  if (v !== null) {
+                    setMetric(v);
+                  }
+                }}
+                aria-label="text formatting"
+              >
+                {METRICS_FOR_VARIABLE[props.dropdownVarId].map(
+                  (variableId: string, key: number) => (
+                    <ToggleButton value={variableId as VariableId} key={key}>
+                      {VARIABLE_DISPLAY_NAMES[variableId as VariableId]}
+                    </ToggleButton>
+                  )
+                )}
+              </ToggleButtonGroup>
+            </Grid>
+            <Grid item xs={props.vertical ? 12 : 6}>
+              <WithVariables queries={queries}>
+                {() => {
+                  const geoFilteredDataset = datasetStore
+                    .getVariables(geoFilteredQuery)
+                    .filter(
+                      (row) =>
+                        !["Not Hispanic or Latino", "Total"].includes(
+                          row.race_and_ethnicity
                         )
-                      )}
-                    </ToggleButtonGroup>
-                  </Grid>
-                  <Grid item xs={props.vertical ? 12 : 6}>
-                    <MapCard
-                      data={dataset}
-                      datasetIds={datasetIds}
-                      varField={per100k(metric)}
-                      varFieldDisplayName={
-                        VARIABLE_DISPLAY_NAMES[per100k(metric)]
-                      }
-                      fips={props.fips}
-                      updateFipsCallback={(fips: Fips) => {
-                        props.updateFipsCallback(fips);
-                      }}
-                      enableFilter={props.fips.isUsa()}
-                      showCounties={false}
-                    />
-                    <TableCard
-                      data={geoFilteredDataset}
-                      datasetIds={datasetIds}
-                      fields={[
-                        "race_and_ethnicity",
-                        "population",
-                        "population_pct",
-                        shareOf(metric),
-                        per100k(metric),
-                      ]}
-                    />
-                  </Grid>
-                  <Grid item xs={props.vertical ? 12 : 6}>
-                    <DisparityBarChartCard
-                      // dataset={geoFilteredDataset}
-                      metricId={metric}
-                      breakdownVar="race_and_ethnicity"
-                      fips={props.fips}
-                    />
-                    <DisparityBarChartCard
-                      metricId={metric}
-                      breakdownVar="age"
-                      fips={props.fips}
-                    />
-                    <DisparityBarChartCard
-                      metricId={metric}
-                      breakdownVar="sex"
-                      fips={props.fips}
-                    />
-                  </Grid>
-                </>
-              );
-            }}
-          </WithVariables>
+                    );
+
+                  const dataset = datasetStore
+                    .getVariables(allGeosQuery)
+                    .filter(
+                      (row) =>
+                        row.race_and_ethnicity !== "Not Hispanic or Latino"
+                    );
+
+                  return (
+                    <>
+                      <MapCard
+                        data={dataset}
+                        datasetIds={datasetIds}
+                        varField={per100k(metric)}
+                        varFieldDisplayName={
+                          VARIABLE_DISPLAY_NAMES[per100k(metric)]
+                        }
+                        fips={props.fips}
+                        updateFipsCallback={(fips: Fips) => {
+                          props.updateFipsCallback(fips);
+                        }}
+                        enableFilter={props.fips.isUsa()}
+                        showCounties={false}
+                      />
+                      <TableCard
+                        data={geoFilteredDataset}
+                        datasetIds={datasetIds}
+                        fields={[
+                          "race_and_ethnicity",
+                          "population",
+                          "population_pct",
+                          shareOf(metric),
+                          per100k(metric),
+                        ]}
+                      />
+                    </>
+                  );
+                }}
+              </WithVariables>
+            </Grid>
+            <Grid item xs={props.vertical ? 12 : 6}>
+              <DisparityBarChartCard
+                // dataset={geoFilteredDataset}
+                metricId={metric}
+                breakdownVar="race_and_ethnicity"
+                fips={props.fips}
+              />
+              <DisparityBarChartCard
+                metricId={metric}
+                breakdownVar="age"
+                fips={props.fips}
+              />
+              <DisparityBarChartCard
+                metricId={metric}
+                breakdownVar="sex"
+                fips={props.fips}
+              />
+            </Grid>
+          </>
+          );
         </Grid>
       )}
     </>

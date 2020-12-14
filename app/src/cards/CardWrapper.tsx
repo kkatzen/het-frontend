@@ -17,8 +17,9 @@ function CardWrapper(props: {
   datasetIds: string[];
   titleText?: string;
   queries?: VariableQuery[];
-  children: React.ReactNode;
+  children: () => JSX.Element;
 }) {
+  console.log("CardWrapper!!!!!");
   console.log("props.queries,", props.queries);
 
   return (
@@ -36,7 +37,7 @@ function CardWrapper(props: {
                 <Divider />
               </>
             )}
-            {props.children}
+            {props.children()}
             <CardContent>
               <LinkWithStickyParams
                 target="_blank"

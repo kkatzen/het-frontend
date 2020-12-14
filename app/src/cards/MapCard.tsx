@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
 import { Fips, USA_FIPS } from "../utils/madlib/Fips";
 import Alert from "@material-ui/lab/Alert";
-import { VariableId } from "../data/variableProviders";
 import Divider from "@material-ui/core/Divider";
 import { CardContent } from "@material-ui/core";
 import styles from "./Card.module.scss";
@@ -11,6 +10,18 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
 import CardWrapper from "./CardWrapper";
+import {
+  BreakdownVar,
+  BREAKDOWN_VAR_DISPLAY_NAMES,
+  MetricToggle,
+  shareOf,
+  METRIC_FULL_NAMES,
+  METRIC_SHORT_NAMES,
+} from "../utils/madlib/DisplayNames";
+import useDatasetStore from "../data/useDatasetStore";
+import { Breakdowns } from "../data/Breakdowns";
+import { getDependentDatasets, VariableId } from "../data/variableProviders";
+import VariableQuery from "../data/VariableQuery";
 
 function MapCard(props: {
   fips: Fips;
@@ -51,6 +62,12 @@ function MapCard(props: {
   ];
   const [race, setRace] = useState<string>(RACES[0]);
 
+  const datasetStore = useDatasetStore();
+
+  const allGeosBreakdowns = Breakdowns.byState().andRace();
+  const allGeosQuery = new VariableQuery(props.varField, allGeosBreakdowns);
+  const datasetIds = getDependentDatasets([props.varField]);
+
   let mapData = props.data.filter((r) => r[props.varField] !== undefined);
   if (props.fips.code !== USA_FIPS) {
     // TODO - this doesn't consider county level data
@@ -62,72 +79,77 @@ function MapCard(props: {
 
   return (
     <CardWrapper
+      queries={[allGeosQuery]}
       datasetIds={props.datasetIds}
       titleText={`${
         props.varFieldDisplayName
       } in ${props.fips.getFullDisplayName()}`}
     >
-      <CardContent className={styles.SmallMarginContent}>
-        <MapBreadcrumbs
-          fips={props.fips}
-          updateFipsCallback={props.updateFipsCallback}
-        />
-      </CardContent>
-
-      {props.enableFilter && (
+      {() => (
         <>
-          <Divider />
-          <CardContent
-            className={styles.SmallMarginContent}
-            style={{ textAlign: "left" }}
-          >
-            <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
-              Filter by race:
-            </span>
+          <CardContent className={styles.SmallMarginContent}>
+            <MapBreadcrumbs
+              fips={props.fips}
+              updateFipsCallback={props.updateFipsCallback}
+            />
+          </CardContent>
 
-            <FormControl>
-              <Select
-                name="raceSelect"
-                value={race}
-                onChange={(e) => {
-                  setRace(e.target.value as string);
-                }}
-                disabled={props.fips.isUsa() ? false : true}
+          {props.enableFilter && (
+            <>
+              <Divider />
+              <CardContent
+                className={styles.SmallMarginContent}
+                style={{ textAlign: "left" }}
               >
-                {RACES.map((race) => (
-                  <MenuItem key={race} value={race}>
-                    {race}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
+                  Filter by race:
+                </span>
+
+                <FormControl>
+                  <Select
+                    name="raceSelect"
+                    value={race}
+                    onChange={(e) => {
+                      setRace(e.target.value as string);
+                    }}
+                    disabled={props.fips.isUsa() ? false : true}
+                  >
+                    {RACES.map((race) => (
+                      <MenuItem key={race} value={race}>
+                        {race}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </CardContent>
+            </>
+          )}
+
+          <Divider />
+          <CardContent>
+            {mapData.length !== 0 &&
+              !props.fips.isUsa() /* TODO - don't hardcode */ && (
+                <Alert severity="warning">
+                  This dataset does not provide county level data
+                </Alert>
+              )}
+            {mapData.length === 0 && (
+              <Alert severity="error">No data available</Alert>
+            )}
+          </CardContent>
+          <CardContent>
+            <UsaChloroplethMap
+              signalListeners={signalListeners}
+              varField={props.varField}
+              legendTitle={props.varFieldDisplayName}
+              data={mapData}
+              hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
+              showCounties={props.showCounties}
+              fips={props.fips}
+            />
           </CardContent>
         </>
       )}
-
-      <Divider />
-      <CardContent>
-        {mapData.length !== 0 &&
-          !props.fips.isUsa() /* TODO - don't hardcode */ && (
-            <Alert severity="warning">
-              This dataset does not provide county level data
-            </Alert>
-          )}
-        {mapData.length === 0 && (
-          <Alert severity="error">No data available</Alert>
-        )}
-      </CardContent>
-      <CardContent>
-        <UsaChloroplethMap
-          signalListeners={signalListeners}
-          varField={props.varField}
-          legendTitle={props.varFieldDisplayName}
-          data={mapData}
-          hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-          showCounties={props.showCounties}
-          fips={props.fips}
-        />
-      </CardContent>
     </CardWrapper>
   );
 }

@@ -18,7 +18,7 @@ function TableCard(props: {
       )}
       {props.data.length > 0 && (
         <CardWrapper datasetIds={props.datasetIds}>
-          <TableChart data={props.data} fields={props.fields} />
+          {() => <TableChart data={props.data} fields={props.fields} />}
         </CardWrapper>
       )}
     </>
