@@ -127,7 +127,7 @@ function DisVarGeo(props: {
                       updateFipsCallback={(fips: Fips) => {
                         props.updateFipsCallback(fips);
                       }}
-                      enableFilter={true}
+                      enableFilter={props.fips.isUsa()}
                       showCounties={false}
                     />
                     <TableCard

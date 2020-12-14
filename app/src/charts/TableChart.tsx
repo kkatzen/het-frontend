@@ -12,6 +12,7 @@ import {
   getFieldDisplayName,
   formatFieldValue,
 } from "../utils/madlib/DisplayNames";
+import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
 
 const StyledTableHeader = withStyles((theme: Theme) =>
   createStyles({
@@ -50,6 +51,9 @@ function TableChart(props: { data: Row[]; fields?: string[] }) {
                   {tableColumns.map((field, j) => (
                     <TableCell key={j}>
                       {formatFieldValue(field, row[field])}
+                      {(row[field] === null || row[field] === undefined) && (
+                        <WarningRoundedIcon />
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

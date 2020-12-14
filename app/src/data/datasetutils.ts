@@ -104,11 +104,15 @@ export function joinOnCols(
 }
 
 /** Calculates a rate as occurrences per 100k */
-export function per100k(numerator: number, denominator: number): number {
-  return Math.round(100000 * (numerator / denominator));
+export function per100k(numerator: number, denominator: number): number | null {
+  return numerator == null || denominator == null
+    ? null
+    : Math.round(100000 * (numerator / denominator));
 }
 
 /** Calculates a rate as a percent to one decimal place. */
-export function percent(numerator: number, denominator: number): number {
-  return Math.round((1000 * numerator) / denominator) / 10;
+export function percent(numerator: number, denominator: number): number | null {
+  return numerator == null || denominator == null
+    ? null
+    : Math.round((1000 * numerator) / denominator) / 10;
 }

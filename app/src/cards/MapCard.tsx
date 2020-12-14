@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
-import { Fips } from "../utils/madlib/Fips";
+import { Fips, USA_FIPS } from "../utils/madlib/Fips";
 import Alert from "@material-ui/lab/Alert";
 import { VariableId } from "../data/variableProviders";
 import Divider from "@material-ui/core/Divider";
@@ -51,6 +51,15 @@ function MapCard(props: {
   ];
   const [race, setRace] = useState<string>(RACES[0]);
 
+  let mapData = props.data.filter((r) => r[props.varField] !== undefined);
+  if (props.fips.code !== USA_FIPS) {
+    // TODO - this doesn't consider county level data
+    mapData = mapData.filter((r) => r.state_fips === props.fips.code);
+  }
+  if (props.enableFilter) {
+    mapData = mapData.filter((r) => r.race_and_ethnicity === race);
+  }
+
   return (
     <CardWrapper
       datasetIds={props.datasetIds}
@@ -98,10 +107,14 @@ function MapCard(props: {
 
       <Divider />
       <CardContent>
-        {!props.fips.isUsa() /* TODO - don't hardcode */ && (
-          <Alert severity="warning">
-            This dataset does not provide county level data
-          </Alert>
+        {mapData.length !== 0 &&
+          !props.fips.isUsa() /* TODO - don't hardcode */ && (
+            <Alert severity="warning">
+              This dataset does not provide county level data
+            </Alert>
+          )}
+        {mapData.length === 0 && (
+          <Alert severity="error">No data available</Alert>
         )}
       </CardContent>
       <CardContent>
@@ -109,11 +122,7 @@ function MapCard(props: {
           signalListeners={signalListeners}
           varField={props.varField}
           legendTitle={props.varFieldDisplayName}
-          data={
-            props.enableFilter
-              ? props.data.filter((r) => r.race_and_ethnicity === race)
-              : props.data
-          }
+          data={mapData}
           hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
           showCounties={props.showCounties}
           fips={props.fips}
