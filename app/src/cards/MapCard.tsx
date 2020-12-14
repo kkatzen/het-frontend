@@ -10,19 +10,17 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
 import CardWrapper from "./CardWrapper";
-import { MetricToggle, shareOf } from "../utils/madlib/DisplayNames";
+import { MetricToggle, per100k } from "../utils/madlib/DisplayNames";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
+import { VARIABLE_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
 
 function MapCard(props: {
   fips: Fips;
-  datasetIds?: string[];
-  varField?: VariableId;
-  metricId?: MetricToggle;
-  varFieldDisplayName: string;
-  data?: Record<string, any>[];
+  variable: string /* thing you could feed into the per100k */;
+  nonstandardizedRace: boolean /* ideally wouldn't go here */;
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
   showCounties: boolean;
@@ -58,24 +56,29 @@ function MapCard(props: {
 
   const datasetStore = useDatasetStore();
 
-  const shareOfVariable = shareOf(props.metricId as string) as VariableId;
-  const allGeosBreakdowns = Breakdowns.byState().andRace(true);
-  const allGeosQuery = new VariableQuery(shareOfVariable, allGeosBreakdowns);
+  console.log("kkz", props.variable);
+
+  const per100kVariable = per100k(props.variable) as VariableId;
+  const variableDisplayName = VARIABLE_DISPLAY_NAMES[per100kVariable];
+  const allGeosBreakdowns = Breakdowns.byState().andRace(
+    props.nonstandardizedRace
+  );
+  const allGeosQuery = new VariableQuery(per100kVariable, allGeosBreakdowns);
+  console.log("kkz", per100kVariable);
 
   return (
     <CardWrapper
       queries={[allGeosQuery]}
-      datasetIds={getDependentDatasets([shareOfVariable])}
-      titleText={`${
-        props.varFieldDisplayName
-      } in ${props.fips.getFullDisplayName()}`}
+      datasetIds={getDependentDatasets([per100kVariable])}
+      titleText={`${variableDisplayName} in ${props.fips.getFullDisplayName()}`}
     >
       {() => {
         const dataset = datasetStore
           .getVariables(allGeosQuery)
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
+        console.log("kkz", dataset);
 
-        let mapData = dataset.filter((r) => r[shareOfVariable] !== undefined);
+        let mapData = dataset.filter((r) => r[per100kVariable] !== undefined);
         if (props.fips.code !== USA_FIPS) {
           // TODO - this doesn't consider county level data
           mapData = mapData.filter((r) => r.state_fips === props.fips.code);
@@ -139,8 +142,8 @@ function MapCard(props: {
             <CardContent>
               <UsaChloroplethMap
                 signalListeners={signalListeners}
-                varField={shareOfVariable}
-                legendTitle={props.varFieldDisplayName}
+                varField={per100kVariable}
+                legendTitle={variableDisplayName}
                 data={mapData}
                 hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
                 showCounties={props.showCounties}

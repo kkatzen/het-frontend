@@ -43,16 +43,13 @@ function DisVarGeo(props: {
   // other demographic.
   const shareOfVariable = shareOf(metric) as VariableId;
   const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
-  const allGeosBreakdowns = Breakdowns.byState().andRace(true);
   const variables: VariableId[] = [
     shareOfVariable,
     "population",
     "population_pct",
   ];
   const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
-  const allGeosQuery = new VariableQuery(shareOfVariable, allGeosBreakdowns);
 
-  const queries = [geoFilteredQuery, allGeosQuery];
   const datasetIds = getDependentDatasets(variables);
 
   return (
@@ -89,17 +86,16 @@ function DisVarGeo(props: {
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
-              metricId={metric}
-              varField={per100k(metric)}
-              varFieldDisplayName={VARIABLE_DISPLAY_NAMES[per100k(metric)]}
+              variable={metric as string}
               fips={props.fips}
               updateFipsCallback={(fips: Fips) => {
                 props.updateFipsCallback(fips);
               }}
               enableFilter={props.fips.isUsa()}
               showCounties={false}
+              nonstandardizedRace={true}
             />
-            <WithVariables queries={queries}>
+            <WithVariables queries={[geoFilteredQuery]}>
               {() => {
                 const geoFilteredDataset = datasetStore
                   .getVariables(geoFilteredQuery)

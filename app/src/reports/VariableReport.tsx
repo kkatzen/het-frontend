@@ -16,7 +16,7 @@ import VariableQuery from "../data/VariableQuery";
 // TODO - remove hardcoded values when we have full support
 const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["diabetes"];
 const METRIC_VARIABLES: Record<string, string> = {
-  diabetes: "diabetes_per_100k",
+  diabetes: "diabetes",
 };
 
 function VarGeoReport(props: {
@@ -30,15 +30,12 @@ function VarGeoReport(props: {
     props.variable
   )
     ? (METRIC_VARIABLES[props.variable] as VariableId)
-    : ("diabetes_per_100k" as VariableId);
+    : ("diabetes" as VariableId);
 
   const datasetStore = useDatasetStore();
 
   const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace();
-  const allGeosBreakdowns = Breakdowns.byState().andRace();
   const geoFilteredQuery = new VariableQuery(variableId, geoFilteredBreakdowns);
-  const allGeosQuery = new VariableQuery(variableId, allGeosBreakdowns);
-  const datasetIds = getDependentDatasets([variableId]);
 
   return (
     <>
@@ -58,21 +55,15 @@ function VarGeoReport(props: {
             md={props.vertical ? 12 : 6}
             className={styles.PaddedGrid}
           >
-            <WithVariables queries={[geoFilteredQuery, allGeosQuery]}>
-              {() => (
-                <MapCard
-                  data={datasetStore.getVariables(allGeosQuery)}
-                  datasetIds={datasetIds}
-                  varField={variableId}
-                  varFieldDisplayName={VARIABLE_DISPLAY_NAMES[variableId]}
-                  fips={props.fips}
-                  updateFipsCallback={(fips: Fips) => {
-                    props.updateFipsCallback(fips);
-                  }}
-                  showCounties={props.fips.isUsa() ? false : true}
-                />
-              )}
-            </WithVariables>
+            <MapCard
+              variable={"diabetes"}
+              fips={props.fips}
+              updateFipsCallback={(fips: Fips) => {
+                props.updateFipsCallback(fips);
+              }}
+              showCounties={props.fips.isUsa() ? false : true}
+              nonstandardizedRace={false}
+            />
           </Grid>
           <Grid
             item
@@ -81,11 +72,11 @@ function VarGeoReport(props: {
             md={props.vertical ? 12 : 6}
             className={styles.PaddedGrid}
           >
-            <WithVariables queries={[geoFilteredQuery, allGeosQuery]}>
+            <WithVariables queries={[geoFilteredQuery]}>
               {() => (
                 <TableCard
                   data={datasetStore.getVariables(geoFilteredQuery)}
-                  datasetIds={datasetIds}
+                  datasetIds={getDependentDatasets([variableId])}
                   fields={["race_and_ethnicity", variableId]}
                 />
               )}

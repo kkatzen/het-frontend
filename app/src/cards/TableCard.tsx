@@ -4,6 +4,7 @@ import { Row } from "../data/DatasetTypes";
 import { Alert } from "@material-ui/lab";
 import CardWrapper from "./CardWrapper";
 
+// TODO - Migrate so variables are called here instead of the parent
 function TableCard(props: {
   datasetIds: string[];
   data: Row[];
