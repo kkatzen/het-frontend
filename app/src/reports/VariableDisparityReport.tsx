@@ -82,9 +82,7 @@ function VariableDisparityReport(props: {
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
-              metricConfig={variableConfig.metrics.find(
-                (metricConfig) => metricConfig.type === "per100k"
-              )}
+              metricConfig={variableConfig.metrics["per100k"] as MetricConfig}
               fips={props.fips}
               updateFipsCallback={(fips: Fips) => {
                 props.updateFipsCallback(fips);

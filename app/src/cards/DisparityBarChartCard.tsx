@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DisparityBarChart from "../charts/DisparityBarChart";
 import styles from "./Card.module.scss";
 import { Alert } from "@material-ui/lab";
@@ -38,8 +38,12 @@ function DisparityBarChartCard(props: {
 
   // Initalized state
   const [metricConfig, setMetricConfig] = useState<MetricConfig>(
-    props.variableConfig.metrics[0]
+    props.variableConfig.metrics["pct_share"]
   );
+  useEffect(() => {
+    setMetricConfig(props.variableConfig.metrics["pct_share"]);
+  }, [props.variableConfig]);
+
   console.log(metricConfig);
 
   const datasetStore = useDatasetStore();
@@ -48,7 +52,7 @@ function DisparityBarChartCard(props: {
   // other demographic.
   const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
 
-  const metricIds = props.variableConfig.metrics.map(
+  const metricIds = Object.values(props.variableConfig.metrics).map(
     (metricConfig: MetricConfig) => metricConfig.metricId
   );
   const variables: VariableId[] = [
@@ -91,25 +95,23 @@ function DisparityBarChartCard(props: {
                 <ToggleButtonGroup
                   value={metricConfig}
                   exclusive
-                  onChange={(e, metricId) => {
-                    console.log(metricId);
-                    if (metricId !== null) {
+                  onChange={(e, metricType) => {
+                    console.log(metricType);
+                    if (metricType !== null) {
                       setMetricConfig(
-                        props.variableConfig.metrics.find(
-                          (metricConfig) => metricConfig.metricId === metricId
-                        ) as MetricConfig
+                        props.variableConfig.metrics[metricType] as MetricConfig
                       );
                     }
                   }}
                   aria-label="text alignment"
                 >
-                  {props.variableConfig.metrics
+                  {Object.values(props.variableConfig.metrics)
                     .filter((metricConfig) =>
                       VALID_METRIC_TYPES.includes(metricConfig.type)
                     )
                     .map((metricConfig) => (
-                      <ToggleButton value={metricConfig.metricId}>
-                        {metricConfig.metricId}
+                      <ToggleButton value={metricConfig.type}>
+                        {metricConfig.type}
                       </ToggleButton>
                     ))}
                 </ToggleButtonGroup>
