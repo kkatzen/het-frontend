@@ -89,6 +89,17 @@ function DisVarGeo(props: {
               </ToggleButtonGroup>
             </Grid>
             <Grid item xs={props.vertical ? 12 : 6}>
+              <MapCard
+                metricId={metric}
+                varField={per100k(metric)}
+                varFieldDisplayName={VARIABLE_DISPLAY_NAMES[per100k(metric)]}
+                fips={props.fips}
+                updateFipsCallback={(fips: Fips) => {
+                  props.updateFipsCallback(fips);
+                }}
+                enableFilter={props.fips.isUsa()}
+                showCounties={false}
+              />
               <WithVariables queries={queries}>
                 {() => {
                   const geoFilteredDataset = datasetStore
@@ -108,33 +119,17 @@ function DisVarGeo(props: {
                     );
 
                   return (
-                    <>
-                      <MapCard
-                        data={dataset}
-                        datasetIds={datasetIds}
-                        varField={per100k(metric)}
-                        varFieldDisplayName={
-                          VARIABLE_DISPLAY_NAMES[per100k(metric)]
-                        }
-                        fips={props.fips}
-                        updateFipsCallback={(fips: Fips) => {
-                          props.updateFipsCallback(fips);
-                        }}
-                        enableFilter={props.fips.isUsa()}
-                        showCounties={false}
-                      />
-                      <TableCard
-                        data={geoFilteredDataset}
-                        datasetIds={datasetIds}
-                        fields={[
-                          "race_and_ethnicity",
-                          "population",
-                          "population_pct",
-                          shareOf(metric),
-                          per100k(metric),
-                        ]}
-                      />
-                    </>
+                    <TableCard
+                      data={geoFilteredDataset}
+                      datasetIds={datasetIds}
+                      fields={[
+                        "race_and_ethnicity",
+                        "population",
+                        "population_pct",
+                        shareOf(metric),
+                        per100k(metric),
+                      ]}
+                    />
                   );
                 }}
               </WithVariables>

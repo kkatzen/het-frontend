@@ -25,10 +25,11 @@ import VariableQuery from "../data/VariableQuery";
 
 function MapCard(props: {
   fips: Fips;
-  datasetIds: string[];
-  varField: VariableId;
+  datasetIds?: string[];
+  varField?: VariableId;
+  metricId?: MetricToggle;
   varFieldDisplayName: string;
-  data: Record<string, any>[];
+  data?: Record<string, any>[];
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
   showCounties: boolean;
@@ -64,92 +65,103 @@ function MapCard(props: {
 
   const datasetStore = useDatasetStore();
 
-  const allGeosBreakdowns = Breakdowns.byState().andRace();
-  const allGeosQuery = new VariableQuery(props.varField, allGeosBreakdowns);
-  const datasetIds = getDependentDatasets([props.varField]);
-
-  let mapData = props.data.filter((r) => r[props.varField] !== undefined);
-  if (props.fips.code !== USA_FIPS) {
-    // TODO - this doesn't consider county level data
-    mapData = mapData.filter((r) => r.state_fips === props.fips.code);
-  }
-  if (props.enableFilter) {
-    mapData = mapData.filter((r) => r.race_and_ethnicity === race);
-  }
+  const shareOfVariable = shareOf(props.metricId as string) as VariableId;
+  const allGeosBreakdowns = Breakdowns.byState().andRace(true);
+  const variables: VariableId[] = [
+    shareOfVariable,
+    "population",
+    "population_pct",
+  ];
+  const allGeosQuery = new VariableQuery(shareOfVariable, allGeosBreakdowns);
 
   return (
     <CardWrapper
       queries={[allGeosQuery]}
-      datasetIds={props.datasetIds}
+      datasetIds={getDependentDatasets([shareOfVariable])}
       titleText={`${
         props.varFieldDisplayName
       } in ${props.fips.getFullDisplayName()}`}
     >
-      {() => (
-        <>
-          <CardContent className={styles.SmallMarginContent}>
-            <MapBreadcrumbs
-              fips={props.fips}
-              updateFipsCallback={props.updateFipsCallback}
-            />
-          </CardContent>
+      {() => {
+        const dataset = datasetStore
+          .getVariables(allGeosQuery)
+          .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
 
-          {props.enableFilter && (
-            <>
-              <Divider />
-              <CardContent
-                className={styles.SmallMarginContent}
-                style={{ textAlign: "left" }}
-              >
-                <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
-                  Filter by race:
-                </span>
+        let mapData = dataset.filter((r) => r[shareOfVariable] !== undefined);
+        if (props.fips.code !== USA_FIPS) {
+          // TODO - this doesn't consider county level data
+          mapData = mapData.filter((r) => r.state_fips === props.fips.code);
+        }
+        if (props.enableFilter) {
+          mapData = mapData.filter((r) => r.race_and_ethnicity === race);
+        }
 
-                <FormControl>
-                  <Select
-                    name="raceSelect"
-                    value={race}
-                    onChange={(e) => {
-                      setRace(e.target.value as string);
-                    }}
-                    disabled={props.fips.isUsa() ? false : true}
-                  >
-                    {RACES.map((race) => (
-                      <MenuItem key={race} value={race}>
-                        {race}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </CardContent>
-            </>
-          )}
+        return (
+          <>
+            <CardContent className={styles.SmallMarginContent}>
+              <MapBreadcrumbs
+                fips={props.fips}
+                updateFipsCallback={props.updateFipsCallback}
+              />
+            </CardContent>
 
-          <Divider />
-          <CardContent>
-            {mapData.length !== 0 &&
-              !props.fips.isUsa() /* TODO - don't hardcode */ && (
-                <Alert severity="warning">
-                  This dataset does not provide county level data
-                </Alert>
-              )}
-            {mapData.length === 0 && (
-              <Alert severity="error">No data available</Alert>
+            {props.enableFilter && (
+              <>
+                <Divider />
+                <CardContent
+                  className={styles.SmallMarginContent}
+                  style={{ textAlign: "left" }}
+                >
+                  <span style={{ lineHeight: "33px", fontSize: "13pt" }}>
+                    Filter by race:
+                  </span>
+
+                  <FormControl>
+                    <Select
+                      name="raceSelect"
+                      value={race}
+                      onChange={(e) => {
+                        setRace(e.target.value as string);
+                      }}
+                      disabled={props.fips.isUsa() ? false : true}
+                    >
+                      {RACES.map((race) => (
+                        <MenuItem key={race} value={race}>
+                          {race}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </CardContent>
+              </>
             )}
-          </CardContent>
-          <CardContent>
-            <UsaChloroplethMap
-              signalListeners={signalListeners}
-              varField={props.varField}
-              legendTitle={props.varFieldDisplayName}
-              data={mapData}
-              hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-              showCounties={props.showCounties}
-              fips={props.fips}
-            />
-          </CardContent>
-        </>
-      )}
+
+            <Divider />
+            <CardContent>
+              {mapData.length !== 0 &&
+                !props.fips.isUsa() /* TODO - don't hardcode */ && (
+                  <Alert severity="warning">
+                    This dataset does not provide county level data
+                  </Alert>
+                )}
+              {mapData.length === 0 && (
+                <Alert severity="error">No data available</Alert>
+              )}
+            </CardContent>
+            <CardContent>
+              <UsaChloroplethMap
+                signalListeners={signalListeners}
+                varField={shareOfVariable}
+                legendTitle={props.varFieldDisplayName}
+                data={mapData}
+                hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
+                showCounties={props.showCounties}
+                fips={props.fips}
+              />
+            </CardContent>
+          </>
+        );
+      }}
     </CardWrapper>
   );
 }

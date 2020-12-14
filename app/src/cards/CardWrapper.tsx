@@ -19,9 +19,6 @@ function CardWrapper(props: {
   queries?: VariableQuery[];
   children: () => JSX.Element;
 }) {
-  console.log("CardWrapper!!!!!");
-  console.log("props.queries,", props.queries);
-
   return (
     <WithVariables queries={props.queries ? props.queries : []}>
       {() => {

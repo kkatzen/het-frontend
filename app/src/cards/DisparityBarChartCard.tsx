@@ -30,18 +30,15 @@ function DisparityBarChartCard(props: {
   metricId: MetricToggle;
   fips: Fips;
 }) {
-  console.log("DisparityBarChartCard!!!!!");
-
   const [chartToggle, setChartToggle] = useState<ChartToggle>("percents");
 
   const datasetStore = useDatasetStore();
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
-  const shareOfVariable = shareOf(props.metricId) as VariableId;
   const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
   const variables: VariableId[] = [
-    shareOfVariable,
+    shareOf(props.metricId) as VariableId,
     "population",
     "population_pct",
   ];
