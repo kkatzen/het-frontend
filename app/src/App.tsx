@@ -36,6 +36,9 @@ import {
   ABOUT_US_PAGE_LINK,
 } from "./utils/urlutils";
 import AboutUsPage from "./pages/AboutUsPage";
+import Logger from "./utils/Logger";
+import { initGlobals } from "./utils/globals";
+import DataFetcher from "./data/DataFetcher";
 
 const MOBILE_BREAKPOINT = 600;
 
@@ -46,6 +49,8 @@ const PAGE_URL_TO_NAMES: Record<string, string> = {
   [EXPLORE_DATA_PAGE_LINK]: "Explore the Data",
 };
 
+// TODO configure the logger and data fetcher based on environment variables.
+initGlobals(new Logger(false), new DataFetcher());
 startMetadataLoad();
 
 function MobileAppToolbar() {
