@@ -1,25 +1,59 @@
 import React from "react";
 import TableChart from "../charts/TableChart";
-import { Row } from "../data/DatasetTypes";
 import { Alert } from "@material-ui/lab";
 import CardWrapper from "./CardWrapper";
-
+import useDatasetStore from "../data/useDatasetStore";
+import { Breakdowns } from "../data/Breakdowns";
+import { getDependentDatasets, VariableId } from "../data/variableProviders";
+import VariableQuery from "../data/VariableQuery";
+import { Fips } from "../utils/madlib/Fips";
+import { BreakdownVar } from "../utils/madlib/DisplayNames";
 // TODO - Migrate so variables are called here instead of the parent
 function TableCard(props: {
-  datasetIds: string[];
-  data: Row[];
-  fields?: string[];
+  fips: Fips;
+  breakdownVar: BreakdownVar;
+  variableIds: VariableId[];
 }) {
+  const datasetStore = useDatasetStore();
+
+  // TODO need to handle race categories standard vs non-standard for covid vs
+  // other demographic.
+  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
+  const geoFilteredQuery = new VariableQuery(
+    props.variableIds,
+    geoFilteredBreakdowns
+  );
+
+  const datasetIds = getDependentDatasets(props.variableIds);
+
   return (
     <>
-      {props.data.length === 0 && (
+      {false && (
         <Alert severity="warning">
           Missing data means that we don't know the full story.
         </Alert>
       )}
-      {props.data.length > 0 && (
-        <CardWrapper datasetIds={props.datasetIds}>
-          {() => <TableChart data={props.data} fields={props.fields} />}
+      {true && (
+        <CardWrapper queries={[geoFilteredQuery]} datasetIds={datasetIds}>
+          {() => {
+            const geoFilteredDataset = datasetStore
+              .getVariables(geoFilteredQuery)
+              .filter(
+                (row) =>
+                  !["Not Hispanic or Latino", "Total"].includes(
+                    row.race_and_ethnicity
+                  )
+              );
+
+            return (
+              <TableChart
+                data={geoFilteredDataset}
+                fields={[props.breakdownVar as string].concat(
+                  props.variableIds
+                )}
+              />
+            );
+          }}
         </CardWrapper>
       )}
     </>

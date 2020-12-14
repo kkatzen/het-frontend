@@ -9,7 +9,6 @@ import {
   MadLibId,
 } from "../utils/madlib/MadLibs";
 import { Fips } from "../utils/madlib/Fips";
-import VariableReport from "./VariableReport";
 
 function getPhraseValue(madLib: MadLib, segmentIndex: number): string {
   const segment = madLib.phrase[segmentIndex];
@@ -63,38 +62,6 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
           </Grid>
         </Grid>
       );
-    case "vargeo":
-      return (
-        <VariableReport
-          variable={getPhraseValue(props.madLib, 1) as DropdownVarId}
-          fips={new Fips(getPhraseValue(props.madLib, 3))}
-          updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
-        />
-      );
-    case "varcompare":
-      const compareVariable = getPhraseValue(props.madLib, 1) as DropdownVarId;
-      return (
-        <Grid container spacing={1} alignItems="flex-start">
-          <Grid item xs={6}>
-            <VariableReport
-              variable={compareVariable}
-              fips={new Fips(getPhraseValue(props.madLib, 3))}
-              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
-              vertical={true}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <VariableReport
-              variable={compareVariable}
-              fips={new Fips(getPhraseValue(props.madLib, 5))}
-              updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
-              vertical={true}
-            />
-          </Grid>
-        </Grid>
-      );
-    case "geo":
-      return <p>Unimplemented</p>;
     case "dump":
       return <ChartDumpReport />;
     default:

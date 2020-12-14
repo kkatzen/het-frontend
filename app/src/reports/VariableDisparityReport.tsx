@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
-import { WithVariables } from "../data/WithLoadingOrErrorUI";
-import useDatasetStore from "../data/useDatasetStore";
-import { Breakdowns } from "../data/Breakdowns";
-import { getDependentDatasets, VariableId } from "../data/variableProviders";
+import { VariableId } from "../data/variableProviders";
 import {
   MetricToggle,
   VARIABLE_DISPLAY_NAMES,
+  BreakdownVar,
   shareOf,
   per100k,
   METRICS_FOR_VARIABLE,
@@ -19,7 +17,6 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import { Fips } from "../utils/madlib/Fips";
-import VariableQuery from "../data/VariableQuery";
 
 // TODO - remove hardcoded values when we have full support
 const SUPPORTED_MADLIB_VARIABLES: DropdownVarId[] = ["covid"];
@@ -36,21 +33,6 @@ function DisVarGeo(props: {
       ? (METRICS_FOR_VARIABLE[props.dropdownVarId as string][0] as MetricToggle)
       : ("covid_cases" as MetricToggle)
   );
-
-  const datasetStore = useDatasetStore();
-
-  // TODO need to handle race categories standard vs non-standard for covid vs
-  // other demographic.
-  const shareOfVariable = shareOf(metric) as VariableId;
-  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(true);
-  const variables: VariableId[] = [
-    shareOfVariable,
-    "population",
-    "population_pct",
-  ];
-  const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
-
-  const datasetIds = getDependentDatasets(variables);
 
   return (
     <>
@@ -95,32 +77,16 @@ function DisVarGeo(props: {
               showCounties={false}
               nonstandardizedRace={true}
             />
-            <WithVariables queries={[geoFilteredQuery]}>
-              {() => {
-                const geoFilteredDataset = datasetStore
-                  .getVariables(geoFilteredQuery)
-                  .filter(
-                    (row) =>
-                      !["Not Hispanic or Latino", "Total"].includes(
-                        row.race_and_ethnicity
-                      )
-                  );
-
-                return (
-                  <TableCard
-                    data={geoFilteredDataset}
-                    datasetIds={datasetIds}
-                    fields={[
-                      "race_and_ethnicity",
-                      "population",
-                      "population_pct",
-                      shareOf(metric),
-                      per100k(metric),
-                    ]}
-                  />
-                );
-              }}
-            </WithVariables>
+            <TableCard
+              fips={props.fips}
+              variableIds={[
+                per100k(metric) as VariableId,
+                shareOf(metric) as VariableId,
+                "population" as VariableId,
+                "population_pct" as VariableId,
+              ]}
+              breakdownVar={"race_and_ethnicity" as BreakdownVar}
+            />
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
