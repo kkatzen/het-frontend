@@ -20,6 +20,7 @@ export interface MadLib {
   readonly activeSelections: PhraseSelections;
 }
 
+// TODO - if value are FIPs, we're not getting full display name for counties
 function getMadLibPhraseText(madLib: MadLib): string {
   let madLibText = "";
   madLib.phrase.forEach((phraseSegment, index) => {

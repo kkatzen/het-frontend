@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Grid } from "@material-ui/core";
@@ -88,6 +89,21 @@ function ExploreDataPage() {
     activeSelections: defaultValuesWithOverrides,
   });
 
+  useEffect(() => {
+    const header = document.getElementById("MadLib-Carousel");
+    const sticky = header.offsetTop;
+    const scrollCallBack = window.addEventListener("scroll", () => {
+      if (window.pageYOffset > sticky) {
+        header.classList.add(styles.Sticky);
+      } else {
+        header.classList.remove(styles.Sticky);
+      }
+    });
+    return () => {
+      window.removeEventListener("scroll", scrollCallBack);
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <ReactTooltip />
@@ -100,16 +116,19 @@ function ExploreDataPage() {
         <DialogTitle id="alert-dialog-title">Link to this Report</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
+            {getMadLibPhraseText(madLib)}
+          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">
             {linkToMadLib(madLib.id, madLib.activeSelections, true)}
           </DialogContentText>
         </DialogContent>
       </Dialog>
-      <div className={styles.CarouselContainer}>
+      <div className={styles.CarouselContainer} id="MadLib-Carousel">
         <Carousel
           className={styles.Carousel}
           timeout={200}
           autoPlay={false}
-          indicators={false}
+          indicators={true}
           animation="slide"
           navButtonsAlwaysVisible={true}
           onChange={(index: number) => {
@@ -121,23 +140,17 @@ function ExploreDataPage() {
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
             <Paper elevation={3} className={styles.CarouselItem} key={i}>
-              <CarouselMadLib madLib={madLib} setMadLib={setMadLib} key={i} />
+              <CarouselMadLib
+                madLib={madLib}
+                setMadLib={setMadLib}
+                key={i}
+                setShareModalOpen={setShareModalOpen}
+              />
             </Paper>
           ))}
         </Carousel>
       </div>
       <div className={styles.ReportContainer}>
-        <h1>
-          {getMadLibPhraseText(madLib)}
-          <IconButton
-            aria-label="delete"
-            color="primary"
-            onClick={() => setShareModalOpen(true)}
-            data-tip="Share a Link to this Report"
-          >
-            <ShareIcon />
-          </IconButton>
-        </h1>
         <ReportProvider madLib={madLib} setMadLib={setMadLib} />
       </div>
     </React.Fragment>
@@ -147,6 +160,7 @@ function ExploreDataPage() {
 function CarouselMadLib(props: {
   madLib: MadLib;
   setMadLib: (updatedMadLib: MadLib) => void;
+  setShareModalOpen: () => void;
 }) {
   function updateMadLib(phraseSegementIndex: number, newValue: string) {
     let updatePhraseSelections: PhraseSelections = {
@@ -219,6 +233,16 @@ function CarouselMadLib(props: {
           </React.Fragment>
         )
       )}
+      <Grid item>
+        <IconButton
+          aria-label="delete"
+          color="primary"
+          onClick={() => props.setShareModalOpen(true)}
+          data-tip="Share a Link to this Report"
+        >
+          <ShareIcon />
+        </IconButton>
+      </Grid>
     </Grid>
   );
 }

@@ -1,17 +1,21 @@
 .CarouselContainer {
   background: #e4e4e4;
-  padding: 20px;
+  padding-bottom: 40px;
+  padding-top: 40px;
 }
 
 .Carousel {
   margin: auto;
-  width: 80%;
+  width: 90%;
 }
 
 .CarouselItem {
-  padding: 50px;
+  padding: 40px;
+  padding-left: 50px;
+  padding-right: 50px;
   margin: 20px auto;
   font-size: 20pt;
+  line-height: 20pt;
 }
 
 .MadLibSelect {
@@ -23,4 +27,18 @@
 .ReportContainer {
   width: 95%;
   margin: 20px auto;
+}
+
+.Sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99999;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: padding-top 0.2s, padding-bottom 0.2s;
+  .CarouselItem {
+    padding: 10px;
+    transition: padding 0.2s;
+  }
 }
