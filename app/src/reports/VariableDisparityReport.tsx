@@ -74,7 +74,6 @@ function DisVarGeo(props: {
                 props.updateFipsCallback(fips);
               }}
               enableFilter={props.fips.isUsa()}
-              showCounties={false}
               nonstandardizedRace={true}
             />
             <TableCard

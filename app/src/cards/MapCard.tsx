@@ -23,7 +23,6 @@ function MapCard(props: {
   nonstandardizedRace: boolean;
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
-  showCounties: boolean;
 }) {
   const signalListeners: any = {
     click: (...args: any) => {
@@ -142,7 +141,7 @@ function MapCard(props: {
                 legendTitle={variableDisplayName}
                 data={mapData}
                 hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
-                showCounties={props.showCounties}
+                showCounties={props.fips.isUsa() ? false : true}
                 fips={props.fips}
               />
             </CardContent>
