@@ -113,7 +113,14 @@ function DisparityBarChartCard(props: {
                       )
                       .map((metricConfig) => (
                         <ToggleButton value={metricConfig.type}>
-                          {metricConfig.type}
+                          {metricConfig.type === "pct_share" && (
+                            <>
+                              {props.variableConfig.variableId} and Population
+                            </>
+                          )}
+                          {metricConfig.type === "per100k" && (
+                            <>per 100,000 people</>
+                          )}
                         </ToggleButton>
                       ))}
                   </ToggleButtonGroup>

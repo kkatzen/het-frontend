@@ -1,6 +1,5 @@
 import { VariableId } from "../data/variableProviders";
 
-/* TODO: These are not yet comprehensive, final interfaces */
 export type MetricType =
   | "count"
   | "pct_share"
