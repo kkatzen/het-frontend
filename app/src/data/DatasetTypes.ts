@@ -2,6 +2,7 @@ import { DataFrame, IDataFrame } from "data-forge";
 import VariableQuery from "./VariableQuery";
 
 /* TODO: These are not yet comprehensive, final interfaces */
+
 export interface DatasetMetadata {
   readonly id: string;
   readonly name: string;

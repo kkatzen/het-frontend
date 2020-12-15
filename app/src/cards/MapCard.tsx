@@ -71,14 +71,14 @@ function MapCard(props: {
   const breakdowns = Breakdowns.byState().andRace(props.nonstandardizedRace);
   const query = new VariableQuery(props.metricConfig.metricId, breakdowns);
 
-  const datasets = props.metricConfig
+  const datasetIds = props.metricConfig
     ? getDependentDatasets([props.metricConfig.metricId])
     : [];
 
   return (
     <CardWrapper
       queries={[query]}
-      datasetIds={datasets}
+      datasetIds={datasetIds}
       titleText={`${
         props.metricConfig.fullCardTitleName
       } in ${props.fips.getFullDisplayName()}`}
@@ -89,7 +89,9 @@ function MapCard(props: {
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
 
         let mapData = dataset.filter(
-          (r) => r[props.metricConfig.metricId] !== undefined
+          (r) =>
+            r[props.metricConfig.metricId] !== undefined ||
+            r[props.metricConfig.metricId] !== null
         );
         if (!props.fips.isUsa()) {
           // TODO - this doesn't consider county level data
