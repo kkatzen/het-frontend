@@ -51,7 +51,7 @@ const DROPDOWN_VAR: Record<DropdownVarId, string> = {
   diabetes: "diabetes",
   obesity: "[coming soon] obesity",
   asthma: "[coming soon] asthma",
-  copd: "[coming soon] copd",
+  copd: "COPD",
   insurance: "[coming soon] insurance type",
 };
 

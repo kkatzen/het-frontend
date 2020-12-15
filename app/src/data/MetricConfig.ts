@@ -112,4 +112,23 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
       },
     },
   ],
+  copd: [
+    {
+      variableId: "cases",
+      metrics: {
+        count: {
+          metricId: "copd_count",
+          fullCardTitleName: "Count of COPD cases",
+          shortVegaLabel: "cases",
+          type: "count",
+        },
+        per100k: {
+          metricId: "copd_per_100k",
+          fullCardTitleName: "COPD cases per 100,000 people",
+          shortVegaLabel: "cases per 100k",
+          type: "per100k",
+        },
+      },
+    },
+  ],
 };
