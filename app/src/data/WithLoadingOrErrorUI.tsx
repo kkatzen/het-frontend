@@ -22,13 +22,18 @@ function getJointLoadStatus(statuses: LoadStatus[]) {
 export function WithLoadingOrErrorUI(props: {
   loadStatus: LoadStatus;
   children: () => JSX.Element;
+  loadingComponent?: JSX.Element;
 }) {
   switch (props.loadStatus) {
     case "loaded":
       return props.children();
     case "loading":
     case "unloaded":
-      return <CircularProgress />;
+      return props.loadingComponent ? (
+        props.loadingComponent
+      ) : (
+        <CircularProgress />
+      );
     default:
       return (
         <div>
@@ -45,6 +50,7 @@ export function WithLoadingOrErrorUI(props: {
  */
 export function WithVariables(props: {
   queries: VariableQuery[];
+  loadingComponent?: JSX.Element;
   children: () => JSX.Element;
 }) {
   const datasetStore = useDatasetStore();
@@ -60,7 +66,10 @@ export function WithVariables(props: {
   );
 
   return (
-    <WithLoadingOrErrorUI loadStatus={getJointLoadStatus(statuses)}>
+    <WithLoadingOrErrorUI
+      loadStatus={getJointLoadStatus(statuses)}
+      loadingComponent={props.loadingComponent}
+    >
       {props.children}
     </WithLoadingOrErrorUI>
   );
