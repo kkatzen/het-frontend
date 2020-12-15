@@ -4,6 +4,7 @@ import { VariableId } from "../data/variableProviders";
 import { BreakdownVar } from "../utils/madlib/DisplayNames";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapCard from "../cards/MapCard";
+import PopulationCard from "../cards/PopulationCard";
 import TableCard from "../cards/TableCard";
 import { DropdownVarId } from "../utils/madlib/MadLibs";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -62,6 +63,7 @@ function VariableDisparityReport(props: {
       {variableConfig && (
         <Grid container spacing={1} justify="center">
           <Grid item xs={12}>
+            <PopulationCard fips={props.fips} />
             {!!METRIC_CONFIG[props.dropdownVarId as string] &&
               METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
                 <ToggleButtonGroup
