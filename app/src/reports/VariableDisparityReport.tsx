@@ -62,35 +62,35 @@ function VariableDisparityReport(props: {
       {variableConfig && (
         <Grid container spacing={1} justify="center">
           <Grid item xs={12}>
-            {(!METRIC_CONFIG[props.dropdownVarId as string] ||
-              METRIC_CONFIG[props.dropdownVarId as string].length > 1) && (
-              <ToggleButtonGroup
-                exclusive
-                value={variableConfig.variableId}
-                onChange={(e, variableId) => {
-                  if (
-                    variableId !== null &&
-                    METRIC_CONFIG[props.dropdownVarId]
-                  ) {
-                    setVariableConfig(
-                      METRIC_CONFIG[props.dropdownVarId].find(
-                        (variableConfig) =>
-                          variableConfig.variableId === variableId
-                      ) as VariableConfig
-                    );
-                  }
-                }}
-                aria-label="text formatting"
-              >
-                {METRIC_CONFIG[props.dropdownVarId as string].map(
-                  (variable: VariableConfig, key: number) => (
-                    <ToggleButton value={variable.variableId} key={key}>
-                      {variable.variableId}
-                    </ToggleButton>
-                  )
-                )}
-              </ToggleButtonGroup>
-            )}
+            {!!METRIC_CONFIG[props.dropdownVarId as string] &&
+              METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
+                <ToggleButtonGroup
+                  exclusive
+                  value={variableConfig.variableId}
+                  onChange={(e, variableId) => {
+                    if (
+                      variableId !== null &&
+                      METRIC_CONFIG[props.dropdownVarId]
+                    ) {
+                      setVariableConfig(
+                        METRIC_CONFIG[props.dropdownVarId].find(
+                          (variableConfig) =>
+                            variableConfig.variableId === variableId
+                        ) as VariableConfig
+                      );
+                    }
+                  }}
+                  aria-label="text formatting"
+                >
+                  {METRIC_CONFIG[props.dropdownVarId as string].map(
+                    (variable: VariableConfig, key: number) => (
+                      <ToggleButton value={variable.variableId} key={key}>
+                        {variable.variableId}
+                      </ToggleButton>
+                    )
+                  )}
+                </ToggleButtonGroup>
+              )}
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard

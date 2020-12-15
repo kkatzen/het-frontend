@@ -19,23 +19,27 @@ import { MetricConfig, VariableConfig } from "../data/MetricConfig";
 
 import CardWrapper from "./CardWrapper";
 
+const VALID_METRIC_TYPES = ["pct_share", "per100k"];
+
 function DisparityBarChartCard(props: {
   breakdownVar: BreakdownVar;
   variableConfig: VariableConfig;
   nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
   fips: Fips;
 }) {
-  const VALID_METRIC_TYPES = ["pct_share", "per100k"];
+  function getInitalMetricConfig(variableConfig: VariableConfig) {
+    return variableConfig.metrics["pct_share"]
+      ? variableConfig.metrics["pct_share"]
+      : variableConfig.metrics["per100k"];
+  }
 
   // Initalized state
   const [metricConfig, setMetricConfig] = useState<MetricConfig>(
-    props.variableConfig.metrics["per100k"] // want to start on pct_share, if available
+    getInitalMetricConfig(props.variableConfig)
   );
   useEffect(() => {
-    setMetricConfig(props.variableConfig.metrics["per100k"]);
+    setMetricConfig(getInitalMetricConfig(props.variableConfig));
   }, [props.variableConfig]);
-
-  console.log("metricConfig", metricConfig);
 
   const datasetStore = useDatasetStore();
 
@@ -53,7 +57,6 @@ function DisparityBarChartCard(props: {
     "population",
     "population_pct",
   ];
-  console.log(variables);
   const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
 
   // TODO - we want to bold the breakdown name in the card title
@@ -93,7 +96,6 @@ function DisparityBarChartCard(props: {
                     value={metricConfig.type}
                     exclusive
                     onChange={(e, metricType) => {
-                      console.log(metricType);
                       if (metricType !== null) {
                         setMetricConfig(
                           props.variableConfig.metrics[

@@ -64,7 +64,7 @@ const MADLIB_LIST: MadLib[] = [
       "in",
       STATE_FIPS_MAP,
     ],
-    defaultSelections: { 1: "copd", 3: USA_FIPS },
+    defaultSelections: { 1: "covid", 3: USA_FIPS },
     activeSelections: { 1: "covid", 3: USA_FIPS },
   },
   {
