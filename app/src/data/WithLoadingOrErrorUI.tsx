@@ -22,13 +22,18 @@ function getJointLoadStatus(statuses: LoadStatus[]) {
 export function WithLoadingOrErrorUI(props: {
   loadStatus: LoadStatus;
   children: () => JSX.Element;
+  loadingComponent?: JSX.Element;
 }) {
   switch (props.loadStatus) {
     case "loaded":
       return props.children();
     case "loading":
     case "unloaded":
-      return <CircularProgress />;
+      return props.loadingComponent ? (
+        props.loadingComponent
+      ) : (
+        <CircularProgress />
+      );
     default:
       return (
         <div>
@@ -45,8 +50,11 @@ export function WithLoadingOrErrorUI(props: {
  */
 export function WithVariables(props: {
   queries: VariableQuery[];
+  loadingComponent?: JSX.Element;
   children: () => JSX.Element;
 }) {
+  console.log("loadingComponent", props.loadingComponent);
+
   const datasetStore = useDatasetStore();
   // No need to make sure this only loads once, since the dataset store handles
   // making sure it's not loaded too many times.
@@ -60,7 +68,10 @@ export function WithVariables(props: {
   );
 
   return (
-    <WithLoadingOrErrorUI loadStatus={getJointLoadStatus(statuses)}>
+    <WithLoadingOrErrorUI
+      loadStatus={getJointLoadStatus(statuses)}
+      loadingComponent={props.loadingComponent}
+    >
       {props.children}
     </WithLoadingOrErrorUI>
   );
