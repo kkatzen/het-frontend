@@ -30,15 +30,20 @@
 }
 
 .Sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 99999;
-  padding-top: 0;
-  padding-bottom: 0;
-  transition: padding-top 0.2s, padding-bottom 0.2s;
+  .CarouselContainer {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: padding-top 0.2s, padding-bottom 0.2s;
+  }
   .CarouselItem {
     padding: 10px;
     transition: padding 0.2s;
+  }
+  .ReportContainer {
+    margin-top: 200px;
   }
 }

@@ -90,7 +90,7 @@ function ExploreDataPage() {
   });
 
   useEffect(() => {
-    const header = document.getElementById("MadLib-Carousel");
+    const header = document.getElementById("ExploreData");
     const sticky = header.offsetTop;
     const scrollCallBack = window.addEventListener("scroll", () => {
       if (window.pageYOffset > sticky) {
@@ -105,7 +105,7 @@ function ExploreDataPage() {
   }, []);
 
   return (
-    <React.Fragment>
+    <div id="ExploreData">
       <ReactTooltip />
       <Dialog
         open={shareModalOpen}
@@ -123,7 +123,7 @@ function ExploreDataPage() {
           </DialogContentText>
         </DialogContent>
       </Dialog>
-      <div className={styles.CarouselContainer} id="MadLib-Carousel">
+      <div className={styles.CarouselContainer}>
         <Carousel
           className={styles.Carousel}
           timeout={200}
@@ -153,7 +153,7 @@ function ExploreDataPage() {
       <div className={styles.ReportContainer}>
         <ReportProvider madLib={madLib} setMadLib={setMadLib} />
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 
