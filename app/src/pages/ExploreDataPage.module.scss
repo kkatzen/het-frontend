@@ -1,7 +1,15 @@
+.ExploreData {
+  background-color: #f1f4f8;
+}
+
 .CarouselContainer {
-  background: #e4e4e4;
+  background: white;
   padding-bottom: 40px;
   padding-top: 40px;
+  font-size: 20pt;
+  line-height: 20pt;
+  box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3),
+    0px 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
 
 .Carousel {
@@ -14,8 +22,6 @@
   padding-left: 50px;
   padding-right: 50px;
   margin: 20px auto;
-  font-size: 20pt;
-  line-height: 20pt;
 }
 
 .MadLibSelect {
@@ -44,6 +50,6 @@
     transition: padding 0.2s;
   }
   .ReportContainer {
-    margin-top: 200px;
+    padding-top: 150px;
   }
 }

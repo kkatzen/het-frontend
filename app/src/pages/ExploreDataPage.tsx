@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Grid } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -89,14 +88,18 @@ function ExploreDataPage() {
     activeSelections: defaultValuesWithOverrides,
   });
 
+  const [sticking, setSticking] = useState<boolean>(false);
+
   useEffect(() => {
     const header = document.getElementById("ExploreData");
     const sticky = header.offsetTop;
     const scrollCallBack = window.addEventListener("scroll", () => {
       if (window.pageYOffset > sticky) {
         header.classList.add(styles.Sticky);
+        setSticking(true);
       } else {
         header.classList.remove(styles.Sticky);
+        setSticking(false);
       }
     });
     return () => {
@@ -105,7 +108,7 @@ function ExploreDataPage() {
   }, []);
 
   return (
-    <div id="ExploreData">
+    <div id="ExploreData" className={styles.ExploreData}>
       <ReactTooltip />
       <Dialog
         open={shareModalOpen}
@@ -128,7 +131,7 @@ function ExploreDataPage() {
           className={styles.Carousel}
           timeout={200}
           autoPlay={false}
-          indicators={true}
+          indicators={!sticking}
           animation="slide"
           navButtonsAlwaysVisible={true}
           onChange={(index: number) => {
@@ -139,14 +142,13 @@ function ExploreDataPage() {
           }}
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
-            <Paper elevation={3} className={styles.CarouselItem} key={i}>
-              <CarouselMadLib
-                madLib={madLib}
-                setMadLib={setMadLib}
-                key={i}
-                setShareModalOpen={setShareModalOpen}
-              />
-            </Paper>
+            <CarouselMadLib
+              madLib={madLib}
+              className={styles.CarouselItem}
+              setMadLib={setMadLib}
+              key={i}
+              setShareModalOpen={setShareModalOpen}
+            />
           ))}
         </Carousel>
       </div>
