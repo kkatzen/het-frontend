@@ -21,19 +21,18 @@ import CardWrapper from "./CardWrapper";
 
 const VALID_METRIC_TYPES = ["pct_share", "per100k"];
 
+function getInitalMetricConfig(variableConfig: VariableConfig) {
+  return variableConfig.metrics["pct_share"]
+    ? variableConfig.metrics["pct_share"]
+    : variableConfig.metrics["per100k"];
+}
+
 function DisparityBarChartCard(props: {
   breakdownVar: BreakdownVar;
   variableConfig: VariableConfig;
   nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
   fips: Fips;
 }) {
-  function getInitalMetricConfig(variableConfig: VariableConfig) {
-    return variableConfig.metrics["pct_share"]
-      ? variableConfig.metrics["pct_share"]
-      : variableConfig.metrics["per100k"];
-  }
-
-  // Initalized state
   const [metricConfig, setMetricConfig] = useState<MetricConfig>(
     getInitalMetricConfig(props.variableConfig)
   );
@@ -59,6 +58,10 @@ function DisparityBarChartCard(props: {
   ];
 
   const query = new VariableQuery(variables, breakdowns);
+
+  const validDisplayMetricConfigs: MetricConfig[] = Object.values(
+    props.variableConfig.metrics
+  ).filter((metricConfig) => VALID_METRIC_TYPES.includes(metricConfig.type));
 
   // TODO - we want to bold the breakdown name in the card title
   return (
@@ -88,11 +91,7 @@ function DisparityBarChartCard(props: {
                 </Alert>
               )}
               {props.breakdownVar === ("race_and_ethnicity" as BreakdownVar) &&
-                Object.values(
-                  props.variableConfig.metrics
-                ).filter((metricConfig) =>
-                  VALID_METRIC_TYPES.includes(metricConfig.type)
-                ).length > 1 && (
+                validDisplayMetricConfigs.length > 1 && (
                   <ToggleButtonGroup
                     value={metricConfig.type}
                     exclusive
@@ -105,24 +104,15 @@ function DisparityBarChartCard(props: {
                         );
                       }
                     }}
-                    aria-label="text alignment"
                   >
-                    {Object.values(props.variableConfig.metrics)
-                      .filter((metricConfig) =>
-                        VALID_METRIC_TYPES.includes(metricConfig.type)
-                      )
-                      .map((metricConfig) => (
-                        <ToggleButton value={metricConfig.type}>
-                          {metricConfig.type === "pct_share" && (
-                            <>
-                              {props.variableConfig.variableId} and Population
-                            </>
-                          )}
-                          {metricConfig.type === "per100k" && (
-                            <>per 100,000 people</>
-                          )}
-                        </ToggleButton>
-                      ))}
+                    {validDisplayMetricConfigs.map((metricConfig) => (
+                      <ToggleButton value={metricConfig.type}>
+                        {metricConfig.type === "pct_share" &&
+                          props.variableConfig.variableId + " and Population"}
+                        {metricConfig.type === "per100k" &&
+                          "per 100,000 people"}
+                      </ToggleButton>
+                    ))}
                   </ToggleButtonGroup>
                 )}
             </CardContent>

@@ -18,7 +18,7 @@ import { MetricConfig } from "../data/MetricConfig";
 
 function MapCard(props: {
   fips: Fips;
-  metricConfig: MetricConfig | undefined;
+  metricConfig: MetricConfig;
   nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
@@ -69,7 +69,7 @@ function MapCard(props: {
   const datasetStore = useDatasetStore();
 
   const breakdowns = Breakdowns.byState().andRace(props.nonstandardizedRace);
-  const query = new VariableQuery(props.metricConfig!.metricId, breakdowns);
+  const query = new VariableQuery(props.metricConfig.metricId, breakdowns);
 
   const datasets = props.metricConfig
     ? getDependentDatasets([props.metricConfig.metricId])
@@ -80,7 +80,7 @@ function MapCard(props: {
       queries={[query]}
       datasetIds={datasets}
       titleText={`${
-        props.metricConfig!.fullCardTitleName
+        props.metricConfig.fullCardTitleName
       } in ${props.fips.getFullDisplayName()}`}
     >
       {() => {
@@ -89,7 +89,7 @@ function MapCard(props: {
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
 
         let mapData = dataset.filter(
-          (r) => r[props.metricConfig!.metricId] !== undefined
+          (r) => r[props.metricConfig.metricId] !== undefined
         );
         if (!props.fips.isUsa()) {
           // TODO - this doesn't consider county level data
@@ -155,8 +155,8 @@ function MapCard(props: {
               {props.metricConfig && (
                 <UsaChloroplethMap
                   signalListeners={signalListeners}
-                  varField={props.metricConfig!.metricId}
-                  legendTitle={props.metricConfig!.fullCardTitleName}
+                  varField={props.metricConfig.metricId}
+                  legendTitle={props.metricConfig.fullCardTitleName}
                   data={mapData}
                   hideLegend={!props.fips.isUsa()} // TODO - update logic here when we have county level data
                   showCounties={props.showCounties}
