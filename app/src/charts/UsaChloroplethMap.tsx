@@ -5,6 +5,7 @@ import { Fips } from "../utils/madlib/Fips";
 
 type NumberFormat = "raw" | "percentage";
 
+const UNKNOWN_GREY = "#BDC1C6";
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
@@ -170,7 +171,7 @@ function UsaChloroplethMap(props: {
               },
             },
             update: {
-              fill: { value: "#BDC1C6" },
+              fill: { value: UNKNOWN_GREY },
             },
           },
           transform: [{ type: "geoshape", projection: "usProjection" }],
