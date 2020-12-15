@@ -9,36 +9,56 @@ import {
 import { CardContent } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import { WithVariables } from "../data/WithLoadingOrErrorUI";
+import VariableQuery from "../data/VariableQuery";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function CardWrapper(props: {
   datasetIds: string[];
   titleText?: string;
-  children: React.ReactNode;
+  queries?: VariableQuery[];
+  children: () => JSX.Element;
 }) {
-  return (
-    <Card raised={true} className={styles.ChartCard}>
-      {props.titleText && (
-        <>
-          <CardContent>
-            <Typography className={styles.CardHeader}>
-              {props.titleText}
-            </Typography>
-          </CardContent>
-          <Divider />
-        </>
-      )}
-      {props.children}
+  const optionalTitle = props.titleText ? (
+    <>
       <CardContent>
-        <LinkWithStickyParams
-          target="_blank"
-          to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${props.datasetIds.join(
-            ","
-          )}`}
-        >
-          View Data Sources
-        </LinkWithStickyParams>
+        <Typography className={styles.CardHeader}>{props.titleText}</Typography>
       </CardContent>
-    </Card>
+      <Divider />
+    </>
+  ) : null;
+
+  return (
+    <WithVariables
+      queries={props.queries ? props.queries : []}
+      loadingComponent={
+        <Card raised={true} className={styles.ChartCard}>
+          {optionalTitle}
+          <CardContent>
+            <CircularProgress />
+          </CardContent>
+        </Card>
+      }
+    >
+      {() => {
+        return (
+          <Card raised={true} className={styles.ChartCard}>
+            {optionalTitle}
+            {props.children()}
+            <CardContent>
+              <LinkWithStickyParams
+                target="_blank"
+                to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${props.datasetIds.join(
+                  ","
+                )}`}
+              >
+                View Data Sources
+              </LinkWithStickyParams>
+            </CardContent>
+          </Card>
+        );
+      }}
+    </WithVariables>
   );
 }
 
