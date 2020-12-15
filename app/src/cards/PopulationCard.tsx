@@ -14,19 +14,16 @@ function PopulationCard(props: { fips: Fips }) {
   const datasetStore = useDatasetStore();
 
   const variableIds: VariableId[] = ["population", "population_pct"];
-
   const query = new VariableQuery(
     variableIds,
     Breakdowns.forFips(props.fips).andRace()
   );
 
-  const datasetIds = getDependentDatasets(variableIds);
-
   return (
     <CardWrapper
       titleText={`Population Info for ${props.fips.getFullDisplayName()}`}
       queries={[query]}
-      datasetIds={datasetIds}
+      datasetIds={getDependentDatasets(variableIds)}
     >
       {() => {
         const dataset = datasetStore.getVariables(query);
