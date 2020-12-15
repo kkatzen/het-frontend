@@ -8,7 +8,7 @@ import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
 import { Fips } from "../utils/madlib/Fips";
 import { BreakdownVar } from "../utils/madlib/DisplayNames";
-// TODO - Migrate so variables are called here instead of the parent
+
 function TableCard(props: {
   fips: Fips;
   breakdownVar: BreakdownVar;
@@ -19,21 +19,18 @@ function TableCard(props: {
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
-  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(
+  const breakdowns = Breakdowns.forFips(props.fips).andRace(
     props.nonstandardizedRace
   );
-  const geoFilteredQuery = new VariableQuery(
-    props.variableIds,
-    geoFilteredBreakdowns
-  );
+  const query = new VariableQuery(props.variableIds, breakdowns);
 
   const datasetIds = getDependentDatasets(props.variableIds);
 
   return (
-    <CardWrapper queries={[geoFilteredQuery]} datasetIds={datasetIds}>
+    <CardWrapper queries={[query]} datasetIds={datasetIds}>
       {() => {
         const dataset = datasetStore
-          .getVariables(geoFilteredQuery)
+          .getVariables(query)
           .filter(
             (row) =>
               !["Not Hispanic or Latino", "Total"].includes(

@@ -45,7 +45,7 @@ function DisparityBarChartCard(props: {
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
-  const geoFilteredBreakdowns = Breakdowns.forFips(props.fips).andRace(
+  const breakdowns = Breakdowns.forFips(props.fips).andRace(
     props.nonstandardizedRace
   );
 
@@ -57,20 +57,21 @@ function DisparityBarChartCard(props: {
     "population",
     "population_pct",
   ];
-  const geoFilteredQuery = new VariableQuery(variables, geoFilteredBreakdowns);
+
+  const query = new VariableQuery(variables, breakdowns);
 
   // TODO - we want to bold the breakdown name in the card title
   return (
     <CardWrapper
       datasetIds={getDependentDatasets(variables)}
-      queries={[geoFilteredQuery]}
+      queries={[query]}
       titleText={`${metricConfig.fullCardTitleName} by ${
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
       } in ${props.fips.getFullDisplayName()}`}
     >
       {() => {
         const dataset = datasetStore
-          .getVariables(geoFilteredQuery)
+          .getVariables(query)
           .filter(
             (row) =>
               !["Not Hispanic or Latino", "Total"].includes(

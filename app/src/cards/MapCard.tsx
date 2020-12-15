@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
-import { Fips, USA_FIPS } from "../utils/madlib/Fips";
+import { Fips } from "../utils/madlib/Fips";
 import Alert from "@material-ui/lab/Alert";
 import Divider from "@material-ui/core/Divider";
 import { CardContent } from "@material-ui/core";
@@ -68,13 +68,8 @@ function MapCard(props: {
 
   const datasetStore = useDatasetStore();
 
-  const allGeosBreakdowns = Breakdowns.byState().andRace(
-    props.nonstandardizedRace
-  );
-  const allGeosQuery = new VariableQuery(
-    props.metricConfig!.metricId,
-    allGeosBreakdowns
-  );
+  const breakdowns = Breakdowns.byState().andRace(props.nonstandardizedRace);
+  const query = new VariableQuery(props.metricConfig!.metricId, breakdowns);
 
   const datasets = props.metricConfig
     ? getDependentDatasets([props.metricConfig.metricId])
@@ -82,7 +77,7 @@ function MapCard(props: {
 
   return (
     <CardWrapper
-      queries={[allGeosQuery]}
+      queries={[query]}
       datasetIds={datasets}
       titleText={`${
         props.metricConfig!.fullCardTitleName
@@ -90,22 +85,19 @@ function MapCard(props: {
     >
       {() => {
         const dataset = datasetStore
-          .getVariables(allGeosQuery)
+          .getVariables(query)
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
 
         let mapData = dataset.filter(
           (r) => r[props.metricConfig!.metricId] !== undefined
         );
-        console.log("mapData", mapData);
-        if (props.fips.code !== USA_FIPS) {
+        if (!props.fips.isUsa()) {
           // TODO - this doesn't consider county level data
           mapData = mapData.filter((r) => r.state_fips === props.fips.code);
         }
-        console.log("mapData", mapData);
         if (props.enableFilter) {
           mapData = mapData.filter((r) => r.race_and_ethnicity === race);
         }
-        console.log("mapData", mapData);
 
         return (
           <>
