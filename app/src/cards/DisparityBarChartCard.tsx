@@ -10,20 +10,12 @@ import { Fips } from "../utils/madlib/Fips";
 import {
   BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
-  MetricToggle,
-  shareOf,
-  METRIC_FULL_NAMES,
-  METRIC_SHORT_NAMES,
 } from "../utils/madlib/DisplayNames";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
-import {
-  METRIC_CONFIG,
-  MetricConfig,
-  VariableConfig,
-} from "../data/MetricConfig";
+import { MetricConfig, VariableConfig } from "../data/MetricConfig";
 
 import CardWrapper from "./CardWrapper";
 

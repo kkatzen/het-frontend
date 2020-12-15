@@ -26,34 +26,6 @@ export const BREAKDOWN_VAR_DISPLAY_NAMES: Record<BreakdownVar, string> = {
   sex: "sex",
 };
 
-export type MetricToggle = "covid_cases" | "covid_deaths" | "covid_hosp";
-
-export const METRIC_FULL_NAMES: Record<string, string> = {
-  covid_cases: "COVID-19 Cases",
-  covid_deaths: "COVID-19 Deaths",
-  covid_hosp: "COVID-19 Hospitalizations",
-};
-
-export const METRIC_SHORT_NAMES: Record<string, string> = {
-  covid_cases: "cases",
-  covid_deaths: "deaths",
-  covid_hosp: "hospitalizations",
-};
-
-// TODO - should these be incorporated into how the dataset fields are calculated?
-export function shareOf(metric: string): VariableId {
-  return (metric + "_pct_of_geo") as VariableId;
-}
-
-export function per100k(metric: string): VariableId {
-  return (metric + "_per_100k") as VariableId;
-}
-
-// Key should be of type DropdownVarId
-export const METRICS_FOR_VARIABLE: Record<string, MetricToggle[]> = {
-  covid: ["covid_cases", "covid_deaths", "covid_hosp"],
-};
-
 // Prints a formatted version of a field value based on the type specified by the field name
 export function formatFieldValue(nameOfField: string, value: any): string {
   if (value === null || value === undefined) {

@@ -10,17 +10,11 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import MapBreadcrumbs from "./MapBreadcrumbs";
 import CardWrapper from "./CardWrapper";
-import { per100k } from "../utils/madlib/DisplayNames";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
-import { getDependentDatasets, VariableId } from "../data/variableProviders";
+import { getDependentDatasets } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
-import { VARIABLE_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
-import {
-  METRIC_CONFIG,
-  MetricConfig,
-  VariableConfig,
-} from "../data/MetricConfig";
+import { MetricConfig } from "../data/MetricConfig";
 
 function MapCard(props: {
   fips: Fips;

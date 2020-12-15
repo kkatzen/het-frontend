@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { VariableId } from "../data/variableProviders";
-import {
-  MetricToggle,
-  VARIABLE_DISPLAY_NAMES,
-  BreakdownVar,
-  shareOf,
-  per100k,
-  METRICS_FOR_VARIABLE,
-} from "../utils/madlib/DisplayNames";
+import { BreakdownVar } from "../utils/madlib/DisplayNames";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapCard from "../cards/MapCard";
 import TableCard from "../cards/TableCard";
@@ -74,14 +67,7 @@ function VariableDisparityReport(props: {
                 exclusive
                 value={variableConfig.variableId}
                 onChange={(e, variableId) => {
-                  console.log(variableId);
                   if (variableId !== null) {
-                    console.log(
-                      METRIC_CONFIG[props.dropdownVarId].find(
-                        (variableConfig) =>
-                          variableConfig.variableId === variableId
-                      )
-                    );
                     setVariableConfig(
                       METRIC_CONFIG[props.dropdownVarId].find(
                         (variableConfig) =>
