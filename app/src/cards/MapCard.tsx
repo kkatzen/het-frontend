@@ -19,8 +19,8 @@ import { VARIABLE_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
 
 function MapCard(props: {
   fips: Fips;
-  variable: string /* TODO type this- it's the thing you could feed into the per100k */;
-  nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
+  variable: string;
+  nonstandardizedRace: boolean;
   updateFipsCallback: (fips: Fips) => void;
   enableFilter?: boolean;
   showCounties: boolean;

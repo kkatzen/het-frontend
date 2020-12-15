@@ -99,7 +99,6 @@ function DisparityBarChartCard(props: {
                     />
                   )}
                   {chartToggle !== "percents" && (
-                    // TODO- calculate actual ratio
                     <SimpleHorizontalBarChart
                       data={dataset}
                       breakdownVar={props.breakdownVar as BreakdownVar}

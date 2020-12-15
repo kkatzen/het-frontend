@@ -27,36 +27,36 @@ function TableCard(props: {
   const datasetIds = getDependentDatasets(props.variableIds);
 
   return (
-    <>
-      {false && (
-        <Alert severity="warning">
-          Missing data means that we don't know the full story.
-        </Alert>
-      )}
-      {true && (
-        <CardWrapper queries={[geoFilteredQuery]} datasetIds={datasetIds}>
-          {() => {
-            const geoFilteredDataset = datasetStore
-              .getVariables(geoFilteredQuery)
-              .filter(
-                (row) =>
-                  !["Not Hispanic or Latino", "Total"].includes(
-                    row.race_and_ethnicity
-                  )
-              );
+    <CardWrapper queries={[geoFilteredQuery]} datasetIds={datasetIds}>
+      {() => {
+        const dataset = datasetStore
+          .getVariables(geoFilteredQuery)
+          .filter(
+            (row) =>
+              !["Not Hispanic or Latino", "Total"].includes(
+                row.race_and_ethnicity
+              )
+          );
 
-            return (
+        return (
+          <>
+            {dataset.length < 1 && (
+              <Alert severity="warning">
+                Missing data means that we don't know the full story.
+              </Alert>
+            )}
+            {dataset.length > 0 && (
               <TableChart
-                data={geoFilteredDataset}
+                data={dataset}
                 fields={[props.breakdownVar as string].concat(
                   props.variableIds
                 )}
               />
-            );
-          }}
-        </CardWrapper>
-      )}
-    </>
+            )}
+          </>
+        );
+      }}
+    </CardWrapper>
   );
 }
 

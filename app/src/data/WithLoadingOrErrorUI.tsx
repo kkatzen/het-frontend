@@ -53,8 +53,6 @@ export function WithVariables(props: {
   loadingComponent?: JSX.Element;
   children: () => JSX.Element;
 }) {
-  console.log("loadingComponent", props.loadingComponent);
-
   const datasetStore = useDatasetStore();
   // No need to make sure this only loads once, since the dataset store handles
   // making sure it's not loaded too many times.

@@ -13,32 +13,27 @@ import { WithVariables } from "../data/WithLoadingOrErrorUI";
 import VariableQuery from "../data/VariableQuery";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// TODO - gracefully handle loading- progress bar should be inside card
 function CardWrapper(props: {
   datasetIds: string[];
   titleText?: string;
   queries?: VariableQuery[];
   children: () => JSX.Element;
 }) {
-  function optionalTitle() {
-    return props.titleText ? (
-      <>
-        <CardContent>
-          <Typography className={styles.CardHeader}>
-            {props.titleText}
-          </Typography>
-        </CardContent>
-        <Divider />
-      </>
-    ) : null;
-  }
+  const optionalTitle = props.titleText ? (
+    <>
+      <CardContent>
+        <Typography className={styles.CardHeader}>{props.titleText}</Typography>
+      </CardContent>
+      <Divider />
+    </>
+  ) : null;
 
   return (
     <WithVariables
       queries={props.queries ? props.queries : []}
       loadingComponent={
         <Card raised={true} className={styles.ChartCard}>
-          {optionalTitle()}
+          {optionalTitle}
           <CardContent>
             <CircularProgress />
           </CardContent>
@@ -48,7 +43,7 @@ function CardWrapper(props: {
       {() => {
         return (
           <Card raised={true} className={styles.ChartCard}>
-            {optionalTitle()}
+            {optionalTitle}
             {props.children()}
             <CardContent>
               <LinkWithStickyParams
