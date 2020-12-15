@@ -62,12 +62,16 @@ function VariableDisparityReport(props: {
       {variableConfig && (
         <Grid container spacing={1} justify="center">
           <Grid item xs={12}>
-            {METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
+            {(!METRIC_CONFIG[props.dropdownVarId as string] ||
+              METRIC_CONFIG[props.dropdownVarId as string].length > 1) && (
               <ToggleButtonGroup
                 exclusive
                 value={variableConfig.variableId}
                 onChange={(e, variableId) => {
-                  if (variableId !== null) {
+                  if (
+                    variableId !== null &&
+                    METRIC_CONFIG[props.dropdownVarId]
+                  ) {
                     setVariableConfig(
                       METRIC_CONFIG[props.dropdownVarId].find(
                         (variableConfig) =>
