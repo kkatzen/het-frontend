@@ -5,9 +5,12 @@ import { Fips } from "../utils/madlib/Fips";
 
 type NumberFormat = "raw" | "percentage";
 
+const UNKNOWN_GREY = "#BDC1C6";
 const HEIGHT_WIDTH_RATIO = 0.5;
 const LEGEND_WIDTH = 100;
 
+const MISSING_DATASET = "MISSING_DATASET";
+const VALID_DATASET = "VALID_DATASET";
 const GEO_DATASET = "GEO_DATASET";
 const GEO_ID = "id";
 
@@ -104,6 +107,34 @@ function UsaChloroplethMap(props: {
             feature: props.showCounties ? "counties" : "states",
           },
         },
+        {
+          name: VALID_DATASET,
+          transform: [
+            {
+              type: "filter",
+              expr: `isValid(datum.${props.varField})`,
+            },
+          ],
+          source: GEO_DATASET,
+          format: {
+            type: "topojson",
+            feature: props.showCounties ? "counties" : "states",
+          },
+        },
+        {
+          name: MISSING_DATASET,
+          transform: [
+            {
+              type: "filter",
+              expr: `!isValid(datum.${props.varField})`,
+            },
+          ],
+          source: GEO_DATASET,
+          format: {
+            type: "topojson",
+            feature: props.showCounties ? "counties" : "states",
+          },
+        },
       ],
       projections: [
         {
@@ -124,7 +155,7 @@ function UsaChloroplethMap(props: {
         {
           name: "colorScale",
           type: "quantize",
-          domain: { data: GEO_DATASET, field: props.varField },
+          domain: { data: VALID_DATASET, field: props.varField },
           range: { scheme: "yellowgreenblue", count: 7 },
         },
       ],
@@ -132,7 +163,22 @@ function UsaChloroplethMap(props: {
       marks: [
         {
           type: "shape",
-          from: { data: GEO_DATASET },
+          from: { data: MISSING_DATASET },
+          encode: {
+            enter: {
+              tooltip: {
+                signal: 'datum.properties.name + ": No Data"',
+              },
+            },
+            update: {
+              fill: { value: UNKNOWN_GREY },
+            },
+          },
+          transform: [{ type: "geoshape", projection: "usProjection" }],
+        },
+        {
+          type: "shape",
+          from: { data: VALID_DATASET },
           encode: {
             enter: {
               tooltip: {
@@ -152,10 +198,6 @@ function UsaChloroplethMap(props: {
           name: "click",
           value: 0,
           on: [{ events: "*:mousedown", update: "datum" }],
-        },
-        {
-          name: "shiftClick",
-          on: [{ events: "click[event.shiftKey]", update: "datum" }],
         },
       ],
     });
