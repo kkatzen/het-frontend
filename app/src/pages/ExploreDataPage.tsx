@@ -150,13 +150,13 @@ function CarouselMadLib(props: {
     });
   }
 
+  // TODO - this isn't efficient, these should be stored in an ordered way
   function getOptionsFromPhraseSegement(
     phraseSegment: PhraseSegment
   ): Fips[] | string[][] {
     return Object.keys(phraseSegment).length > 20
       ? Object.keys(phraseSegment)
           .sort((a: string, b: string) => {
-            console.log("kkz", a, b);
             if (a[0].length === b[0].length) {
               return a[0].localeCompare(b[0]);
             }
@@ -180,7 +180,6 @@ function CarouselMadLib(props: {
               <Grid item>{phraseSegment}</Grid>
             ) : (
               <Grid item>
-                {/* TODO - this is inefficient*/}
                 <OptionsSelector
                   key={index}
                   value={props.madLib.activeSelections[index]}

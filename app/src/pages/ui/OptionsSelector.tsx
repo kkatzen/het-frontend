@@ -32,6 +32,15 @@ function OptionsSelector(props: {
 
   const isFips =
     props.options[0] && props.options[0] instanceof Fips ? true : false;
+  let currentDisplayName;
+  if (isFips) {
+    currentDisplayName = new Fips(props.value).getFullDisplayName();
+  } else {
+    const chosenOption = (props.options as string[][]).find(
+      (i: string[]) => i[0] === props.value
+    );
+    currentDisplayName = chosenOption ? chosenOption[1] : "";
+  }
 
   return (
     <>
@@ -40,8 +49,7 @@ function OptionsSelector(props: {
         className={styles.MadLibButton}
         onClick={handleClick}
       >
-        {isFips && new Fips(props.value).getFullDisplayName()}
-        {!isFips && props.value}
+        {currentDisplayName}
         {open ? <ArrowDropUp /> : <ArrowDropDown />}
       </Button>
       <Popover
