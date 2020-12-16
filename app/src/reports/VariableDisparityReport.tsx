@@ -13,7 +13,6 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import { Fips } from "../utils/madlib/Fips";
-import Typography from "@material-ui/core/Typography";
 import {
   METRIC_CONFIG,
   VariableConfig,
@@ -79,14 +78,7 @@ function VariableDisparityReport(props: {
             {!!METRIC_CONFIG[props.dropdownVarId as string] &&
               METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
                 <Grid item className={styles.ToggleBlock}>
-                  <Typography
-                    variant="button"
-                    align="left"
-                    color="primary"
-                    display="block"
-                  >
-                    Filter Data
-                  </Typography>
+                  <span className={styles.ToggleLabel}>Filter Data</span>
                   <ToggleButtonGroup
                     exclusive
                     value={variableConfig.variableId}
@@ -116,16 +108,8 @@ function VariableDisparityReport(props: {
                 </Grid>
               )}
             <Grid item className={styles.ToggleBlock}>
-              <Typography
-                variant="button"
-                align="left"
-                color="primary"
-                display="block"
-              >
-                Filter Demographic
-              </Typography>
+              <span className={styles.ToggleLabel}>Filter Demographic</span>
               <ToggleButtonGroup
-                className={styles.ToggleBlock}
                 exclusive
                 value={breakdown}
                 onChange={(e, v) => {
