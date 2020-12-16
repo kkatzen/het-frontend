@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { MetricId } from "../data/variableProviders";
-import { BreakdownVar } from "../utils/madlib/DisplayNames";
+import {
+  BreakdownVar,
+  BREAKDOWN_VAR_DISPLAY_NAMES,
+} from "../utils/madlib/DisplayNames";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapCard from "../cards/MapCard";
 import TableCard from "../cards/TableCard";
@@ -10,11 +13,19 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import { Fips } from "../utils/madlib/Fips";
+import Typography from "@material-ui/core/Typography";
 import {
   METRIC_CONFIG,
   VariableConfig,
   MetricConfig,
 } from "../data/MetricConfig";
+import styles from "./Report.module.scss";
+
+const SUPPORTED_BREAKDOWNS: BreakdownVar[] = [
+  "race_and_ethnicity",
+  "age",
+  "sex",
+];
 
 function VariableDisparityReport(props: {
   dropdownVarId: DropdownVarId;
@@ -22,6 +33,8 @@ function VariableDisparityReport(props: {
   updateFipsCallback: Function;
   vertical?: boolean;
 }) {
+  const [breakdown, setBreakdown] = useState<BreakdownVar | "all">("all");
+
   // TODO Remove hard coded fail safe value
   const [variableConfig, setVariableConfig] = useState<VariableConfig | null>(
     Object.keys(METRIC_CONFIG).includes(props.dropdownVarId)
@@ -62,36 +75,76 @@ function VariableDisparityReport(props: {
 
       {variableConfig && (
         <Grid container spacing={1} justify="center">
-          <Grid item xs={12}>
+          <Grid container xs={12}>
             {!!METRIC_CONFIG[props.dropdownVarId as string] &&
               METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
-                <ToggleButtonGroup
-                  exclusive
-                  value={variableConfig.variableId}
-                  onChange={(e, variableId) => {
-                    if (
-                      variableId !== null &&
-                      METRIC_CONFIG[props.dropdownVarId]
-                    ) {
-                      setVariableConfig(
-                        METRIC_CONFIG[props.dropdownVarId].find(
-                          (variableConfig) =>
-                            variableConfig.variableId === variableId
-                        ) as VariableConfig
-                      );
-                    }
-                  }}
-                  aria-label="text formatting"
-                >
-                  {METRIC_CONFIG[props.dropdownVarId as string].map(
-                    (variable: VariableConfig, key: number) => (
-                      <ToggleButton value={variable.variableId} key={key}>
-                        {variable.variableId}
-                      </ToggleButton>
-                    )
-                  )}
-                </ToggleButtonGroup>
+                <Grid item className={styles.ToggleBlock}>
+                  <Typography
+                    variant="button"
+                    align="left"
+                    color="primary"
+                    display="block"
+                  >
+                    Filter Data
+                  </Typography>
+                  <ToggleButtonGroup
+                    exclusive
+                    value={variableConfig.variableId}
+                    onChange={(e, variableId) => {
+                      if (
+                        variableId !== null &&
+                        METRIC_CONFIG[props.dropdownVarId]
+                      ) {
+                        setVariableConfig(
+                          METRIC_CONFIG[props.dropdownVarId].find(
+                            (variableConfig) =>
+                              variableConfig.variableId === variableId
+                          ) as VariableConfig
+                        );
+                      }
+                    }}
+                    aria-label="text formatting"
+                  >
+                    {METRIC_CONFIG[props.dropdownVarId as string].map(
+                      (variable: VariableConfig, key: number) => (
+                        <ToggleButton value={variable.variableId} key={key}>
+                          {variable.variableId}
+                        </ToggleButton>
+                      )
+                    )}
+                  </ToggleButtonGroup>
+                </Grid>
               )}
+            <Grid item className={styles.ToggleBlock}>
+              <Typography
+                variant="button"
+                align="left"
+                color="primary"
+                display="block"
+              >
+                Filter Demographic
+              </Typography>
+              <ToggleButtonGroup
+                className={styles.ToggleBlock}
+                exclusive
+                value={breakdown}
+                onChange={(e, v) => {
+                  if (v !== null) {
+                    setBreakdown(v);
+                  }
+                }}
+                aria-label="text formatting"
+              >
+                <ToggleButton value="all" key="all">
+                  All
+                </ToggleButton>
+                {SUPPORTED_BREAKDOWNS.map((breakdownVar) => (
+                  <ToggleButton value={breakdownVar} key={breakdownVar}>
+                    {BREAKDOWN_VAR_DISPLAY_NAMES[breakdownVar]}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </Grid>
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
@@ -115,30 +168,21 @@ function VariableDisparityReport(props: {
             />
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
-            <DisparityBarChartCard
-              variableConfig={variableConfig}
-              breakdownVar="race_and_ethnicity"
-              nonstandardizedRace={
-                props.dropdownVarId === "covid" ? true : false
-              }
-              fips={props.fips}
-            />
-            <DisparityBarChartCard
-              variableConfig={variableConfig}
-              breakdownVar="age"
-              nonstandardizedRace={
-                props.dropdownVarId === "covid" ? true : false
-              }
-              fips={props.fips}
-            />
-            <DisparityBarChartCard
-              variableConfig={variableConfig}
-              breakdownVar="sex"
-              nonstandardizedRace={
-                props.dropdownVarId === "covid" ? true : false
-              }
-              fips={props.fips}
-            />
+            {SUPPORTED_BREAKDOWNS.map((breakdownVar) => (
+              <>
+                {" "}
+                {(breakdown === "all" || breakdown === breakdownVar) && (
+                  <DisparityBarChartCard
+                    variableConfig={variableConfig}
+                    nonstandardizedRace={
+                      props.dropdownVarId === "covid" ? true : false
+                    }
+                    breakdownVar={breakdownVar as BreakdownVar}
+                    fips={props.fips}
+                  />
+                )}
+              </>
+            ))}
           </Grid>
         </Grid>
       )}
