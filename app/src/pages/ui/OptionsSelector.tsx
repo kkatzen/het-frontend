@@ -13,8 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 function OptionsSelector(props: {
   value: string;
-  fipsOptions?: Fips[];
-  options?: string[][];
+  options: Fips[] | string[][];
   onOptionUpdate: (option: string) => void;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -31,6 +30,9 @@ function OptionsSelector(props: {
 
   const open = Boolean(anchorEl);
 
+  const isFips =
+    props.options[0] && props.options[0] instanceof Fips ? true : false;
+
   return (
     <>
       <Button
@@ -38,8 +40,8 @@ function OptionsSelector(props: {
         className={styles.MadLibButton}
         onClick={handleClick}
       >
-        {props.fipsOptions && new Fips(props.value).getFullDisplayName()}
-        {props.options && props.value}
+        {isFips && new Fips(props.value).getFullDisplayName()}
+        {!isFips && props.value}
         {open ? <ArrowDropUp /> : <ArrowDropDown />}
       </Button>
       <Popover
@@ -55,12 +57,12 @@ function OptionsSelector(props: {
           horizontal: "center",
         }}
       >
-        {props.fipsOptions && (
+        {isFips && (
           <div className={styles.OptionsSelectorPopover}>
             <span className={styles.SearchForText}>Search for location</span>
             <Autocomplete
               disableClearable={true}
-              options={props.fipsOptions}
+              options={props.options as Fips[]}
               clearOnEscape={true}
               getOptionLabel={(fips) => fips.getFullDisplayName()}
               getOptionSelected={(fips) => fips.code === props.value}
@@ -83,9 +85,9 @@ function OptionsSelector(props: {
             </span>
           </div>
         )}
-        {props.options && (
+        {!isFips && (
           <List>
-            {props.options.map((item: string[]) => (
+            {(props.options as string[][]).map((item: string[]) => (
               <ListItem
                 button
                 selected={item[0] === props.value}

@@ -163,42 +163,31 @@ function CarouselMadLib(props: {
             {typeof phraseSegment === "string" ? (
               <Grid item>{phraseSegment}</Grid>
             ) : (
-              <>
-                {/* TODO - don't use this hack to figure out if its a FIPS or not*/}
-                {Object.keys(phraseSegment).length > 20 ? (
-                  <Grid item>
-                    {/* TODO - this is inefficient*/}
-                    <OptionsSelector
-                      key={index}
-                      value={props.madLib.activeSelections[index]}
-                      onOptionUpdate={(fipsCode: string) =>
-                        updateMadLib(index, fipsCode)
-                      }
-                      fipsOptions={Object.keys(phraseSegment)
-                        .sort((a, b) => {
-                          if (a[0].length === b[0].length) {
-                            return a[0].localeCompare(b[0]);
-                          }
-                          return b[0].length > a[0].length ? -1 : 1;
-                        })
-                        .map((fipsCode) => new Fips(fipsCode))}
-                    />
-                  </Grid>
-                ) : (
-                  <Grid item>
-                    <OptionsSelector
-                      key={index}
-                      value={props.madLib.activeSelections[index]}
-                      onOptionUpdate={(option: string) =>
-                        updateMadLib(index, option)
-                      }
-                      options={Object.entries(phraseSegment).sort((a, b) =>
-                        a[0].localeCompare(b[0])
-                      )}
-                    />
-                  </Grid>
-                )}
-              </>
+              <Grid item>
+                {/* TODO - this is inefficient*/}
+                <OptionsSelector
+                  key={index}
+                  value={props.madLib.activeSelections[index]}
+                  onOptionUpdate={(fipsCode: string) =>
+                    updateMadLib(index, fipsCode)
+                  }
+                  options={
+                    Object.keys(phraseSegment).length > 20
+                      ? Object.keys(phraseSegment)
+                          .sort((a: string, b: string) => {
+                            console.log("kkz", a, b);
+                            if (a[0].length === b[0].length) {
+                              return a[0].localeCompare(b[0]);
+                            }
+                            return b[0].length > a[0].length ? -1 : 1;
+                          })
+                          .map((fipsCode) => new Fips(fipsCode))
+                      : Object.entries(phraseSegment).sort((a, b) =>
+                          a[0].localeCompare(b[0])
+                        )
+                  }
+                />
+              </Grid>
             )}
           </React.Fragment>
         )
