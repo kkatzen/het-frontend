@@ -19,6 +19,7 @@ import {
   MetricConfig,
 } from "../data/MetricConfig";
 import styles from "./Report.module.scss";
+import PopulationCard from "../cards/PopulationCard";
 
 const SUPPORTED_BREAKDOWNS: BreakdownVar[] = [
   "race_and_ethnicity",
@@ -131,6 +132,9 @@ function VariableDisparityReport(props: {
                 ))}
               </ToggleButtonGroup>
             </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <PopulationCard fips={props.fips} />
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
