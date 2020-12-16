@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
-import { VariableId } from "../data/variableProviders";
+import { MetricId } from "../data/variableProviders";
 import { BreakdownVar } from "../utils/madlib/DisplayNames";
 import DisparityBarChartCard from "../cards/DisparityBarChartCard";
 import MapCard from "../cards/MapCard";
@@ -38,15 +38,15 @@ function VariableDisparityReport(props: {
     );
   }, [props.dropdownVarId]);
 
-  const fields: VariableId[] = [];
+  const fields: MetricId[] = [];
   if (variableConfig && variableConfig.metrics["per100k"]) {
-    fields.push(variableConfig.metrics["per100k"].metricId as VariableId);
+    fields.push(variableConfig.metrics["per100k"].metricId as MetricId);
   }
   if (variableConfig && variableConfig.metrics["pct_share"]) {
-    fields.push(variableConfig.metrics["pct_share"].metricId as VariableId);
+    fields.push(variableConfig.metrics["pct_share"].metricId as MetricId);
   }
 
-  const tableFields: VariableId[] = variableConfig
+  const tableFields: MetricId[] = variableConfig
     ? [...fields, "population", "population_pct"]
     : [];
 
@@ -107,7 +107,7 @@ function VariableDisparityReport(props: {
             />
             <TableCard
               fips={props.fips}
-              variableIds={tableFields}
+              metricIds={tableFields}
               breakdownVar={"race_and_ethnicity" as BreakdownVar}
               nonstandardizedRace={
                 props.dropdownVarId === "covid" ? true : false

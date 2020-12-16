@@ -10,7 +10,7 @@ import { getUniqueProviders } from "./variableProviders";
 import VariableProvider from "./variables/VariableProvider";
 import { joinOnCols } from "./datasetutils";
 import { DataFrame, IDataFrame } from "data-forge";
-import VariableQuery from "./VariableQuery";
+import MetricQuery from "./MetricQuery";
 import { getDataFetcher, getLogger } from "../utils/globals";
 
 const METADATA_KEY = "all_metadata";
@@ -126,7 +126,7 @@ function useResourceCache<R>(): ResourceCacheManager<R> {
 export function useDatasetStoreProvider(): DatasetStore {
   const metadataCacheManager = useResourceCache<MetadataMap>();
   const datasetCacheManager = useResourceCache<Dataset>();
-  const variableCacheManager = useResourceCache<Row[]>();
+  const metricCacheManager = useResourceCache<Row[]>();
 
   function trackMetadataLoad() {
     loadResource<MetadataMap>(
@@ -162,15 +162,15 @@ export function useDatasetStoreProvider(): DatasetStore {
   }
 
   /**
-   * Loads the requested variables into a single dataset and caches them so they
-   * can be accessed via `getVariables()`
+   * Loads the requested metrics into a single dataset and caches them so they
+   * can be accessed via `getMetrics()`
    */
-  async function loadVariables(query: VariableQuery): Promise<void> {
+  async function loadMetrics(query: MetricQuery): Promise<void> {
     const providers = getUniqueProviders(query.varIds);
 
     await loadResource<Row[]>(
       query.getUniqueKey(),
-      variableCacheManager,
+      metricCacheManager,
       async () => {
         const promises = VariableProvider.getUniqueDatasetIds(
           providers
@@ -217,13 +217,13 @@ export function useDatasetStoreProvider(): DatasetStore {
     return datasetCacheManager.cache.statuses[id] || "unloaded";
   }
 
-  function getVariablesLoadStatus(query: VariableQuery): LoadStatus {
+  function getMetricsLoadStatus(query: MetricQuery): LoadStatus {
     const key = query.getUniqueKey();
-    return variableCacheManager.cache.statuses[key] || "unloaded";
+    return metricCacheManager.cache.statuses[key] || "unloaded";
   }
 
-  function getVariables(query: VariableQuery): Row[] {
-    const data = variableCacheManager.cache.resources[query.getUniqueKey()];
+  function getMetrics(query: MetricQuery): Row[] {
+    const data = metricCacheManager.cache.resources[query.getUniqueKey()];
     // TODO try to find a good way to use static type checking to make sure
     // this is present rather than throwing an error.
     if (!data) {
@@ -235,9 +235,9 @@ export function useDatasetStoreProvider(): DatasetStore {
   return {
     loadDataset,
     getDatasetLoadStatus,
-    loadVariables: loadVariables,
-    getVariablesLoadStatus,
-    getVariables,
+    loadMetrics: loadMetrics,
+    getMetricsLoadStatus,
+    getMetrics,
     metadataLoadStatus:
       metadataCacheManager.cache.statuses[METADATA_KEY] || "unloaded",
     metadata: metadataCacheManager.cache.resources[METADATA_KEY] || {},

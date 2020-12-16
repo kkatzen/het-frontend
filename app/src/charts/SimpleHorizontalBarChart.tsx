@@ -2,9 +2,9 @@ import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../data/DatasetTypes";
 import { useResponsiveWidth } from "../utils/useResponsiveWidth";
-import { VariableId } from "../data/variableProviders";
+import { MetricId } from "../data/variableProviders";
 import {
-  VARIABLE_DISPLAY_NAMES,
+  METRIC_DISPLAY_NAMES,
   BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
 } from "../utils/madlib/DisplayNames";
@@ -169,7 +169,7 @@ function getSpec(
 
 function SimpleHorizontalBarChart(props: {
   data: Row[];
-  measure: VariableId;
+  measure: MetricId;
   breakdownVar: BreakdownVar;
   showLegend: boolean;
 }) {
@@ -185,7 +185,7 @@ function SimpleHorizontalBarChart(props: {
           props.breakdownVar,
           BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar],
           props.measure,
-          VARIABLE_DISPLAY_NAMES[props.measure],
+          METRIC_DISPLAY_NAMES[props.measure],
           props.showLegend
         )}
       />

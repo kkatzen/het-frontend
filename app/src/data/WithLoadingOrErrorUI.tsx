@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { LoadStatus } from "./DatasetTypes";
 import useDatasetStore from "./useDatasetStore";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import VariableQuery from "./VariableQuery";
+import MetricQuery from "./MetricQuery";
 
 function getJointLoadStatus(statuses: LoadStatus[]) {
   if (statuses.includes("error")) {
@@ -45,11 +45,11 @@ export function WithLoadingOrErrorUI(props: {
 }
 
 /**
- * Provides a wrapper around a UI component that requires some variables, and
+ * Provides a wrapper around a UI component that requires some metrics, and
  * displays loading and error indicators.
  */
-export function WithVariables(props: {
-  queries: VariableQuery[];
+export function WithMetrics(props: {
+  queries: MetricQuery[];
   loadingComponent?: JSX.Element;
   children: () => JSX.Element;
 }) {
@@ -58,11 +58,11 @@ export function WithVariables(props: {
   // making sure it's not loaded too many times.
   useEffect(() => {
     props.queries.forEach((query) => {
-      datasetStore.loadVariables(query);
+      datasetStore.loadMetrics(query);
     });
   });
   const statuses = props.queries.map((query) =>
-    datasetStore.getVariablesLoadStatus(query)
+    datasetStore.getMetricsLoadStatus(query)
   );
 
   return (

@@ -1,6 +1,7 @@
-import { VariableId } from "../../data/variableProviders";
+import { MetricId } from "../../data/variableProviders";
 
-export const VARIABLE_DISPLAY_NAMES: Record<VariableId, string> = {
+// TODO - migrate into the MetricConfig
+export const METRIC_DISPLAY_NAMES: Record<MetricId, string> = {
   diabetes_count: "Diabetes case count",
   diabetes_per_100k: "Diabetes cases per 100,000 people",
   copd_count: "COPD case count",
@@ -22,8 +23,8 @@ export type BreakdownVar = "race_and_ethnicity" | "age" | "sex";
 
 export const BREAKDOWN_VAR_DISPLAY_NAMES: Record<BreakdownVar, string> = {
   race_and_ethnicity: "Race and Ethnicity",
-  age: "age",
-  sex: "sex",
+  age: "Age",
+  sex: "Sex",
 };
 
 // Prints a formatted version of a field value based on the type specified by the field name
@@ -43,8 +44,8 @@ export function formatFieldValue(nameOfField: string, value: any): string {
 export function getFieldDisplayName(field: string) {
   if (Object.keys(BREAKDOWN_VAR_DISPLAY_NAMES).includes(field)) {
     return BREAKDOWN_VAR_DISPLAY_NAMES[field as BreakdownVar];
-  } else if (Object.keys(VARIABLE_DISPLAY_NAMES).includes(field)) {
-    return VARIABLE_DISPLAY_NAMES[field as VariableId];
+  } else if (Object.keys(METRIC_DISPLAY_NAMES).includes(field)) {
+    return METRIC_DISPLAY_NAMES[field as MetricId];
   }
   return field;
 }

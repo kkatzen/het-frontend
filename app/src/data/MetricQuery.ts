@@ -1,14 +1,14 @@
 import { Breakdowns } from "./Breakdowns";
 import { JoinType } from "./datasetutils";
-import { VariableId } from "./variableProviders";
+import { MetricId } from "./variableProviders";
 
-class VariableQuery {
-  readonly varIds: VariableId[];
+class MetricQuery {
+  readonly varIds: MetricId[];
   readonly breakdowns: Breakdowns;
   readonly joinType: JoinType;
 
   constructor(
-    varIds: VariableId | VariableId[],
+    varIds: MetricId | MetricId[],
     breakdowns: Breakdowns,
     joinType?: JoinType
   ) {
@@ -22,4 +22,4 @@ class VariableQuery {
   }
 }
 
-export default VariableQuery;
+export default MetricQuery;
