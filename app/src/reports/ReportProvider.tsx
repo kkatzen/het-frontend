@@ -30,9 +30,11 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
   }
   switch (props.madLib.id as MadLibId) {
     case "disparity":
+      const dropdownOption = getPhraseValue(props.madLib, 1);
       return (
         <VariableDisparityReport
-          dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
+          key={dropdownOption}
+          dropdownVarId={dropdownOption as DropdownVarId}
           fips={new Fips(getPhraseValue(props.madLib, 3))}
           updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
         />

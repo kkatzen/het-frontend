@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { VariableId } from "../data/variableProviders";
 import { BreakdownVar } from "../utils/madlib/DisplayNames";
@@ -28,15 +28,6 @@ function VariableDisparityReport(props: {
       ? METRIC_CONFIG[props.dropdownVarId as string][0]
       : null
   );
-
-  // TODO - Fix antipattern per comments in PR 150
-  useEffect(() => {
-    setVariableConfig(
-      Object.keys(METRIC_CONFIG).includes(props.dropdownVarId)
-        ? METRIC_CONFIG[props.dropdownVarId as string][0]
-        : null
-    );
-  }, [props.dropdownVarId]);
 
   const fields: VariableId[] = [];
   if (variableConfig && variableConfig.metrics["per100k"]) {
@@ -116,6 +107,7 @@ function VariableDisparityReport(props: {
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
+              key={variableConfig + "race_and_ethnicity"}
               variableConfig={variableConfig}
               breakdownVar="race_and_ethnicity"
               nonstandardizedRace={
@@ -124,6 +116,7 @@ function VariableDisparityReport(props: {
               fips={props.fips}
             />
             <DisparityBarChartCard
+              key={variableConfig + "age"}
               variableConfig={variableConfig}
               breakdownVar="age"
               nonstandardizedRace={
@@ -132,6 +125,7 @@ function VariableDisparityReport(props: {
               fips={props.fips}
             />
             <DisparityBarChartCard
+              key={variableConfig + "sex"}
               variableConfig={variableConfig}
               breakdownVar="sex"
               nonstandardizedRace={
