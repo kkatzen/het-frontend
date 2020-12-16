@@ -17,6 +17,7 @@ import {
 } from "../data/MetricConfig";
 
 function VariableDisparityReport(props: {
+  key: string;
   dropdownVarId: DropdownVarId;
   fips: Fips;
   updateFipsCallback: Function;

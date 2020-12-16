@@ -28,6 +28,7 @@ function getInitalMetricConfig(variableConfig: VariableConfig) {
 }
 
 function DisparityBarChartCard(props: {
+  key: string;
   breakdownVar: BreakdownVar;
   variableConfig: VariableConfig;
   nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
