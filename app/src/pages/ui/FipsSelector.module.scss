@@ -11,10 +11,13 @@
 
 .FipsSelectorPopover {
   padding: 20px;
+  min-width: 385px;
 }
 
 .MadLibButton {
   text-transform: none !important;
   font-size: 20px !important;
   font-weight: normal !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
 }

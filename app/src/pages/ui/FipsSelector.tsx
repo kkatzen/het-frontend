@@ -73,7 +73,7 @@ function FipsSelector(props: {
             }}
           />
           <span className={styles.NoteText}>
-            Note: City and census tract location is currently unavailable
+            City and census tract location is currently unavailable
           </span>
         </div>
       </Popover>

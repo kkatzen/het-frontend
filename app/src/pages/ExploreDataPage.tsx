@@ -29,6 +29,7 @@ import {
 import ReactTooltip from "react-tooltip";
 import ReportProvider from "../reports/ReportProvider";
 import FipsSelector from "./ui/FipsSelector";
+import VarSelector from "./ui/VarSelector";
 
 function ExploreDataPage() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -188,30 +189,17 @@ function CarouselMadLib(props: {
                     />
                   </Grid>
                 ) : (
-                  <Grid
-                    item
-                    style={{ marginTop: "20px", marginBottom: "-20px" }}
-                  >
-                    <FormControl>
-                      <Select
-                        className={styles.MadLibSelect}
-                        name={index.toString()}
-                        defaultValue={props.madLib.defaultSelections[index]}
-                        value={props.madLib.activeSelections[index]}
-                        onChange={(event) =>
-                          updateMadLib(index, event.target.value as string)
-                        }
-                      >
-                        {Object.entries(phraseSegment)
-                          .sort((a, b) => a[0].localeCompare(b[0]))
-                          .map(([key, value]) => (
-                            // TODO - we may want to not have this alphabetized by ID by default
-                            <MenuItem key={value} value={key}>
-                              {value}
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
+                  <Grid item>
+                    <VarSelector
+                      key={index}
+                      value={props.madLib.activeSelections[index]}
+                      onVarUpdate={(option: string) =>
+                        updateMadLib(index, option)
+                      }
+                      options={Object.entries(phraseSegment).sort((a, b) =>
+                        a[0].localeCompare(b[0])
+                      )}
+                    />
                   </Grid>
                 )}
               </>
