@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Grid } from "@material-ui/core";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -28,8 +25,7 @@ import {
 } from "../utils/urlutils";
 import ReactTooltip from "react-tooltip";
 import ReportProvider from "../reports/ReportProvider";
-import FipsSelector from "./ui/FipsSelector";
-import VarSelector from "./ui/VarSelector";
+import OptionsSelector from "./ui/OptionsSelector";
 
 function ExploreDataPage() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -172,13 +168,13 @@ function CarouselMadLib(props: {
                 {Object.keys(phraseSegment).length > 20 ? (
                   <Grid item>
                     {/* TODO - this is inefficient*/}
-                    <FipsSelector
+                    <OptionsSelector
                       key={index}
                       value={props.madLib.activeSelections[index]}
-                      onGeoUpdate={(fipsCode: string) =>
+                      onOptionUpdate={(fipsCode: string) =>
                         updateMadLib(index, fipsCode)
                       }
-                      options={Object.keys(phraseSegment)
+                      fipsOptions={Object.keys(phraseSegment)
                         .sort((a, b) => {
                           if (a[0].length === b[0].length) {
                             return a[0].localeCompare(b[0]);
@@ -190,10 +186,10 @@ function CarouselMadLib(props: {
                   </Grid>
                 ) : (
                   <Grid item>
-                    <VarSelector
+                    <OptionsSelector
                       key={index}
                       value={props.madLib.activeSelections[index]}
-                      onVarUpdate={(option: string) =>
+                      onOptionUpdate={(option: string) =>
                         updateMadLib(index, option)
                       }
                       options={Object.entries(phraseSegment).sort((a, b) =>
