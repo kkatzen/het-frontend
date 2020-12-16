@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Grid } from "@material-ui/core";
@@ -92,13 +91,17 @@ function ExploreDataPage() {
 
   useEffect(() => {
     const header = document.getElementById("ExploreData");
-    const sticky = header.offsetTop;
-    const scrollCallBack = window.addEventListener("scroll", () => {
-      if (window.pageYOffset > sticky) {
-        header.classList.add(styles.Sticky);
+    const stickyBarOffsetFromTop: number = header ? header.offsetTop : 1;
+    const scrollCallBack: any = window.addEventListener("scroll", () => {
+      if (window.pageYOffset > stickyBarOffsetFromTop) {
+        if (header) {
+          header.classList.add(styles.Sticky);
+        }
         setSticking(true);
       } else {
-        header.classList.remove(styles.Sticky);
+        if (header) {
+          header.classList.remove(styles.Sticky);
+        }
         setSticking(false);
       }
     });
@@ -144,10 +147,9 @@ function ExploreDataPage() {
           {MADLIB_LIST.map((madlib: MadLib, i) => (
             <CarouselMadLib
               madLib={madLib}
-              className={styles.CarouselItem}
               setMadLib={setMadLib}
               key={i}
-              setShareModalOpen={setShareModalOpen}
+              setShareModalOpen={(open: boolean) => setShareModalOpen(open)}
             />
           ))}
         </Carousel>
@@ -162,7 +164,7 @@ function ExploreDataPage() {
 function CarouselMadLib(props: {
   madLib: MadLib;
   setMadLib: (updatedMadLib: MadLib) => void;
-  setShareModalOpen: () => void;
+  setShareModalOpen: (open: boolean) => void;
 }) {
   function updateMadLib(phraseSegementIndex: number, newValue: string) {
     let updatePhraseSelections: PhraseSelections = {
@@ -176,7 +178,12 @@ function CarouselMadLib(props: {
   }
 
   return (
-    <Grid container spacing={1} justify="center" style={{ lineHeight: "50pt" }}>
+    <Grid
+      container
+      spacing={1}
+      justify="center"
+      className={styles.CarouselItem}
+    >
       {props.madLib.phrase.map(
         (phraseSegment: PhraseSegment, index: number) => (
           <React.Fragment key={index}>
