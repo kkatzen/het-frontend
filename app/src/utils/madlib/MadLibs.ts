@@ -20,6 +20,7 @@ export interface MadLib {
   readonly activeSelections: PhraseSelections;
 }
 
+// TODO - if value are FIPs, we're not getting full display name for counties
 function getMadLibPhraseText(madLib: MadLib): string {
   let madLibText = "";
   madLib.phrase.forEach((phraseSegment, index) => {
@@ -48,10 +49,10 @@ export type DropdownVarId =
 // @ts-ignore
 const DROPDOWN_VAR: Record<DropdownVarId, string> = {
   covid: "COVID-19",
-  diabetes: "[coming soon] diabetes",
+  diabetes: "diabetes",
   obesity: "[coming soon] obesity",
   asthma: "[coming soon] asthma",
-  copd: "[coming soon] copd",
+  copd: "COPD",
   insurance: "[coming soon] insurance type",
 };
 

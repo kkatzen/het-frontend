@@ -8,17 +8,20 @@ import { getDependentDatasets, VariableId } from "../data/variableProviders";
 import VariableQuery from "../data/VariableQuery";
 import { Fips } from "../utils/madlib/Fips";
 import { BreakdownVar } from "../utils/madlib/DisplayNames";
-// TODO - Migrate so variables are called here instead of the parent
+
 function TableCard(props: {
   fips: Fips;
   breakdownVar: BreakdownVar;
   variableIds: VariableId[];
+  nonstandardizedRace: boolean /* TODO- ideally wouldn't go here, could be calculated based on dataset */;
 }) {
   const datasetStore = useDatasetStore();
 
   // TODO need to handle race categories standard vs non-standard for covid vs
   // other demographic.
-  const breakdowns = Breakdowns.forFips(props.fips).andRace(true);
+  const breakdowns = Breakdowns.forFips(props.fips).andRace(
+    props.nonstandardizedRace
+  );
   const query = new VariableQuery(props.variableIds, breakdowns);
 
   const datasetIds = getDependentDatasets(props.variableIds);
