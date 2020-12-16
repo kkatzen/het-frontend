@@ -32,7 +32,9 @@ function VariableDisparityReport(props: {
   updateFipsCallback: Function;
   vertical?: boolean;
 }) {
-  const [breakdown, setBreakdown] = useState<BreakdownVar | "all">("all");
+  const [currentBreakdown, setCurrentBreakdown] = useState<
+    BreakdownVar | "all"
+  >("all");
 
   // TODO Remove hard coded fail safe value
   const [variableConfig, setVariableConfig] = useState<VariableConfig | null>(
@@ -111,10 +113,10 @@ function VariableDisparityReport(props: {
               <span className={styles.ToggleLabel}>Filter Demographic</span>
               <ToggleButtonGroup
                 exclusive
-                value={breakdown}
+                value={currentBreakdown}
                 onChange={(e, v) => {
                   if (v !== null) {
-                    setBreakdown(v);
+                    setCurrentBreakdown(v);
                   }
                 }}
                 aria-label="text formatting"
@@ -154,8 +156,8 @@ function VariableDisparityReport(props: {
           <Grid item xs={props.vertical ? 12 : 6}>
             {SUPPORTED_BREAKDOWNS.map((breakdownVar) => (
               <>
-                {" "}
-                {(breakdown === "all" || breakdown === breakdownVar) && (
+                {(currentBreakdown === "all" ||
+                  currentBreakdown === breakdownVar) && (
                   <DisparityBarChartCard
                     variableConfig={variableConfig}
                     nonstandardizedRace={
