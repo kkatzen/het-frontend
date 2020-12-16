@@ -1,5 +1,6 @@
 .ExploreData {
   background-color: #f1f4f8;
+  height: 100%;
 }
 
 .CarouselContainer {
@@ -10,6 +11,7 @@
   line-height: 20pt;
   box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3),
     0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+  transition: padding-top 0.2s, padding-bottom 0.2s;
 }
 
 .Carousel {
@@ -43,7 +45,6 @@
     z-index: 1001;
     padding-top: 0;
     padding-bottom: 0;
-    transition: padding-top 0.2s, padding-bottom 0.2s;
   }
   .CarouselItem {
     padding: 10px;
