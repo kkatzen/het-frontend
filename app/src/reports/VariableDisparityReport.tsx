@@ -15,6 +15,7 @@ import {
   VariableConfig,
   MetricConfig,
 } from "../data/MetricConfig";
+import PopulationCard from "../cards/PopulationCard";
 
 function VariableDisparityReport(props: {
   dropdownVarId: DropdownVarId;
@@ -92,6 +93,9 @@ function VariableDisparityReport(props: {
                   )}
                 </ToggleButtonGroup>
               )}
+          </Grid>
+          <Grid item xs={12}>
+            <PopulationCard fips={props.fips} />
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
