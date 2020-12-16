@@ -69,7 +69,6 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
       const compareDisparityVariable1 = getPhraseValue(props.madLib, 1);
       const compareDisparityVariable2 = getPhraseValue(props.madLib, 3);
       const fipsCode = getPhraseValue(props.madLib, 5);
-
       return (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
