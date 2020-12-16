@@ -62,6 +62,7 @@ function MapCard(props: {
       ];
 
   const [race, setRace] = useState<string>(RACES[0]);
+  // TODO - remove this useEffect once races are standarized, should be unecessary
   useEffect(() => {
     setRace(RACES[0]);
   }, [RACES, props.metricConfig]);
@@ -71,14 +72,10 @@ function MapCard(props: {
   const breakdowns = Breakdowns.byState().andRace(props.nonstandardizedRace);
   const query = new VariableQuery(props.metricConfig.metricId, breakdowns);
 
-  const datasetIds = props.metricConfig
-    ? getDependentDatasets([props.metricConfig.metricId])
-    : [];
-
   return (
     <CardWrapper
       queries={[query]}
-      datasetIds={datasetIds}
+      datasetIds={getDependentDatasets([props.metricConfig.metricId])}
       titleText={`${
         props.metricConfig.fullCardTitleName
       } in ${props.fips.getFullDisplayName()}`}
@@ -90,7 +87,7 @@ function MapCard(props: {
 
         let mapData = dataset.filter(
           (r) =>
-            r[props.metricConfig.metricId] !== undefined ||
+            r[props.metricConfig.metricId] !== undefined &&
             r[props.metricConfig.metricId] !== null
         );
         if (!props.fips.isUsa()) {

@@ -36,6 +36,7 @@ function DisparityBarChartCard(props: {
   const [metricConfig, setMetricConfig] = useState<MetricConfig>(
     getInitalMetricConfig(props.variableConfig)
   );
+  // TODO - Fix antipattern per comments in PR 150
   useEffect(() => {
     setMetricConfig(getInitalMetricConfig(props.variableConfig));
   }, [props.variableConfig]);
@@ -59,6 +60,7 @@ function DisparityBarChartCard(props: {
 
   const query = new VariableQuery(variables, breakdowns);
 
+  // TODO - what if there are no valid types at all? What do we show?
   const validDisplayMetricConfigs: MetricConfig[] = Object.values(
     props.variableConfig.metrics
   ).filter((metricConfig) => VALID_METRIC_TYPES.includes(metricConfig.type));

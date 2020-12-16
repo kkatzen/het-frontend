@@ -29,6 +29,7 @@ function VariableDisparityReport(props: {
       : null
   );
 
+  // TODO - Fix antipattern per comments in PR 150
   useEffect(() => {
     setVariableConfig(
       Object.keys(METRIC_CONFIG).includes(props.dropdownVarId)

@@ -1,5 +1,8 @@
+// TODO - rename legacy Variable names to Metric
 import { VariableId } from "../data/variableProviders";
 
+// The type of metric indicates where and how this a MetricConfig is represented in the frontend:
+// What chart types are applicable, what metrics are shown together, display names, etc.
 export type MetricType =
   | "count"
   | "pct_share"
@@ -16,10 +19,11 @@ export type MetricConfig = {
 };
 
 export type VariableConfig = {
-  variableId: string;
-  metrics: Record<string, MetricConfig>;
+  variableId: string; // TODO - strongly type key
+  metrics: Record<string, MetricConfig>; // TODO - strongly type key
 };
 
+// TODO - strongly type key
 export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
   covid: [
     {
