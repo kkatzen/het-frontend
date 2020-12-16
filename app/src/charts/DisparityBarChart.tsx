@@ -2,9 +2,9 @@ import React from "react";
 import { Vega } from "react-vega";
 import { Row } from "../data/DatasetTypes";
 import { useResponsiveWidth } from "../utils/useResponsiveWidth";
-import { VariableId } from "../data/variableProviders";
+import { MetricId } from "../data/variableProviders";
 import {
-  VARIABLE_DISPLAY_NAMES,
+  METRIC_DISPLAY_NAMES,
   BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
 } from "../utils/madlib/DisplayNames";
@@ -195,8 +195,8 @@ function getSpec(
 
 function DisparityBarChart(props: {
   data: Row[];
-  thickMeasure: VariableId;
-  thinMeasure: VariableId;
+  thickMeasure: MetricId;
+  thinMeasure: MetricId;
   breakdownVar: BreakdownVar;
   metricDisplayName: string;
 }) {
@@ -212,9 +212,9 @@ function DisparityBarChart(props: {
           props.breakdownVar,
           BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar],
           props.thickMeasure,
-          VARIABLE_DISPLAY_NAMES[props.thickMeasure],
+          METRIC_DISPLAY_NAMES[props.thickMeasure],
           props.thinMeasure,
-          VARIABLE_DISPLAY_NAMES[props.thinMeasure],
+          METRIC_DISPLAY_NAMES[props.thinMeasure],
           props.metricDisplayName
         )}
       />

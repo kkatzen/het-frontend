@@ -6,7 +6,7 @@ import BrfssProvider from "./variables/BrfssProvider";
 // TODO consider making this an enum instead of a type literal, since these will
 // be used throughout the code base and an enum provides a little more explicit
 // clarity.
-export type VariableId =
+export type MetricId =
   | "diabetes_count"
   | "diabetes_per_100k"
   | "copd_count"
@@ -41,24 +41,24 @@ const providers: VariableProvider[] = [
 ];
 
 // TODO I don't know why Typescript is complaining that it's missing properties.
-// It seems to expect all possible values for VariableId to be present.
+// It seems to expect all possible values for MetricId to be present.
 const providersById: Record<ProviderId, VariableProvider> = Object.fromEntries(
   providers.map((p) => [p.providerId, p])
 ) as Record<ProviderId, VariableProvider>;
 
-const varsToProviderIds: Record<VariableId, ProviderId> = {} as Record<
-  VariableId,
+const metricsToProviderIds: Record<MetricId, ProviderId> = {} as Record<
+  MetricId,
   ProviderId
 >;
 providers.forEach((provider) => {
-  provider.providesVariables.forEach((varId) => {
-    varsToProviderIds[varId] = provider.providerId;
+  provider.providesMetrics.forEach((varId) => {
+    metricsToProviderIds[varId] = provider.providerId;
   });
 });
 
 /** Returns the VariableProvider that gets the specified variable. */
-export function getProvider(variableId: VariableId): VariableProvider {
-  const providerId = varsToProviderIds[variableId];
+export function getProvider(variableId: MetricId): VariableProvider {
+  const providerId = metricsToProviderIds[variableId];
   const provider = providersById[providerId];
   return provider;
 }
@@ -68,15 +68,15 @@ export function getProvider(variableId: VariableId): VariableProvider {
  * variables.
  */
 export function getUniqueProviders(
-  variableIds: VariableId[]
+  variableIds: MetricId[]
 ): VariableProvider[] {
-  const providerIds = variableIds.map((id) => varsToProviderIds[id]);
+  const providerIds = variableIds.map((id) => metricsToProviderIds[id]);
   const dedupedIds = Array.from(new Set(providerIds));
   return dedupedIds.map((id) => providersById[id]);
 }
 
 /** Returns the list of dataset ids that the provided variables depend on. */
-export function getDependentDatasets(variableIds: VariableId[]): string[] {
+export function getDependentDatasets(variableIds: MetricId[]): string[] {
   const providers = variableIds.map((id) => getProvider(id));
   return VariableProvider.getUniqueDatasetIds(providers);
 }

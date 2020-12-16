@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
-import { WithVariables } from "../data/WithLoadingOrErrorUI";
+import { WithMetrics } from "../data/WithLoadingOrErrorUI";
 import GroupedBarChart from "../charts/GroupedBarChart";
 import StackedBarChart from "../charts/StackedBarChart";
 import PieChart from "../charts/PieChart";
@@ -9,29 +9,29 @@ import LineChart from "../charts/LineChart";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
 import { Fips } from "../utils/madlib/Fips";
-import VariableQuery from "../data/VariableQuery";
+import MetricQuery from "../data/MetricQuery";
 
 function ChartDumpReport() {
   const datasetStore = useDatasetStore();
   const breakdownsState1 = Breakdowns.forFips(new Fips("01"));
   const breakdownsState2 = Breakdowns.forFips(new Fips("02"));
-  const state1DiabetesQuery = new VariableQuery(
+  const state1DiabetesQuery = new MetricQuery(
     "diabetes_per_100k",
     breakdownsState1.copy().andRace()
   );
-  const state2DiabetesQuery = new VariableQuery(
+  const state2DiabetesQuery = new MetricQuery(
     "diabetes_per_100k",
     breakdownsState2.copy().andRace()
   );
-  const state1CovidQuery = new VariableQuery(
+  const state1CovidQuery = new MetricQuery(
     "covid_cases",
     Breakdowns.forFips(new Fips("37")).andRace(true).andTime()
   );
-  const state1PopulationQuery = new VariableQuery(
+  const state1PopulationQuery = new MetricQuery(
     "population_pct",
     breakdownsState1.copy().andRace()
   );
-  const state2PopulationQuery = new VariableQuery(
+  const state2PopulationQuery = new MetricQuery(
     "population_pct",
     breakdownsState2.copy().andRace()
   );
@@ -43,17 +43,17 @@ function ChartDumpReport() {
     state2PopulationQuery,
   ];
   return (
-    <WithVariables queries={queries}>
+    <WithMetrics queries={queries}>
       {() => {
         const pieChartData = datasetStore
-          .getVariables(state1PopulationQuery)
+          .getMetrics(state1PopulationQuery)
           .filter((r) => r.race_and_ethnicity !== "Total");
-        const timeSeriesData = datasetStore.getVariables(state1CovidQuery);
-        const geo1 = datasetStore.getVariables(state1DiabetesQuery);
-        const geo2 = datasetStore.getVariables(state2DiabetesQuery);
+        const timeSeriesData = datasetStore.getMetrics(state1CovidQuery);
+        const geo1 = datasetStore.getMetrics(state1DiabetesQuery);
+        const geo2 = datasetStore.getMetrics(state2DiabetesQuery);
         const groupedChartData = geo1.concat(geo2);
-        const population1 = datasetStore.getVariables(state1PopulationQuery);
-        const population2 = datasetStore.getVariables(state2PopulationQuery);
+        const population1 = datasetStore.getMetrics(state1PopulationQuery);
+        const population2 = datasetStore.getMetrics(state2PopulationQuery);
         const popChartData = population1
           .concat(population2)
           .filter((r) => r.race_and_ethnicity !== "Total");
@@ -132,7 +132,7 @@ function ChartDumpReport() {
           </Grid>
         );
       }}
-    </WithVariables>
+    </WithMetrics>
   );
 }
 

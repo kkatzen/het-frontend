@@ -13,8 +13,8 @@ import {
 } from "../utils/madlib/DisplayNames";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
-import { getDependentDatasets, VariableId } from "../data/variableProviders";
-import VariableQuery from "../data/VariableQuery";
+import { getDependentDatasets, MetricId } from "../data/variableProviders";
+import MetricQuery from "../data/MetricQuery";
 import { MetricConfig, VariableConfig } from "../data/MetricConfig";
 
 import CardWrapper from "./CardWrapper";
@@ -49,13 +49,9 @@ function DisparityBarChartCard(props: {
   const metricIds = Object.values(props.variableConfig.metrics).map(
     (metricConfig: MetricConfig) => metricConfig.metricId
   );
-  const variables: VariableId[] = [
-    ...metricIds,
-    "population",
-    "population_pct",
-  ];
+  const metrics: MetricId[] = [...metricIds, "population", "population_pct"];
 
-  const query = new VariableQuery(variables, breakdowns);
+  const query = new MetricQuery(metrics, breakdowns);
 
   // TODO - what if there are no valid types at all? What do we show?
   const validDisplayMetricConfigs: MetricConfig[] = Object.values(
@@ -65,7 +61,7 @@ function DisparityBarChartCard(props: {
   // TODO - we want to bold the breakdown name in the card title
   return (
     <CardWrapper
-      datasetIds={getDependentDatasets(variables)}
+      datasetIds={getDependentDatasets(metrics)}
       queries={[query]}
       titleText={`${metricConfig.fullCardTitleName} by ${
         BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
@@ -73,7 +69,7 @@ function DisparityBarChartCard(props: {
     >
       {() => {
         const dataset = datasetStore
-          .getVariables(query)
+          .getMetrics(query)
           .filter(
             (row) =>
               !["Not Hispanic or Latino", "Total"].includes(
@@ -122,7 +118,7 @@ function DisparityBarChartCard(props: {
                   {metricConfig.type === "pct_share" && (
                     <DisparityBarChart
                       data={dataset}
-                      thickMeasure={"population_pct" as VariableId}
+                      thickMeasure={"population_pct" as MetricId}
                       thinMeasure={metricConfig.metricId}
                       breakdownVar={props.breakdownVar as BreakdownVar}
                       metricDisplayName={metricConfig.shortVegaLabel}

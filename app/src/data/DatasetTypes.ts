@@ -1,5 +1,5 @@
 import { DataFrame, IDataFrame } from "data-forge";
-import VariableQuery from "./VariableQuery";
+import MetricQuery from "./MetricQuery";
 
 /* TODO: These are not yet comprehensive, final interfaces */
 
@@ -63,9 +63,9 @@ export type LoadStatus = "unloaded" | "loading" | "loaded" | "error";
 export interface DatasetStore {
   readonly loadDataset: (id: string) => Promise<Dataset | undefined>;
   readonly getDatasetLoadStatus: (id: string) => LoadStatus;
-  readonly loadVariables: (query: VariableQuery) => Promise<void>;
-  readonly getVariablesLoadStatus: (query: VariableQuery) => LoadStatus;
-  readonly getVariables: (query: VariableQuery) => Row[];
+  readonly loadMetrics: (query: MetricQuery) => Promise<void>;
+  readonly getMetricsLoadStatus: (query: MetricQuery) => LoadStatus;
+  readonly getMetrics: (query: MetricQuery) => Row[];
   readonly metadataLoadStatus: LoadStatus;
   readonly metadata: MetadataMap;
   readonly datasets: Readonly<Record<string, Dataset>>;

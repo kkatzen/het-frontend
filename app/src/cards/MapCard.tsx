@@ -13,7 +13,7 @@ import CardWrapper from "./CardWrapper";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets } from "../data/variableProviders";
-import VariableQuery from "../data/VariableQuery";
+import MetricQuery from "../data/MetricQuery";
 import { MetricConfig } from "../data/MetricConfig";
 
 function MapCard(props: {
@@ -65,7 +65,7 @@ function MapCard(props: {
   const datasetStore = useDatasetStore();
 
   const breakdowns = Breakdowns.byState().andRace(props.nonstandardizedRace);
-  const query = new VariableQuery(props.metricConfig.metricId, breakdowns);
+  const query = new MetricQuery(props.metricConfig.metricId, breakdowns);
 
   return (
     <CardWrapper
@@ -77,7 +77,7 @@ function MapCard(props: {
     >
       {() => {
         const dataset = datasetStore
-          .getVariables(query)
+          .getMetrics(query)
           .filter((row) => row.race_and_ethnicity !== "Not Hispanic or Latino");
 
         let mapData = dataset.filter(

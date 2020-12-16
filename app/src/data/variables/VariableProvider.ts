@@ -1,19 +1,19 @@
 import { Breakdowns } from "../Breakdowns";
 import { Dataset, Row } from "../DatasetTypes";
-import { ProviderId, VariableId } from "../variableProviders";
+import { ProviderId, MetricId } from "../variableProviders";
 
 abstract class VariableProvider {
   readonly providerId: ProviderId;
-  readonly providesVariables: VariableId[];
+  readonly providesMetrics: MetricId[];
   readonly datasetIds: readonly string[];
 
   constructor(
     providerId: ProviderId,
-    providesVariables: VariableId[],
+    providesMetrics: MetricId[],
     datasetIds: string[]
   ) {
     this.providerId = providerId;
-    this.providesVariables = providesVariables;
+    this.providesMetrics = providesMetrics;
     this.datasetIds = datasetIds;
   }
 
