@@ -40,24 +40,25 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
         />
       );
     case "comparegeos":
-      const compareDisparityVariable = getPhraseValue(
-        props.madLib,
-        1
-      ) as DropdownVarId;
+      const compareDisparityVariable = getPhraseValue(props.madLib, 1);
+      const fipsCode1 = getPhraseValue(props.madLib, 3);
+      const fipsCode2 = getPhraseValue(props.madLib, 5);
       return (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
             <VariableDisparityReport
-              dropdownVarId={compareDisparityVariable}
-              fips={new Fips(getPhraseValue(props.madLib, 3))}
+              key={compareDisparityVariable + fipsCode1}
+              dropdownVarId={compareDisparityVariable as DropdownVarId}
+              fips={new Fips(fipsCode1)}
               updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
               vertical={true}
             />
           </Grid>
           <Grid item xs={6}>
             <VariableDisparityReport
-              dropdownVarId={compareDisparityVariable}
-              fips={new Fips(getPhraseValue(props.madLib, 5))}
+              key={compareDisparityVariable + fipsCode2}
+              dropdownVarId={compareDisparityVariable as DropdownVarId}
+              fips={new Fips(fipsCode2)}
               updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
               vertical={true}
             />
@@ -65,24 +66,26 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
         </Grid>
       );
     case "comparevars":
-      const compareGeoVariable = getPhraseValue(
-        props.madLib,
-        5
-      ) as DropdownVarId;
+      const compareDisparityVariable1 = getPhraseValue(props.madLib, 1);
+      const compareDisparityVariable2 = getPhraseValue(props.madLib, 3);
+      const fipsCode = getPhraseValue(props.madLib, 5);
+
       return (
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
             <VariableDisparityReport
-              dropdownVarId={getPhraseValue(props.madLib, 1) as DropdownVarId}
-              fips={new Fips(compareGeoVariable)}
+              key={compareDisparityVariable1 + fipsCode}
+              dropdownVarId={compareDisparityVariable1 as DropdownVarId}
+              fips={new Fips(fipsCode)}
               updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 3)}
               vertical={true}
             />
           </Grid>
           <Grid item xs={6}>
             <VariableDisparityReport
-              dropdownVarId={getPhraseValue(props.madLib, 3) as DropdownVarId}
-              fips={new Fips(compareGeoVariable)}
+              key={compareDisparityVariable2 + fipsCode}
+              dropdownVarId={compareDisparityVariable2 as DropdownVarId}
+              fips={new Fips(fipsCode)}
               updateFipsCallback={(fips: Fips) => updateFipsCallback(fips, 5)}
               vertical={true}
             />
