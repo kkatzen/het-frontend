@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Grid } from "@material-ui/core";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -28,7 +25,7 @@ import {
 } from "../utils/urlutils";
 import ReactTooltip from "react-tooltip";
 import ReportProvider from "../reports/ReportProvider";
-import FipsSelector from "./ui/FipsSelector";
+import OptionsSelector from "./ui/OptionsSelector";
 
 function ExploreDataPage() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -153,6 +150,22 @@ function CarouselMadLib(props: {
     });
   }
 
+  // TODO - this isn't efficient, these should be stored in an ordered way
+  function getOptionsFromPhraseSegement(
+    phraseSegment: PhraseSegment
+  ): Fips[] | string[][] {
+    return Object.keys(phraseSegment).length > 20
+      ? Object.keys(phraseSegment)
+          .sort((a: string, b: string) => {
+            if (a[0].length === b[0].length) {
+              return a[0].localeCompare(b[0]);
+            }
+            return b[0].length > a[0].length ? -1 : 1;
+          })
+          .map((fipsCode) => new Fips(fipsCode))
+      : Object.entries(phraseSegment).sort((a, b) => a[0].localeCompare(b[0]));
+  }
+
   return (
     <Grid
       container
@@ -166,55 +179,16 @@ function CarouselMadLib(props: {
             {typeof phraseSegment === "string" ? (
               <Grid item>{phraseSegment}</Grid>
             ) : (
-              <>
-                {/* TODO - don't use this hack to figure out if its a FIPS or not*/}
-                {Object.keys(phraseSegment).length > 20 ? (
-                  <Grid item>
-                    {/* TODO - this is inefficient*/}
-                    <FipsSelector
-                      key={index}
-                      value={props.madLib.activeSelections[index]}
-                      onGeoUpdate={(fipsCode: string) =>
-                        updateMadLib(index, fipsCode)
-                      }
-                      options={Object.keys(phraseSegment)
-                        .sort((a, b) => {
-                          if (a[0].length === b[0].length) {
-                            return a[0].localeCompare(b[0]);
-                          }
-                          return b[0].length > a[0].length ? -1 : 1;
-                        })
-                        .map((fipsCode) => new Fips(fipsCode))}
-                    />
-                  </Grid>
-                ) : (
-                  <Grid
-                    item
-                    style={{ marginTop: "20px", marginBottom: "-20px" }}
-                  >
-                    <FormControl>
-                      <Select
-                        className={styles.MadLibSelect}
-                        name={index.toString()}
-                        defaultValue={props.madLib.defaultSelections[index]}
-                        value={props.madLib.activeSelections[index]}
-                        onChange={(event) =>
-                          updateMadLib(index, event.target.value as string)
-                        }
-                      >
-                        {Object.entries(phraseSegment)
-                          .sort((a, b) => a[0].localeCompare(b[0]))
-                          .map(([key, value]) => (
-                            // TODO - we may want to not have this alphabetized by ID by default
-                            <MenuItem key={value} value={key}>
-                              {value}
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                )}
-              </>
+              <Grid item>
+                <OptionsSelector
+                  key={index}
+                  value={props.madLib.activeSelections[index]}
+                  onOptionUpdate={(fipsCode: string) =>
+                    updateMadLib(index, fipsCode)
+                  }
+                  options={getOptionsFromPhraseSegement(phraseSegment)}
+                />
+              </Grid>
             )}
           </React.Fragment>
         )
