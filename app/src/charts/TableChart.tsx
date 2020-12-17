@@ -7,21 +7,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Row } from "../data/DatasetTypes";
-import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import {
   getFieldDisplayName,
   formatFieldValue,
 } from "../utils/madlib/DisplayNames";
 import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
-
-const StyledTableHeader = withStyles((theme: Theme) =>
-  createStyles({
-    head: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white,
-    },
-  })
-)(TableCell);
 
 function TableChart(props: { data: Row[]; fields?: string[] }) {
   const tableColumns: string[] | undefined =
@@ -39,9 +29,7 @@ function TableChart(props: { data: Row[]; fields?: string[] }) {
             <TableHead>
               <TableRow>
                 {tableColumns.map((field, i) => (
-                  <StyledTableHeader key={i}>
-                    {getFieldDisplayName(field)}
-                  </StyledTableHeader>
+                  <TableCell key={i}>{getFieldDisplayName(field)}</TableCell>
                 ))}
               </TableRow>
             </TableHead>

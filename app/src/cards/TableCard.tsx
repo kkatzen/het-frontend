@@ -7,7 +7,10 @@ import { Breakdowns } from "../data/Breakdowns";
 import { getDependentDatasets, MetricId } from "../data/variableProviders";
 import MetricQuery from "../data/MetricQuery";
 import { Fips } from "../utils/madlib/Fips";
-import { BreakdownVar } from "../utils/madlib/DisplayNames";
+import {
+  BreakdownVar,
+  BREAKDOWN_VAR_DISPLAY_NAMES,
+} from "../utils/madlib/DisplayNames";
 
 function TableCard(props: {
   fips: Fips;
@@ -27,7 +30,13 @@ function TableCard(props: {
   const datasetIds = getDependentDatasets(props.metricIds);
 
   return (
-    <CardWrapper queries={[query]} datasetIds={datasetIds}>
+    <CardWrapper
+      queries={[query]}
+      datasetIds={datasetIds}
+      titleText={`${
+        BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar]
+      } in ${props.fips.getFullDisplayName()}`}
+    >
       {() => {
         const dataset = datasetStore
           .getMetrics(query)

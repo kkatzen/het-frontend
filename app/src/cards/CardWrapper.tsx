@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import { WithMetrics } from "../data/WithLoadingOrErrorUI";
 import MetricQuery from "../data/MetricQuery";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import useDatasetStore from "../data/useDatasetStore";
 
 function CardWrapper(props: {
   datasetIds: string[];
@@ -28,6 +29,7 @@ function CardWrapper(props: {
       <Divider />
     </>
   ) : null;
+  const datasetStore = useDatasetStore();
 
   return (
     <WithMetrics
@@ -47,15 +49,23 @@ function CardWrapper(props: {
             {optionalTitle}
             {props.children()}
             {!props.hideFooter && (
-              <CardContent>
-                <LinkWithStickyParams
-                  target="_blank"
-                  to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${props.datasetIds.join(
-                    ","
-                  )}`}
-                >
-                  View Data Sources
-                </LinkWithStickyParams>
+              <CardContent className={styles.CardFooter}>
+                Sources:{" "}
+                {props.datasetIds.map((datasetId) => (
+                  <>
+                    {datasetId ===
+                      "acs_state_population_by_race_nonstandard" && (
+                      <>Population and demographic data from </>
+                    )}
+                    <LinkWithStickyParams
+                      target="_blank"
+                      to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${datasetId}`}
+                    >
+                      {datasetStore.metadata[datasetId].data_source_name}
+                      {". "}
+                    </LinkWithStickyParams>
+                  </>
+                ))}
               </CardContent>
             )}
           </Card>
