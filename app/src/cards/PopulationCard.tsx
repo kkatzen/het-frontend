@@ -89,22 +89,40 @@ function PopulationCard(props: { fips: Fips }) {
                       </Grid>
                     ))}
                 </Grid>
-                <AnimateHeight duration={500} height={expanded ? "auto" : 0}>
-                  <StackedBarChart
-                    data={dataset.filter(
-                      (r) => r.race_and_ethnicity !== "Total"
-                    )}
-                    measure="population_pct"
-                  />
-                  {/* TODO - not getting the width with useResponsiveWidth when offscreen */}
-                  <SimpleHorizontalBarChart
-                    data={dataset.filter(
-                      (r) => r.race_and_ethnicity !== "Total"
-                    )}
-                    measure="population_pct"
-                    breakdownVar="race_and_ethnicity"
-                    showLegend={true}
-                  />
+                <AnimateHeight
+                  duration={500}
+                  height={expanded ? "auto" : 0}
+                  onAnimationEnd={() =>
+                    window.dispatchEvent(new Event("resize"))
+                  }
+                >
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <span className={styles.PopulationChartTitle}>
+                        Population by race
+                      </span>
+                      <SimpleHorizontalBarChart
+                        data={dataset.filter(
+                          (r) => r.race_and_ethnicity !== "Total"
+                        )}
+                        measure="population_pct"
+                        breakdownVar="race_and_ethnicity"
+                        showLegend={false}
+                        hideActions={true}
+                      />
+                      <StackedBarChart
+                        data={dataset.filter(
+                          (r) => r.race_and_ethnicity !== "Total"
+                        )}
+                        measure="population_pct"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <span className={styles.PopulationChartTitle}>
+                        Population by age [coming soon]
+                      </span>
+                    </Grid>
+                  </Grid>
                 </AnimateHeight>
               </>
             )}
