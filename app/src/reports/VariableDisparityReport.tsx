@@ -109,7 +109,7 @@ function VariableDisparityReport(props: {
           </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <DisparityBarChartCard
-              key={variableConfig + "race_and_ethnicity"}
+              key={variableConfig.variableId + "race_and_ethnicity"}
               variableConfig={variableConfig}
               breakdownVar="race_and_ethnicity"
               nonstandardizedRace={
@@ -118,7 +118,7 @@ function VariableDisparityReport(props: {
               fips={props.fips}
             />
             <DisparityBarChartCard
-              key={variableConfig + "age"}
+              key={variableConfig.variableId + "age"}
               variableConfig={variableConfig}
               breakdownVar="age"
               nonstandardizedRace={
@@ -127,7 +127,7 @@ function VariableDisparityReport(props: {
               fips={props.fips}
             />
             <DisparityBarChartCard
-              key={variableConfig + "sex"}
+              key={variableConfig.variableId + "sex"}
               variableConfig={variableConfig}
               breakdownVar="sex"
               nonstandardizedRace={

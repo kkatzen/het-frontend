@@ -28,6 +28,9 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
       activeSelections: updatedArray,
     });
   }
+
+  // Each report has a unique key based on its props so it will create a
+  // new instance and reset its state when the provided props change.
   switch (props.madLib.id as MadLibId) {
     case "disparity":
       const dropdownOption = getPhraseValue(props.madLib, 1);
