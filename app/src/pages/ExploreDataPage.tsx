@@ -4,15 +4,8 @@ import { Grid } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
 import {
   MADLIB_LIST,
-  getMadLibPhraseText,
   MadLib,
   PhraseSegment,
   PhraseSelections,
@@ -24,15 +17,11 @@ import {
   MADLIB_PHRASE_PARAM,
   MADLIB_SELECTIONS_PARAM,
   useSearchParams,
-  linkToMadLib,
 } from "../utils/urlutils";
-import ReactTooltip from "react-tooltip";
 import ReportProvider from "../reports/ReportProvider";
 import FipsSelector from "./ui/FipsSelector";
 
 function ExploreDataPage() {
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-
   const params = useSearchParams();
   useEffect(() => {
     // TODO - it would be nice to have the params stay and update when selections are made
@@ -88,23 +77,6 @@ function ExploreDataPage() {
 
   return (
     <div id="ExploreData" className={styles.ExploreData}>
-      <ReactTooltip />
-      <Dialog
-        open={shareModalOpen}
-        onClose={() => setShareModalOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Link to this Report</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {getMadLibPhraseText(madLib)}
-          </DialogContentText>
-          <DialogContentText id="alert-dialog-description">
-            {linkToMadLib(madLib.id, madLib.activeSelections, true)}
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
       <div className={styles.CarouselContainer}>
         <Carousel
           className={styles.Carousel}
@@ -121,12 +93,7 @@ function ExploreDataPage() {
           }}
         >
           {MADLIB_LIST.map((madlib: MadLib, i) => (
-            <CarouselMadLib
-              madLib={madLib}
-              setMadLib={setMadLib}
-              key={i}
-              setShareModalOpen={(open: boolean) => setShareModalOpen(open)}
-            />
+            <CarouselMadLib madLib={madLib} setMadLib={setMadLib} key={i} />
           ))}
         </Carousel>
       </div>
@@ -140,7 +107,6 @@ function ExploreDataPage() {
 function CarouselMadLib(props: {
   madLib: MadLib;
   setMadLib: (updatedMadLib: MadLib) => void;
-  setShareModalOpen: (open: boolean) => void;
 }) {
   function updateMadLib(phraseSegementIndex: number, newValue: string) {
     let updatePhraseSelections: PhraseSelections = {
@@ -219,16 +185,6 @@ function CarouselMadLib(props: {
           </React.Fragment>
         )
       )}
-      <Grid item>
-        <IconButton
-          aria-label="delete"
-          color="primary"
-          onClick={() => props.setShareModalOpen(true)}
-          data-tip="Share a Link to this Report"
-        >
-          <ShareIcon />
-        </IconButton>
-      </Grid>
     </Grid>
   );
 }
