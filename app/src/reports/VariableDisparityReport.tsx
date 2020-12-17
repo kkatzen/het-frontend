@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { MetricId } from "../data/variableProviders";
 import {
@@ -28,6 +28,7 @@ const SUPPORTED_BREAKDOWNS: BreakdownVar[] = [
 ];
 
 function VariableDisparityReport(props: {
+  key: string;
   dropdownVarId: DropdownVarId;
   fips: Fips;
   updateFipsCallback: Function;
@@ -44,16 +45,8 @@ function VariableDisparityReport(props: {
       : null
   );
 
-  // TODO - Fix antipattern per comments in PR 150
-  useEffect(() => {
-    setVariableConfig(
-      Object.keys(METRIC_CONFIG).includes(props.dropdownVarId)
-        ? METRIC_CONFIG[props.dropdownVarId as string][0]
-        : null
-    );
-  }, [props.dropdownVarId]);
-
   const fields: MetricId[] = [];
+
   if (variableConfig && variableConfig.metrics["per100k"]) {
     fields.push(variableConfig.metrics["per100k"].metricId as MetricId);
   }
@@ -77,6 +70,9 @@ function VariableDisparityReport(props: {
 
       {variableConfig && (
         <Grid container spacing={1} justify="center">
+          <Grid item xs={12}>
+            <PopulationCard fips={props.fips} />
+          </Grid>
           <Grid container xs={12}>
             {!!METRIC_CONFIG[props.dropdownVarId as string] &&
               METRIC_CONFIG[props.dropdownVarId as string].length > 1 && (
@@ -133,9 +129,6 @@ function VariableDisparityReport(props: {
               </ToggleButtonGroup>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <PopulationCard fips={props.fips} />
-          </Grid>
           <Grid item xs={props.vertical ? 12 : 6}>
             <MapCard
               metricConfig={variableConfig.metrics["per100k"] as MetricConfig}
@@ -163,6 +156,7 @@ function VariableDisparityReport(props: {
                 {(currentBreakdown === "all" ||
                   currentBreakdown === breakdownVar) && (
                   <DisparityBarChartCard
+                    key={variableConfig.variableId + breakdownVar}
                     variableConfig={variableConfig}
                     nonstandardizedRace={
                       props.dropdownVarId === "covid" ? true : false

@@ -106,6 +106,7 @@ function PopulationCard(props: { fips: Fips }) {
                           (r) => r.race_and_ethnicity !== "Total"
                         )}
                         measure="population_pct"
+                        measureDisplayName="% of population"
                         breakdownVar="race_and_ethnicity"
                         showLegend={false}
                         hideActions={true}
