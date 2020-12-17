@@ -16,6 +16,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 function CardWrapper(props: {
   datasetIds: string[];
   titleText?: string;
+  hideFooter?: boolean;
   queries?: MetricQuery[];
   children: () => JSX.Element;
 }) {
@@ -45,16 +46,18 @@ function CardWrapper(props: {
           <Card raised={true} className={styles.ChartCard}>
             {optionalTitle}
             {props.children()}
-            <CardContent>
-              <LinkWithStickyParams
-                target="_blank"
-                to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${props.datasetIds.join(
-                  ","
-                )}`}
-              >
-                View Data Sources
-              </LinkWithStickyParams>
-            </CardContent>
+            {!props.hideFooter && (
+              <CardContent>
+                <LinkWithStickyParams
+                  target="_blank"
+                  to={`${DATA_CATALOG_PAGE_LINK}?${DATASET_PRE_FILTERS}=${props.datasetIds.join(
+                    ","
+                  )}`}
+                >
+                  View Data Sources
+                </LinkWithStickyParams>
+              </CardContent>
+            )}
           </Card>
         );
       }}
