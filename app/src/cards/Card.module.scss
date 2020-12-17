@@ -42,9 +42,21 @@
     line-height: 32px;
   }
 }
+.ExpandPopulationCardButton {
+  float: right;
+  text-transform: none !important;
+}
+
 .PopulationCardTitle {
   font-size: 28px;
   line-height: 40px;
   text-align: left;
   display: block;
+}
+
+.PopulationChartTitle {
+  text-align: left;
+  display: block;
+  font-size: 16px;
+  line-height: 28px;
 }
