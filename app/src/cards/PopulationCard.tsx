@@ -11,10 +11,10 @@ import { Grid } from "@material-ui/core";
 import styles from "./Card.module.scss";
 import AnimateHeight from "react-animate-height";
 import Button from "@material-ui/core/Button";
-import StackedBarChart from "../charts/StackedBarChart";
 import SimpleHorizontalBarChart from "../charts/SimpleHorizontalBarChart";
 import ArrowDropUp from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
+import { METRIC_DISPLAY_NAMES } from "../utils/madlib/DisplayNames";
 
 function PopulationCard(props: { fips: Fips }) {
   const datasetStore = useDatasetStore();
@@ -89,6 +89,10 @@ function PopulationCard(props: { fips: Fips }) {
                       </Grid>
                     ))}
                 </Grid>
+                {/* Because the Vega charts are using responsive width based on the window resizing,
+                    we manually trigger a resize when the div size changes so vega chart will 
+                    render with the right size. This means the vega chart won't appear until the 
+                    AnimateHeight is finished expanding */}
                 <AnimateHeight
                   duration={500}
                   height={expanded ? "auto" : 0}
@@ -106,15 +110,12 @@ function PopulationCard(props: { fips: Fips }) {
                           (r) => r.race_and_ethnicity !== "Total"
                         )}
                         measure="population_pct"
+                        measureDisplayName={
+                          METRIC_DISPLAY_NAMES["population_pct"]
+                        }
                         breakdownVar="race_and_ethnicity"
                         showLegend={false}
                         hideActions={true}
-                      />
-                      <StackedBarChart
-                        data={dataset.filter(
-                          (r) => r.race_and_ethnicity !== "Total"
-                        )}
-                        measure="population_pct"
                       />
                     </Grid>
                     <Grid item xs={6}>

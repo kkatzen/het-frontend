@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import UsaChloroplethMap from "../charts/UsaChloroplethMap";
 import { Fips } from "../utils/madlib/Fips";
 import Alert from "@material-ui/lab/Alert";
@@ -61,10 +61,6 @@ function MapCard(props: {
       ];
 
   const [race, setRace] = useState<string>(RACES[0]);
-  // TODO - remove this useEffect once races are standarized, should be unecessary
-  useEffect(() => {
-    setRace(RACES[0]);
-  }, [RACES, props.metricConfig]);
 
   const datasetStore = useDatasetStore();
 
