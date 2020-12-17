@@ -39,6 +39,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import Logger from "./utils/Logger";
 import { initGlobals } from "./utils/globals";
 import DataFetcher from "./data/DataFetcher";
+import ReactTooltip from "react-tooltip";
 
 const MOBILE_BREAKPOINT = 600;
 
@@ -133,6 +134,7 @@ function App() {
 
   return (
     <ThemeProvider theme={MaterialTheme}>
+      <ReactTooltip />
       <DatasetProvider value={datasetStore}>
         <div className={styles.App}>
           <div className={styles.Content}>
