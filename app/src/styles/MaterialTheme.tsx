@@ -1,3 +1,5 @@
+//@ts-nocheck
+// Overriding ts check because it complains about MuiToggleButton
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const MaterialTheme = createMuiTheme({
@@ -20,6 +22,21 @@ const MaterialTheme = createMuiTheme({
         "&.MuiPopover-paper": {
           maxWidth: "unset",
           minWidth: "unset",
+        },
+      },
+    },
+    MuiToggleButton: {
+      root: {
+        fontWeight: "normal",
+        fontSize: "14px",
+        lineHeight: "16px",
+        background: "white",
+        border: "1px solid #BDC1C6 !important",
+        color: "black",
+        textTransform: "none",
+        "&$selected": {
+          backgroundColor: "#E8F0FE",
+          color: "#1A73E8",
         },
       },
     },
