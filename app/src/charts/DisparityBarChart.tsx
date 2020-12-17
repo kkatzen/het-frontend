@@ -4,7 +4,6 @@ import { Row } from "../data/DatasetTypes";
 import { useResponsiveWidth } from "../utils/useResponsiveWidth";
 import { MetricId } from "../data/variableProviders";
 import {
-  METRIC_DISPLAY_NAMES,
   BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
 } from "../utils/madlib/DisplayNames";
@@ -109,7 +108,7 @@ function getSpec(
             x: { scale: "x", field: thinMeasure },
             y: { scale: "y", field: breakdownVar, band: 0.5 },
             text: {
-              signal: `isValid(datum["${thinMeasure}"]) ? datum["${thinMeasure}"] + "% of ${metricDisplayName}" : "" `,
+              signal: `isValid(datum["${thinMeasure}"]) ? datum["${thinMeasure}"] + "${metricDisplayName}" : "" `,
             },
           },
         },
@@ -196,7 +195,9 @@ function getSpec(
 function DisparityBarChart(props: {
   data: Row[];
   thickMeasure: MetricId;
+  thickMeasureDisplayName: string;
   thinMeasure: MetricId;
+  thinMeasureDisplayName: string;
   breakdownVar: BreakdownVar;
   metricDisplayName: string;
 }) {
@@ -212,9 +213,9 @@ function DisparityBarChart(props: {
           props.breakdownVar,
           BREAKDOWN_VAR_DISPLAY_NAMES[props.breakdownVar],
           props.thickMeasure,
-          METRIC_DISPLAY_NAMES[props.thickMeasure],
+          props.thickMeasureDisplayName,
           props.thinMeasure,
-          METRIC_DISPLAY_NAMES[props.thinMeasure],
+          props.thinMeasureDisplayName,
           props.metricDisplayName
         )}
       />

@@ -17,3 +17,34 @@
   padding-bottom: 6px !important;
   padding-top: 6px !important;
 }
+
+.PopulationCard {
+  h1 {
+    text-align: left;
+  }
+  span {
+    text-align: left;
+    display: block;
+  }
+  .TotalPopulationValue {
+    font-size: 44px;
+    line-height: 44px;
+    color: #a79471;
+  }
+  .PopulationMetric {
+    padding: 10px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .PopulationMetricValue {
+    color: #9aa0a6;
+    font-size: 20px;
+    line-height: 32px;
+  }
+}
+.PopulationCardTitle {
+  font-size: 28px;
+  line-height: 40px;
+  text-align: left;
+  display: block;
+}
