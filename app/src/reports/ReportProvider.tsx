@@ -133,7 +133,7 @@ function ReportProvider(props: { madLib: MadLib; setMadLib: Function }) {
       <div className={styles.ReportToolbar}>
         <Button
           color="primary"
-          endIcon={<ShareIcon />}
+          startIcon={<ShareIcon />}
           onClick={() => setShareModalOpen(true)}
           data-tip="Share a Link to this Report"
         >

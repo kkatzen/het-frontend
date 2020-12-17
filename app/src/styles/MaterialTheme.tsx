@@ -17,6 +17,11 @@ const MaterialTheme = createMuiTheme({
   },
   overrides: {
     // TODO - Figure out how best to add ToggleButtonGroup style overrides
+    MuiButton: {
+      root: {
+        textTransform: "unset",
+      },
+    },
     MuiPaper: {
       root: {
         "&.MuiPopover-paper": {
