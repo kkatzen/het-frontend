@@ -90,7 +90,7 @@ const fakeMetadata: DatasetMetadata[] = [
     geographic_level: "State",
     demographic_granularity: "Race/ethnicity",
     update_frequency: "?",
-    update_time: "?",
+    update_time: "unknown",
     description:
       "Description placeholder for Diabetes Prevalence. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id lectus urna. Vestibulum lobortis ac quam vel tincidunt. Quisque ex erat, efficitur nec sagittis vitae, dictum semper arcu. Vivamus metus felis, fringilla sit amet metus nec, feugiat suscipit nisl. Morbi posuere mi sit amet elit posuere, id gravida ligula facilisis. Aenean gravida a eros fringilla venenatis.",
     fields: [
@@ -128,7 +128,7 @@ const fakeMetadata: DatasetMetadata[] = [
     geographic_level: "State",
     demographic_granularity: "Race/ethnicity",
     update_frequency: "?",
-    update_time: "?",
+    update_time: "unknown",
     description:
       "Description placeholder for covid. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id lectus urna. Vestibulum lobortis ac quam vel tincidunt. Quisque ex erat, efficitur nec sagittis vitae, dictum semper arcu. Vivamus metus felis, fringilla sit amet metus nec, feugiat suscipit nisl. Morbi posuere mi sit amet elit posuere, id gravida ligula facilisis. Aenean gravida a eros fringilla venenatis.",
     fields: [
