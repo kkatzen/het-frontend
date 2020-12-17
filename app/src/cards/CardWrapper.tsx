@@ -66,6 +66,15 @@ function CardWrapper(props: {
                     </LinkWithStickyParams>
                   </>
                 ))}
+                <span className={styles.UpdateTime}>
+                  Data last updated:
+                  {props.datasetIds.map((datasetId) => (
+                    <>
+                      {datasetStore.metadata[datasetId].data_source_name} (
+                      {datasetStore.metadata[datasetId].update_time}){" "}
+                    </>
+                  ))}
+                </span>
               </CardContent>
             )}
           </Card>
