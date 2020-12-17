@@ -18,8 +18,8 @@ import {
   VariableConfig,
   MetricConfig,
 } from "../data/MetricConfig";
-import styles from "./Report.module.scss";
 import PopulationCard from "../cards/PopulationCard";
+import styles from "./Report.module.scss";
 
 const SUPPORTED_BREAKDOWNS: BreakdownVar[] = [
   "race_and_ethnicity",
@@ -99,7 +99,7 @@ function VariableDisparityReport(props: {
                     {METRIC_CONFIG[props.dropdownVarId as string].map(
                       (variable: VariableConfig, key: number) => (
                         <ToggleButton value={variable.variableId} key={key}>
-                          {variable.variableId}
+                          {variable.variableDisplayName}
                         </ToggleButton>
                       )
                     )}
