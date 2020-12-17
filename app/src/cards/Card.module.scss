@@ -48,3 +48,15 @@
   text-align: left;
   display: block;
 }
+
+.CardFooter {
+  text-align: left;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+  font-size: 12px;
+  line-height: 16px;
+
+  a {
+    color: #1a73e8;
+  }
+}
