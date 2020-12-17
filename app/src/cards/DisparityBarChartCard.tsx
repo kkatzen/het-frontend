@@ -10,6 +10,7 @@ import { Fips } from "../utils/madlib/Fips";
 import {
   BreakdownVar,
   BREAKDOWN_VAR_DISPLAY_NAMES,
+  METRIC_DISPLAY_NAMES,
 } from "../utils/madlib/DisplayNames";
 import useDatasetStore from "../data/useDatasetStore";
 import { Breakdowns } from "../data/Breakdowns";
@@ -119,7 +120,11 @@ function DisparityBarChartCard(props: {
                     <DisparityBarChart
                       data={dataset}
                       thickMeasure={"population_pct" as MetricId}
+                      thickMeasureDisplayName={
+                        METRIC_DISPLAY_NAMES["population_pct" as MetricId]
+                      }
                       thinMeasure={metricConfig.metricId}
+                      thinMeasureDisplayName={metricConfig.shortVegaLabel}
                       breakdownVar={props.breakdownVar as BreakdownVar}
                       metricDisplayName={metricConfig.shortVegaLabel}
                     />
@@ -129,6 +134,7 @@ function DisparityBarChartCard(props: {
                       data={dataset}
                       breakdownVar={props.breakdownVar as BreakdownVar}
                       measure={metricConfig.metricId}
+                      measureDisplayName={metricConfig.shortVegaLabel}
                       showLegend={false}
                     />
                   )}

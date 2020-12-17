@@ -31,7 +31,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         count: {
           metricId: "covid_cases",
           fullCardTitleName: "COVID-19 cases",
-          shortVegaLabel: "cases",
+          shortVegaLabel: "COVID-19 cases",
           type: "count",
         },
         pct_share: {
@@ -43,7 +43,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         per100k: {
           metricId: "covid_cases_per_100k",
           fullCardTitleName: "COVID-19 cases per 100,000 people",
-          shortVegaLabel: "cases per 100k",
+          shortVegaLabel: "COVID-19 cases per 100k",
           type: "per100k",
         },
       },
@@ -54,7 +54,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         count: {
           metricId: "covid_deaths",
           fullCardTitleName: "COVID-19 deaths",
-          shortVegaLabel: "deaths",
+          shortVegaLabel: "Deaths",
           type: "count",
         },
         pct_share: {
@@ -66,7 +66,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         per100k: {
           metricId: "covid_deaths_per_100k",
           fullCardTitleName: "COVID-19 deaths per 100,000 people",
-          shortVegaLabel: "deaths per 100k",
+          shortVegaLabel: "Deaths per 100k",
           type: "per100k",
         },
       },
@@ -77,7 +77,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         count: {
           metricId: "covid_hosp",
           fullCardTitleName: "COVID-19 hospitalizations",
-          shortVegaLabel: "hospitalizations",
+          shortVegaLabel: "Hospitalizations",
           type: "count",
         },
         pct_share: {
@@ -89,7 +89,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         per100k: {
           metricId: "covid_hosp_per_100k",
           fullCardTitleName: "COVID-19 hospitalizations per 100,000 people",
-          shortVegaLabel: "hospitalizations per 100k",
+          shortVegaLabel: "Hospitalizations per 100k",
           type: "per100k",
         },
       },
@@ -102,13 +102,13 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         count: {
           metricId: "diabetes_count",
           fullCardTitleName: "Count of diabetes cases",
-          shortVegaLabel: "cases",
+          shortVegaLabel: "Diabetes cases",
           type: "count",
         },
         per100k: {
           metricId: "diabetes_per_100k",
           fullCardTitleName: "Diabetes cases per 100,000 people",
-          shortVegaLabel: "cases per 100k",
+          shortVegaLabel: "Diabetes cases per 100k",
           type: "per100k",
         },
       },
@@ -121,13 +121,13 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
         count: {
           metricId: "copd_count",
           fullCardTitleName: "Count of COPD cases",
-          shortVegaLabel: "cases",
+          shortVegaLabel: "COPD cases",
           type: "count",
         },
         per100k: {
           metricId: "copd_per_100k",
           fullCardTitleName: "COPD cases per 100,000 people",
-          shortVegaLabel: "cases per 100k",
+          shortVegaLabel: "COPD cases per 100k",
           type: "per100k",
         },
       },
