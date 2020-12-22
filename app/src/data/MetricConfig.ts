@@ -19,6 +19,7 @@ export type MetricConfig = {
 
 export type VariableConfig = {
   variableId: string; // TODO - strongly type key
+  variableDisplayName: string;
   metrics: Record<string, MetricConfig>; // TODO - strongly type key
 };
 
@@ -27,6 +28,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
   covid: [
     {
       variableId: "cases",
+      variableDisplayName: "Cases",
       metrics: {
         count: {
           metricId: "covid_cases",
@@ -50,6 +52,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
     },
     {
       variableId: "deaths",
+      variableDisplayName: "Deaths",
       metrics: {
         count: {
           metricId: "covid_deaths",
@@ -73,6 +76,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
     },
     {
       variableId: "hospitalizations",
+      variableDisplayName: "Hospitalizations",
       metrics: {
         count: {
           metricId: "covid_hosp",
@@ -98,6 +102,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
   diabetes: [
     {
       variableId: "cases",
+      variableDisplayName: "Cases",
       metrics: {
         count: {
           metricId: "diabetes_count",
@@ -117,6 +122,7 @@ export const METRIC_CONFIG: Record<string, VariableConfig[]> = {
   copd: [
     {
       variableId: "cases",
+      variableDisplayName: "Cases",
       metrics: {
         count: {
           metricId: "copd_count",

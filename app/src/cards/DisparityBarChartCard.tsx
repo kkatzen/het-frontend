@@ -104,7 +104,8 @@ function DisparityBarChartCard(props: {
                     {validDisplayMetricConfigs.map((metricConfig) => (
                       <ToggleButton value={metricConfig.type}>
                         {metricConfig.type === "pct_share" &&
-                          props.variableConfig.variableId + " and Population"}
+                          props.variableConfig.variableDisplayName +
+                            " and Population"}
                         {metricConfig.type === "per100k" &&
                           "per 100,000 people"}
                       </ToggleButton>
