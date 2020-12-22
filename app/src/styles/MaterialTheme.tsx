@@ -14,7 +14,6 @@ const MaterialTheme = createMuiTheme({
     },
   },
   overrides: {
-    // TODO - Figure out how best to add ToggleButtonGroup style overrides
     MuiButton: {
       root: {
         textTransform: "unset",
@@ -25,6 +24,22 @@ const MaterialTheme = createMuiTheme({
         "&.MuiPopover-paper": {
           maxWidth: "unset",
           minWidth: "unset",
+        },
+      },
+    },
+    //@ts-ignore - ts doesn't like MuiToggleButton type even though it works
+    MuiToggleButton: {
+      root: {
+        fontWeight: "normal",
+        fontSize: "14px",
+        lineHeight: "16px",
+        background: "white",
+        border: "1px solid #BDC1C6 !important",
+        color: "black",
+        textTransform: "none",
+        "&$selected": {
+          backgroundColor: "#E8F0FE",
+          color: "#1A73E8",
         },
       },
     },
